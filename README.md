@@ -1,10 +1,31 @@
 # Creatubbles API Android (ctb-api-andorid)
+## Usage
+**Maven**:
+```    
+<dependency>
+  <groupId>com.creatubbles</groupId>
+  <artifactId>api</artifactId>
+  <version>1.0.0</version>
+  <type>pom</type>
+</dependency>
+```
+
+**Gradle**:
+```
+    compile 'com.creatubbles:api:1.0.0'
+```
+**Ivy**:
+```
+<dependency org='com.creatubbles' name='api' rev='1.0.0'>
+  <artifact name='$AID' ext='pom'></artifact>
+</dependency>
+```
 ## Architecture
 1. **Packages**
     - **API Module**: Implementing all server method.
     - **APP Module**: Some samples and manual test.
     - **Test**: Repository and builder tests are in `api/test/` package.
-    
+
 2. **Repository Pattern**
     - We use Repository Pattern to provide best practices to provide data from server to app. All repository are tested.
 
@@ -38,7 +59,7 @@ Check our demo app. You can check how to invoke method and connect to Creatubble
 **To use library you need:**
 - **your Client_ID and Client_Secret**
 - **your email and password to your creatubbles account**
-    
+
 1. Authorize Repository
 -----------------------
 
@@ -65,7 +86,7 @@ oauthRepository.authorize("emial@email.com", "password", new ResponseCallback<Au
 
             @Override
             public void onSuccess(AuthToken response) {
-            
+
                 //Success if response code is [200...300], e.g.
                 Toast.makeText(MainActivity.this, response.getAccessToken(), Toast
                         .LENGTH_SHORT).show();
@@ -194,13 +215,13 @@ The MIT License (MIT)
 
 Copyright (c) 2016 Creatubbles Pte. Ltd.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), 
-to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
 and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
