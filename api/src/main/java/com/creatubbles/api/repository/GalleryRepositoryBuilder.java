@@ -22,9 +22,10 @@ public class GalleryRepositoryBuilder {
     private AuthToken authToken;
     private Context context;
 
-    public GalleryRepository build() throws InvalidParametersException{
+    public GalleryRepository build() {
         if (hasValidParameters()) {
-            DaggerApiComponent.builder().apiModule(new ApiModule(context, authToken)).build().inject(this);
+            DaggerApiComponent.builder().apiModule(new ApiModule(context, authToken)).build()
+                    .inject(this);
             GalleryRepository galleryRepository = new GalleryRepositoryImpl(galleryService);
             return galleryRepository;
         }

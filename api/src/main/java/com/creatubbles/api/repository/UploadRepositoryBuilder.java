@@ -19,7 +19,7 @@ public class UploadRepositoryBuilder {
 
     private Context context;
 
-    public UploadRepository build() throws InvalidParametersException {
+    public UploadRepository build() {
         if (hasValidParameters()) {
             DaggerApiComponent.builder().apiModule(new ApiModule(context)).build().inject(this);
             UploadRepository uploadRepository = new UploadRepositoryImpl(uploadService, context);
