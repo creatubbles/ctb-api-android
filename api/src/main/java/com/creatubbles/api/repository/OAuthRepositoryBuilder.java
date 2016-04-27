@@ -19,7 +19,7 @@ public class OAuthRepositoryBuilder {
     private String clientSecret;
     private Context context;
 
-    public OAuthRepository build() throws InvalidParametersException {
+    public OAuthRepository build() {
         if (hasValidParameters()) {
             DaggerApiComponent.builder().apiModule(new ApiModule(context)).build().inject(this);
             OAuthRepository oAuthRepository = new OAuthRepositoryImpl(oAuthService);

@@ -3,7 +3,7 @@ package com.creatubbles.api.exception;
 /**
  * Created by Janek on 27.04.2016.
  */
-public class InvalidParametersException extends Exception {
+public class InvalidParametersException extends IllegalStateException {
 
     public InvalidParametersException() {
         super();

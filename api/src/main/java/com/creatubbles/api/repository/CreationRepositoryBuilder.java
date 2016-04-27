@@ -21,7 +21,7 @@ public class CreationRepositoryBuilder {
     private AuthToken authToken;
     private Context context;
 
-    public CreationRepository build() throws InvalidParametersException {
+    public CreationRepository build() {
         if (hasValidParameters()) {
             DaggerApiComponent.builder().apiModule(new ApiModule(context, authToken)).build()
                     .inject(this);
