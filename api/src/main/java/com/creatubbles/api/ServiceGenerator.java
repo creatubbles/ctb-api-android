@@ -1,0 +1,130 @@
+package com.creatubbles.api;
+
+import android.content.Context;
+
+import com.creatubbles.api.converter.NullOnEmptyConverterFactory;
+import com.creatubbles.api.interceptor.CreatubbleInterceptor;
+import com.creatubbles.api.model.AuthToken;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import okhttp3.Cookie;
+import okhttp3.CookieJar;
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+/**
+ * Created by Janek on 08.02.2016.
+ */
+public class ServiceGenerator {
+
+    Context appContext;
+
+    private Retrofit.Builder builder;
+
+    public ServiceGenerator(Context context) {
+        appContext = context;
+        initialize();
+    }
+
+    public void initialize() {
+        OkHttpClient client = new OkHttpClient.Builder()
+                .cookieJar(getAcceptAllCookieJar())
+                .addInterceptor(CreatubbleInterceptor.getFileUploadInterceptor(appContext))
+                .addInterceptor(CreatubbleInterceptor.getLogginInterceptor())
+                .build();
+
+        builder = new Retrofit.Builder()
+                .baseUrl(EndPoints.URL_BASE)
+                .addConverterFactory(new NullOnEmptyConverterFactory())
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client);
+    }
+
+    public <S> S createService(Class<S> serviceClass, final ContentType contentType) {
+
+        Map<String, String> headerParamMap = new HashMap<>();
+        headerParamMap.put("Accept", "application/vnd.api+json");
+        headerParamMap.put("Content-Type", contentType.getRes());
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .cookieJar(getAcceptAllCookieJar())
+                .addInterceptor(CreatubbleInterceptor.getHeaderInterceptor(headerParamMap))
+                .addInterceptor(CreatubbleInterceptor.getFileUploadInterceptor(appContext))
+                .addInterceptor(CreatubbleInterceptor.getLogginInterceptor())
+                .build();
+
+        Retrofit retrofit = builder
+                .addConverterFactory(new NullOnEmptyConverterFactory())
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
+                .build();
+
+        return retrofit.create(serviceClass);
+    }
+
+    public <S> S createService(Class<S> serviceClass) {
+
+        Map<String, String> headerParamMap = new HashMap<>();
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .cookieJar(getAcceptAllCookieJar())
+                .addInterceptor(CreatubbleInterceptor.getHeaderInterceptor(headerParamMap))
+                .addInterceptor(CreatubbleInterceptor.getLogginInterceptor())
+                .build();
+
+        Retrofit retrofit = builder
+                .addConverterFactory(new NullOnEmptyConverterFactory())
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
+                .build();
+
+        return retrofit.create(serviceClass);
+    }
+
+    public <S> S createService(Class<S> serviceClass, final ContentType contentType, final AuthToken token) {
+
+        Map<String, String> headerParamMap = new HashMap<>();
+        headerParamMap.put("Accept", "application/vnd.api+json");
+        headerParamMap.put("Content-Type", contentType.getRes());
+        headerParamMap.put("Authorization", token.getTokenType() + " " + token.getAccessToken());
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .cookieJar(getAcceptAllCookieJar())
+                .addInterceptor(CreatubbleInterceptor.getHeaderInterceptor(headerParamMap))
+                .addInterceptor(CreatubbleInterceptor.getFileUploadInterceptor(appContext))
+                .addInterceptor(CreatubbleInterceptor.getLogginInterceptor())
+                .build();
+
+        Retrofit retrofit = builder
+                .addConverterFactory(new NullOnEmptyConverterFactory())
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
+                .build();
+
+        return retrofit.create(serviceClass);
+    }
+
+    private CookieJar getAcceptAllCookieJar() {
+        return new CookieJar() {
+            private final HashMap<HttpUrl, List<Cookie>> cookieStore = new HashMap<>();
+
+            @Override
+            public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
+                cookieStore.put(url, cookies);
+            }
+
+            @Override
+            public List<Cookie> loadForRequest(HttpUrl url) {
+                List<Cookie> cookies = cookieStore.get(url);
+                return cookies != null ? cookies : new ArrayList<Cookie>();
+            }
+        };
+    }
+}
+

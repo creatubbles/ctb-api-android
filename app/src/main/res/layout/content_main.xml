@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollview"
+    tools:context=".view.MainActivity"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:descendantFocusability="blocksDescendants"
+    android:focusableInTouchMode="true"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_main">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hi, select method to test server method: "
+            android:focusable="true"/>
+
+        <TextView
+            android:id="@+id/authorize_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Authorize methods: "/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/authorize_btn"
+            android:text="Authorize"
+            android:onClick="onAuthorizeClicked"/>
+
+        <TextView
+            android:id="@+id/user_method_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User methods: "
+            android:layout_marginTop="15dp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_user_list_btn"
+            android:text="Get User List"
+            android:onClick="onGetUserListClicked"
+            android:enabled="false"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/create_user_btn"
+            android:text="Create User"
+            android:onClick="onCreateUserClicked"
+            android:enabled="false"/>
+
+        <TextView
+            android:id="@+id/creation_method_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Creation methods: "
+            android:layout_marginTop="15dp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/create_creation_btn"
+            android:text="Create Creation"
+            android:onClick="onCreateCreationClicked"
+            android:enabled="false"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_creation_by_id_btn"
+            android:text="Get Creation By Id"
+            android:onClick="onGetCreationByIdClicked"
+            android:enabled="false"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/create_upload_btn"
+            android:text="Create Upload"
+            android:onClick="onCreateUploadClicked"
+            android:enabled="false"/>
+
+        <TextView
+            android:id="@+id/upload_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Send file to AWS S3 - first click: [CREATE UPLOAD] "
+            android:layout_marginTop="15dp"/>
+        <EditText
+            android:id="@+id/file_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:hint="Enter file name with full path" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/send_file_btn"
+            android:text="Send file"
+            android:onClick="onSendFileClicked"
+            android:enabled="false"/>
+    </LinearLayout>
+</ScrollView>
