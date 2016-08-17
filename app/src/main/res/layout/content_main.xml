@@ -64,6 +64,29 @@
             android:enabled="false"/>
 
         <TextView
+            android:id="@+id/galley_method_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gallery methods: "
+            android:layout_marginTop="15dp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/create_gallery_btn"
+            android:text="Create Gallery"
+            android:onClick="onCreateGalleryClicked"
+            android:enabled="false"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_galleries_btn"
+            android:text="Get galleries"
+            android:onClick="onGetGalleriesByIdClicked"
+            android:enabled="false"/>
+
+        <TextView
             android:id="@+id/creation_method_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -101,11 +124,11 @@
             android:text="Send file to AWS S3 - first click: [CREATE UPLOAD] "
             android:layout_marginTop="15dp"/>
         <EditText
-            android:id="@+id/file_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:enabled="false"
-            android:hint="Enter file name with full path" />
+        android:id="@+id/file_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:hint="Enter file name with full path" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -113,5 +136,33 @@
             android:text="Send file"
             android:onClick="onSendFileClicked"
             android:enabled="false"/>
+
+        <TextView
+            android:id="@+id/get_all_landing_urls"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="true"
+            android:text="Get specific landing url" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_all_landing_urls_btn"
+            android:text="Get All"
+            android:onClick="onGetAllLandingUrlsClicked"
+            android:enabled="true"/>
+
+        <TextView
+            android:id="@+id/get_specific_landing_url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="true"
+            android:text="Get Specific landing Url" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_specific_landing_url_btn"
+            android:text="Get Specific"
+            android:onClick="onGetSpecificLandingUrlClicked"
+            android:enabled="true"/>
     </LinearLayout>
 </ScrollView>

@@ -9,6 +9,8 @@ import com.creatubbles.api.repository.CreationRepository;
 import com.creatubbles.api.repository.CreationRepositoryImpl;
 import com.creatubbles.api.repository.GalleryRepository;
 import com.creatubbles.api.repository.GalleryRepositoryImpl;
+import com.creatubbles.api.repository.LandingUrlsRepository;
+import com.creatubbles.api.repository.LandingUrlsRepositoryImpl;
 import com.creatubbles.api.repository.OAuthRepository;
 import com.creatubbles.api.repository.OAuthRepositoryImpl;
 import com.creatubbles.api.repository.UploadRepository;
@@ -17,6 +19,7 @@ import com.creatubbles.api.repository.UserRepository;
 import com.creatubbles.api.repository.UserRepositoryImpl;
 import com.creatubbles.api.service.CreationService;
 import com.creatubbles.api.service.GalleryService;
+import com.creatubbles.api.service.LandingUrlsService;
 import com.creatubbles.api.service.OAuthService;
 import com.creatubbles.api.service.UploadService;
 import com.creatubbles.api.service.UserService;
@@ -120,6 +123,19 @@ public class ApiModule {
     @Singleton
     UploadRepository provideUploadRepository(UploadService uploadService, Context context) {
         return new UploadRepositoryImpl(uploadService, context);
+    }
+
+    @Provides
+    @Singleton
+    LandingUrlsService provideLandingUrlsService(ServiceGenerator serviceGenerator) {
+        return serviceGenerator.createService(LandingUrlsService.class, ContentType.URL_ENCODED,
+                authToken);
+    }
+
+    @Provides
+    @Singleton
+    LandingUrlsRepository provideLandingUrlsRepository(LandingUrlsService landingUrlsService) {
+        return new LandingUrlsRepositoryImpl(landingUrlsService);
     }
 
 }

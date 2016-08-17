@@ -44,6 +44,10 @@ public class ServiceGenerator {
                 .addConverterFactory(new NullOnEmptyConverterFactory())
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client);
+
+        if (EndPoints.SET_STAGING) {
+            builder.baseUrl(EndPoints.URL_BASE_STAGING);
+        }
     }
 
     public <S> S createService(Class<S> serviceClass, final ContentType contentType) {
@@ -87,12 +91,15 @@ public class ServiceGenerator {
         return retrofit.create(serviceClass);
     }
 
-    public <S> S createService(Class<S> serviceClass, final ContentType contentType, final AuthToken token) {
+    public <S> S createService(Class<S> serviceClass, final ContentType contentType, final
+    AuthToken token) {
 
         Map<String, String> headerParamMap = new HashMap<>();
         headerParamMap.put("Accept", "application/vnd.api+json");
         headerParamMap.put("Content-Type", contentType.getRes());
-        headerParamMap.put("Authorization", token.getTokenType() + " " + token.getAccessToken());
+        if (token != null) {
+            headerParamMap.put("Authorization", token.getTokenType() + " " + token.getAccessToken());
+        }
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .cookieJar(getAcceptAllCookieJar())

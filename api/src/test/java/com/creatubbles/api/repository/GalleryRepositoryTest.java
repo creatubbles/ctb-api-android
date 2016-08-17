@@ -1,8 +1,8 @@
 package com.creatubbles.api.repository;
 
+import com.creatubbles.api.model.CreateGalleryResponse;
 import com.creatubbles.api.model.GalleryResponse;
 import com.creatubbles.api.request.CreateGalleryRequest;
-import com.creatubbles.api.request.GalleryListRequest;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.service.GalleryService;
 
@@ -34,6 +34,9 @@ public class GalleryRepositoryTest {
 
     private static final String ERROR_MESSAGE = "What an error!";
     private GalleryRepository target;
+
+    @Mock
+    ResponseCallback<CreateGalleryResponse> createGalleryResponseCallback;
 
     @Mock
     ResponseCallback<GalleryResponse> galleryResponseCallback;
@@ -93,7 +96,7 @@ public class GalleryRepositoryTest {
     }
 
     @Test
-    public void testGetListOfGalleriesSuccessfulRequest() {
+    public void testGetListOfGalleriesByUserSuccessfulRequest() {
         Answer successfulAnswer = new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
@@ -106,15 +109,15 @@ public class GalleryRepositoryTest {
             }
         };
 
-        mockGalleryServiceForListOfGalleries(successfulAnswer);
-        target.getGalleries(any(GalleryListRequest.class), galleryResponseCallback);
+        mockGalleryServiceForListOfGalleriesByUser(successfulAnswer);
+        target.getGalleriesByUser(any(String.class), galleryResponseCallback);
 
         verify(galleryResponseCallback, never()).onError(any(String.class));
         verify(galleryResponseCallback).onSuccess(any(GalleryResponse.class));
     }
 
     @Test
-    public void testGetListOfGalleriesFailedRequest() {
+    public void testGetListOfGalleriesByUserFailedRequest() {
         Answer failedAnswer = new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
@@ -128,8 +131,8 @@ public class GalleryRepositoryTest {
                 return null;
             }
         };
-        mockGalleryServiceForListOfGalleries(failedAnswer);
-        target.getGalleries(any(GalleryListRequest.class), galleryResponseCallback);
+        mockGalleryServiceForListOfGalleriesByUser(failedAnswer);
+        target.getGalleriesByUser(any(String.class), galleryResponseCallback);
 
         verify(galleryResponseCallback).onError(ERROR_MESSAGE);
         verify(galleryResponseCallback, never()).onSuccess(any(GalleryResponse.class));
@@ -150,10 +153,10 @@ public class GalleryRepositoryTest {
         };
 
         mockGalleryServiceForCreateGallery(successfulAnswer);
-        target.createGallery(any(CreateGalleryRequest.class), galleryResponseCallback);
+        target.createGallery(any(CreateGalleryRequest.class), createGalleryResponseCallback);
 
-        verify(galleryResponseCallback, never()).onError(any(String.class));
-        verify(galleryResponseCallback).onSuccess(any(GalleryResponse.class));
+        verify(createGalleryResponseCallback, never()).onError(any(String.class));
+        verify(createGalleryResponseCallback).onSuccess(any(CreateGalleryResponse.class));
     }
 
     @Test
@@ -172,10 +175,10 @@ public class GalleryRepositoryTest {
             }
         };
         mockGalleryServiceForCreateGallery(failedAnswer);
-        target.createGallery(any(CreateGalleryRequest.class), galleryResponseCallback);
+        target.createGallery(any(CreateGalleryRequest.class), createGalleryResponseCallback);
 
-        verify(galleryResponseCallback).onError(ERROR_MESSAGE);
-        verify(galleryResponseCallback, never()).onSuccess(any(GalleryResponse.class));
+        verify(createGalleryResponseCallback).onError(ERROR_MESSAGE);
+        verify(createGalleryResponseCallback, never()).onSuccess(any(CreateGalleryResponse.class));
     }
 
 
@@ -185,11 +188,10 @@ public class GalleryRepositoryTest {
         doReturn(call).when(mockedGalleryService).getGalleryById(any(String.class));
     }
 
-    private void mockGalleryServiceForListOfGalleries(Answer answer) {
+    private void mockGalleryServiceForListOfGalleriesByUser(Answer answer) {
         doAnswer(answer).when(call).enqueue(any(Callback.class));
 
-        doReturn(call).when(mockedGalleryService).userGallery(any(GalleryListRequest
-                .class));
+        doReturn(call).when(mockedGalleryService).getGalleriesByUser(any(String.class));
     }
 
     private void mockGalleryServiceForCreateGallery(Answer answer) {

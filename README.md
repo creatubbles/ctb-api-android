@@ -5,18 +5,18 @@
 <dependency>
   <groupId>com.creatubbles</groupId>
   <artifactId>api</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.5</version>
   <type>pom</type>
 </dependency>
 ```
 
 **Gradle**:
 ```
-    compile 'com.creatubbles:api:1.0.0'
+    compile 'com.creatubbles:api:1.0.5'
 ```
 **Ivy**:
 ```
-<dependency org='com.creatubbles' name='api' rev='1.0.0'>
+<dependency org='com.creatubbles' name='api' rev='1.0.5'>
   <artifact name='$AID' ext='pom'></artifact>
 </dependency>
 ```
@@ -44,6 +44,7 @@
 3. `GalleryRepository` - for operations on Gallery
 4. `CreationRepository` - for operations on Creation
 5. `UploadRepository` - for upload media (images, videos) to server
+6. `LandingUrlsRepository` - for fetching landing urls
 
 ## Preview
 ### Demo

@@ -98,4 +98,13 @@ public class Attributes {
         return bubbledByUserIds;
     }
 
+    @Override
+    public String toString() {
+        return "Attributes{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", createdAt='" + createdAt + '\'' +
+                ", updatedAt='" + updatedAt + '\'' +
+                '}';
+    }
 }
