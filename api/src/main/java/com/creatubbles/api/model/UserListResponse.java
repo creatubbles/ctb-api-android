@@ -1,17 +1,35 @@
+
 package com.creatubbles.api.model;
 
-import com.creatubbles.api.model.user.User;
+import com.creatubbles.api.model.creator.Datum;
+import com.creatubbles.api.model.creator.Links;
+import com.creatubbles.api.model.creator.Meta;
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by Janek on 18.02.2016.
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public class UserListResponse {
 
     @SerializedName("data")
-    private User[] users;
+    public List<Datum> data = new ArrayList<Datum>();
 
-    public User[] getUsers() {
-        return users;
+    @SerializedName("links")
+    public Links links;
+
+    @SerializedName("meta")
+    public Meta meta;
+
+    public List<Datum> getData() {
+        return data;
     }
+
+    public Links getLinks() {
+        return links;
+    }
+
+    public Meta getMeta() {
+        return meta;
+    }
+
 }

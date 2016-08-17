@@ -2,9 +2,9 @@ package com.creatubbles.api.service;
 
 
 import com.creatubbles.api.EndPoints;
+import com.creatubbles.api.model.CreateGalleryResponse;
 import com.creatubbles.api.model.GalleryResponse;
 import com.creatubbles.api.request.CreateGalleryRequest;
-import com.creatubbles.api.request.GalleryListRequest;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -17,13 +17,16 @@ import retrofit2.http.Path;
  */
 public interface GalleryService {
 
-    @GET(EndPoints.GALLERIES)
-    Call<GalleryResponse> userGallery(@Body GalleryListRequest galleryListRequest);
+    @GET(EndPoints.USERS + "/{userId}/galleries")
+    Call<GalleryResponse> getGalleriesByUser(@Path("userId") String userId);
 
-    @GET(EndPoints.GALLERIES + "/{galleryId}")
+    @GET(EndPoints.CREATIONS)
+    Call<GalleryResponse> getGalleriesByCreation(@Path("creationId") String creationId);
+
+    @GET(EndPoints.GALLERIES + "/{galleryId}/galleries")
     Call<GalleryResponse> getGalleryById(@Path("galleryId") String galleryId);
 
 
     @POST(EndPoints.GALLERIES)
-    Call<GalleryResponse> createGallery(@Body CreateGalleryRequest galleryRequest);
+    Call<CreateGalleryResponse> createGallery(@Body CreateGalleryRequest galleryRequest);
 }
