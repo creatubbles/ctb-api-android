@@ -1,5 +1,7 @@
 package com.creatubbles.api.repository;
 
+import com.creatubbles.api.exception.InvalidParametersException;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +9,6 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 
 import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertNull;
 
 
 @RunWith(RobolectricTestRunner.class)
@@ -20,10 +21,9 @@ public class OAuthRepositoryBuilderTest {
         target = new OAuthRepositoryBuilder();
     }
 
-    @Test
-    public void testIsNullWhenPassedNullParameters() {
-        OAuthRepository repository = target.build();
-        assertNull(repository);
+    @Test(expected = InvalidParametersException.class)
+    public void testThrowsWhenPassedNullParameters() {
+        target.build();
     }
 
     @Test
