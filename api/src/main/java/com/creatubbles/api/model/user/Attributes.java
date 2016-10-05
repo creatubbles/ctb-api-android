@@ -1,9 +1,10 @@
 package com.creatubbles.api.model.user;
 
+import android.support.annotation.Nullable;
+
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 public class Attributes {
 
@@ -13,44 +14,36 @@ public class Attributes {
     @SerializedName("display_name")
     private String displayName;
 
+    @SerializedName("list_name")
+    private String listName;
+
     @SerializedName("name")
     private String name;
 
     @SerializedName("role")
-    private String role;
+    private Role role;
 
     @SerializedName("created_at")
-    private String createdAt;
+    private Date createdAt;
 
     @SerializedName("updated_at")
-    private String updatedAt;
+    private Date updatedAt;
 
     @SerializedName("avatar_url")
     private String avatarUrl;
 
-    @SerializedName("bubbled_by_user_ids")
-    private List<Object> bubbledByUserIds = new ArrayList<Object>();
-
-    @SerializedName("birth_month")
-    private Object birthMonth;
-
-    @SerializedName("birth_year")
-    private Integer birthYear;
-
     @SerializedName("age")
     private String age;
 
-    @SerializedName("is_male")
-    private Boolean isMale;
-
-    @SerializedName("groups")
-    private List<Group> groups = new ArrayList<>();
+    @SerializedName("gender")
+    @Deprecated
+    private String gender;
 
     @SerializedName("last_bubbled_at")
-    private Object lastBubbledAt;
+    private Date lastBubbledAt;
 
     @SerializedName("last_commented_at")
-    private Object lastCommentedAt;
+    private Date lastCommentedAt;
 
     @SerializedName("added_bubbles_count")
     private Integer addedBubblesCount;
@@ -79,32 +72,23 @@ public class Attributes {
     @SerializedName("short_url")
     private String shortUrl;
 
-    @SerializedName("gsp_seen")
-    private Boolean gspSeen;
-
-    @SerializedName("uep_unwanted")
-    private Boolean uepUnwanted;
-
-    @SerializedName("loggable")
-    private Boolean loggable;
-
-    @SerializedName("owned_tags")
-    private List<Object> ownedTags = new ArrayList<Object>();
-
     @SerializedName("country_code")
     private String countryCode;
 
     @SerializedName("country_name")
     private String countryName;
 
-    @SerializedName("is_partner")
-    private Boolean isPartner;
-
     @SerializedName("signed_up_as_instructor")
     private Boolean signedUpAsInstructor;
 
     @SerializedName("home_schooling")
     private Boolean homeSchooling;
+
+    @SerializedName("what_do_you_teach")
+    private String whatDoYouTeach;
+
+    @SerializedName("interests")
+    private String interests;
 
     public String getUsername() {
         return username;
@@ -118,51 +102,38 @@ public class Attributes {
         return name;
     }
 
-    public String getRole() {
+    /**
+     * Method returns role set at sign-up and can be either ‘creator’, 'parent’ or 'instructor’.
+     */
+    public Role getRole() {
         return role;
     }
 
-    public String getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public String getUpdatedAt() {
+    public Date getUpdatedAt() {
         return updatedAt;
     }
 
+    @Nullable
     public String getAvatarUrl() {
         return avatarUrl;
     }
 
-    public List<Object> getBubbledByUserIds() {
-        return bubbledByUserIds;
-    }
-
-    public Object getBirthMonth() {
-        return birthMonth;
-    }
-
-    public Integer getBirthYear() {
-        return birthYear;
-    }
-
+    @Nullable
     public String getAge() {
         return age;
     }
 
-    public Boolean getIsMale() {
-        return isMale;
-    }
-
-    public List<Group> getGroups() {
-        return groups;
-    }
-
-    public Object getLastBubbledAt() {
+    @Nullable
+    public Date getLastBubbledAt() {
         return lastBubbledAt;
     }
 
-    public Object getLastCommentedAt() {
+    @Nullable
+    public Date getLastCommentedAt() {
         return lastCommentedAt;
     }
 
@@ -170,30 +141,51 @@ public class Attributes {
         return addedBubblesCount;
     }
 
+    /**
+     * @return number of activities on this user.
+     */
     public Integer getActivitiesCount() {
         return activitiesCount;
     }
 
+    /**
+     * @return number of bubbles this user received
+     */
     public Integer getBubblesCount() {
         return bubblesCount;
     }
 
+    /**
+     * @return number of comments this user received
+     */
     public Integer getCommentsCount() {
         return commentsCount;
     }
 
+    /**
+     * @return number of creations the user created
+     */
     public Integer getCreationsCount() {
         return creationsCount;
     }
 
+    /**
+     * @return number of creators
+     */
     public Integer getCreatorsCount() {
         return creatorsCount;
     }
 
+    /**
+     * @return number of galleries the user created
+     */
     public Integer getGalleriesCount() {
         return galleriesCount;
     }
 
+    /**
+     * @return number of managers for this user
+     */
     public Integer getManagersCount() {
         return managersCount;
     }
@@ -202,39 +194,84 @@ public class Attributes {
         return shortUrl;
     }
 
-    public Boolean getGspSeen() {
-        return gspSeen;
-    }
-
-    public Boolean getUepUnwanted() {
-        return uepUnwanted;
-    }
-
-    public Boolean getLoggable() {
-        return loggable;
-    }
-
-    public List<Object> getOwnedTags() {
-        return ownedTags;
-    }
-
+    @Nullable
     public String getCountryCode() {
         return countryCode;
     }
 
+    @Nullable
     public String getCountryName() {
         return countryName;
-    }
-
-    public Boolean getIsPartner() {
-        return isPartner;
     }
 
     public Boolean getSignedUpAsInstructor() {
         return signedUpAsInstructor;
     }
 
+    @Nullable
     public Boolean getHomeSchooling() {
         return homeSchooling;
+    }
+
+    public String getListName() {
+        return listName;
+    }
+
+    @Deprecated
+    public String getGender() {
+        return gender;
+    }
+
+    /**
+     * Method returns value set in user's profile in "What do you teach?" (Teachers only).
+     *
+     * @return value set in "What do you teach?" field
+     */
+    @Nullable
+    public String getWhatDoYouTeach() {
+        return whatDoYouTeach;
+    }
+
+    /**
+     * Method returns value set in user's profile in "Interests" (Teachers only).
+     *
+     * @return value set in "Interests" field
+     */
+    @Nullable
+    public String getInterests() {
+        return interests;
+    }
+
+    @Override
+    public String toString() {
+        return "Attributes{" +
+                "username='" + username + '\'' +
+                ", displayName='" + displayName + '\'' +
+                ", listName='" + listName + '\'' +
+                ", name='" + name + '\'' +
+                ", role='" + role + '\'' +
+                ", createdAt='" + createdAt + '\'' +
+                ", updatedAt='" + updatedAt + '\'' +
+                ", avatarUrl='" + avatarUrl + '\'' +
+                ", age='" + age + '\'' +
+                ", gender='" + gender + '\'' +
+                ", lastBubbledAt='" + lastBubbledAt + '\'' +
+                ", lastCommentedAt='" + lastCommentedAt + '\'' +
+                ", addedBubblesCount=" + addedBubblesCount +
+                ", activitiesCount=" + activitiesCount +
+                ", bubblesCount=" + bubblesCount +
+                ", commentsCount=" + commentsCount +
+                ", creationsCount=" + creationsCount +
+                ", creatorsCount=" + creatorsCount +
+                ", galleriesCount=" + galleriesCount +
+                ", managersCount=" + managersCount +
+                ", shortUrl='" + shortUrl + '\'' +
+                ", countryCode='" + countryCode + '\'' +
+                ", countryName='" + countryName + '\'' +
+                ", signedUpAsInstructor=" + signedUpAsInstructor +
+                ", homeSchooling=" + homeSchooling +
+                ", whatDoYouTeach='" + whatDoYouTeach + '\'' +
+                ", interests='" + interests + '\'' +
+                '}';
     }
 }
