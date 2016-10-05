@@ -28,6 +28,7 @@ import retrofit2.Response;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.doAnswer;
@@ -39,7 +40,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
  * Created by Mariusz Ostapowicz on 20.03.2016.
  */
 @RunWith(RobolectricTestRunner.class)
-@PowerMockIgnore({ "org.mockito.*", "org.robolectric.*", "android.*" })
+@PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*"})
 @PrepareForTest(RequestBody.class)
 public class UploadRepositoryTest {
 
@@ -61,12 +62,16 @@ public class UploadRepositoryTest {
     @Mock
     RequestBody requestBody;
 
+    MediaType mediaType;
+
     File file;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         target = new UploadRepositoryImpl(mockedUploadService, RuntimeEnvironment.application);
+        file = new File("");
+        mediaType = MediaType.parse("test/type");
     }
 
     @Test
@@ -81,7 +86,7 @@ public class UploadRepositoryTest {
             }
         };
         mockUploadServiceAnswerForUploadFile(successfulAnswer);
-        target.uploadFile(any(String.class), any(MediaType.class), file, responseCallback);
+        target.uploadFile("", mediaType, file, responseCallback);
         verify(responseCallback, never()).onError(any(String.class));
         verify(responseCallback).onSuccess(any(String.class));
     }
@@ -98,7 +103,7 @@ public class UploadRepositoryTest {
             }
         };
         mockUploadServiceAnswerForUploadFile(failedAnswer);
-        target.uploadFile(any(String.class), any(MediaType.class), file, responseCallback);
+        target.uploadFile("", mediaType, file, responseCallback);
         verify(responseCallback).onError(ERROR_MESSAGE);
         verify(responseCallback, never()).onSuccess(any(String.class));
     }
@@ -106,7 +111,7 @@ public class UploadRepositoryTest {
 
     private void mockUploadServiceAnswerForUploadFile(Answer answer) {
         PowerMockito.mockStatic(RequestBody.class);
-        when(RequestBody.create(any(MediaType.class), any(File.class))).thenReturn(requestBody);
+        when(RequestBody.create(eq(mediaType), any(File.class))).thenReturn(requestBody);
 
         doAnswer(answer).when(uploadCall).enqueue(any(Callback.class));
         doReturn(uploadCall).when(mockedUploadService).uploadFile(anyString(), any(RequestBody.class));
