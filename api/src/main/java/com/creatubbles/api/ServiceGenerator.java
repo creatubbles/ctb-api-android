@@ -2,9 +2,15 @@ package com.creatubbles.api;
 
 import android.content.Context;
 
+import com.creatubbles.api.converter.ApprovalStatusTypeAdapter;
+import com.creatubbles.api.converter.ImageStatusTypeAdapter;
 import com.creatubbles.api.converter.NullOnEmptyConverterFactory;
 import com.creatubbles.api.interceptor.CreatubbleInterceptor;
 import com.creatubbles.api.model.AuthToken;
+import com.creatubbles.api.model.creation.ApprovalStatus;
+import com.creatubbles.api.model.creation.ImageStatus;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +28,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by Janek on 08.02.2016.
  */
 public class ServiceGenerator {
+    private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
     Context appContext;
 
@@ -39,10 +46,16 @@ public class ServiceGenerator {
                 .addInterceptor(CreatubbleInterceptor.getLogginInterceptor())
                 .build();
 
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(ImageStatus.class, new ImageStatusTypeAdapter())
+                .registerTypeAdapter(ApprovalStatus.class, new ApprovalStatusTypeAdapter())
+                .setDateFormat(DATE_FORMAT)
+                .create();
+
         builder = new Retrofit.Builder()
                 .baseUrl(EndPoints.URL_BASE)
                 .addConverterFactory(new NullOnEmptyConverterFactory())
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client);
 
         if (EndPoints.SET_STAGING) {

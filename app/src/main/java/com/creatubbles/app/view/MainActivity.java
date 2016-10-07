@@ -28,7 +28,6 @@ import com.creatubbles.api.model.UploadResponse;
 import com.creatubbles.api.model.UserListResponse;
 import com.creatubbles.api.model.creator.Datum;
 import com.creatubbles.api.model.gallery.Gallery;
-import com.creatubbles.api.model.url.Data;
 import com.creatubbles.api.model.url.LandingUrl;
 import com.creatubbles.api.model.user.User;
 import com.creatubbles.api.repository.CreationRepository;
@@ -313,8 +312,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onSuccess(CreationResponse response) {
-                        Toast.makeText(MainActivity.this, response.getImageStatus()
-                                .toInt().toString(), Toast
+                        Toast.makeText(MainActivity.this, response.toString(), Toast
                                 .LENGTH_LONG).show();
                     }
 
@@ -470,7 +468,7 @@ public class MainActivity extends AppCompatActivity {
         repository.getLandingUrls(new ResponseCallback<LandingUrlResponse>() {
             @Override
             public void onSuccess(LandingUrlResponse response) {
-                for (Data url : response.getLandingUrlList()) {
+                for (com.creatubbles.api.model.url.Data url : response.getLandingUrlList()) {
                     Toast.makeText(MainActivity.this, url.getAttributes().getUrl(), Toast
                             .LENGTH_SHORT).show();
                 }

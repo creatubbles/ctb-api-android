@@ -1,6 +1,5 @@
 package com.creatubbles.api.model;
 
-import com.creatubbles.api.ImageStatus;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.creation.Meta;
 import com.google.gson.annotations.SerializedName;
@@ -24,7 +23,11 @@ public class CreationResponse {
         return meta;
     }
 
-    public ImageStatus getImageStatus() {
-        return ImageStatus.getStatus(creation.getAttributes().getImageStatus());
+    @Override
+    public String toString() {
+        return "CreationResponse{" +
+                "creation=" + creation +
+                ", meta=" + meta +
+                '}';
     }
 }
