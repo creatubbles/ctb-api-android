@@ -31,4 +31,14 @@ public class Creation {
     public Relationships getRelationships() {
         return relationships;
     }
+
+    @Override
+    public String toString() {
+        return "Creation{" +
+                "id='" + id + '\'' +
+                ", type='" + type + '\'' +
+                ", attributes=" + attributes +
+                ", relationships=" + relationships +
+                '}';
+    }
 }

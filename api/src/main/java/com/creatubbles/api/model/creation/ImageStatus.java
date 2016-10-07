@@ -1,4 +1,4 @@
-package com.creatubbles.api;
+package com.creatubbles.api.model.creation;
 
 /**
  * Created by Janek on 14.03.2016.

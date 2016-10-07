@@ -10,4 +10,11 @@ public class Image {
     public Links getLinks() {
         return links;
     }
+
+    @Override
+    public String toString() {
+        return "Image{" +
+                "links=" + links +
+                '}';
+    }
 }

@@ -25,7 +25,7 @@ public class CreationRequest {
     @SerializedName("reflection_video_url")
     private final String reflectionVideoUrl;
 
-    public CreationRequest(Builder builder) {
+    CreationRequest(Builder builder) {
         this.name = builder.name;
         this.creatorIds = builder.creatorIds;
         this.createdAtMonth = builder.createdAtMonth;
@@ -36,12 +36,12 @@ public class CreationRequest {
 
     public static class Builder {
 
-        private String name;
-        private String[] creatorIds;
-        private Integer createdAtMonth;
-        private Integer createdAtYear;
-        private String reflectionText;
-        private String reflectionVideoUrl;
+        String name;
+        String[] creatorIds;
+        Integer createdAtMonth;
+        Integer createdAtYear;
+        String reflectionText;
+        String reflectionVideoUrl;
 
         public Builder name(String name) {
             this.name = name;
