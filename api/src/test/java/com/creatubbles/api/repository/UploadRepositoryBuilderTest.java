@@ -1,14 +1,12 @@
 package com.creatubbles.api.repository;
 
-import com.creatubbles.api.model.AuthToken;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 /**
  * Created by Mariusz Ostapowicz on 20.03.2016.
@@ -25,6 +23,7 @@ public class UploadRepositoryBuilderTest {
 
     @Test
     public void testIsNotNullWhenPassedCorrectParameters() {
+        target.setContext(RuntimeEnvironment.application.getApplicationContext());
         UploadRepository repository = target.build();
         assertNotNull(repository);
     }
