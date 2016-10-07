@@ -3,6 +3,7 @@ package com.creatubbles.api;
 import android.content.Context;
 
 import com.creatubbles.api.converter.ApprovalStatusTypeAdapter;
+import com.creatubbles.api.converter.GsonUTCDateAdapter;
 import com.creatubbles.api.converter.ImageStatusTypeAdapter;
 import com.creatubbles.api.converter.NullOnEmptyConverterFactory;
 import com.creatubbles.api.interceptor.CreatubbleInterceptor;
@@ -13,6 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +30,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by Janek on 08.02.2016.
  */
 public class ServiceGenerator {
-    private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
     Context appContext;
 
@@ -49,7 +50,7 @@ public class ServiceGenerator {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(ImageStatus.class, new ImageStatusTypeAdapter())
                 .registerTypeAdapter(ApprovalStatus.class, new ApprovalStatusTypeAdapter())
-                .setDateFormat(DATE_FORMAT)
+                .registerTypeAdapter(Date.class, new GsonUTCDateAdapter())
                 .create();
 
         builder = new Retrofit.Builder()
