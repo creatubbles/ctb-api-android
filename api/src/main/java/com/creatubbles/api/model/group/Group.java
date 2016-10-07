@@ -1,4 +1,4 @@
-package com.creatubbles.api.model.user;
+package com.creatubbles.api.model.group;
 
 import com.google.gson.annotations.SerializedName;
 

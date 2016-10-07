@@ -1,7 +1,7 @@
 package com.creatubbles.api.repository;
 
-import com.creatubbles.api.model.UserListResponse;
 import com.creatubbles.api.model.user.User;
+import com.creatubbles.api.model.user.UserList;
 import com.creatubbles.api.request.CreatorRequest;
 import com.creatubbles.api.response.ResponseCallback;
 
@@ -14,7 +14,7 @@ public interface UserRepository {
 
     void getUser(ResponseCallback<User> callback);
 
-    void getUsersList(ResponseCallback<UserListResponse> callback);
+    void getUsersList(ResponseCallback<UserList> callback);
 
     void createUser(CreatorRequest creatorRequest, ResponseCallback<User> callback);
 

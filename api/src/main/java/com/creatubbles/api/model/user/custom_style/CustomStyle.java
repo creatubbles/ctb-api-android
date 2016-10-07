@@ -1,14 +1,14 @@
 
-package com.creatubbles.api.model.creator;
+package com.creatubbles.api.model.user.custom_style;
 
 import com.google.gson.annotations.SerializedName;
 
 public class CustomStyle {
 
     @SerializedName("data")
-    private Object data;
+    private Data data;
 
-    public Object getData() {
+    public Data getData() {
         return data;
     }
 }

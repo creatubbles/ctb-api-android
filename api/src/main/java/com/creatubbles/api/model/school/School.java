@@ -1,14 +1,14 @@
 
-package com.creatubbles.api.model.creator;
+package com.creatubbles.api.model.school;
 
 import com.google.gson.annotations.SerializedName;
 
 public class School {
 
     @SerializedName("data")
-    private Object data;
+    private Data data;
 
-    public Object getData() {
+    public Data getData() {
         return data;
     }
 }

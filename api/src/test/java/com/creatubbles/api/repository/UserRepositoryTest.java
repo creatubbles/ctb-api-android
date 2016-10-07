@@ -1,8 +1,8 @@
 package com.creatubbles.api.repository;
 
 import com.creatubbles.api.exception.ErrorResponse;
-import com.creatubbles.api.model.UserListResponse;
 import com.creatubbles.api.model.user.User;
+import com.creatubbles.api.model.user.UserList;
 import com.creatubbles.api.request.CreatorRequest;
 import com.creatubbles.api.request.Gender;
 import com.creatubbles.api.request.ISO_3166_CountryCode;
@@ -42,7 +42,7 @@ public class UserRepositoryTest {
     private UserRepository target;
 
     @Mock
-    ResponseCallback<UserListResponse> userListResponseResponseCallback;
+    ResponseCallback<UserList> userListResponseResponseCallback;
 
     @Mock
     ResponseCallback<User> userResponseCallback;
@@ -54,7 +54,7 @@ public class UserRepositoryTest {
     Call<User> userCall;
 
     @Mock
-    Call<UserListResponse> listCall;
+    Call<UserList> listCall;
 
     @Mock
     ErrorResponse errorResponse;
@@ -164,7 +164,7 @@ public class UserRepositoryTest {
                 Object[] getUsersListAguments = invocation.getArguments();
                 Callback retrofitCallback = ((Callback) getUsersListAguments[getUsersListAguments
                         .length - 1]);
-                retrofitCallback.onResponse(null, Response.success(any(UserListResponse.class)));
+                retrofitCallback.onResponse(null, Response.success(any(UserList.class)));
                 return null;
             }
         };
@@ -173,7 +173,7 @@ public class UserRepositoryTest {
         target.getUsersList(userListResponseResponseCallback);
 
         verify(userListResponseResponseCallback, never()).onError(any(String.class));
-        verify(userListResponseResponseCallback).onSuccess(any(UserListResponse.class));
+        verify(userListResponseResponseCallback).onSuccess(any(UserList.class));
 
     }
 
@@ -194,7 +194,7 @@ public class UserRepositoryTest {
         mockUserServiceAnswerForUsersList(failedAnswer);
         target.getUsersList(userListResponseResponseCallback);
         verify(userListResponseResponseCallback).onError(ERROR_MESSAGE);
-        verify(userListResponseResponseCallback, never()).onSuccess(any(UserListResponse.class));
+        verify(userListResponseResponseCallback, never()).onSuccess(any(UserList.class));
     }
 
     @Test
