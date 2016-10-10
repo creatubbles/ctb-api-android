@@ -8,6 +8,7 @@ import com.creatubbles.api.converter.RoleTypeAdapter;
 import com.creatubbles.api.interceptor.CreatubbleInterceptor;
 import com.creatubbles.api.model.AuthToken;
 import com.creatubbles.api.model.creation.Creation;
+import com.creatubbles.api.model.upload.Upload;
 import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.Role;
 import com.creatubbles.api.model.user.User;
@@ -33,6 +34,7 @@ import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.jackson.JacksonConverterFactory;
 
 /**
  * Created by Janek on 08.02.2016.
@@ -138,7 +140,9 @@ public class ServiceGenerator {
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             objectMapper.setTimeZone(TimeZone.getTimeZone("UTC"));
-            builder.addConverterFactory(new JSONAPIConverterFactory(objectMapper, Creation.class, User.class, NewUser.class));
+            JSONAPIConverterFactory converterFactory = new JSONAPIConverterFactory(objectMapper, Creation.class, User.class, NewUser.class, Upload.class);
+            converterFactory.setAlternativeFactory(JacksonConverterFactory.create(objectMapper));
+            builder.addConverterFactory(converterFactory);
         } else {
             builder.addConverterFactory(GsonConverterFactory.create());
         }

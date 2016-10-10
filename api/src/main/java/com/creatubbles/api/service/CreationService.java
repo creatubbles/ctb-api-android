@@ -1,8 +1,8 @@
 package com.creatubbles.api.service;
 
 import com.creatubbles.api.EndPoints;
-import com.creatubbles.api.model.UploadResponse;
 import com.creatubbles.api.model.creation.Creation;
+import com.creatubbles.api.model.upload.Upload;
 import com.creatubbles.api.request.CreationListRequest;
 import com.creatubbles.api.request.CreationRequest;
 import com.creatubbles.api.request.UploadRequest;
@@ -37,7 +37,7 @@ public interface CreationService {
     Call<JSONAPIDocument<Creation>> createCreation(@Body Creation creation);
 
     @POST(EndPoints.CREATIONS_UPLOADS)
-    Call<UploadResponse> createUpload(@Path("id") String id, @Body UploadRequest body);
+    Call<JSONAPIDocument<Upload>> createUpload(@Path("id") String id, @Body UploadRequest body);
 
     @PUT(EndPoints.PING_CREATIONS_UPLOADS)
     Call<String> updateCreationUpload(@Path("id") String id);

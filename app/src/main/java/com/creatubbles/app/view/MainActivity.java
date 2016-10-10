@@ -23,9 +23,9 @@ import com.creatubbles.api.model.AuthToken;
 import com.creatubbles.api.model.CreateGalleryResponse;
 import com.creatubbles.api.model.GalleryResponse;
 import com.creatubbles.api.model.LandingUrlResponse;
-import com.creatubbles.api.model.UploadResponse;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.gallery.Gallery;
+import com.creatubbles.api.model.upload.Upload;
 import com.creatubbles.api.model.url.LandingUrl;
 import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.scrollview)
     ScrollView scrollView;
 
-    UploadResponse responseFromCreateUpload;
+    Upload responseFromCreateUpload;
     AuthToken authToken;
 
     @Override
@@ -271,12 +271,11 @@ public class MainActivity extends AppCompatActivity {
                 .setAuthToken(authToken)
                 .build();
         //TODO: add working creation ID
-        creationRepository.createUpload("testID", new UploadRequest(ContentType
-                .JPG), new ResponseCallback<UploadResponse>() {
+        creationRepository.createUpload("V4QbH3DE", new UploadRequest(ContentType
+                .JPG), new ResponseCallback<Upload>() {
             @Override
-            public void onSuccess(UploadResponse response) {
-                Toast.makeText(MainActivity.this, response.getData()
-                        .getAttributes().getContentType(), Toast.LENGTH_SHORT)
+            public void onSuccess(Upload response) {
+                Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_SHORT)
                         .show();
 
                 responseFromCreateUpload = response;
@@ -354,9 +353,8 @@ public class MainActivity extends AppCompatActivity {
             UploadRepository uploadRepository = new UploadRepositoryBuilder()
                     .setContext(getApplicationContext())
                     .build();
-            uploadRepository.uploadFile(responseFromCreateUpload.getData().getAttributes().getUrl(),
-                    MediaType.parse(responseFromCreateUpload.getData().getAttributes()
-                            .getContentType()), file, new ResponseCallback<String>() {
+            uploadRepository.uploadFile(responseFromCreateUpload.getUrl(),
+                    MediaType.parse(responseFromCreateUpload.getContentType()), file, new ResponseCallback<String>() {
                         @Override
                         public void onSuccess(String response) {
 
@@ -365,8 +363,7 @@ public class MainActivity extends AppCompatActivity {
                                     .setAuthToken(authToken)
                                     .build();
                             creationRepository.updateCreationUpload(responseFromCreateUpload
-                                    .getData()
-                                    .getAttributes().getPingUrl(), new ResponseCallback<String>() {
+                                    .getPingUrl(), new ResponseCallback<String>() {
 
 
                                 @Override

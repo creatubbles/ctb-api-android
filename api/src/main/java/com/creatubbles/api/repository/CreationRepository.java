@@ -1,7 +1,7 @@
 package com.creatubbles.api.repository;
 
-import com.creatubbles.api.model.UploadResponse;
 import com.creatubbles.api.model.creation.Creation;
+import com.creatubbles.api.model.upload.Upload;
 import com.creatubbles.api.request.CreationListRequest;
 import com.creatubbles.api.request.CreationRequest;
 import com.creatubbles.api.request.UploadRequest;
@@ -24,7 +24,7 @@ public interface CreationRepository {
 
     void createCreation(Creation creation, ResponseCallback<Creation> callback);
 
-    void createUpload(String id, UploadRequest body, ResponseCallback<UploadResponse> callback);
+    void createUpload(String id, UploadRequest body, ResponseCallback<Upload> callback);
 
     void updateCreationUpload(String pingUrl, ResponseCallback<String> callback);
 }

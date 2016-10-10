@@ -1,7 +1,7 @@
 package com.creatubbles.api.repository;
 
-import com.creatubbles.api.model.UploadResponse;
 import com.creatubbles.api.model.creation.Creation;
+import com.creatubbles.api.model.upload.Upload;
 import com.creatubbles.api.request.CreationListRequest;
 import com.creatubbles.api.request.CreationRequest;
 import com.creatubbles.api.request.UploadRequest;
@@ -44,7 +44,7 @@ public class CreationRepositoryTest {
     ResponseCallback<Void> updateCreationResponseCallback;
 
     @Mock
-    ResponseCallback<UploadResponse> uploadResponseCallback;
+    ResponseCallback<Upload> uploadResponseCallback;
 
     @Mock
     CreationService mockedCreationService;
@@ -59,7 +59,7 @@ public class CreationRepositoryTest {
     Call<Void> voidCall;
 
     @Mock
-    Call<UploadResponse> uploadCall;
+    Call<JSONAPIDocument<Upload>> uploadCall;
 
     @Before
     public void setUp() {
@@ -198,7 +198,7 @@ public class CreationRepositoryTest {
         };
 
         mockCreationServiceAnswerForCreateCreation(failedAnswer);
-        target.createCreation(any(CreationRequest.class), creationResponseCallback);
+        target.createCreation(any(Creation.class), creationResponseCallback);
 
         verify(creationResponseCallback).onError(ERROR_MESSAGE);
         verify(creationResponseCallback, never()).onSuccess(any(Creation.class));
@@ -216,7 +216,7 @@ public class CreationRepositoryTest {
         };
 
         mockCreationServiceAnswerForCreateCreation(successfulAnswer);
-        target.createCreation(any(CreationRequest.class), creationResponseCallback);
+        target.createCreation(any(Creation.class), creationResponseCallback);
 
         verify(creationResponseCallback, never()).onError(any(String.class));
         verify(creationResponseCallback).onSuccess(any(Creation.class));
@@ -227,9 +227,9 @@ public class CreationRepositoryTest {
     public void testCreateUploadSuccessfulRequest() {
         Answer successfulAnswer = invocation -> {
             Object[] createUploadTokenArguments = invocation.getArguments();
-            Callback<UploadResponse> retrofitCallback = ((Callback<UploadResponse>)
+            Callback<JSONAPIDocument<?>> retrofitCallback = ((Callback<JSONAPIDocument<?>>)
                     createUploadTokenArguments[createUploadTokenArguments.length - 1]);
-            retrofitCallback.onResponse(null, Response.success(any(UploadResponse.class)));
+            retrofitCallback.onResponse(null, Response.success(mockBody));
             return null;
         };
 
@@ -237,7 +237,7 @@ public class CreationRepositoryTest {
         target.createUpload(any(String.class), any(UploadRequest.class), uploadResponseCallback);
 
         verify(uploadResponseCallback, never()).onError(any(String.class));
-        verify(uploadResponseCallback).onSuccess(any(UploadResponse.class));
+        verify(uploadResponseCallback).onSuccess(any(Upload.class));
     }
 
     @Test
@@ -254,7 +254,7 @@ public class CreationRepositoryTest {
         target.createUpload(any(String.class), any(UploadRequest.class), uploadResponseCallback);
 
         verify(uploadResponseCallback).onError(ERROR_MESSAGE);
-        verify(uploadResponseCallback, never()).onSuccess(any(UploadResponse.class));
+        verify(uploadResponseCallback, never()).onSuccess(any(Upload.class));
     }
 
 
@@ -282,8 +282,7 @@ public class CreationRepositoryTest {
     private void mockCreationServiceAnswerForCreateCreation(Answer answer) {
         doAnswer(answer).when(call).enqueue(any());
 
-        doReturn(call).when(mockedCreationService).createCreation(any(CreationRequest
-                .class));
+        doReturn(call).when(mockedCreationService).createCreation(any(Creation.class));
     }
 
     private void mockCreationServiceAnswerForCreateUpload(Answer answer) {
