@@ -1,23 +1,26 @@
 package com.creatubbles.api.repository;
 
+import android.content.Context;
+
 import com.creatubbles.api.exception.InvalidParametersException;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import static junit.framework.Assert.assertNotNull;
 
-
-@RunWith(RobolectricTestRunner.class)
 public class OAuthRepositoryBuilderTest {
+
+    @Mock
+    Context context;
 
     private OAuthRepositoryBuilder target;
 
     @Before
     public void setUp() {
+        MockitoAnnotations.initMocks(this);
         target = new OAuthRepositoryBuilder();
     }
 
@@ -30,7 +33,7 @@ public class OAuthRepositoryBuilderTest {
     public void testIsNotNullWhenPassedCorrectParameters() {
         target.setClientId("testString");
         target.setClientSecret("testString");
-        target.setContext(RuntimeEnvironment.application.getApplicationContext());
+        target.setContext(context);
 
         OAuthRepository repository = target.build();
         assertNotNull(repository);

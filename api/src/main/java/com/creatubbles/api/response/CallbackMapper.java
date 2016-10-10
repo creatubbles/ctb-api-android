@@ -21,7 +21,7 @@ public class CallbackMapper<T> {
             @Override
             public void onResponse(Call<T> call, Response<T> response) {
                 if (responseCallback != null) {
-                    if(response.isSuccess()) {
+                    if(response.isSuccessful()) {
                         responseCallback.onSuccess(response.body());
                     } else if(response.message() != null) {
                         Gson gson = new Gson();
@@ -45,7 +45,7 @@ public class CallbackMapper<T> {
             @Override
             public void onResponse(Call<T> call, Response<T> response) {
                 if (responseCallback != null) {
-                    if(response.isSuccess()) {
+                    if(response.isSuccessful()) {
                         UploadRepositoryCacheUtil.removeFileFromSendCache(url, contentType, fileName, context);
                         responseCallback.onSuccess(response.body());
                     } else if(response.message() != null) {

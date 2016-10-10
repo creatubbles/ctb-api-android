@@ -1,4 +1,4 @@
-package com.creatubbles.api.model.creation;
+package com.creatubbles.api.model;
 
 import com.google.gson.annotations.SerializedName;
 

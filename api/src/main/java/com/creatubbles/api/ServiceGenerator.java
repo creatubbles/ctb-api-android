@@ -2,24 +2,27 @@ package com.creatubbles.api;
 
 import android.content.Context;
 
-import com.creatubbles.api.converter.ApprovalStatusTypeAdapter;
 import com.creatubbles.api.converter.GsonUTCDateAdapter;
-import com.creatubbles.api.converter.ImageStatusTypeAdapter;
 import com.creatubbles.api.converter.NullOnEmptyConverterFactory;
 import com.creatubbles.api.converter.RoleTypeAdapter;
 import com.creatubbles.api.interceptor.CreatubbleInterceptor;
 import com.creatubbles.api.model.AuthToken;
-import com.creatubbles.api.model.creation.ApprovalStatus;
-import com.creatubbles.api.model.creation.ImageStatus;
+import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.user.Role;
+import com.creatubbles.api.service.CreationService;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.jasminb.jsonapi.retrofit.JSONAPIConverterFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
@@ -33,7 +36,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class ServiceGenerator {
 
-    Context appContext;
+    private static final List<Class<?>> MIGRATED_SERVICES = Arrays.asList(CreationService.class);
+
+    private Context appContext;
 
     private Retrofit.Builder builder;
 
@@ -50,8 +55,6 @@ public class ServiceGenerator {
                 .build();
 
         Gson gson = new GsonBuilder()
-                .registerTypeAdapter(ImageStatus.class, new ImageStatusTypeAdapter())
-                .registerTypeAdapter(ApprovalStatus.class, new ApprovalStatusTypeAdapter())
                 .registerTypeAdapter(Date.class, new GsonUTCDateAdapter())
                 .registerTypeAdapter(Role.class, new RoleTypeAdapter())
                 .create();
@@ -68,7 +71,6 @@ public class ServiceGenerator {
     }
 
     public <S> S createService(Class<S> serviceClass, final ContentType contentType) {
-
         Map<String, String> headerParamMap = new HashMap<>();
         headerParamMap.put("Accept", "application/vnd.api+json");
         headerParamMap.put("Content-Type", contentType.getRes());
@@ -125,13 +127,20 @@ public class ServiceGenerator {
                 .addInterceptor(CreatubbleInterceptor.getLogginInterceptor())
                 .build();
 
-        Retrofit retrofit = builder
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl("https://staging.creatubbles.com/api/v2/")
                 .addConverterFactory(new NullOnEmptyConverterFactory())
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(client)
-                .build();
+                .client(client);
+        if (MIGRATED_SERVICES.contains(serviceClass)) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            objectMapper.setTimeZone(TimeZone.getTimeZone("UTC"));
+            builder.addConverterFactory(new JSONAPIConverterFactory(objectMapper, Creation.class));
+        } else {
+            builder.addConverterFactory(GsonConverterFactory.create());
+        }
 
-        return retrofit.create(serviceClass);
+        return builder.build().create(serviceClass);
     }
 
     private CookieJar getAcceptAllCookieJar() {

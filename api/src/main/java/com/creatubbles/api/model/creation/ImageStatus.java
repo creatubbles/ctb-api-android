@@ -1,5 +1,8 @@
 package com.creatubbles.api.model.creation;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 /**
  * Created by Janek on 14.03.2016.
  */
@@ -14,10 +17,12 @@ public enum ImageStatus {
         this.status = status;
     }
 
+    @JsonValue
     public Integer toInt() {
         return this.status;
     }
 
+    @JsonCreator
     public static ImageStatus getStatus(Integer status) {
         switch (status) {
             case 1:

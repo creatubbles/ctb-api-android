@@ -21,10 +21,10 @@ import com.creatubbles.api.OAuthUtil;
 import com.creatubbles.api.exception.ErrorResponse;
 import com.creatubbles.api.model.AuthToken;
 import com.creatubbles.api.model.CreateGalleryResponse;
-import com.creatubbles.api.model.CreationResponse;
 import com.creatubbles.api.model.GalleryResponse;
 import com.creatubbles.api.model.LandingUrlResponse;
 import com.creatubbles.api.model.UploadResponse;
+import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.gallery.Gallery;
 import com.creatubbles.api.model.url.LandingUrl;
 import com.creatubbles.api.model.user.Data;
@@ -242,9 +242,9 @@ public class MainActivity extends AppCompatActivity {
         CreationRequest.Builder body = new CreationRequest.Builder();
         body.name("testCreation");
         creationRepository.createCreation(body.build(), new
-                ResponseCallback<CreationResponse>() {
+                ResponseCallback<Creation>() {
                     @Override
-                    public void onSuccess(CreationResponse response) {
+                    public void onSuccess(Creation response) {
                         Toast.makeText(MainActivity.this, "success", Toast
                                 .LENGTH_SHORT)
                                 .show();
@@ -306,26 +306,23 @@ public class MainActivity extends AppCompatActivity {
                 .setAuthToken(authToken)
                 .build();
         //TODO: add working creation ID
-        creationRepository.getCreationById("testID", new
-                ResponseCallback<CreationResponse>() {
+        creationRepository.getCreationById("ghOq9eug", new ResponseCallback<Creation>() {
+            @Override
+            public void onSuccess(Creation response) {
+                Toast.makeText(MainActivity.this, response.toString(), Toast
+                        .LENGTH_LONG).show();
+            }
 
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
 
-                    @Override
-                    public void onSuccess(CreationResponse response) {
-                        Toast.makeText(MainActivity.this, response.toString(), Toast
-                                .LENGTH_LONG).show();
-                    }
+            }
 
-                    @Override
-                    public void onServerError(ErrorResponse errorResponse) {
+            @Override
+            public void onError(String message) {
 
-                    }
-
-                    @Override
-                    public void onError(String message) {
-
-                    }
-                });
+            }
+        });
     }
 
     @Override

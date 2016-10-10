@@ -1,27 +1,31 @@
 package com.creatubbles.api.model.creation;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum ApprovalStatus {
     APPROVED("approved"),
     UNAPPROVED("unapproved"),
     REJECTED("rejected");
 
+    private String name;
 
-    private String status;
-
-    ApprovalStatus(String status) {
-        this.status = status;
+    ApprovalStatus(String name) {
+        this.name = name;
     }
 
+    @JsonCreator
     public static ApprovalStatus fromName(String name) {
         for (ApprovalStatus approvalStatus : values()) {
-            if (approvalStatus.status.equals(name)) {
+            if (approvalStatus.name.equals(name)) {
                 return approvalStatus;
             }
         }
         return null;
     }
 
-    public String getStatus() {
-        return status;
+    @JsonValue
+    public String getName() {
+        return name;
     }
 }

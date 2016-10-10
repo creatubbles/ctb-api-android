@@ -1,14 +1,17 @@
 package com.creatubbles.api.repository;
 
-import com.creatubbles.api.model.CreationListResponse;
-import com.creatubbles.api.model.CreationResponse;
 import com.creatubbles.api.model.UploadResponse;
+import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.request.CreationListRequest;
 import com.creatubbles.api.request.CreationRequest;
 import com.creatubbles.api.request.UploadRequest;
 import com.creatubbles.api.response.CallbackMapper;
+import com.creatubbles.api.response.JsonApiResponseMapper;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.service.CreationService;
+import com.github.jasminb.jsonapi.JSONAPIDocument;
+
+import java.util.List;
 
 import retrofit2.Call;
 
@@ -26,16 +29,16 @@ public class CreationRepositoryImpl implements CreationRepository {
     }
 
     @Override
-    public void getCretiationsList(CreationListRequest body, ResponseCallback<CreationListResponse>
+    public void getCretiationsList(CreationListRequest body, ResponseCallback<List<Creation>>
             callback) {
-        Call<CreationListResponse> call = creationService.getListOfCreation(body);
-        call.enqueue(new CallbackMapper<CreationListResponse>().map(callback));
+        Call<JSONAPIDocument<List<Creation>>> call = creationService.getListOfCreation(body);
+        call.enqueue(new JsonApiResponseMapper<>(callback));
     }
 
     @Override
-    public void getCreationById(String id, ResponseCallback<CreationResponse> callback) {
-        Call<CreationResponse> call = creationService.getCreationById(id);
-        call.enqueue(new CallbackMapper<CreationResponse>().map(callback));
+    public void getCreationById(String id, ResponseCallback<Creation> callback) {
+        Call<JSONAPIDocument<Creation>> call = creationService.getCreationById(id);
+        call.enqueue(new JsonApiResponseMapper<>(callback));
     }
 
     @Override
@@ -46,10 +49,10 @@ public class CreationRepositoryImpl implements CreationRepository {
     }
 
     @Override
-    public void createCreation(CreationRequest body, ResponseCallback<CreationResponse>
+    public void createCreation(CreationRequest body, ResponseCallback<Creation>
             callback) {
-        Call<CreationResponse> call = creationService.createCreation(body);
-        call.enqueue(new CallbackMapper<CreationResponse>().map(callback));
+        Call<JSONAPIDocument<Creation>> call = creationService.createCreation(body);
+        call.enqueue(new JsonApiResponseMapper<>(callback));
     }
 
     @Override
