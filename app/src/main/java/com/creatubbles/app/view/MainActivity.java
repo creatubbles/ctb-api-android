@@ -20,8 +20,6 @@ import com.creatubbles.api.ContentType;
 import com.creatubbles.api.OAuthUtil;
 import com.creatubbles.api.exception.ErrorResponse;
 import com.creatubbles.api.model.AuthToken;
-import com.creatubbles.api.model.CreateGalleryResponse;
-import com.creatubbles.api.model.GalleryResponse;
 import com.creatubbles.api.model.LandingUrlResponse;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.gallery.Gallery;
@@ -41,7 +39,6 @@ import com.creatubbles.api.repository.UploadRepository;
 import com.creatubbles.api.repository.UploadRepositoryBuilder;
 import com.creatubbles.api.repository.UserRepository;
 import com.creatubbles.api.repository.UserRepositoryBuilder;
-import com.creatubbles.api.request.CreateGalleryRequest;
 import com.creatubbles.api.request.UploadRequest;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.service.LandingUrlType;
@@ -402,16 +399,14 @@ public class MainActivity extends AppCompatActivity {
         GalleryRepository galleryRepository = new GalleryRepositoryBuilder().setAuthToken
                 (authToken).setContext(getApplicationContext()).build();
 
-        galleryRepository.createGallery(new CreateGalleryRequest.Builder("myNewGallery",
-                "testGallery").openForAll(1).build(), new ResponseCallback<CreateGalleryResponse>
+        Gallery gallery = new Gallery("myNewGallery2", "TestGallery", true, null);
+        galleryRepository.createGallery(gallery, new ResponseCallback<Gallery>
                 () {
 
 
             @Override
-            public void onSuccess(CreateGalleryResponse response) {
-                Toast.makeText(MainActivity.this, response.getData().getAttributes().getName(),
-                        Toast
-                                .LENGTH_SHORT).show();
+            public void onSuccess(Gallery response) {
+                Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
 
             }
 
@@ -431,11 +426,11 @@ public class MainActivity extends AppCompatActivity {
         GalleryRepository galleryRepository = new GalleryRepositoryBuilder().setAuthToken
                 (authToken).setContext(getApplicationContext()).build();
 
-        galleryRepository.getGalleriesByUser("gsyyKmGA", new ResponseCallback<GalleryResponse>() {
+        galleryRepository.getGalleriesByUser("me", new ResponseCallback<List<Gallery>>() {
             @Override
-            public void onSuccess(GalleryResponse response) {
-                for (Gallery gallery : response.getGalleries()) {
-                    Toast.makeText(MainActivity.this, gallery.getAttributes().toString(), Toast
+            public void onSuccess(List<Gallery> response) {
+                for (Gallery gallery : response) {
+                    Toast.makeText(MainActivity.this, gallery.toString(), Toast
                             .LENGTH_SHORT).show();
                 }
             }

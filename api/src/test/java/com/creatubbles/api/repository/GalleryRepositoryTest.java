@@ -1,51 +1,48 @@
 package com.creatubbles.api.repository;
 
-import com.creatubbles.api.model.CreateGalleryResponse;
-import com.creatubbles.api.model.GalleryResponse;
-import com.creatubbles.api.request.CreateGalleryRequest;
+import com.creatubbles.api.model.gallery.Gallery;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.service.GalleryService;
+import com.github.jasminb.jsonapi.JSONAPIDocument;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.robolectric.RobolectricTestRunner;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
-
-/**
- * Created by Janek on 07.03.2016.
- */
-@RunWith(RobolectricTestRunner.class)
 public class GalleryRepositoryTest {
 
     private static final String ERROR_MESSAGE = "What an error!";
     private GalleryRepository target;
 
     @Mock
-    ResponseCallback<CreateGalleryResponse> createGalleryResponseCallback;
+    ResponseCallback<Gallery> galleryResponseCallback;
 
     @Mock
-    ResponseCallback<GalleryResponse> galleryResponseCallback;
+    ResponseCallback<List<Gallery>> galleriesResponseCallback;
 
     @Mock
     GalleryService mockedGalleryService;
 
     @Mock
-    Call<GalleryResponse> call;
+    Call<JSONAPIDocument<?>> call;
+
+    @Mock
+    JSONAPIDocument<?> body;
 
     @Before
     public void setUp() {
@@ -53,38 +50,33 @@ public class GalleryRepositoryTest {
         target = new GalleryRepositoryImpl(mockedGalleryService);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testGetGalleryByIdSuccessfulRequest() {
-        Answer successfulAnswer = new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                Object[] getGalleryByIdArguments = invocation.getArguments();
-                Callback retrofitCallback = ((Callback)
-                        getGalleryByIdArguments[getGalleryByIdArguments.length - 1]);
+        Answer successfulAnswer = invocation -> {
+            Object[] getGalleryByIdArguments = invocation.getArguments();
+            Callback<JSONAPIDocument<?>> retrofitCallback = ((Callback<JSONAPIDocument<?>>)
+                    getGalleryByIdArguments[getGalleryByIdArguments.length - 1]);
 
-                retrofitCallback.onResponse(null, Response.success(any(GalleryResponse.class)));
-                return null;
-            }
+            retrofitCallback.onResponse(null, Response.success(body));
+            return null;
         };
 
         mockGalleryServiceForGalleryById(successfulAnswer);
         target.getGalleryById(any(String.class), galleryResponseCallback);
 
         verify(galleryResponseCallback, never()).onError(any(String.class));
-        verify(galleryResponseCallback).onSuccess(any(GalleryResponse.class));
+        verify(galleryResponseCallback).onSuccess(any(Gallery.class));
     }
 
     @Test
     public void testGetGalleryByIdFailedRequest() {
-        Answer failedAnswer = new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                Object[] getGalleryByIdArguments = invocation.getArguments();
-                Callback retrofitCallback = ((Callback)
-                        getGalleryByIdArguments[getGalleryByIdArguments.length - 1]);
-                retrofitCallback.onFailure(null, new Exception(ERROR_MESSAGE));
-                return null;
-            }
+        Answer failedAnswer = invocation -> {
+            Object[] getGalleryByIdArguments = invocation.getArguments();
+            Callback<?> retrofitCallback = ((Callback)
+                    getGalleryByIdArguments[getGalleryByIdArguments.length - 1]);
+            retrofitCallback.onFailure(null, new Exception(ERROR_MESSAGE));
+            return null;
         };
 
 
@@ -92,112 +84,101 @@ public class GalleryRepositoryTest {
         target.getGalleryById(any(String.class), galleryResponseCallback);
 
         verify(galleryResponseCallback).onError(ERROR_MESSAGE);
-        verify(galleryResponseCallback, never()).onSuccess(any(GalleryResponse.class));
+        verify(galleryResponseCallback, never()).onSuccess(any(Gallery.class));
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void testGetListOfGalleriesByUserSuccessfulRequest() {
-        Answer successfulAnswer = new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                Object[] getListOfGalleriesArguments = invocation.getArguments();
-                Callback retrofitCallback = ((Callback)
-                        getListOfGalleriesArguments[getListOfGalleriesArguments.length - 1]);
-                retrofitCallback.onResponse(null, Response.success(any(GalleryResponse
-                        .class)));
-                return null;
-            }
+        Answer successfulAnswer = invocation -> {
+            Object[] getListOfGalleriesArguments = invocation.getArguments();
+            Callback<JSONAPIDocument<?>> retrofitCallback = ((Callback<JSONAPIDocument<?>>)
+                    getListOfGalleriesArguments[getListOfGalleriesArguments.length - 1]);
+            retrofitCallback.onResponse(null, Response.success(body));
+            return null;
         };
 
         mockGalleryServiceForListOfGalleriesByUser(successfulAnswer);
-        target.getGalleriesByUser(any(String.class), galleryResponseCallback);
+        target.getGalleriesByUser(any(String.class), galleriesResponseCallback);
 
-        verify(galleryResponseCallback, never()).onError(any(String.class));
-        verify(galleryResponseCallback).onSuccess(any(GalleryResponse.class));
+        verify(galleriesResponseCallback, never()).onError(any(String.class));
+        verify(galleriesResponseCallback).onSuccess(anyListOf(Gallery.class));
     }
 
     @Test
     public void testGetListOfGalleriesByUserFailedRequest() {
-        Answer failedAnswer = new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                Object[] getListOfGalleriesArguments = invocation.getArguments();
-                Callback retrofitCallback = ((Callback)
-                        getListOfGalleriesArguments[getListOfGalleriesArguments.length -
-                                1]);
+        Answer failedAnswer = invocation -> {
+            Object[] getListOfGalleriesArguments = invocation.getArguments();
+            Callback<?> retrofitCallback = ((Callback)
+                    getListOfGalleriesArguments[getListOfGalleriesArguments.length -
+                            1]);
 
 
-                retrofitCallback.onFailure(null, new Exception(ERROR_MESSAGE));
-                return null;
-            }
+            retrofitCallback.onFailure(null, new Exception(ERROR_MESSAGE));
+            return null;
         };
         mockGalleryServiceForListOfGalleriesByUser(failedAnswer);
-        target.getGalleriesByUser(any(String.class), galleryResponseCallback);
+        target.getGalleriesByUser(any(String.class), galleriesResponseCallback);
 
-        verify(galleryResponseCallback).onError(ERROR_MESSAGE);
-        verify(galleryResponseCallback, never()).onSuccess(any(GalleryResponse.class));
+        verify(galleriesResponseCallback).onError(ERROR_MESSAGE);
+        verify(galleriesResponseCallback, never()).onSuccess(anyListOf(Gallery.class));
     }
 
     @Test
+    @SuppressWarnings("unchecked")
+
     public void testCreateGallerySuccessfulRequest() {
-        Answer successfulAnswer = new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                Object[] getListOfGalleriesArguments = invocation.getArguments();
-                Callback retrofitCallback = ((Callback)
-                        getListOfGalleriesArguments[getListOfGalleriesArguments.length - 1]);
-                retrofitCallback.onResponse(null, Response.success(any(GalleryResponse
-                        .class)));
-                return null;
-            }
+        Answer successfulAnswer = invocation -> {
+            Object[] getListOfGalleriesArguments = invocation.getArguments();
+            Callback<JSONAPIDocument<?>> retrofitCallback = ((Callback<JSONAPIDocument<?>>)
+                    getListOfGalleriesArguments[getListOfGalleriesArguments.length - 1]);
+            retrofitCallback.onResponse(null, Response.success(body));
+            return null;
         };
 
         mockGalleryServiceForCreateGallery(successfulAnswer);
-        target.createGallery(any(CreateGalleryRequest.class), createGalleryResponseCallback);
+        target.createGallery(any(Gallery.class), galleryResponseCallback);
 
-        verify(createGalleryResponseCallback, never()).onError(any(String.class));
-        verify(createGalleryResponseCallback).onSuccess(any(CreateGalleryResponse.class));
+        verify(galleryResponseCallback, never()).onError(any(String.class));
+        verify(galleryResponseCallback).onSuccess(any(Gallery.class));
     }
 
     @Test
     public void testCreatefGalleryFailedRequest() {
-        Answer failedAnswer = new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                Object[] getListOfGalleriesArguments = invocation.getArguments();
-                Callback retrofitCallback = ((Callback)
-                        getListOfGalleriesArguments[getListOfGalleriesArguments.length -
-                                1]);
+        Answer failedAnswer = invocation -> {
+            Object[] getListOfGalleriesArguments = invocation.getArguments();
+            Callback<?> retrofitCallback = ((Callback)
+                    getListOfGalleriesArguments[getListOfGalleriesArguments.length -
+                            1]);
 
 
-                retrofitCallback.onFailure(null, new Exception(ERROR_MESSAGE));
-                return null;
-            }
+            retrofitCallback.onFailure(null, new Exception(ERROR_MESSAGE));
+            return null;
         };
         mockGalleryServiceForCreateGallery(failedAnswer);
-        target.createGallery(any(CreateGalleryRequest.class), createGalleryResponseCallback);
+        target.createGallery(any(Gallery.class), galleryResponseCallback);
 
-        verify(createGalleryResponseCallback).onError(ERROR_MESSAGE);
-        verify(createGalleryResponseCallback, never()).onSuccess(any(CreateGalleryResponse.class));
+        verify(galleryResponseCallback).onError(ERROR_MESSAGE);
+        verify(galleryResponseCallback, never()).onSuccess(any(Gallery.class));
     }
 
 
     private void mockGalleryServiceForGalleryById(Answer answer) {
-        doAnswer(answer).when(call).enqueue(any(Callback.class));
+        doAnswer(answer).when(call).enqueue(any());
 
         doReturn(call).when(mockedGalleryService).getGalleryById(any(String.class));
     }
 
     private void mockGalleryServiceForListOfGalleriesByUser(Answer answer) {
-        doAnswer(answer).when(call).enqueue(any(Callback.class));
+        doAnswer(answer).when(call).enqueue(any());
 
         doReturn(call).when(mockedGalleryService).getGalleriesByUser(any(String.class));
     }
 
     private void mockGalleryServiceForCreateGallery(Answer answer) {
-        doAnswer(answer).when(call).enqueue(any(Callback.class));
+        doAnswer(answer).when(call).enqueue(any());
 
-        doReturn(call).when(mockedGalleryService).createGallery(any(CreateGalleryRequest.class));
+        doReturn(call).when(mockedGalleryService).createGallery(any(Gallery.class));
     }
 
 }

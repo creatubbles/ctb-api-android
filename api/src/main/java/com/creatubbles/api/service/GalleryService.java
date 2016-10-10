@@ -2,9 +2,10 @@ package com.creatubbles.api.service;
 
 
 import com.creatubbles.api.EndPoints;
-import com.creatubbles.api.model.CreateGalleryResponse;
-import com.creatubbles.api.model.GalleryResponse;
-import com.creatubbles.api.request.CreateGalleryRequest;
+import com.creatubbles.api.model.gallery.Gallery;
+import com.github.jasminb.jsonapi.JSONAPIDocument;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -18,15 +19,14 @@ import retrofit2.http.Path;
 public interface GalleryService {
 
     @GET(EndPoints.USERS + "/{userId}/galleries")
-    Call<GalleryResponse> getGalleriesByUser(@Path("userId") String userId);
+    Call<JSONAPIDocument<List<Gallery>>> getGalleriesByUser(@Path("userId") String userId);
 
     @GET(EndPoints.CREATIONS)
-    Call<GalleryResponse> getGalleriesByCreation(@Path("creationId") String creationId);
+    Call<JSONAPIDocument<List<Gallery>>> getGalleriesByCreation(@Path("creationId") String creationId);
 
     @GET(EndPoints.GALLERIES + "/{galleryId}/galleries")
-    Call<GalleryResponse> getGalleryById(@Path("galleryId") String galleryId);
-
+    Call<JSONAPIDocument<Gallery>> getGalleryById(@Path("galleryId") String galleryId);
 
     @POST(EndPoints.GALLERIES)
-    Call<CreateGalleryResponse> createGallery(@Body CreateGalleryRequest galleryRequest);
+    Call<JSONAPIDocument<Gallery>> createGallery(@Body Gallery gallery);
 }

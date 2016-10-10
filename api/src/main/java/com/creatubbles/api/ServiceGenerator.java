@@ -8,11 +8,13 @@ import com.creatubbles.api.converter.RoleTypeAdapter;
 import com.creatubbles.api.interceptor.CreatubbleInterceptor;
 import com.creatubbles.api.model.AuthToken;
 import com.creatubbles.api.model.creation.Creation;
+import com.creatubbles.api.model.gallery.Gallery;
 import com.creatubbles.api.model.upload.Upload;
 import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.Role;
 import com.creatubbles.api.model.user.User;
 import com.creatubbles.api.service.CreationService;
+import com.creatubbles.api.service.GalleryService;
 import com.creatubbles.api.service.UserService;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,7 +43,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
  */
 public class ServiceGenerator {
 
-    private static final List<Class<?>> MIGRATED_SERVICES = Arrays.asList(CreationService.class, UserService.class);
+    private static final List<Class<?>> MIGRATED_SERVICES = Arrays.asList(CreationService.class, UserService.class, GalleryService.class);
 
     private Context appContext;
 
@@ -140,7 +142,7 @@ public class ServiceGenerator {
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             objectMapper.setTimeZone(TimeZone.getTimeZone("UTC"));
-            JSONAPIConverterFactory converterFactory = new JSONAPIConverterFactory(objectMapper, Creation.class, User.class, NewUser.class, Upload.class);
+            JSONAPIConverterFactory converterFactory = new JSONAPIConverterFactory(objectMapper, Creation.class, User.class, NewUser.class, Upload.class, Gallery.class);
             converterFactory.setAlternativeFactory(JacksonConverterFactory.create(objectMapper));
             builder.addConverterFactory(converterFactory);
         } else {

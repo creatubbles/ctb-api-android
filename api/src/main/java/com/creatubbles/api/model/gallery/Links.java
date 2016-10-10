@@ -1,42 +1,55 @@
 package com.creatubbles.api.model.gallery;
 
-import com.google.gson.annotations.SerializedName;
+import android.support.annotation.Nullable;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Links {
 
-    @SerializedName("original")
     private String original;
 
-    @SerializedName("header_retina")
-    private String headerRetina;
+    @JsonProperty("list_view")
+    private String listView;
 
-    @SerializedName("header")
-    private String header;
+    @JsonProperty("list_view_retina")
+    private String listViewRetina;
 
-    @SerializedName("thumb_retina")
-    private String thumbRetina;
+    @JsonProperty("matrix_view_retina")
+    private String matrixViewRetina;
 
-    @SerializedName("thumb")
-    private String thumb;
+    @JsonProperty("matrix_view")
+    private String matrixView;
 
+    @JsonProperty("explore_mobile")
+    private String exploreMobile;
+
+    @Nullable
     public String getOriginal() {
         return original;
     }
 
-    public String getHeaderRetina() {
-        return headerRetina;
+    @Nullable
+    public String getListView() {
+        return listView;
     }
 
-    public String getHeader() {
-        return header;
+    @Nullable
+    public String getListViewRetina() {
+        return listViewRetina;
     }
 
-    public String getThumbRetina() {
-        return thumbRetina;
+    @Nullable
+    public String getMatrixViewRetina() {
+        return matrixViewRetina;
     }
 
-    public String getThumb() {
-        return thumb;
+    @Nullable
+    public String getMatrixView() {
+        return matrixView;
     }
 
+    @Nullable
+    public String getExploreMobile() {
+        return exploreMobile;
+    }
 }

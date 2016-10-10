@@ -96,7 +96,7 @@ public class User {
     }
 
     @JsonCreator
-    private User() {
+    public User() {
     }
 
     private User(String id) {
