@@ -2,8 +2,10 @@ package com.creatubbles.api.model.creation;
 
 import android.support.annotation.Nullable;
 
+import com.creatubbles.api.model.user.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.jasminb.jsonapi.annotations.Id;
+import com.github.jasminb.jsonapi.annotations.Relationship;
 import com.github.jasminb.jsonapi.annotations.Type;
 
 import java.util.Collections;
@@ -17,11 +19,11 @@ public class Creation {
     @Id
     private String id;
 
-/*    @Relationship("user")
-    private User user;*/
+    @Relationship("user")
+    private User user;
 
-/*    @Relationship("creators")
-    private List<User> creators;*/
+    @Relationship("creators")
+    private List<User> creators;
 
     @JsonProperty("name")
     private String name;
@@ -196,12 +198,24 @@ public class Creation {
         return playIframeUrl;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public List<User> getCreators() {
+        return creators;
+    }
+
     @Override
     public String toString() {
         return "Creation{" +
                 "id='" + id + '\'' +
-                //", user=" + user +
-                //", creators=" + creators +
+                ", user=" + user +
+                ", creators=" + creators +
                 ", name='" + name + '\'' +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
