@@ -3,9 +3,8 @@ package com.creatubbles.api.repository;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.upload.Upload;
 import com.creatubbles.api.request.CreationListRequest;
-import com.creatubbles.api.request.CreationRequest;
 import com.creatubbles.api.request.UploadRequest;
-import com.creatubbles.api.response.CallbackMapper;
+import com.creatubbles.api.response.BaseResponseMapper;
 import com.creatubbles.api.response.JsonApiResponseMapper;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.service.CreationService;
@@ -42,10 +41,10 @@ public class CreationRepositoryImpl implements CreationRepository {
     }
 
     @Override
-    public void updateCreation(String id, CreationRequest body,
+    public void updateCreation(String id, Creation creation,
                                ResponseCallback<Void> callback) {
-        Call<Void> call = creationService.updateCreation(id, body);
-        call.enqueue(new CallbackMapper<Void>().map(callback));
+        Call<Void> call = creationService.updateCreation(id, creation);
+        call.enqueue(new BaseResponseMapper<>(callback));
     }
 
     @Override
@@ -62,9 +61,9 @@ public class CreationRepositoryImpl implements CreationRepository {
     }
 
     @Override
-    public void updateCreationUpload(String pingUrl, ResponseCallback<String> callback) {
+    public void updateCreationUpload(String pingUrl, ResponseCallback<Void> callback) {
         String id = pingUrl.substring(pingUrl.lastIndexOf("/") + 1);
-        Call<String> call = creationService.updateCreationUpload(id);
-        call.enqueue(new CallbackMapper<String>().map(callback));
+        Call<Void> call = creationService.updateCreationUpload(id);
+        call.enqueue(new BaseResponseMapper<>(callback));
     }
 }

@@ -4,7 +4,6 @@ import com.creatubbles.api.EndPoints;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.upload.Upload;
 import com.creatubbles.api.request.CreationListRequest;
-import com.creatubbles.api.request.CreationRequest;
 import com.creatubbles.api.request.UploadRequest;
 import com.github.jasminb.jsonapi.JSONAPIDocument;
 
@@ -30,8 +29,7 @@ public interface CreationService {
     Call<JSONAPIDocument<Creation>> getCreationById(@Path("creationId") String creationId);
 
     @PUT(EndPoints.CREATIONS + "/{creationId}")
-    Call<Void> updateCreation(@Path("creationId") String creationId, @Body
-    CreationRequest body);
+    Call<Void> updateCreation(@Path("creationId") String creationId, @Body Creation body);
 
     @POST(EndPoints.CREATIONS)
     Call<JSONAPIDocument<Creation>> createCreation(@Body Creation creation);
@@ -40,5 +38,5 @@ public interface CreationService {
     Call<JSONAPIDocument<Upload>> createUpload(@Path("id") String id, @Body UploadRequest body);
 
     @PUT(EndPoints.PING_CREATIONS_UPLOADS)
-    Call<String> updateCreationUpload(@Path("id") String id);
+    Call<Void> updateCreationUpload(@Path("id") String id);
 }

@@ -363,11 +363,11 @@ public class MainActivity extends AppCompatActivity {
                                     .setAuthToken(authToken)
                                     .build();
                             creationRepository.updateCreationUpload(responseFromCreateUpload
-                                    .getPingUrl(), new ResponseCallback<String>() {
+                                    .getPingUrl(), new ResponseCallback<Void>() {
 
 
                                 @Override
-                                public void onSuccess(String response) {
+                                public void onSuccess(Void response) {
                                     Toast.makeText(MainActivity.this, "Successful uploading!", Toast
                                             .LENGTH_SHORT).show();
                                 }

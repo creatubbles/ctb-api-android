@@ -3,7 +3,6 @@ package com.creatubbles.api.repository;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.upload.Upload;
 import com.creatubbles.api.request.CreationListRequest;
-import com.creatubbles.api.request.CreationRequest;
 import com.creatubbles.api.request.UploadRequest;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.service.CreationService;
@@ -123,7 +122,7 @@ public class CreationRepositoryTest {
 
         mockCreationServiceAnswerForCreationUpdate(successfulAnswer);
 
-        target.updateCreation(any(String.class), any(CreationRequest.class),
+        target.updateCreation(any(String.class), any(Creation.class),
                 updateCreationResponseCallback);
 
         verify(updateCreationResponseCallback, never()).onError(any(String.class));
@@ -178,7 +177,7 @@ public class CreationRepositoryTest {
             return null;
         };
         mockCreationServiceAnswerForCreationUpdate(failedAnswer);
-        target.updateCreation(any(String.class), any(CreationRequest.class),
+        target.updateCreation(any(String.class), any(Creation.class),
                 updateCreationResponseCallback);
 
         verify(updateCreationResponseCallback).onError(ERROR_MESSAGE);
@@ -276,7 +275,7 @@ public class CreationRepositoryTest {
         doAnswer(answer).when(voidCall).enqueue(any());
 
         doReturn(voidCall).when(mockedCreationService).updateCreation(any(String.class), any
-                (CreationRequest.class));
+                (Creation.class));
     }
 
     private void mockCreationServiceAnswerForCreateCreation(Answer answer) {
