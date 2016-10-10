@@ -49,9 +49,9 @@ public class CreationRepositoryImpl implements CreationRepository {
     }
 
     @Override
-    public void createCreation(CreationRequest body, ResponseCallback<Creation>
+    public void createCreation(Creation creation, ResponseCallback<Creation>
             callback) {
-        Call<JSONAPIDocument<Creation>> call = creationService.createCreation(body);
+        Call<JSONAPIDocument<Creation>> call = creationService.createCreation(creation);
         call.enqueue(new JsonApiResponseMapper<>(callback));
     }
 

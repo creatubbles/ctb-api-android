@@ -34,7 +34,7 @@ public interface CreationService {
     CreationRequest body);
 
     @POST(EndPoints.CREATIONS)
-    Call<JSONAPIDocument<Creation>> createCreation(@Body CreationRequest body);
+    Call<JSONAPIDocument<Creation>> createCreation(@Body Creation creation);
 
     @POST(EndPoints.CREATIONS_UPLOADS)
     Call<UploadResponse> createUpload(@Path("id") String id, @Body UploadRequest body);

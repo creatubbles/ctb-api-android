@@ -22,7 +22,7 @@ public interface CreationRepository {
     void updateCreation(String id, CreationRequest body, ResponseCallback<Void>
             callback);
 
-    void createCreation(CreationRequest body, ResponseCallback<Creation> callback);
+    void createCreation(Creation creation, ResponseCallback<Creation> callback);
 
     void createUpload(String id, UploadRequest body, ResponseCallback<UploadResponse> callback);
 

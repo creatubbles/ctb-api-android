@@ -2,6 +2,7 @@ package com.creatubbles.api.model.user;
 
 import android.support.annotation.Nullable;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Type;
@@ -89,6 +90,18 @@ public class User {
     private String whatDoYouTeach;
 
     private String interests;
+
+    public static User withId(String id) {
+        return new User(id);
+    }
+
+    @JsonCreator
+    private User() {
+    }
+
+    private User(String id) {
+        this.id = id;
+    }
 
     public String getId() {
         return id;

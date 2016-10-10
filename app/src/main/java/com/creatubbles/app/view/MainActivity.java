@@ -42,7 +42,6 @@ import com.creatubbles.api.repository.UploadRepositoryBuilder;
 import com.creatubbles.api.repository.UserRepository;
 import com.creatubbles.api.repository.UserRepositoryBuilder;
 import com.creatubbles.api.request.CreateGalleryRequest;
-import com.creatubbles.api.request.CreationRequest;
 import com.creatubbles.api.request.UploadRequest;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.service.LandingUrlType;
@@ -50,6 +49,7 @@ import com.creatubbles.app.CreatubblesApplication;
 import com.creatubbles.app.R;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -237,13 +237,12 @@ public class MainActivity extends AppCompatActivity {
                 .setAuthToken(authToken)
                 .build();
 
-        CreationRequest.Builder body = new CreationRequest.Builder();
-        body.name("testCreation");
-        creationRepository.createCreation(body.build(), new
+        Creation newCreation = new Creation.Builder("testCreation", Collections.emptyList()).build();
+        creationRepository.createCreation(newCreation, new
                 ResponseCallback<Creation>() {
                     @Override
                     public void onSuccess(Creation response) {
-                        Toast.makeText(MainActivity.this, "success", Toast
+                        Toast.makeText(MainActivity.this, response.toString(), Toast
                                 .LENGTH_SHORT)
                                 .show();
                     }

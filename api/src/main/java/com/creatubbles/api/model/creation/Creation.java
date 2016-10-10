@@ -3,6 +3,7 @@ package com.creatubbles.api.model.creation;
 import android.support.annotation.Nullable;
 
 import com.creatubbles.api.model.user.User;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Relationship;
@@ -88,6 +89,18 @@ public class Creation {
 
     @JsonProperty("play_iframe_url")
     private String playIframeUrl;
+
+    @JsonCreator
+    private Creation() {
+    }
+
+    @SuppressWarnings("WeakerAccess")
+    Creation(String name, List<User> creators, String reflectionText, String reflectionVideoUrl) {
+        this.name = name;
+        this.creators = creators;
+        this.reflectionText = reflectionText;
+        this.reflectionVideoUrl = reflectionVideoUrl;
+    }
 
     public String getName() {
         return name;
@@ -239,4 +252,34 @@ public class Creation {
                 ", playIframeUrl='" + playIframeUrl + '\'' +
                 '}';
     }
+
+    public static class Builder {
+        private final String name;
+        private final List<User> creators;
+        private String reflectionVideoUrl;
+        private String reflectionText;
+
+
+        public Builder(String name, List<User> creators) {
+            this.name = name;
+            this.creators = creators;
+        }
+
+        public Builder setReflectionText(String reflectionText) {
+            this.reflectionText = reflectionText;
+            return this;
+        }
+
+        public Builder setReflectionVideoUrl(String reflectionVideoUrl) {
+            this.reflectionVideoUrl = reflectionVideoUrl;
+            return this;
+        }
+
+
+        public Creation build() {
+            return new Creation(name, creators, reflectionText, reflectionVideoUrl);
+        }
+    }
+
+
 }
