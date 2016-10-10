@@ -2,35 +2,33 @@ package com.creatubbles.api.model.creation;
 
 import android.support.annotation.Nullable;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Links {
 
-    @SerializedName("original")
     private String original;
 
-    @SerializedName("full_view")
+    @JsonProperty("full_view")
     private String fullView;
 
-    @SerializedName("list_view_retina")
+    @JsonProperty("list_view_retina")
     private String listViewRetina;
 
-    @SerializedName("list_view")
+    @JsonProperty("list_view")
     private String listView;
 
-    @SerializedName("matrix_view_retina")
+    @JsonProperty("matrix_view_retina")
     private String matrixViewRetina;
 
-    @SerializedName("matrix_view")
+    @JsonProperty("matrix_view")
     private String matrixView;
 
-    @SerializedName("gallery_mobile")
+    @JsonProperty("gallery_mobile")
     private String galleryMobile;
 
-    @SerializedName("explore_mobile")
+    @JsonProperty("explore_mobile")
     private String exploreMobile;
 
-    @SerializedName("share")
     private String share;
 
     @Nullable
