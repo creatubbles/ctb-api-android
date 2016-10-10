@@ -1,9 +1,10 @@
 package com.creatubbles.api.repository;
 
+import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
-import com.creatubbles.api.model.user.UserList;
-import com.creatubbles.api.request.CreatorRequest;
 import com.creatubbles.api.response.ResponseCallback;
+
+import java.util.List;
 
 /**
  * Created by Janek on 18.02.2016.
@@ -14,8 +15,8 @@ public interface UserRepository {
 
     void getUser(ResponseCallback<User> callback);
 
-    void getUsersList(ResponseCallback<UserList> callback);
+    void getUsersList(ResponseCallback<List<User>> callback);
 
-    void createUser(CreatorRequest creatorRequest, ResponseCallback<User> callback);
+    void createUser(NewUser newUser, ResponseCallback<User> callback);
 
 }

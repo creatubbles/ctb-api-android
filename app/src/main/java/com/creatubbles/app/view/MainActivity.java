@@ -27,9 +27,8 @@ import com.creatubbles.api.model.UploadResponse;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.gallery.Gallery;
 import com.creatubbles.api.model.url.LandingUrl;
-import com.creatubbles.api.model.user.Data;
+import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
-import com.creatubbles.api.model.user.UserList;
 import com.creatubbles.api.repository.CreationRepository;
 import com.creatubbles.api.repository.CreationRepositoryBuilder;
 import com.creatubbles.api.repository.GalleryRepository;
@@ -44,7 +43,6 @@ import com.creatubbles.api.repository.UserRepository;
 import com.creatubbles.api.repository.UserRepositoryBuilder;
 import com.creatubbles.api.request.CreateGalleryRequest;
 import com.creatubbles.api.request.CreationRequest;
-import com.creatubbles.api.request.CreatorRequest;
 import com.creatubbles.api.request.UploadRequest;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.service.LandingUrlType;
@@ -52,6 +50,7 @@ import com.creatubbles.app.CreatubblesApplication;
 import com.creatubbles.app.R;
 
 import java.io.File;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -174,11 +173,11 @@ public class MainActivity extends AppCompatActivity {
                 .setAuthToken(authToken)
                 .build();
 
-        userRepository.getUsersList(new ResponseCallback<UserList>() {
+        userRepository.getUsersList(new ResponseCallback<List<User>>() {
             @Override
-            public void onSuccess(UserList response) {
-                for (Data creator : response.getData()) {
-                    Toast.makeText(MainActivity.this, creator.getAttributes().toString(), Toast
+            public void onSuccess(List<User> response) {
+                for (User creator : response) {
+                    Toast.makeText(MainActivity.this, creator.toString(), Toast
                             .LENGTH_SHORT).show();
                 }
                 Toast.makeText(MainActivity.this, "success", Toast
@@ -207,13 +206,12 @@ public class MainActivity extends AppCompatActivity {
                 .setAuthToken(authToken)
                 .build();
 
-        CreatorRequest user = new CreatorRequest.Builder("testCreator", "testName", 2000, 3,
-                "EN").build();
+        NewUser user = new NewUser.Builder("testCreator90123")
+                .build();
         userRepository.createUser(user, new ResponseCallback<User>() {
             @Override
             public void onSuccess(User response) {
-                Toast.makeText(MainActivity.this, response.getData()
-                        .getAttributes().getName(), Toast
+                Toast.makeText(MainActivity.this, response.toString(), Toast
                         .LENGTH_SHORT)
                         .show();
             }
