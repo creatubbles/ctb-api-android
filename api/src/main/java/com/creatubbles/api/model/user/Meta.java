@@ -1,9 +1,9 @@
 
-package com.creatubbles.api.model.creator;
+package com.creatubbles.api.model.user;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Meta {
@@ -18,10 +18,13 @@ public class Meta {
     private Integer currentPage;
 
     @SerializedName("abilities")
-    private List<Ability> abilities = new ArrayList<>();
+    private List<Ability> abilities = Collections.emptyList();
 
     @SerializedName("user_bubbled_users")
-    private List<Object> userBubbledUsers = new ArrayList<>();
+    private List<String> userBubbledUsers = Collections.emptyList();
+
+    @SerializedName("followed_users")
+    private List<String> followedUsers = Collections.emptyList();
 
     public Integer getTotalPages() {
         return totalPages;
@@ -39,7 +42,11 @@ public class Meta {
         return abilities;
     }
 
-    public List<Object> getUserBubbledUsers() {
+    public List<String> getUserBubbledUsers() {
         return userBubbledUsers;
+    }
+
+    public List<String> getFollowedUsers() {
+        return followedUsers;
     }
 }

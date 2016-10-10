@@ -6,10 +6,12 @@ import com.creatubbles.api.converter.ApprovalStatusTypeAdapter;
 import com.creatubbles.api.converter.GsonUTCDateAdapter;
 import com.creatubbles.api.converter.ImageStatusTypeAdapter;
 import com.creatubbles.api.converter.NullOnEmptyConverterFactory;
+import com.creatubbles.api.converter.RoleTypeAdapter;
 import com.creatubbles.api.interceptor.CreatubbleInterceptor;
 import com.creatubbles.api.model.AuthToken;
 import com.creatubbles.api.model.creation.ApprovalStatus;
 import com.creatubbles.api.model.creation.ImageStatus;
+import com.creatubbles.api.model.user.Role;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -51,6 +53,7 @@ public class ServiceGenerator {
                 .registerTypeAdapter(ImageStatus.class, new ImageStatusTypeAdapter())
                 .registerTypeAdapter(ApprovalStatus.class, new ApprovalStatusTypeAdapter())
                 .registerTypeAdapter(Date.class, new GsonUTCDateAdapter())
+                .registerTypeAdapter(Role.class, new RoleTypeAdapter())
                 .create();
 
         builder = new Retrofit.Builder()

@@ -25,11 +25,11 @@ import com.creatubbles.api.model.CreationResponse;
 import com.creatubbles.api.model.GalleryResponse;
 import com.creatubbles.api.model.LandingUrlResponse;
 import com.creatubbles.api.model.UploadResponse;
-import com.creatubbles.api.model.UserListResponse;
-import com.creatubbles.api.model.creator.Datum;
 import com.creatubbles.api.model.gallery.Gallery;
 import com.creatubbles.api.model.url.LandingUrl;
+import com.creatubbles.api.model.user.Data;
 import com.creatubbles.api.model.user.User;
+import com.creatubbles.api.model.user.UserList;
 import com.creatubbles.api.repository.CreationRepository;
 import com.creatubbles.api.repository.CreationRepositoryBuilder;
 import com.creatubbles.api.repository.GalleryRepository;
@@ -174,10 +174,10 @@ public class MainActivity extends AppCompatActivity {
                 .setAuthToken(authToken)
                 .build();
 
-        userRepository.getUsersList(new ResponseCallback<UserListResponse>() {
+        userRepository.getUsersList(new ResponseCallback<UserList>() {
             @Override
-            public void onSuccess(UserListResponse response) {
-                for (Datum creator : response.getData()) {
+            public void onSuccess(UserList response) {
+                for (Data creator : response.getData()) {
                     Toast.makeText(MainActivity.this, creator.getAttributes().toString(), Toast
                             .LENGTH_SHORT).show();
                 }

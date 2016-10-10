@@ -1,9 +1,8 @@
 package com.creatubbles.api.service;
 
 import com.creatubbles.api.EndPoints;
-import com.creatubbles.api.model.CreatorResponse;
-import com.creatubbles.api.model.UserListResponse;
 import com.creatubbles.api.model.user.User;
+import com.creatubbles.api.model.user.UserList;
 import com.creatubbles.api.request.CreatorRequest;
 
 import retrofit2.Call;
@@ -24,7 +23,7 @@ public interface UserService {
     Call<User> getUser();
 
     @GET(EndPoints.USERS)
-    Call<UserListResponse> getUsers();
+    Call<UserList> getUsers();
 
     @POST(EndPoints.CREATORS)
     Call<User> createUser(@Body CreatorRequest creatorRequest);

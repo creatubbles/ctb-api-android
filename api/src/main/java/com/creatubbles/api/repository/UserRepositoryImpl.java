@@ -1,7 +1,7 @@
 package com.creatubbles.api.repository;
 
-import com.creatubbles.api.model.UserListResponse;
 import com.creatubbles.api.model.user.User;
+import com.creatubbles.api.model.user.UserList;
 import com.creatubbles.api.request.CreatorRequest;
 import com.creatubbles.api.response.CallbackMapper;
 import com.creatubbles.api.response.ResponseCallback;
@@ -33,9 +33,9 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void getUsersList(ResponseCallback<UserListResponse> callback) {
-        Call<UserListResponse> call = userService.getUsers();
-        call.enqueue(new CallbackMapper<UserListResponse>().map(callback));
+    public void getUsersList(ResponseCallback<UserList> callback) {
+        Call<UserList> call = userService.getUsers();
+        call.enqueue(new CallbackMapper<UserList>().map(callback));
     }
 
     @Override
