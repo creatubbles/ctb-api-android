@@ -26,13 +26,12 @@ public class GalleryRepositoryBuilder {
         if (hasValidParameters()) {
             DaggerApiComponent.builder().apiModule(new ApiModule(context, authToken)).build()
                     .inject(this);
-            GalleryRepository galleryRepository = new GalleryRepositoryImpl(galleryService);
-            return galleryRepository;
+            return new GalleryRepositoryImpl(galleryService);
         }
         throw new InvalidParametersException("Missing application context or authorization token!");
     }
 
-    public boolean hasValidParameters() {
+    private boolean hasValidParameters() {
         return authToken != null && context != null;
     }
 

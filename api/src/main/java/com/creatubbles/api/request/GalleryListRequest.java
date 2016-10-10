@@ -20,7 +20,7 @@ public class GalleryListRequest {
     @SerializedName("user_id")
     private final String userId;
 
-    public GalleryListRequest(Builder builder) {
+    private GalleryListRequest(Builder builder) {
         this.page = builder.page;
         this.perPage = builder.perPage;
         this.sort = builder.sort;

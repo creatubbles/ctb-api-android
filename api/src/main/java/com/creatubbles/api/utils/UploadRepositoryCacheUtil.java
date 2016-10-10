@@ -58,8 +58,7 @@ public class UploadRepositoryCacheUtil {
         initPrefs(context);
         LinkedHashSet<String> uploadFileNameSet = (LinkedHashSet<String>)Prefs.getOrderedStringSet(UploadRepositoryCacheUtil.UPLOAD_FILE_NAME_SET_KEY, new LinkedHashSet<String>());
 
-        boolean value = uploadFileNameSet.isEmpty() ? true : false;
-        return value;
+        return uploadFileNameSet.isEmpty();
     }
 
     public static void sendFileFromCache(Context context) {

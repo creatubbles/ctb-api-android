@@ -27,7 +27,7 @@ public class CreationListRequest {
     @SerializedName("search")
     private final String keyword;
 
-    public CreationListRequest(Builder builder) {
+    private CreationListRequest(Builder builder) {
         this.page = builder.page;
         this.perPage = builder.perPage;
         this.galleryId = builder.galleryId;

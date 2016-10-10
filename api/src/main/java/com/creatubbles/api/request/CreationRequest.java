@@ -25,7 +25,7 @@ public class CreationRequest {
     @SerializedName("reflection_video_url")
     private final String reflectionVideoUrl;
 
-    CreationRequest(Builder builder) {
+    private CreationRequest(Builder builder) {
         this.name = builder.name;
         this.creatorIds = builder.creatorIds;
         this.createdAtMonth = builder.createdAtMonth;

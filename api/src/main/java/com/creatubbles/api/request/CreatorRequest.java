@@ -25,7 +25,7 @@ public class CreatorRequest {
     @SerializedName("gender")
     private final Integer gender;
 
-    public CreatorRequest(Builder builder) {
+    private CreatorRequest(Builder builder) {
         this.name = builder.name;
         this.displayName = builder.displayName;
         this.birthYear = builder.birthYear;

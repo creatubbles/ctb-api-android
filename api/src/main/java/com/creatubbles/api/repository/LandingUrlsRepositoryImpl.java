@@ -14,7 +14,7 @@ import retrofit2.Call;
  */
 public class LandingUrlsRepositoryImpl implements LandingUrlsRepository {
 
-    LandingUrlsService landingUrlsService;
+    private LandingUrlsService landingUrlsService;
 
     public LandingUrlsRepositoryImpl(LandingUrlsService landingUrlsService) {
         this.landingUrlsService = landingUrlsService;
