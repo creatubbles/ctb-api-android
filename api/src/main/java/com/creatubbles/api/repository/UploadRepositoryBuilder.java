@@ -22,14 +22,13 @@ public class UploadRepositoryBuilder {
     public UploadRepository build() {
         if (hasValidParameters()) {
             DaggerApiComponent.builder().apiModule(new ApiModule(context)).build().inject(this);
-            UploadRepository uploadRepository = new UploadRepositoryImpl(uploadService, context);
-            return uploadRepository;
+            return new UploadRepositoryImpl(uploadService, context);
         }
         throw new InvalidParametersException("Missing application context!");
     }
 
 
-    public boolean hasValidParameters() {
+    private boolean hasValidParameters() {
         return context != null;
     }
 

@@ -13,7 +13,7 @@ import retrofit2.Call;
  */
 public class OAuthRepositoryImpl implements OAuthRepository {
 
-    OAuthService oAuthService;
+    private OAuthService oAuthService;
 
     private String clientId;
 

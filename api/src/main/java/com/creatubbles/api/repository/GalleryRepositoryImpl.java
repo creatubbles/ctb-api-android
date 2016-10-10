@@ -2,7 +2,6 @@ package com.creatubbles.api.repository;
 
 import com.creatubbles.api.model.CreateGalleryResponse;
 import com.creatubbles.api.model.GalleryResponse;
-import com.creatubbles.api.model.gallery.Gallery;
 import com.creatubbles.api.request.CreateGalleryRequest;
 import com.creatubbles.api.response.CallbackMapper;
 import com.creatubbles.api.response.ResponseCallback;
@@ -15,7 +14,7 @@ import retrofit2.Call;
  */
 public class GalleryRepositoryImpl implements GalleryRepository {
 
-    GalleryService galleryService;
+    private GalleryService galleryService;
 
     public GalleryRepositoryImpl(GalleryService galleryService) {
         this.galleryService = galleryService;

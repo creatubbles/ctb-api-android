@@ -14,7 +14,7 @@ import retrofit2.Call;
  */
 public class UserRepositoryImpl implements UserRepository {
 
-    public UserService userService;
+    private UserService userService;
 
     public UserRepositoryImpl(UserService service) {
         this.userService = service;

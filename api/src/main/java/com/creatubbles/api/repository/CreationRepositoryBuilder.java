@@ -25,13 +25,12 @@ public class CreationRepositoryBuilder {
         if (hasValidParameters()) {
             DaggerApiComponent.builder().apiModule(new ApiModule(context, authToken)).build()
                     .inject(this);
-            CreationRepository creationRepository = new CreationRepositoryImpl(creationService);
-            return creationRepository;
+            return new CreationRepositoryImpl(creationService);
         }
         throw new InvalidParametersException("Missing application context or authorization token!");
     }
 
-    public boolean hasValidParameters() {
+    private boolean hasValidParameters() {
         return authToken != null && context != null;
     }
 

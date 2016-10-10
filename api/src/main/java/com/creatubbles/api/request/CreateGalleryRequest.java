@@ -19,7 +19,7 @@ public class CreateGalleryRequest {
     @SerializedName("ownerId")
     private final String ownerId;
 
-    public CreateGalleryRequest(Builder builder) {
+    private CreateGalleryRequest(Builder builder) {
         this.name = builder.name;
         this.description = builder.description;
         this.openForAll = builder.openForAll;
