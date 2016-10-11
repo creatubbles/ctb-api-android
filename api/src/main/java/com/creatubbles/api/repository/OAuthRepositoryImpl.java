@@ -1,8 +1,8 @@
 package com.creatubbles.api.repository;
 
 import com.creatubbles.api.model.AuthToken;
-import com.creatubbles.api.response.CallbackMapper;
 import com.creatubbles.api.response.ResponseCallback;
+import com.creatubbles.api.response.SameResponseMapper;
 import com.creatubbles.api.service.GrantType;
 import com.creatubbles.api.service.OAuthService;
 
@@ -26,14 +26,14 @@ public class OAuthRepositoryImpl implements OAuthRepository {
     @Override
     public void authorize(ResponseCallback<AuthToken> callback) {
         Call<AuthToken> call = oAuthService.getAccessToken(clientId, clientSecret, GrantType.CLIENT_CREDENTIALS);
-        call.enqueue(new CallbackMapper<AuthToken>().map(callback));
+        call.enqueue(new SameResponseMapper<>(callback));
     }
 
     @Override
     public void authorize(String login, String password, ResponseCallback<AuthToken> callback) {
         Call<AuthToken> call = oAuthService.getAccessToken(clientId, clientSecret, GrantType.PASSWORD, login,
                 password);
-        call.enqueue(new CallbackMapper<AuthToken>().map(callback));
+        call.enqueue(new SameResponseMapper<>(callback));
     }
 
     public void setClientId(String clientId) {
