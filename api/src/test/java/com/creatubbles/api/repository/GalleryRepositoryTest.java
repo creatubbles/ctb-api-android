@@ -3,6 +3,7 @@ package com.creatubbles.api.repository;
 import com.creatubbles.api.model.gallery.Gallery;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.service.GalleryService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jasminb.jsonapi.JSONAPIDocument;
 
 import org.junit.Before;
@@ -47,7 +48,7 @@ public class GalleryRepositoryTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        target = new GalleryRepositoryImpl(mockedGalleryService);
+        target = new GalleryRepositoryImpl(new ObjectMapper(), mockedGalleryService);
     }
 
     @SuppressWarnings("unchecked")

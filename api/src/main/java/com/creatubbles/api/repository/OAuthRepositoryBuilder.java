@@ -8,6 +8,7 @@ import com.creatubbles.api.di.components.DaggerApiComponent;
 import com.creatubbles.api.di.modules.ApiModule;
 import com.creatubbles.api.exception.InvalidParametersException;
 import com.creatubbles.api.service.OAuthService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.inject.Inject;
 
@@ -16,6 +17,9 @@ public class OAuthRepositoryBuilder {
 
     @Inject
     OAuthService oAuthService;
+
+    @Inject
+    ObjectMapper objectMapper;
 
     private String clientId;
     private String clientSecret;
@@ -26,7 +30,7 @@ public class OAuthRepositoryBuilder {
             EndPoints.SET_STAGING = false;
             EndPoints.URL_BASE_STAGING = null;
             DaggerApiComponent.builder().apiModule(new ApiModule(context)).build().inject(this);
-            OAuthRepository oAuthRepository = new OAuthRepositoryImpl(oAuthService);
+            OAuthRepository oAuthRepository = new OAuthRepositoryImpl(objectMapper, oAuthService);
             oAuthRepository.setClientId(clientId);
             oAuthRepository.setClientSecret(clientSecret);
             return oAuthRepository;
@@ -40,7 +44,7 @@ public class OAuthRepositoryBuilder {
             EndPoints.SET_STAGING = true;
             EndPoints.URL_BASE_STAGING = stagingUrl;
             DaggerApiComponent.builder().apiModule(new ApiModule(context)).build().inject(this);
-            OAuthRepository oAuthRepository = new OAuthRepositoryImpl(oAuthService);
+            OAuthRepository oAuthRepository = new OAuthRepositoryImpl(objectMapper, oAuthService);
             oAuthRepository.setClientId(clientId);
             oAuthRepository.setClientSecret(clientSecret);
             return oAuthRepository;

@@ -1,13 +1,14 @@
 package com.creatubbles.api.response;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jasminb.jsonapi.JSONAPIDocument;
 
 import retrofit2.Response;
 
 public class JsonApiResponseMapper<T> extends BaseResponseMapper<JSONAPIDocument<T>, T> {
 
-    public JsonApiResponseMapper(ResponseCallback<T> responseCallback) {
-        super(responseCallback);
+    public JsonApiResponseMapper(ObjectMapper objectMapper, ResponseCallback<T> responseCallback) {
+        super(objectMapper, responseCallback);
     }
 
     @Override

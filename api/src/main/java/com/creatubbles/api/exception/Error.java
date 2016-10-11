@@ -30,4 +30,14 @@ public class Error {
         return detail;
     }
 
+    @Override
+    public String toString() {
+        return "Error{" +
+                "status=" + status +
+                ", code='" + code + '\'' +
+                ", source='" + source + '\'' +
+                ", title='" + title + '\'' +
+                ", detail='" + detail + '\'' +
+                '}';
+    }
 }

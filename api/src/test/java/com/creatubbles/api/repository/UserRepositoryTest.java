@@ -6,6 +6,7 @@ import com.creatubbles.api.model.user.User;
 import com.creatubbles.api.request.ISO_3166_CountryCode;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jasminb.jsonapi.JSONAPIDocument;
 
 import org.junit.Before;
@@ -64,7 +65,7 @@ public class UserRepositoryTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        target = new UserRepositoryImpl(mockedUserService);
+        target = new UserRepositoryImpl(new ObjectMapper(), mockedUserService);
     }
 
 

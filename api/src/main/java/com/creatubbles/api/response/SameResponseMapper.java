@@ -1,10 +1,12 @@
 package com.creatubbles.api.response;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import retrofit2.Response;
 
 public class SameResponseMapper<T> extends BaseResponseMapper<T, T> {
-    public SameResponseMapper(ResponseCallback<T> responseCallback) {
-        super(responseCallback);
+    public SameResponseMapper(ObjectMapper objectMapper, ResponseCallback<T> responseCallback) {
+        super(objectMapper, responseCallback);
     }
 
     @Override

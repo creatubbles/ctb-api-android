@@ -4,6 +4,7 @@ import com.creatubbles.api.model.AuthToken;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.service.GrantType;
 import com.creatubbles.api.service.OAuthService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.junit.After;
 import org.junit.Before;
@@ -47,7 +48,7 @@ public class OAuthRepositoryTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        target = new OAuthRepositoryImpl(mockedOAuthService);
+        target = new OAuthRepositoryImpl(new ObjectMapper(), mockedOAuthService);
     }
 
     @After

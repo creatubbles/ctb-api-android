@@ -2,9 +2,10 @@ package com.creatubbles.api.repository;
 
 import android.content.Context;
 
-import com.creatubbles.api.response.CallbackMapper;
+import com.creatubbles.api.response.CachedResponseMapper;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.service.UploadService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 
@@ -19,10 +20,12 @@ import retrofit2.Call;
 public class UploadRepositoryImpl implements UploadRepository {
 
     private UploadService uploadService;
+    private ObjectMapper objectMapper;
 
     private Context context;
 
-    public UploadRepositoryImpl(UploadService uploadService, Context context) {
+    public UploadRepositoryImpl(ObjectMapper objectMapper, UploadService uploadService, Context context) {
+        this.objectMapper = objectMapper;
         this.uploadService = uploadService;
         this.context = context;
     }
@@ -33,7 +36,7 @@ public class UploadRepositoryImpl implements UploadRepository {
         RequestBody requestBody = RequestBody.create(contentType, file);
 
         Call<String> call = uploadService.uploadFile(url, requestBody);
-        call.enqueue(new CallbackMapper<String>().mapWithCache(url, contentType, file
+        call.enqueue(new CachedResponseMapper<>(objectMapper, url, contentType, file
                 .getAbsolutePath(), context, callback));
     }
 

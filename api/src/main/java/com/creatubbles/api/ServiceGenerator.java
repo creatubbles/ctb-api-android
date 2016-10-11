@@ -14,7 +14,6 @@ import com.creatubbles.api.service.CreationService;
 import com.creatubbles.api.service.GalleryService;
 import com.creatubbles.api.service.LandingUrlsService;
 import com.creatubbles.api.service.UserService;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jasminb.jsonapi.retrofit.JSONAPIConverterFactory;
 
@@ -23,7 +22,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
@@ -43,8 +41,11 @@ public class ServiceGenerator {
 
     private Retrofit.Builder builder;
 
-    public ServiceGenerator(Context context) {
+    private ObjectMapper objectMapper;
+
+    public ServiceGenerator(Context context, ObjectMapper objectMapper) {
         appContext = context;
+        this.objectMapper = objectMapper;
         initialize();
     }
 
@@ -59,9 +60,6 @@ public class ServiceGenerator {
                 .baseUrl(EndPoints.URL_BASE)
                 .client(client);
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        objectMapper.setTimeZone(TimeZone.getTimeZone("UTC"));
         JSONAPIConverterFactory converterFactory = new JSONAPIConverterFactory(objectMapper, Creation.class, User.class, NewUser.class, Upload.class, Gallery.class, LandingUrl.class);
         converterFactory.setAlternativeFactory(JacksonConverterFactory.create(objectMapper));
         builder.addConverterFactory(converterFactory);

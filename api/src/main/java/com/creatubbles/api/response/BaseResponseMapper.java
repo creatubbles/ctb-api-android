@@ -14,9 +14,11 @@ import retrofit2.Response;
  * @param <C> type returned to caller through {@link ResponseCallback}
  */
 public class BaseResponseMapper<T, C> implements Callback<T> {
-    private final ResponseCallback<C> responseCallback;
+    protected final ResponseCallback<C> responseCallback;
+    private final ObjectMapper objectMapper;
 
-    public BaseResponseMapper(ResponseCallback<C> responseCallback) {
+    public BaseResponseMapper(ObjectMapper objectMapper, ResponseCallback<C> responseCallback) {
+        this.objectMapper = objectMapper;
         this.responseCallback = responseCallback;
     }
 
@@ -26,16 +28,22 @@ public class BaseResponseMapper<T, C> implements Callback<T> {
             if (response.isSuccessful()) {
                 responseCallback.onSuccess(processResponse(response));
             } else if (response.message() != null) {
-                ObjectMapper objectMapper = new ObjectMapper();
-                try {
-                    ErrorResponse errorResponse = objectMapper.readValue(response.errorBody().byteStream(),
-                            ErrorResponse.class);
-                    responseCallback.onServerError(errorResponse);
-                } catch (IOException e) {
-                    responseCallback.onError(e.getMessage());
-                }
+                handleUnsuccessfullResponse(response);
             }
         }
+    }
+
+    protected void handleUnsuccessfullResponse(Response<T> response) {
+        try {
+            ErrorResponse errorResponse = getErrorResponse(response);
+            responseCallback.onServerError(errorResponse);
+        } catch (IOException e) {
+            responseCallback.onError(e.getMessage());
+        }
+    }
+
+    protected ErrorResponse getErrorResponse(Response<T> response) throws IOException {
+        return objectMapper.readValue(response.errorBody().byteStream(), ErrorResponse.class);
     }
 
     protected C processResponse(Response<T> response) {

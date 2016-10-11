@@ -2,6 +2,7 @@ package com.creatubbles.api.repository;
 
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.service.UploadService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -69,7 +70,7 @@ public class UploadRepositoryTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        target = new UploadRepositoryImpl(mockedUploadService, RuntimeEnvironment.application);
+        target = new UploadRepositoryImpl(new ObjectMapper(), mockedUploadService, RuntimeEnvironment.application);
         file = new File("");
         mediaType = MediaType.parse("test/type");
     }

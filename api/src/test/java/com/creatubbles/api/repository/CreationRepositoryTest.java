@@ -6,6 +6,7 @@ import com.creatubbles.api.request.CreationListRequest;
 import com.creatubbles.api.request.UploadRequest;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.service.CreationService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jasminb.jsonapi.JSONAPIDocument;
 
 import org.junit.Before;
@@ -63,7 +64,7 @@ public class CreationRepositoryTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        target = new CreationRepositoryImpl(mockedCreationService);
+        target = new CreationRepositoryImpl(new ObjectMapper(), mockedCreationService);
     }
 
     @SuppressWarnings("unchecked")

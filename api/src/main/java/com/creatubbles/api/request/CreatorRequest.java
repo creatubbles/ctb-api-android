@@ -1,31 +1,29 @@
 package com.creatubbles.api.request;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by Janek on 11.02.2016.
  */
 public class CreatorRequest {
 
-    @SerializedName("name")
     private final String name;
 
-    @SerializedName("display_name")
+    @JsonProperty("display_name")
     private final String displayName;
 
-    @SerializedName("birth_year")
+    @JsonProperty("birth_year")
     private final Integer birthYear;
 
-    @SerializedName("birth_month")
+    @JsonProperty("birth_month")
     private final Integer birthMonth;
 
-    @SerializedName("country")
     private final String country;
 
-    @SerializedName("gender")
     private final Integer gender;
 
-    private CreatorRequest(Builder builder) {
+    @SuppressWarnings("WeakerAccess")
+    CreatorRequest(Builder builder) {
         this.name = builder.name;
         this.displayName = builder.displayName;
         this.birthYear = builder.birthYear;
@@ -36,12 +34,12 @@ public class CreatorRequest {
 
     public static class Builder {
 
-        private final String name;
-        private final String displayName;
-        private final Integer birthYear;
-        private final Integer birthMonth;
-        private final String country;
-        private Integer gender;
+        final String name;
+        final String displayName;
+        final Integer birthYear;
+        final Integer birthMonth;
+        final String country;
+        Integer gender;
 
         public Builder(String name, String displayName, Integer birthYear, Integer birthMonth,
                        String country) {
