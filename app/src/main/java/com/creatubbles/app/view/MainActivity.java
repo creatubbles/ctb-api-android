@@ -20,11 +20,11 @@ import com.creatubbles.api.ContentType;
 import com.creatubbles.api.OAuthUtil;
 import com.creatubbles.api.exception.ErrorResponse;
 import com.creatubbles.api.model.AuthToken;
-import com.creatubbles.api.model.LandingUrlResponse;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.gallery.Gallery;
+import com.creatubbles.api.model.landing_url.LandingUrl;
+import com.creatubbles.api.model.landing_url.LandingUrlType;
 import com.creatubbles.api.model.upload.Upload;
-import com.creatubbles.api.model.url.LandingUrl;
 import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
 import com.creatubbles.api.repository.CreationRepository;
@@ -41,7 +41,6 @@ import com.creatubbles.api.repository.UserRepository;
 import com.creatubbles.api.repository.UserRepositoryBuilder;
 import com.creatubbles.api.request.UploadRequest;
 import com.creatubbles.api.response.ResponseCallback;
-import com.creatubbles.api.service.LandingUrlType;
 import com.creatubbles.app.CreatubblesApplication;
 import com.creatubbles.app.R;
 
@@ -451,11 +450,11 @@ public class MainActivity extends AppCompatActivity {
         LandingUrlsRepository repository = new LandingUrlsRepositoryBuilder().setContext
                 (getApplicationContext()).setAuthToken(authToken).build();
 
-        repository.getLandingUrls(new ResponseCallback<LandingUrlResponse>() {
+        repository.getLandingUrls(new ResponseCallback<List<LandingUrl>>() {
             @Override
-            public void onSuccess(LandingUrlResponse response) {
-                for (com.creatubbles.api.model.url.Data url : response.getLandingUrlList()) {
-                    Toast.makeText(MainActivity.this, url.getAttributes().getUrl(), Toast
+            public void onSuccess(List<LandingUrl> response) {
+                for (LandingUrl url : response) {
+                    Toast.makeText(MainActivity.this, url.toString(), Toast
                             .LENGTH_SHORT).show();
                 }
 
@@ -484,8 +483,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onSuccess(LandingUrl response) {
-                        Toast.makeText(MainActivity.this, response.getData().getAttributes()
-                                .getUrl(), Toast
+                        Toast.makeText(MainActivity.this, response.toString(), Toast
                                 .LENGTH_SHORT).show();
                     }
 
@@ -506,8 +504,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onSuccess(LandingUrl response) {
-                        Toast.makeText(MainActivity.this, response.getData().getAttributes()
-                                .getUrl(), Toast
+                        Toast.makeText(MainActivity.this, response.toString(), Toast
                                 .LENGTH_SHORT).show();
                     }
 
