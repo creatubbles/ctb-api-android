@@ -1,11 +1,12 @@
 package com.creatubbles.api.model.gallery;
 
-public class Banner {
+import com.creatubbles.api.model.ImageLinks;
+
 public class Banner {
 
-    private Links links;
+    private ImageLinks links;
 
-    public Links getLinks() {
+    public ImageLinks getLinks() {
         return links;
     }
 

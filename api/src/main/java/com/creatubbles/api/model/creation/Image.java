@@ -2,9 +2,9 @@ package com.creatubbles.api.model.creation;
 
 public class Image {
 
-    private Links links;
+    private CreationImageLinks links;
 
-    public Links getLinks() {
+    public CreationImageLinks getLinks() {
         return links;
     }
 
