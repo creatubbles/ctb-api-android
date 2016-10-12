@@ -32,7 +32,7 @@ public class CachedResponseMapper<T> extends SameResponseMapper<T> {
         if (responseCallback != null) {
             if (response.isSuccessful()) {
                 UploadRepositoryCacheUtil.removeFileFromSendCache(url, contentType, fileName, context);
-                processResponse(response);
+                responseCallback.onSuccess(processResponse(response));
             } else if (response.message() != null) {
                 UploadRepositoryCacheUtil.addFileToSendCache(url, contentType, fileName, context);
                 handleUnsuccessfullResponse(response);
