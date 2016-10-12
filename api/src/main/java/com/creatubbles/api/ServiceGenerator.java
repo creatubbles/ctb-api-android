@@ -10,15 +10,10 @@ import com.creatubbles.api.model.landing_url.LandingUrl;
 import com.creatubbles.api.model.upload.Upload;
 import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
-import com.creatubbles.api.service.CreationService;
-import com.creatubbles.api.service.GalleryService;
-import com.creatubbles.api.service.LandingUrlsService;
-import com.creatubbles.api.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jasminb.jsonapi.retrofit.JSONAPIConverterFactory;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,8 +29,6 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
  * Created by Janek on 08.02.2016.
  */
 public class ServiceGenerator {
-
-    private static final List<Class<?>> MIGRATED_SERVICES = Arrays.asList(CreationService.class, UserService.class, GalleryService.class, LandingUrlsService.class);
 
     private Context appContext;
 
