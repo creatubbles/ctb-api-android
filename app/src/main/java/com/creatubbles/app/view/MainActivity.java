@@ -20,6 +20,7 @@ import com.creatubbles.api.ContentType;
 import com.creatubbles.api.OAuthUtil;
 import com.creatubbles.api.exception.ErrorResponse;
 import com.creatubbles.api.model.AuthToken;
+import com.creatubbles.api.model.CtbResponse;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.gallery.Gallery;
 import com.creatubbles.api.model.landing_url.LandingUrl;
@@ -169,10 +170,10 @@ public class MainActivity extends AppCompatActivity {
                 .setAuthToken(authToken)
                 .build();
 
-        userRepository.getUsersList(new ResponseCallback<List<User>>() {
+        userRepository.getUsersList(new ResponseCallback<CtbResponse<List<User>>>() {
             @Override
-            public void onSuccess(List<User> response) {
-                for (User creator : response) {
+            public void onSuccess(CtbResponse<List<User>> response) {
+                for (User creator : response.getData()) {
                     Toast.makeText(MainActivity.this, creator.toString(), Toast
                             .LENGTH_SHORT).show();
                 }
@@ -204,9 +205,9 @@ public class MainActivity extends AppCompatActivity {
 
         NewUser user = new NewUser.Builder("testCreator90123")
                 .build();
-        userRepository.createUser(user, new ResponseCallback<User>() {
+        userRepository.createUser(user, new ResponseCallback<CtbResponse<User>>() {
             @Override
-            public void onSuccess(User response) {
+            public void onSuccess(CtbResponse<User> response) {
                 Toast.makeText(MainActivity.this, response.toString(), Toast
                         .LENGTH_SHORT)
                         .show();
@@ -235,9 +236,9 @@ public class MainActivity extends AppCompatActivity {
 
         Creation newCreation = new Creation.Builder("testCreation", Collections.emptyList()).build();
         creationRepository.createCreation(newCreation, new
-                ResponseCallback<Creation>() {
+                ResponseCallback<CtbResponse<Creation>>() {
                     @Override
-                    public void onSuccess(Creation response) {
+                    public void onSuccess(CtbResponse<Creation> response) {
                         Toast.makeText(MainActivity.this, response.toString(), Toast
                                 .LENGTH_SHORT)
                                 .show();
@@ -268,13 +269,13 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         //TODO: add working creation ID
         creationRepository.createUpload("V4QbH3DE", new UploadRequest(ContentType
-                .JPG), new ResponseCallback<Upload>() {
+                .JPG), new ResponseCallback<CtbResponse<Upload>>() {
             @Override
-            public void onSuccess(Upload response) {
+            public void onSuccess(CtbResponse<Upload> response) {
                 Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_SHORT)
                         .show();
 
-                responseFromCreateUpload = response;
+                responseFromCreateUpload = response.getData();
                 sendFileBtn.setEnabled(true);
                 fileName.setEnabled(true);
             }
@@ -298,9 +299,9 @@ public class MainActivity extends AppCompatActivity {
                 .setAuthToken(authToken)
                 .build();
         //TODO: add working creation ID
-        creationRepository.getCreationById("ghOq9eug", new ResponseCallback<Creation>() {
+        creationRepository.getCreationById("ghOq9eug", new ResponseCallback<CtbResponse<Creation>>() {
             @Override
-            public void onSuccess(Creation response) {
+            public void onSuccess(CtbResponse<Creation> response) {
                 Toast.makeText(MainActivity.this, response.toString(), Toast
                         .LENGTH_LONG).show();
             }
@@ -399,12 +400,12 @@ public class MainActivity extends AppCompatActivity {
                 (authToken).setContext(getApplicationContext()).build();
 
         Gallery gallery = new Gallery("myNewGallery2", "TestGallery", true, null);
-        galleryRepository.createGallery(gallery, new ResponseCallback<Gallery>
+        galleryRepository.createGallery(gallery, new ResponseCallback<CtbResponse<Gallery>>
                 () {
 
 
             @Override
-            public void onSuccess(Gallery response) {
+            public void onSuccess(CtbResponse<Gallery> response) {
                 Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
 
             }
@@ -425,10 +426,10 @@ public class MainActivity extends AppCompatActivity {
         GalleryRepository galleryRepository = new GalleryRepositoryBuilder().setAuthToken
                 (authToken).setContext(getApplicationContext()).build();
 
-        galleryRepository.getGalleriesByUser("me", new ResponseCallback<List<Gallery>>() {
+        galleryRepository.getGalleriesByUser("me", new ResponseCallback<CtbResponse<List<Gallery>>>() {
             @Override
-            public void onSuccess(List<Gallery> response) {
-                for (Gallery gallery : response) {
+            public void onSuccess(CtbResponse<List<Gallery>> response) {
+                for (Gallery gallery : response.getData()) {
                     Toast.makeText(MainActivity.this, gallery.toString(), Toast
                             .LENGTH_SHORT).show();
                 }
@@ -450,10 +451,10 @@ public class MainActivity extends AppCompatActivity {
         LandingUrlsRepository repository = new LandingUrlsRepositoryBuilder().setContext
                 (getApplicationContext()).setAuthToken(authToken).build();
 
-        repository.getLandingUrls(new ResponseCallback<List<LandingUrl>>() {
+        repository.getLandingUrls(new ResponseCallback<CtbResponse<List<LandingUrl>>>() {
             @Override
-            public void onSuccess(List<LandingUrl> response) {
-                for (LandingUrl url : response) {
+            public void onSuccess(CtbResponse<List<LandingUrl>> response) {
+                for (LandingUrl url : response.getData()) {
                     Toast.makeText(MainActivity.this, url.toString(), Toast
                             .LENGTH_SHORT).show();
                 }
@@ -478,11 +479,11 @@ public class MainActivity extends AppCompatActivity {
                 (getApplicationContext()).setAuthToken(authToken).build();
 
         repository.getSpecificLandingUrl(LandingUrlType.COMMON_REGISTRATION, new
-                ResponseCallback<LandingUrl>() {
+                ResponseCallback<CtbResponse<LandingUrl>>() {
 
 
                     @Override
-                    public void onSuccess(LandingUrl response) {
+                    public void onSuccess(CtbResponse<LandingUrl> response) {
                         Toast.makeText(MainActivity.this, response.toString(), Toast
                                 .LENGTH_SHORT).show();
                     }
@@ -499,11 +500,11 @@ public class MainActivity extends AppCompatActivity {
                 });
 
         repository.getSpecificLandingUrl(LandingUrlType.USER_PROFILE, new
-                ResponseCallback<LandingUrl>() {
+                ResponseCallback<CtbResponse<LandingUrl>>() {
 
 
                     @Override
-                    public void onSuccess(LandingUrl response) {
+                    public void onSuccess(CtbResponse<LandingUrl> response) {
                         Toast.makeText(MainActivity.this, response.toString(), Toast
                                 .LENGTH_SHORT).show();
                     }

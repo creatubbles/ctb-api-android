@@ -1,5 +1,6 @@
 package com.creatubbles.api.repository;
 
+import com.creatubbles.api.model.CtbResponse;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.upload.Upload;
 import com.creatubbles.api.request.CreationListRequest;
@@ -22,7 +23,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.never;
@@ -35,16 +35,16 @@ public class CreationRepositoryTest {
     private CreationRepository target;
 
     @Mock
-    ResponseCallback<List<Creation>> creationListResponseCallback;
+    ResponseCallback<CtbResponse<List<Creation>>> creationListResponseCallback;
 
     @Mock
-    ResponseCallback<Creation> creationResponseCallback;
+    ResponseCallback<CtbResponse<Creation>> creationResponseCallback;
 
     @Mock
     ResponseCallback<Void> updateCreationResponseCallback;
 
     @Mock
-    ResponseCallback<Upload> uploadResponseCallback;
+    ResponseCallback<CtbResponse<Upload>> uploadResponseCallback;
 
     @Mock
     CreationService mockedCreationService;
@@ -83,7 +83,7 @@ public class CreationRepositoryTest {
         target.getCretiationsList(any(CreationListRequest.class), creationListResponseCallback);
 
         verify(creationListResponseCallback, never()).onError(any(String.class));
-        verify(creationListResponseCallback).onSuccess(anyListOf(Creation.class));
+        verify(creationListResponseCallback).onSuccess(any());
     }
 
 
@@ -104,7 +104,7 @@ public class CreationRepositoryTest {
         target.getCreationById(any(String.class), creationResponseCallback);
 
         verify(creationResponseCallback, never()).onError(any(String.class));
-        verify(creationResponseCallback).onSuccess(any(Creation.class));
+        verify(creationResponseCallback).onSuccess(any());
     }
 
 
@@ -146,7 +146,7 @@ public class CreationRepositoryTest {
         target.getCretiationsList(any(CreationListRequest.class), creationListResponseCallback);
 
         verify(creationListResponseCallback).onError(ERROR_MESSAGE);
-        verify(creationListResponseCallback, never()).onSuccess(anyListOf(Creation.class));
+        verify(creationListResponseCallback, never()).onSuccess(any());
     }
 
     @Test
@@ -164,7 +164,7 @@ public class CreationRepositoryTest {
         target.getCreationById(any(String.class), creationResponseCallback);
 
         verify(creationResponseCallback).onError(ERROR_MESSAGE);
-        verify(creationResponseCallback, never()).onSuccess(any(Creation.class));
+        verify(creationResponseCallback, never()).onSuccess(any());
     }
 
     @Test
@@ -201,7 +201,7 @@ public class CreationRepositoryTest {
         target.createCreation(any(Creation.class), creationResponseCallback);
 
         verify(creationResponseCallback).onError(ERROR_MESSAGE);
-        verify(creationResponseCallback, never()).onSuccess(any(Creation.class));
+        verify(creationResponseCallback, never()).onSuccess(any());
     }
 
     @SuppressWarnings("unchecked")
@@ -219,7 +219,7 @@ public class CreationRepositoryTest {
         target.createCreation(any(Creation.class), creationResponseCallback);
 
         verify(creationResponseCallback, never()).onError(any(String.class));
-        verify(creationResponseCallback).onSuccess(any(Creation.class));
+        verify(creationResponseCallback).onSuccess(any());
     }
 
     @SuppressWarnings("unchecked")
@@ -237,7 +237,7 @@ public class CreationRepositoryTest {
         target.createUpload(any(String.class), any(UploadRequest.class), uploadResponseCallback);
 
         verify(uploadResponseCallback, never()).onError(any(String.class));
-        verify(uploadResponseCallback).onSuccess(any(Upload.class));
+        verify(uploadResponseCallback).onSuccess(any());
     }
 
     @Test
@@ -254,7 +254,7 @@ public class CreationRepositoryTest {
         target.createUpload(any(String.class), any(UploadRequest.class), uploadResponseCallback);
 
         verify(uploadResponseCallback).onError(ERROR_MESSAGE);
-        verify(uploadResponseCallback, never()).onSuccess(any(Upload.class));
+        verify(uploadResponseCallback, never()).onSuccess(any());
     }
 
 

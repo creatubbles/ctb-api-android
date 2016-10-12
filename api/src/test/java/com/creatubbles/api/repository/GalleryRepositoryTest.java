@@ -1,5 +1,6 @@
 package com.creatubbles.api.repository;
 
+import com.creatubbles.api.model.CtbResponse;
 import com.creatubbles.api.model.gallery.Gallery;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.service.GalleryService;
@@ -19,7 +20,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.never;
@@ -31,10 +31,10 @@ public class GalleryRepositoryTest {
     private GalleryRepository target;
 
     @Mock
-    ResponseCallback<Gallery> galleryResponseCallback;
+    ResponseCallback<CtbResponse<Gallery>> galleryResponseCallback;
 
     @Mock
-    ResponseCallback<List<Gallery>> galleriesResponseCallback;
+    ResponseCallback<CtbResponse<List<Gallery>>> galleriesResponseCallback;
 
     @Mock
     GalleryService mockedGalleryService;
@@ -67,7 +67,7 @@ public class GalleryRepositoryTest {
         target.getGalleryById(any(String.class), galleryResponseCallback);
 
         verify(galleryResponseCallback, never()).onError(any(String.class));
-        verify(galleryResponseCallback).onSuccess(any(Gallery.class));
+        verify(galleryResponseCallback).onSuccess(any(CtbResponse.class));
     }
 
     @Test
@@ -85,7 +85,7 @@ public class GalleryRepositoryTest {
         target.getGalleryById(any(String.class), galleryResponseCallback);
 
         verify(galleryResponseCallback).onError(ERROR_MESSAGE);
-        verify(galleryResponseCallback, never()).onSuccess(any(Gallery.class));
+        verify(galleryResponseCallback, never()).onSuccess(any());
     }
 
     @Test
@@ -103,7 +103,7 @@ public class GalleryRepositoryTest {
         target.getGalleriesByUser(any(String.class), galleriesResponseCallback);
 
         verify(galleriesResponseCallback, never()).onError(any(String.class));
-        verify(galleriesResponseCallback).onSuccess(anyListOf(Gallery.class));
+        verify(galleriesResponseCallback).onSuccess(any());
     }
 
     @Test
@@ -122,7 +122,7 @@ public class GalleryRepositoryTest {
         target.getGalleriesByUser(any(String.class), galleriesResponseCallback);
 
         verify(galleriesResponseCallback).onError(ERROR_MESSAGE);
-        verify(galleriesResponseCallback, never()).onSuccess(anyListOf(Gallery.class));
+        verify(galleriesResponseCallback, never()).onSuccess(any());
     }
 
     @Test
@@ -141,7 +141,7 @@ public class GalleryRepositoryTest {
         target.createGallery(any(Gallery.class), galleryResponseCallback);
 
         verify(galleryResponseCallback, never()).onError(any(String.class));
-        verify(galleryResponseCallback).onSuccess(any(Gallery.class));
+        verify(galleryResponseCallback).onSuccess(any());
     }
 
     @Test
@@ -160,7 +160,7 @@ public class GalleryRepositoryTest {
         target.createGallery(any(Gallery.class), galleryResponseCallback);
 
         verify(galleryResponseCallback).onError(ERROR_MESSAGE);
-        verify(galleryResponseCallback, never()).onSuccess(any(Gallery.class));
+        verify(galleryResponseCallback, never()).onSuccess(any());
     }
 
 

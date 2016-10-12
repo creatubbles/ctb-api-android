@@ -1,6 +1,7 @@
 package com.creatubbles.api.repository;
 
 import com.creatubbles.api.exception.ErrorResponse;
+import com.creatubbles.api.model.CtbResponse;
 import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
 import com.creatubbles.api.request.ISO_3166_CountryCode;
@@ -24,7 +25,6 @@ import retrofit2.Response;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
@@ -39,10 +39,10 @@ public class UserRepositoryTest {
     private UserRepository target;
 
     @Mock
-    ResponseCallback<List<User>> userListResponseResponseCallback;
+    ResponseCallback<CtbResponse<List<User>>> userListResponseResponseCallback;
 
     @Mock
-    ResponseCallback<User> userResponseCallback;
+    ResponseCallback<CtbResponse<User>> userResponseCallback;
 
     @Mock
     UserService mockedUserService;
@@ -83,7 +83,7 @@ public class UserRepositoryTest {
         mockUserServiceAnswerForUserById(successfulAnswer);
         target.getUserById(any(String.class), userResponseCallback);
         verify(userResponseCallback, never()).onError(any(String.class));
-        verify(userResponseCallback).onSuccess(any(User.class));
+        verify(userResponseCallback).onSuccess(any());
     }
 
     @Test
@@ -98,7 +98,7 @@ public class UserRepositoryTest {
         mockUserServiceAnswerForUserById(failedAnswer);
         target.getUserById(any(String.class), userResponseCallback);
         verify(userResponseCallback).onError(ERROR_MESSAGE);
-        verify(userResponseCallback, never()).onSuccess(any(User.class));
+        verify(userResponseCallback, never()).onSuccess(any());
     }
 
     @SuppressWarnings("unchecked")
@@ -114,7 +114,7 @@ public class UserRepositoryTest {
         mockUserServiceAnswerForUser(successfulAnswer);
         target.getUser(userResponseCallback);
         verify(userResponseCallback, never()).onError(any(String.class));
-        verify(userResponseCallback).onSuccess(any(User.class));
+        verify(userResponseCallback).onSuccess(any());
     }
 
     @Test
@@ -129,7 +129,7 @@ public class UserRepositoryTest {
         mockUserServiceAnswerForUser(failedAnswer);
         target.getUser(userResponseCallback);
         verify(userResponseCallback).onError(ERROR_MESSAGE);
-        verify(userResponseCallback, never()).onSuccess(any(User.class));
+        verify(userResponseCallback, never()).onSuccess(any());
     }
 
     private void mockUserServiceAnswerForUserById(Answer answer) {
@@ -162,7 +162,7 @@ public class UserRepositoryTest {
         target.getUsersList(userListResponseResponseCallback);
 
         verify(userListResponseResponseCallback, never()).onError(any(String.class));
-        verify(userListResponseResponseCallback).onSuccess(anyListOf(User.class));
+        verify(userListResponseResponseCallback).onSuccess(any());
 
     }
 
@@ -183,7 +183,7 @@ public class UserRepositoryTest {
         mockUserServiceAnswerForUsersList(failedAnswer);
         target.getUsersList(userListResponseResponseCallback);
         verify(userListResponseResponseCallback).onError(ERROR_MESSAGE);
-        verify(userListResponseResponseCallback, never()).onSuccess(anyListOf(User.class));
+        verify(userListResponseResponseCallback, never()).onSuccess(any());
     }
 
     @Test
@@ -202,7 +202,7 @@ public class UserRepositoryTest {
         mockUserServiceAnswerForCreateUser(successfulAnswer);
         target.createUser(newUser, userResponseCallback);
         verify(userResponseCallback, never()).onError(anyString());
-        verify(userResponseCallback).onSuccess(any(User.class));
+        verify(userResponseCallback).onSuccess(any());
     }
 
     @Test
@@ -222,7 +222,7 @@ public class UserRepositoryTest {
         mockUserServiceAnswerForCreateUser(failedAnswer);
         target.createUser(newUser, userResponseCallback);
         verify(userResponseCallback).onError(ERROR_MESSAGE);
-        verify(userResponseCallback, never()).onSuccess(any(User.class));
+        verify(userResponseCallback, never()).onSuccess(any());
     }
 
     @Test
@@ -260,7 +260,7 @@ public class UserRepositoryTest {
 
         target.createUser(newUser, userResponseCallback);
         verify(userResponseCallback, never()).onError(anyString());
-        verify(userResponseCallback, only()).onSuccess(any(User.class));
+        verify(userResponseCallback, only()).onSuccess(any());
     }
 
     private void mockCreatorRequest() {
