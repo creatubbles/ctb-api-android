@@ -9,12 +9,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.robolectric.RobolectricTestRunner;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,7 +28,6 @@ import static org.mockito.Mockito.verify;
 /**
  * @author Matthew Platek on 12.02.2016.
  */
-@RunWith(RobolectricTestRunner.class)
 public class OAuthRepositoryTest {
 
     private static final String ERROR_MESSAGE = "What an error!";
