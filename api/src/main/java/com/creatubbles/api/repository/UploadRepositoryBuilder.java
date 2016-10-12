@@ -1,10 +1,8 @@
 package com.creatubbles.api.repository;
 
-import android.content.Context;
-
+import com.creatubbles.api.Configuration;
 import com.creatubbles.api.di.components.DaggerApiComponent;
 import com.creatubbles.api.di.modules.ApiModule;
-import com.creatubbles.api.exception.InvalidParametersException;
 import com.creatubbles.api.service.UploadService;
 
 import javax.inject.Inject;
@@ -17,25 +15,13 @@ public class UploadRepositoryBuilder {
     @Inject
     UploadService uploadService;
 
-    private Context context;
+    @Inject
+    Configuration configuration;
 
     public UploadRepository build() {
-        if (hasValidParameters()) {
-            DaggerApiComponent.builder().apiModule(new ApiModule(context)).build().inject(this);
-            UploadRepository uploadRepository = new UploadRepositoryImpl(uploadService, context);
-            return uploadRepository;
-        }
-        throw new InvalidParametersException("Missing application context!");
+        DaggerApiComponent.builder().apiModule(ApiModule.getInstance()).build().inject(this);
+        return new UploadRepositoryImpl(uploadService, configuration.getContext());
     }
 
-
-    public boolean hasValidParameters() {
-        return context != null;
-    }
-
-    public UploadRepositoryBuilder setContext(Context context) {
-        this.context = context;
-        return this;
-    }
 
 }

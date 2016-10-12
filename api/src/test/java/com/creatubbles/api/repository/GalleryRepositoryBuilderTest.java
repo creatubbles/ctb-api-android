@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -32,7 +31,6 @@ public class GalleryRepositoryBuilderTest {
     @Test
     public void testIsNotNullWhenPassedCorrectParameters() {
         target.setAuthToken(new AuthToken("testToken", "testTokenType", new Long("3")));
-        target.setContext(RuntimeEnvironment.application.getApplicationContext());
         GalleryRepository repository = target.build();
         assertNotNull(repository);
     }

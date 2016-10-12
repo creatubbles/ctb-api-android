@@ -2,8 +2,10 @@ package com.creatubbles.api.di.modules;
 
 import android.content.Context;
 
+import com.creatubbles.api.Configuration;
 import com.creatubbles.api.ContentType;
 import com.creatubbles.api.ServiceGenerator;
+import com.creatubbles.api.exception.InvalidParametersException;
 import com.creatubbles.api.model.AuthToken;
 import com.creatubbles.api.repository.CreationRepository;
 import com.creatubbles.api.repository.CreationRepositoryImpl;
@@ -35,32 +37,55 @@ import dagger.Provides;
 @Module
 public class ApiModule {
 
+    private static ApiModule instance = null;
+    private Configuration configuration = null;
 
     @Provides
     @Singleton
-    ServiceGenerator provideServiceGenerator(Context context) {
-        return new ServiceGenerator(context);
+    ServiceGenerator provideServiceGenerator(Configuration configuration) {
+        return new ServiceGenerator(configuration);
     }
 
-    private AuthToken authToken = null;
-
-    private Context context = null;
-
-    public ApiModule(Context context, AuthToken authToken) {
-        this.authToken = authToken;
-        this.context = context;
-        provideServiceGenerator(this.context).initialize();
+    @Provides
+    @Singleton
+    Configuration provideConfiguration() {
+        return configuration;
     }
 
-    public ApiModule(Context context) {
-        this.context = context;
-        provideServiceGenerator(this.context).initialize();
+    private static AuthToken authToken = null;
+
+    private ApiModule(Configuration configuration) {
+        this.configuration = configuration;
+        provideServiceGenerator(configuration).initialize();
+    }
+
+    public static void initialize(Configuration apiConfiguration) {
+        if (instance == null) {
+            instance = new ApiModule(apiConfiguration);
+        }
+    }
+
+    public static ApiModule getInstance(AuthToken token) {
+        if (instance == null) {
+            throw new InvalidParametersException("Creatubbles Api wasn't initialized!");
+        } else {
+            authToken = token;
+            return instance;
+        }
+    }
+
+    public static ApiModule getInstance() {
+        if (instance == null) {
+            throw new InvalidParametersException("CreatubblesApi wasn't initialized!");
+        } else {
+            return instance;
+        }
     }
 
     @Provides
     @Singleton
     Context provideContext() {
-        return this.context;
+        return configuration.getContext();
     }
 
     @Provides

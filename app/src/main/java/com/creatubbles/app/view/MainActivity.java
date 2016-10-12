@@ -17,7 +17,6 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.creatubbles.api.ContentType;
-import com.creatubbles.api.OAuthUtil;
 import com.creatubbles.api.exception.ErrorResponse;
 import com.creatubbles.api.model.AuthToken;
 import com.creatubbles.api.model.CreateGalleryResponse;
@@ -53,17 +52,12 @@ import com.creatubbles.app.R;
 
 import java.io.File;
 
-import javax.inject.Inject;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import okhttp3.MediaType;
 
 
 public class MainActivity extends AppCompatActivity {
-
-    @Inject
-    public OAuthRepository repository;
 
     @Bind(R.id.send_file_btn)
     Button sendFileBtn;
@@ -129,15 +123,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void onAuthorizeClicked(View btn) {
 
-        //TODO add your CLIENT_ID & CLIENT_SECRET
-        OAuthRepository repository = new OAuthRepositoryBuilder()
-                .setContext(getApplicationContext())
-                .setClientId(OAuthUtil.CLIENT_ID)
-                .setClientSecret(OAuthUtil.CLIENT_SECRET).build("https://staging.creatubbles" +
-                        ".com/api/v2/");
+        OAuthRepository repository = new OAuthRepositoryBuilder().build();
 
-
-        // TODO add your emial & password
         repository.authorize("email@email.com", "password", new
                 ResponseCallback<AuthToken>() {
 
@@ -170,7 +157,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void onGetUserListClicked(View btn) {
         UserRepository userRepository = new UserRepositoryBuilder()
-                .setContext(getApplicationContext())
                 .setAuthToken(authToken)
                 .build();
 
@@ -203,7 +189,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void onCreateUserClicked(View btn) {
         UserRepository userRepository = new UserRepositoryBuilder()
-                .setContext(getApplicationContext())
                 .setAuthToken(authToken)
                 .build();
 
@@ -235,7 +220,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void onCreateCreationClicked(View btn) {
         CreationRepository creationRepository = new CreationRepositoryBuilder()
-                .setContext(getApplicationContext())
                 .setAuthToken(authToken)
                 .build();
 
@@ -270,10 +254,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void onCreateUploadClicked(View btn) {
         CreationRepository creationRepository = new CreationRepositoryBuilder()
-                .setContext(getApplicationContext())
                 .setAuthToken(authToken)
                 .build();
-        //TODO: add working creation ID
+
         creationRepository.createUpload("testID", new UploadRequest(ContentType
                 .JPG), new ResponseCallback<UploadResponse>() {
             @Override
@@ -302,7 +285,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void onGetCreationByIdClicked(View btn) {
         CreationRepository creationRepository = new CreationRepositoryBuilder()
-                .setContext(getApplicationContext())
                 .setAuthToken(authToken)
                 .build();
         //TODO: add working creation ID
@@ -358,7 +340,6 @@ public class MainActivity extends AppCompatActivity {
             File file = new File(filePath);
 
             UploadRepository uploadRepository = new UploadRepositoryBuilder()
-                    .setContext(getApplicationContext())
                     .build();
             uploadRepository.uploadFile(responseFromCreateUpload.getData().getAttributes().getUrl(),
                     MediaType.parse(responseFromCreateUpload.getData().getAttributes()
@@ -367,7 +348,6 @@ public class MainActivity extends AppCompatActivity {
                         public void onSuccess(String response) {
 
                             CreationRepository creationRepository = new CreationRepositoryBuilder()
-                                    .setContext(getApplicationContext())
                                     .setAuthToken(authToken)
                                     .build();
                             creationRepository.updateCreationUpload(responseFromCreateUpload
@@ -409,7 +389,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onCreateGalleryClicked(View view) {
         GalleryRepository galleryRepository = new GalleryRepositoryBuilder().setAuthToken
-                (authToken).setContext(getApplicationContext()).build();
+                (authToken).build();
 
         galleryRepository.createGallery(new CreateGalleryRequest.Builder("myNewGallery",
                 "testGallery").openForAll(1).build(), new ResponseCallback<CreateGalleryResponse>
@@ -438,7 +418,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onGetGalleriesByIdClicked(View view) {
         GalleryRepository galleryRepository = new GalleryRepositoryBuilder().setAuthToken
-                (authToken).setContext(getApplicationContext()).build();
+                (authToken).build();
 
         galleryRepository.getGalleriesByUser("gsyyKmGA", new ResponseCallback<GalleryResponse>() {
             @Override
@@ -462,8 +442,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onGetAllLandingUrlsClicked(View view) {
-        LandingUrlsRepository repository = new LandingUrlsRepositoryBuilder().setContext
-                (getApplicationContext()).setAuthToken(authToken).build();
+        LandingUrlsRepository repository = new LandingUrlsRepositoryBuilder().setAuthToken(authToken).build();
 
         repository.getLandingUrls(new ResponseCallback<LandingUrlResponse>() {
             @Override
@@ -489,8 +468,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onGetSpecificLandingUrlClicked(View view) {
 
-        LandingUrlsRepository repository = new LandingUrlsRepositoryBuilder().setContext
-                (getApplicationContext()).setAuthToken(authToken).build();
+        LandingUrlsRepository repository = new LandingUrlsRepositoryBuilder().setAuthToken(authToken).build();
 
         repository.getSpecificLandingUrl(LandingUrlType.COMMON_REGISTRATION, new
                 ResponseCallback<LandingUrl>() {

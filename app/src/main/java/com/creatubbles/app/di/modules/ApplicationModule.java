@@ -2,7 +2,6 @@ package com.creatubbles.app.di.modules;
 
 import android.content.Context;
 
-import com.creatubbles.api.OAuthUtil;
 import com.creatubbles.api.repository.OAuthRepository;
 import com.creatubbles.api.repository.OAuthRepositoryBuilder;
 import com.creatubbles.app.CreatubblesApplication;
@@ -33,8 +32,7 @@ public class ApplicationModule {
     @Provides
     @Singleton
     OAuthRepository provideOAuthRepository() {
-        return new OAuthRepositoryBuilder().setClientId(OAuthUtil
-                .CLIENT_ID).setClientSecret(OAuthUtil.CLIENT_SECRET).setContext(application).build();
+        return new OAuthRepositoryBuilder().build();
     }
 
 }

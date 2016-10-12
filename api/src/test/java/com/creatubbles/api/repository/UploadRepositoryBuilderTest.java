@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -23,7 +22,6 @@ public class UploadRepositoryBuilderTest {
 
     @Test
     public void testIsNotNullWhenPassedCorrectParameters() {
-        target.setContext(RuntimeEnvironment.application.getApplicationContext());
         UploadRepository repository = target.build();
         assertNotNull(repository);
     }
