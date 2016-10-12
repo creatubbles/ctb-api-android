@@ -1,7 +1,8 @@
 package com.creatubbles.api.request;
 
 import com.creatubbles.api.service.Sort;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by Janek on 11.02.2016.
@@ -9,25 +10,29 @@ import com.google.gson.annotations.SerializedName;
 public class CreationListRequest {
 
 
-    @SerializedName("page")
-    private final Integer page;
+    @JsonProperty("page")
+    private Integer page;
 
-    @SerializedName("per_page")
-    private final Integer perPage;
+    @JsonProperty("per_page")
+    private Integer perPage;
 
-    @SerializedName("gallery_id")
-    private final String galleryId;
+    @JsonProperty("gallery_id")
+    private String galleryId;
 
-    @SerializedName("user_id")
-    private final String userId;
+    @JsonProperty("user_id")
+    private String userId;
 
-    @SerializedName("sort")
-    private final Sort sort;
+    @JsonProperty("sort")
+    private Sort sort;
 
-    @SerializedName("search")
-    private final String keyword;
+    @JsonProperty("search")
+    private String keyword;
 
-    private CreationListRequest(Builder builder) {
+    @JsonCreator
+    CreationListRequest() {
+    }
+
+    CreationListRequest(Builder builder) {
         this.page = builder.page;
         this.perPage = builder.perPage;
         this.galleryId = builder.galleryId;
@@ -38,12 +43,12 @@ public class CreationListRequest {
 
     public static class Builder {
 
-        private Integer page;
-        private Integer perPage;
-        private String galleryId;
-        private String userId;
-        private Sort sort;
-        private String keyword;
+        Integer page;
+        Integer perPage;
+        String galleryId;
+        String userId;
+        Sort sort;
+        String keyword;
 
         public Builder page(Integer page) {
             this.page = page;

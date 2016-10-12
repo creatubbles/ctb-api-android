@@ -7,6 +7,7 @@ import com.creatubbles.api.di.modules.ApiModule;
 import com.creatubbles.api.exception.InvalidParametersException;
 import com.creatubbles.api.model.AuthToken;
 import com.creatubbles.api.service.GalleryService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.inject.Inject;
 
@@ -19,6 +20,9 @@ public class GalleryRepositoryBuilder {
     @Inject
     GalleryService galleryService;
 
+    @Inject
+    ObjectMapper objectMapper;
+
     private AuthToken authToken;
     private Context context;
 
@@ -26,7 +30,7 @@ public class GalleryRepositoryBuilder {
         if (hasValidParameters()) {
             DaggerApiComponent.builder().apiModule(new ApiModule(context, authToken)).build()
                     .inject(this);
-            return new GalleryRepositoryImpl(galleryService);
+            return new GalleryRepositoryImpl(objectMapper, galleryService);
         }
         throw new InvalidParametersException("Missing application context or authorization token!");
     }

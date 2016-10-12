@@ -2,21 +2,18 @@ package com.creatubbles.api;
 
 import android.content.Context;
 
-import com.creatubbles.api.converter.ApprovalStatusTypeAdapter;
-import com.creatubbles.api.converter.GsonUTCDateAdapter;
-import com.creatubbles.api.converter.ImageStatusTypeAdapter;
-import com.creatubbles.api.converter.NullOnEmptyConverterFactory;
-import com.creatubbles.api.converter.RoleTypeAdapter;
 import com.creatubbles.api.interceptor.CreatubbleInterceptor;
 import com.creatubbles.api.model.AuthToken;
-import com.creatubbles.api.model.creation.ApprovalStatus;
-import com.creatubbles.api.model.creation.ImageStatus;
-import com.creatubbles.api.model.user.Role;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.creatubbles.api.model.creation.Creation;
+import com.creatubbles.api.model.gallery.Gallery;
+import com.creatubbles.api.model.landing_url.LandingUrl;
+import com.creatubbles.api.model.upload.Upload;
+import com.creatubbles.api.model.user.NewUser;
+import com.creatubbles.api.model.user.User;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.jasminb.jsonapi.retrofit.JSONAPIConverterFactory;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,19 +23,22 @@ import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.jackson.JacksonConverterFactory;
 
 /**
  * Created by Janek on 08.02.2016.
  */
 public class ServiceGenerator {
 
-    Context appContext;
+    private Context appContext;
 
     private Retrofit.Builder builder;
 
-    public ServiceGenerator(Context context) {
+    private ObjectMapper objectMapper;
+
+    public ServiceGenerator(Context context, ObjectMapper objectMapper) {
         appContext = context;
+        this.objectMapper = objectMapper;
         initialize();
     }
 
@@ -49,18 +49,13 @@ public class ServiceGenerator {
                 .addInterceptor(CreatubbleInterceptor.getLogginInterceptor())
                 .build();
 
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(ImageStatus.class, new ImageStatusTypeAdapter())
-                .registerTypeAdapter(ApprovalStatus.class, new ApprovalStatusTypeAdapter())
-                .registerTypeAdapter(Date.class, new GsonUTCDateAdapter())
-                .registerTypeAdapter(Role.class, new RoleTypeAdapter())
-                .create();
-
         builder = new Retrofit.Builder()
                 .baseUrl(EndPoints.URL_BASE)
-                .addConverterFactory(new NullOnEmptyConverterFactory())
-                .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client);
+
+        JSONAPIConverterFactory converterFactory = new JSONAPIConverterFactory(objectMapper, Creation.class, User.class, NewUser.class, Upload.class, Gallery.class, LandingUrl.class);
+        converterFactory.setAlternativeFactory(JacksonConverterFactory.create(objectMapper));
+        builder.addConverterFactory(converterFactory);
 
         if (EndPoints.SET_STAGING) {
             builder.baseUrl(EndPoints.URL_BASE_STAGING);
@@ -68,7 +63,6 @@ public class ServiceGenerator {
     }
 
     public <S> S createService(Class<S> serviceClass, final ContentType contentType) {
-
         Map<String, String> headerParamMap = new HashMap<>();
         headerParamMap.put("Accept", "application/vnd.api+json");
         headerParamMap.put("Content-Type", contentType.getRes());
@@ -81,8 +75,6 @@ public class ServiceGenerator {
                 .build();
 
         Retrofit retrofit = builder
-                .addConverterFactory(new NullOnEmptyConverterFactory())
-                .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
 
@@ -100,8 +92,6 @@ public class ServiceGenerator {
                 .build();
 
         Retrofit retrofit = builder
-                .addConverterFactory(new NullOnEmptyConverterFactory())
-                .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
 
@@ -125,13 +115,9 @@ public class ServiceGenerator {
                 .addInterceptor(CreatubbleInterceptor.getLogginInterceptor())
                 .build();
 
-        Retrofit retrofit = builder
-                .addConverterFactory(new NullOnEmptyConverterFactory())
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(client)
-                .build();
+        builder.client(client);
 
-        return retrofit.create(serviceClass);
+        return builder.build().create(serviceClass);
     }
 
     private CookieJar getAcceptAllCookieJar() {

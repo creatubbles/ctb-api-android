@@ -1,7 +1,7 @@
 package com.creatubbles.api.request;
 
 import com.creatubbles.api.ContentType;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by Janek on 23.03.2016.
@@ -9,10 +9,14 @@ import com.google.gson.annotations.SerializedName;
 public class UploadRequest {
 
 
-    @SerializedName("extension")
+    @JsonProperty("extension")
     private String extension;
 
     public UploadRequest(ContentType contentType) {
         this.extension = contentType.getRes();
+    }
+
+    public String getExtension() {
+        return extension;
     }
 }

@@ -1,11 +1,13 @@
 package com.creatubbles.api.repository;
 
-import com.creatubbles.api.model.CreateGalleryResponse;
-import com.creatubbles.api.model.GalleryResponse;
-import com.creatubbles.api.request.CreateGalleryRequest;
-import com.creatubbles.api.response.CallbackMapper;
+import com.creatubbles.api.model.gallery.Gallery;
+import com.creatubbles.api.response.JsonApiResponseMapper;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.service.GalleryService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.jasminb.jsonapi.JSONAPIDocument;
+
+import java.util.List;
 
 import retrofit2.Call;
 
@@ -15,33 +17,35 @@ import retrofit2.Call;
 public class GalleryRepositoryImpl implements GalleryRepository {
 
     private GalleryService galleryService;
+    private ObjectMapper objectMapper;
 
-    public GalleryRepositoryImpl(GalleryService galleryService) {
+    public GalleryRepositoryImpl(ObjectMapper objectMapper, GalleryService galleryService) {
+        this.objectMapper = objectMapper;
         this.galleryService = galleryService;
     }
 
     @Override
-    public void getGalleryById(String id, ResponseCallback<GalleryResponse> callback) {
-        Call<GalleryResponse> call = galleryService.getGalleryById(id);
-        call.enqueue(new CallbackMapper<GalleryResponse>().map(callback));
+    public void getGalleryById(String id, ResponseCallback<Gallery> callback) {
+        Call<JSONAPIDocument<Gallery>> call = galleryService.getGalleryById(id);
+        call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void createGallery(CreateGalleryRequest body, ResponseCallback<CreateGalleryResponse>
+    public void createGallery(Gallery gallery, ResponseCallback<Gallery>
             callback) {
-        Call<CreateGalleryResponse> call = galleryService.createGallery(body);
-        call.enqueue(new CallbackMapper<CreateGalleryResponse>().map(callback));
+        Call<JSONAPIDocument<Gallery>> call = galleryService.createGallery(gallery);
+        call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void getGalleriesByUser(String id, ResponseCallback<GalleryResponse> callback) {
-        Call<GalleryResponse> call = galleryService.getGalleriesByUser(id);
-        call.enqueue(new CallbackMapper<GalleryResponse>().map(callback));
+    public void getGalleriesByUser(String id, ResponseCallback<List<Gallery>> callback) {
+        Call<JSONAPIDocument<List<Gallery>>> call = galleryService.getGalleriesByUser(id);
+        call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void getGalleriesByCreation(String id, ResponseCallback<GalleryResponse> callback) {
-        Call<GalleryResponse> call = galleryService.getGalleriesByCreation(id);
-        call.enqueue(new CallbackMapper<GalleryResponse>().map(callback));
+    public void getGalleriesByCreation(String id, ResponseCallback<List<Gallery>> callback) {
+        Call<JSONAPIDocument<List<Gallery>>> call = galleryService.getGalleriesByCreation(id);
+        call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 }

@@ -1,11 +1,14 @@
 package com.creatubbles.api.repository;
 
+import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
-import com.creatubbles.api.model.user.UserList;
-import com.creatubbles.api.request.CreatorRequest;
-import com.creatubbles.api.response.CallbackMapper;
+import com.creatubbles.api.response.JsonApiResponseMapper;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.jasminb.jsonapi.JSONAPIDocument;
+
+import java.util.List;
 
 import retrofit2.Call;
 
@@ -15,33 +18,35 @@ import retrofit2.Call;
 public class UserRepositoryImpl implements UserRepository {
 
     private UserService userService;
+    private ObjectMapper objectMapper;
 
-    public UserRepositoryImpl(UserService service) {
+    public UserRepositoryImpl(ObjectMapper objectMapper, UserService service) {
+        this.objectMapper = objectMapper;
         this.userService = service;
     }
 
     @Override
     public void getUserById(String id, ResponseCallback<User> callback) {
-        Call<User> call = userService.getUserById(id);
-        call.enqueue(new CallbackMapper<User>().map(callback));
+        Call<JSONAPIDocument<User>> call = userService.getUserById(id);
+        call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
     public void getUser(ResponseCallback<User> callback) {
-        Call<User> call = userService.getUser();
-        call.enqueue(new CallbackMapper<User>().map(callback));
+        Call<JSONAPIDocument<User>> call = userService.getUser();
+        call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void getUsersList(ResponseCallback<UserList> callback) {
-        Call<UserList> call = userService.getUsers();
-        call.enqueue(new CallbackMapper<UserList>().map(callback));
+    public void getUsersList(ResponseCallback<List<User>> callback) {
+        Call<JSONAPIDocument<List<User>>> call = userService.getUsers();
+        call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void createUser(CreatorRequest creatorRequest, ResponseCallback<User> callback) {
-        Call<User> call = userService.createUser(creatorRequest);
-        call.enqueue(new CallbackMapper<User>().map(callback));
+    public void createUser(NewUser newUser, ResponseCallback<User> callback) {
+        Call<JSONAPIDocument<User>> call = userService.createUser(newUser);
+        call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
 

@@ -7,6 +7,7 @@ import com.creatubbles.api.di.modules.ApiModule;
 import com.creatubbles.api.exception.InvalidParametersException;
 import com.creatubbles.api.model.AuthToken;
 import com.creatubbles.api.service.CreationService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.inject.Inject;
 
@@ -18,6 +19,9 @@ public class CreationRepositoryBuilder {
     @Inject
     CreationService creationService;
 
+    @Inject
+    ObjectMapper objectMapper;
+
     private AuthToken authToken;
     private Context context;
 
@@ -25,7 +29,7 @@ public class CreationRepositoryBuilder {
         if (hasValidParameters()) {
             DaggerApiComponent.builder().apiModule(new ApiModule(context, authToken)).build()
                     .inject(this);
-            return new CreationRepositoryImpl(creationService);
+            return new CreationRepositoryImpl(objectMapper, creationService);
         }
         throw new InvalidParametersException("Missing application context or authorization token!");
     }

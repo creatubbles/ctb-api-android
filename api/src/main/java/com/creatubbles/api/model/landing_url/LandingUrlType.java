@@ -1,4 +1,7 @@
-package com.creatubbles.api.service;
+package com.creatubbles.api.model.landing_url;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Created by Janek on 05.08.2016.
@@ -16,12 +19,14 @@ public enum LandingUrlType {
     USER_UPLOAD_GUIDELINES("ctb-upload_guidelines");
 
 
-    String res;
+    private String res;
 
+    @JsonCreator
     LandingUrlType(String res) {
         this.res = res;
     }
 
+    @JsonValue
     public String getRes() {
         return res;
     }

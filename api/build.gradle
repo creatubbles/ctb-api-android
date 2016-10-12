@@ -48,22 +48,23 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.amazonaws:aws-android-sdk-core:2.1.4'
     compile 'com.amazonaws:aws-android-sdk-s3:2.1.4'
-    compile 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
-    compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
-    compile 'com.squareup.okhttp3:okhttp:3.2.0'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.0.1'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-jackson:2.1.0'
+    compile 'com.squareup.okhttp3:okhttp:3.3.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.3.0'
     compile 'com.google.dagger:dagger:2.0.2'
     apt 'com.google.dagger:dagger-compiler:2.0.2'
     compile 'javax.annotation:javax.annotation-api:1.2'
     compile 'io.reactivex:rxjava:1.1.2'
     compile 'io.reactivex:rxandroid:1.1.0'
     compile 'com.pixplicity.easyprefs:library:1.8.1@aar'
+    compile 'com.github.jasminb:jsonapi-converter:0.4'
     testCompile 'org.mockito:mockito-core:1.10.8'
     testCompile 'org.robolectric:robolectric:3.0'
 
-    testCompile "org.powermock:powermock-module-junit4:1.6.4"
-    testCompile "org.powermock:powermock-module-junit4-rule:1.6.4"
-    testCompile "org.powermock:powermock-api-mockito:1.6.4"
-    testCompile "org.powermock:powermock-classloading-xstream:1.6.4"
+    testCompile "org.powermock:powermock-module-junit4:1.6.5"
+    testCompile "org.powermock:powermock-module-junit4-rule:1.6.5"
+    testCompile "org.powermock:powermock-api-mockito:1.6.5"
+    testCompile "org.powermock:powermock-classloading-xstream:1.6.5"
 
 }
