@@ -38,9 +38,6 @@ public class User {
 
     private String age;
 
-    @Deprecated
-    private String gender;
-
     @JsonProperty("last_bubbled_at")
     private Date lastBubbledAt;
 
@@ -234,11 +231,6 @@ public class User {
         return listName;
     }
 
-    @Deprecated
-    public String getGender() {
-        return gender;
-    }
-
     /**
      * Method returns value set in user's profile in "What do you teach?" (Teachers only).
      *
@@ -272,7 +264,6 @@ public class User {
                 ", updatedAt=" + updatedAt +
                 ", avatarUrl='" + avatarUrl + '\'' +
                 ", age='" + age + '\'' +
-                ", gender='" + gender + '\'' +
                 ", lastBubbledAt=" + lastBubbledAt +
                 ", lastCommentedAt=" + lastCommentedAt +
                 ", addedBubblesCount=" + addedBubblesCount +
