@@ -10,11 +10,16 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
+ * Class implementing basic response mapping from retrofit. Use this class on it's own only when
+ * response is empty (Void). That's because this class always returns null as a result.
+ *
  * @param <T> type returned from retrofit
  * @param <C> type returned to caller through {@link ResponseCallback}
+ * @see JsonApiResponseMapper
+ * @see SameResponseMapper
  */
 public class BaseResponseMapper<T, C> implements Callback<T> {
-    protected final ResponseCallback<C> responseCallback;
+    private final ResponseCallback<C> responseCallback;
     private final ObjectMapper objectMapper;
 
     public BaseResponseMapper(ObjectMapper objectMapper, ResponseCallback<C> responseCallback) {
@@ -28,12 +33,12 @@ public class BaseResponseMapper<T, C> implements Callback<T> {
             if (response.isSuccessful()) {
                 responseCallback.onSuccess(processResponse(response));
             } else if (response.message() != null) {
-                handleUnsuccessfullResponse(response);
+                handleUnsuccessfulResponse(response);
             }
         }
     }
 
-    protected void handleUnsuccessfullResponse(Response<T> response) {
+    protected void handleUnsuccessfulResponse(Response<T> response) {
         try {
             ErrorResponse errorResponse = getErrorResponse(response);
             responseCallback.onServerError(errorResponse);

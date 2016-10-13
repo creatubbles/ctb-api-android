@@ -62,10 +62,6 @@ public class Creation {
     @JsonProperty("translated_names")
     private List<TranslatedName> translatedNames = Collections.emptyList();
 
-    @JsonProperty("approved")
-    @Deprecated
-    private Boolean approved;
-
     @JsonProperty("short_url")
     private String shortUrl;
 
@@ -153,11 +149,6 @@ public class Creation {
         return translatedNames;
     }
 
-    @Deprecated
-    public Boolean getApproved() {
-        return approved;
-    }
-
     public String getShortUrl() {
         return shortUrl;
     }
@@ -241,7 +232,6 @@ public class Creation {
                 ", lastCommentedAt=" + lastCommentedAt +
                 ", lastSubmittedAt=" + lastSubmittedAt +
                 ", translatedNames=" + translatedNames +
-                ", approved=" + approved +
                 ", shortUrl='" + shortUrl + '\'' +
                 ", createdAtAge='" + createdAtAge + '\'' +
                 ", approvalStatus=" + approvalStatus +

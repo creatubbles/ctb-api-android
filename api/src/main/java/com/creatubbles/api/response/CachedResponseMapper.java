@@ -35,7 +35,7 @@ public class CachedResponseMapper<T> extends SameResponseMapper<T> {
                 responseCallback.onSuccess(processResponse(response));
             } else if (response.message() != null) {
                 UploadRepositoryCacheUtil.addFileToSendCache(url, contentType, fileName, context);
-                handleUnsuccessfullResponse(response);
+                handleUnsuccessfulResponse(response);
             }
         }
     }
