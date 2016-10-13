@@ -61,24 +61,16 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     public OAuthRepository repository;
 
+    @Bind({R.id.get_user_btn, R.id.get_user_creators_btn, R.id.create_user_btn, R.id.create_gallery_btn,
+            R.id.get_galleries_btn, R.id.create_creation_btn, R.id.create_upload_btn, R.id.get_creation_by_id_btn,
+            R.id.get_all_landing_urls_btn, R.id.get_specific_landing_url_btn, R.id.get_user_managers_btn,
+            R.id.get_user_connections_btn, R.id.get_user_followed_btn})
+    List<Button> actionButtons;
+
     @Bind(R.id.send_file_btn)
     Button sendFileBtn;
     @Bind(R.id.authorize_btn)
     Button authorizeBtn;
-    @Bind(R.id.get_user_list_btn)
-    Button getUserListBtn;
-    @Bind(R.id.create_user_btn)
-    Button createUserBtn;
-    @Bind(R.id.create_gallery_btn)
-    Button createGalleryBtn;
-    @Bind(R.id.get_galleries_btn)
-    Button getGalleriesBtn;
-    @Bind(R.id.create_creation_btn)
-    Button createCreationBtn;
-    @Bind(R.id.create_upload_btn)
-    Button createUploadBtn;
-    @Bind(R.id.get_creation_by_id_btn)
-    Button getCreationByIdBtn;
     @Bind(R.id.file_name)
     EditText fileName;
     @Bind(R.id.scrollview)
@@ -143,13 +135,7 @@ public class MainActivity extends AppCompatActivity {
                                 .LENGTH_SHORT).show();
 
                         authToken = response;
-                        getUserListBtn.setEnabled(true);
-                        createUserBtn.setEnabled(true);
-                        createCreationBtn.setEnabled(true);
-                        createUploadBtn.setEnabled(true);
-                        getCreationByIdBtn.setEnabled(true);
-                        createGalleryBtn.setEnabled(true);
-                        getGalleriesBtn.setEnabled(true);
+                        ButterKnife.apply(actionButtons, (view, index) -> view.setEnabled(true));
                     }
 
                     @Override
@@ -164,37 +150,44 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    public void onGetUserListClicked(View btn) {
+    public void getUserClicked(View btn) {
         UserRepository userRepository = new UserRepositoryBuilder()
                 .setContext(getApplicationContext())
                 .setAuthToken(authToken)
                 .build();
+        getUser(userRepository::getUser);
+    }
 
-        userRepository.getUsersList(new ResponseCallback<CreatubblesResponse<List<User>>>() {
-            @Override
-            public void onSuccess(CreatubblesResponse<List<User>> response) {
-                for (User creator : response.getData()) {
-                    Toast.makeText(MainActivity.this, creator.toString(), Toast
-                            .LENGTH_SHORT).show();
-                }
-                Toast.makeText(MainActivity.this, "success", Toast
-                        .LENGTH_SHORT)
-                        .show();
-            }
+    public void onGetUserCreatorsClicked(View btn) {
+        UserRepository userRepository = new UserRepositoryBuilder()
+                .setContext(getApplicationContext())
+                .setAuthToken(authToken)
+                .build();
+        getUserList(userRepository::getCreators);
+    }
 
-            @Override
-            public void onServerError(ErrorResponse errorResponse) {
-                Toast.makeText(MainActivity.this, errorResponse.getErrors().get
-                        (0).getDetail(), Toast
-                        .LENGTH_SHORT)
-                        .show();
-            }
+    public void onGetUserConnectionsClicked(View view) {
+        UserRepository userRepository = new UserRepositoryBuilder()
+                .setContext(getApplicationContext())
+                .setAuthToken(authToken)
+                .build();
+        getUserList(userRepository::getConnections);
+    }
 
-            @Override
-            public void onError(String message) {
+    public void onGetUserFollowedClicked(View view) {
+        UserRepository userRepository = new UserRepositoryBuilder()
+                .setContext(getApplicationContext())
+                .setAuthToken(authToken)
+                .build();
+        getUserList(userRepository::getFollowedUsers);
+    }
 
-            }
-        });
+    public void onGetUserManagersClicked(View btn) {
+        UserRepository userRepository = new UserRepositoryBuilder()
+                .setContext(getApplicationContext())
+                .setAuthToken(authToken)
+                .build();
+        getUserList(userRepository::getManagers);
     }
 
     public void onCreateUserClicked(View btn) {
@@ -217,6 +210,54 @@ public class MainActivity extends AppCompatActivity {
             public void onServerError(ErrorResponse errorResponse) {
                 Toast.makeText(MainActivity.this, errorResponse.getErrors().get
                         (0).getDetail(), Toast
+                        .LENGTH_SHORT)
+                        .show();
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+    }
+
+    private void getUser(Function<ResponseCallback<CreatubblesResponse<User>>> f) {
+        f.consume(new ResponseCallback<CreatubblesResponse<User>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<User> response) {
+                Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                Toast.makeText(MainActivity.this, errorResponse.toString(), Toast.LENGTH_SHORT)
+                        .show();
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+    }
+
+    private void getUserList(Function<ResponseCallback<CreatubblesResponse<List<User>>>> f) {
+        f.consume(new ResponseCallback<CreatubblesResponse<List<User>>>() {
+            public void onSuccess(CreatubblesResponse<List<User>> response) {
+                if (response.getData().isEmpty()) {
+                    Toast.makeText(MainActivity.this, "Success but no results", Toast
+                            .LENGTH_SHORT).show();
+                } else {
+                    for (User creator : response.getData()) {
+                        Toast.makeText(MainActivity.this, creator.toString(), Toast
+                                .LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                Toast.makeText(MainActivity.this, errorResponse.toString(), Toast
                         .LENGTH_SHORT)
                         .show();
             }
@@ -516,5 +557,9 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    interface Function<T> {
+        void consume(T t);
     }
 }

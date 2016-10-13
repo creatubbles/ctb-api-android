@@ -23,6 +23,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.creatubbles.api.repository.UserRepository.CURRENT_USER;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -81,7 +82,7 @@ public class UserRepositoryTest {
             return null;
         };
         mockUserServiceAnswerForUserById(successfulAnswer);
-        target.getUserById(any(String.class), userResponseCallback);
+        target.getUser(any(String.class), userResponseCallback);
         verify(userResponseCallback, never()).onError(any(String.class));
         verify(userResponseCallback).onSuccess(any());
     }
@@ -96,7 +97,7 @@ public class UserRepositoryTest {
             return null;
         };
         mockUserServiceAnswerForUserById(failedAnswer);
-        target.getUserById(any(String.class), userResponseCallback);
+        target.getUser(any(String.class), userResponseCallback);
         verify(userResponseCallback).onError(ERROR_MESSAGE);
         verify(userResponseCallback, never()).onSuccess(any());
     }
@@ -111,7 +112,7 @@ public class UserRepositoryTest {
             retrofitCallback.onResponse(null, Response.success(body));
             return null;
         };
-        mockUserServiceAnswerForUser(successfulAnswer);
+        mockUserServiceAnswerForUserById(successfulAnswer);
         target.getUser(userResponseCallback);
         verify(userResponseCallback, never()).onError(any(String.class));
         verify(userResponseCallback).onSuccess(any());
@@ -126,7 +127,7 @@ public class UserRepositoryTest {
             retrofitCallback.onFailure(null, new Exception(ERROR_MESSAGE));
             return null;
         };
-        mockUserServiceAnswerForUser(failedAnswer);
+        mockUserServiceAnswerForUserById(failedAnswer);
         target.getUser(userResponseCallback);
         verify(userResponseCallback).onError(ERROR_MESSAGE);
         verify(userResponseCallback, never()).onSuccess(any());
@@ -136,12 +137,6 @@ public class UserRepositoryTest {
         doAnswer(answer).when(userCall).enqueue(any());
 
         doReturn(userCall).when(mockedUserService).getUserById(any(String.class));
-    }
-
-    private void mockUserServiceAnswerForUser(Answer answer) {
-        doAnswer(answer).when(userCall).enqueue(any());
-
-        doReturn(userCall).when(mockedUserService).getUser();
     }
 
     @Test
@@ -157,9 +152,10 @@ public class UserRepositoryTest {
                 return null;
             }
         };
-        mockUserServiceAnswerForUsersList(successfulAnswer);
+        doAnswer(successfulAnswer).when(listCall).enqueue(any());
+        doReturn(listCall).when(mockedUserService).getCreators(anyString());
 
-        target.getUsersList(userListResponseResponseCallback);
+        target.getCreators(CURRENT_USER, userListResponseResponseCallback);
 
         verify(userListResponseResponseCallback, never()).onError(any(String.class));
         verify(userListResponseResponseCallback).onSuccess(any());
@@ -180,8 +176,10 @@ public class UserRepositoryTest {
                 return null;
             }
         };
-        mockUserServiceAnswerForUsersList(failedAnswer);
-        target.getUsersList(userListResponseResponseCallback);
+        doAnswer(failedAnswer).when(listCall).enqueue(any());
+        doReturn(listCall).when(mockedUserService).getCreators(anyString());
+
+        target.getCreators(userListResponseResponseCallback);
         verify(userListResponseResponseCallback).onError(ERROR_MESSAGE);
         verify(userListResponseResponseCallback, never()).onSuccess(any());
     }
@@ -274,11 +272,6 @@ public class UserRepositoryTest {
     private void mockUserServiceAnswerForCreateUser(Answer answer) {
         doAnswer(answer).when(listCall).enqueue(any());
         doReturn(listCall).when(mockedUserService).createUser(any(NewUser.class));
-    }
-
-    private void mockUserServiceAnswerForUsersList(Answer answer) {
-        doAnswer(answer).when(listCall).enqueue(any());
-        doReturn(listCall).when(mockedUserService).getUsers();
     }
 
 }
