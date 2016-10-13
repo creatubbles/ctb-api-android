@@ -2,7 +2,7 @@ package com.creatubbles.api.model;
 
 import com.github.jasminb.jsonapi.Links;
 
-public class CtbResponse<D> {
+public class CreatubblesResponse<D> {
 
     private D data;
 
@@ -10,7 +10,7 @@ public class CtbResponse<D> {
 
     private Links links;
 
-    public CtbResponse(D data, Meta meta, Links links) {
+    public CreatubblesResponse(D data, Meta meta, Links links) {
         this.data = data;
         this.meta = meta;
         this.links = links;
@@ -30,7 +30,7 @@ public class CtbResponse<D> {
 
     @Override
     public String toString() {
-        return "CtbResponse{" +
+        return "CreatubblesResponse{" +
                 "data=" + data +
                 ", meta=" + meta +
                 ", links=" + links +

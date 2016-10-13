@@ -1,6 +1,6 @@
 package com.creatubbles.api.repository;
 
-import com.creatubbles.api.model.CtbResponse;
+import com.creatubbles.api.model.CreatubblesResponse;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.upload.Upload;
 import com.creatubbles.api.request.CreationListRequest;
@@ -35,16 +35,16 @@ public class CreationRepositoryTest {
     private CreationRepository target;
 
     @Mock
-    ResponseCallback<CtbResponse<List<Creation>>> creationListResponseCallback;
+    ResponseCallback<CreatubblesResponse<List<Creation>>> creationListResponseCallback;
 
     @Mock
-    ResponseCallback<CtbResponse<Creation>> creationResponseCallback;
+    ResponseCallback<CreatubblesResponse<Creation>> creationResponseCallback;
 
     @Mock
     ResponseCallback<Void> updateCreationResponseCallback;
 
     @Mock
-    ResponseCallback<CtbResponse<Upload>> uploadResponseCallback;
+    ResponseCallback<CreatubblesResponse<Upload>> uploadResponseCallback;
 
     @Mock
     CreationService mockedCreationService;

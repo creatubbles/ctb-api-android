@@ -1,7 +1,7 @@
 package com.creatubbles.api.repository;
 
 import com.creatubbles.api.exception.ErrorResponse;
-import com.creatubbles.api.model.CtbResponse;
+import com.creatubbles.api.model.CreatubblesResponse;
 import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
 import com.creatubbles.api.request.ISO_3166_CountryCode;
@@ -39,10 +39,10 @@ public class UserRepositoryTest {
     private UserRepository target;
 
     @Mock
-    ResponseCallback<CtbResponse<List<User>>> userListResponseResponseCallback;
+    ResponseCallback<CreatubblesResponse<List<User>>> userListResponseResponseCallback;
 
     @Mock
-    ResponseCallback<CtbResponse<User>> userResponseCallback;
+    ResponseCallback<CreatubblesResponse<User>> userResponseCallback;
 
     @Mock
     UserService mockedUserService;

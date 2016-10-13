@@ -1,6 +1,6 @@
 package com.creatubbles.api.repository;
 
-import com.creatubbles.api.model.CtbResponse;
+import com.creatubbles.api.model.CreatubblesResponse;
 import com.creatubbles.api.model.gallery.Gallery;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.service.GalleryService;
@@ -31,10 +31,10 @@ public class GalleryRepositoryTest {
     private GalleryRepository target;
 
     @Mock
-    ResponseCallback<CtbResponse<Gallery>> galleryResponseCallback;
+    ResponseCallback<CreatubblesResponse<Gallery>> galleryResponseCallback;
 
     @Mock
-    ResponseCallback<CtbResponse<List<Gallery>>> galleriesResponseCallback;
+    ResponseCallback<CreatubblesResponse<List<Gallery>>> galleriesResponseCallback;
 
     @Mock
     GalleryService mockedGalleryService;
@@ -67,7 +67,7 @@ public class GalleryRepositoryTest {
         target.getGalleryById(any(String.class), galleryResponseCallback);
 
         verify(galleryResponseCallback, never()).onError(any(String.class));
-        verify(galleryResponseCallback).onSuccess(any(CtbResponse.class));
+        verify(galleryResponseCallback).onSuccess(any(CreatubblesResponse.class));
     }
 
     @Test
