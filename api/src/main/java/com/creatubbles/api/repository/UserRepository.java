@@ -26,26 +26,36 @@ public interface UserRepository {
 
     /**
      * Method used to obtain current user's profile.
+     *
+     * @param callback callback object used to return the result of this call
      */
     void getUser(ResponseCallback<CreatubblesResponse<User>> callback);
 
     /**
      * Method used to obtain current user's creators.
+     *
+     * @param callback callback object used to return the result of this call
      */
     void getCreators(ResponseCallback<CreatubblesResponse<List<User>>> callback);
 
     /**
      * Method used to obtain current user's managers.
+     *
+     * @param callback callback object used to return the result of this call
      */
     void getManagers(ResponseCallback<CreatubblesResponse<List<User>>> callback);
 
     /**
      * Method used to obtain current user's 'My Connections'.
+     *
+     * @param callback callback object used to return the result of this call
      */
     void getConnections(ResponseCallback<CreatubblesResponse<List<User>>> callback);
 
     /**
      * Method used to obtain current user's followed users.
+     *
+     * @param callback callback object used to return the result of this call
      */
     void getFollowedUsers(ResponseCallback<CreatubblesResponse<List<User>>> callback);
 
@@ -78,5 +88,10 @@ public interface UserRepository {
     void getConnections(@NonNull String userId, ResponseCallback<CreatubblesResponse<List<User>>> callback);
 
     void createUser(@NonNull NewUser newUser, ResponseCallback<CreatubblesResponse<User>> callback);
+
+    /**
+     * Method used to obtain users available for user switching.
+     */
+    void getUsersAvailableForSwitching(ResponseCallback<CreatubblesResponse<List<User>>> callback);
 
 }

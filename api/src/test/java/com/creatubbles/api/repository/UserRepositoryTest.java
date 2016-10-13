@@ -188,6 +188,29 @@ public class UserRepositoryTest {
     }
 
     @Test
+    public void testSwitchUsersSuccessfulRequest() {
+        doAnswer(getSuccessfulAnswer(body)).when(listCall).enqueue(any());
+        doReturn(listCall).when(mockedUserService).getSwitchUsers();
+
+        target.getUsersAvailableForSwitching(userListResponseResponseCallback);
+
+        verify(userListResponseResponseCallback, never()).onError(any(String.class));
+        verify(userListResponseResponseCallback).onSuccess(any());
+
+    }
+
+    @Test
+    public void testSwitchUsersFailedRequest() {
+        doAnswer(getFailedAnswer(ERROR_MESSAGE)).when(listCall).enqueue(any());
+        doReturn(listCall).when(mockedUserService).getSwitchUsers();
+
+        target.getUsersAvailableForSwitching(userListResponseResponseCallback);
+
+        verify(userListResponseResponseCallback).onError(ERROR_MESSAGE);
+        verify(userListResponseResponseCallback, never()).onSuccess(any());
+    }
+
+    @Test
     public void testCreateUserSuccessful() {
         mockUserServiceAnswerForCreateUser(getSuccessfulAnswer(body));
 

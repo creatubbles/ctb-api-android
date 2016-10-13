@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
     @Bind({R.id.get_user_btn, R.id.get_user_creators_btn, R.id.create_user_btn, R.id.create_gallery_btn,
             R.id.get_galleries_btn, R.id.create_creation_btn, R.id.create_upload_btn, R.id.get_creation_by_id_btn,
             R.id.get_all_landing_urls_btn, R.id.get_specific_landing_url_btn, R.id.get_user_managers_btn,
-            R.id.get_user_connections_btn, R.id.get_user_followed_btn})
+            R.id.get_user_connections_btn, R.id.get_user_followed_btn, R.id.get_switch_users_btn})
     List<Button> actionButtons;
 
     @Bind(R.id.send_file_btn)
@@ -188,6 +188,14 @@ public class MainActivity extends AppCompatActivity {
                 .setAuthToken(authToken)
                 .build();
         getUserList(userRepository::getManagers);
+    }
+
+    public void onGetSwitchUsersClicked(View btn) {
+        UserRepository userRepository = new UserRepositoryBuilder()
+                .setContext(getApplicationContext())
+                .setAuthToken(authToken)
+                .build();
+        getUserList(userRepository::getUsersAvailableForSwitching);
     }
 
     public void onCreateUserClicked(View btn) {

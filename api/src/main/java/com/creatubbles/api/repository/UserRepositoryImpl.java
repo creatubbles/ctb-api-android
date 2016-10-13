@@ -94,5 +94,10 @@ public class UserRepositoryImpl implements UserRepository {
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
+    @Override
+    public void getUsersAvailableForSwitching(ResponseCallback<CreatubblesResponse<List<User>>> callback) {
+        Call<JSONAPIDocument<List<User>>> call = userService.getSwitchUsers();
+        call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
+    }
 
 }

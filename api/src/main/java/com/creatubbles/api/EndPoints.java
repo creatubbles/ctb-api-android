@@ -27,6 +27,7 @@ public class EndPoints {
     public static final String PARTNER_APPLICATIONS = "partner_applications";
     public static final String SCHOOLS = "schools";
     public static final String AVATAR_SUGGESTIONS = "avatar_suggestions";
+    public static final String SWITCH_USERS = "user_switch/users";
 
     public static boolean SET_STAGING = false;
 }

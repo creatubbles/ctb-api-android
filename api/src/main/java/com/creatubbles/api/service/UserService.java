@@ -36,4 +36,6 @@ public interface UserService {
     @POST(EndPoints.CREATORS)
     Call<JSONAPIDocument<User>> createUser(@Body NewUser newUser);
 
+    @GET(EndPoints.SWITCH_USERS)
+    Call<JSONAPIDocument<List<User>>> getSwitchUsers();
 }
