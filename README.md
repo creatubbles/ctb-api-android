@@ -119,9 +119,9 @@ UserRepository userRepository = new UserRepositoryBuilder()
 
 Example of `UserRepository` uses:
 ```
-userRepository.getUsersList(new ResponseCallback<UserListResponse>() {
+userRepository.getUsersList(new ResponseCallback<CreatubblesResponse<List<User>>>() {
             @Override
-            public void onSuccess(UserListResponse response) {
+            public void onSuccess(CreatubblesResponse<List<User>> response) {
                 //Do something if OK
             }
 
@@ -149,9 +149,9 @@ GalleryRepository galleryRepository = new GalleryRepositoryBuilder()
 
 Example of `GalleryRepository` uses:
 ```
-galleryRepository.getGalleryById("aaa777", new ResponseCallback<GalleryResponse>() {
+galleryRepository.getGalleryById("aaa777", ResponseCallback<CreatubblesResponse<Gallery>>() {
             @Override
-            public void onSuccess(GalleryResponse response) {
+            public void onSuccess(CreatubblesResponse<Gallery> response) {
                 //Do something if OK
             }
 
@@ -179,13 +179,12 @@ CreationRepository creationRepository = new CreationRepositoryBuilder()
 
 Example of `CreationRepository` uses:
 ```
-CreationRequest.Builder body = new CreationRequest.Builder();
-body.name("testCreation");
+Creation newCreation = new Creation.Builder("testCreation", Collections.emptyList()).build();
 
-creationRepository.createCreation(body.build(), new
-        ResponseCallback<CreationResponse>() {
+creationRepository.createCreation(newCreation, new
+            ResponseCallback<CreatubblesResponse<Creation>>() {
             @Override
-            public void onSuccess(CreationResponse response) {
+            public void onSuccess(CreatubblesResponse<Creation> response) {
                 //Do something if OK
             }
 
@@ -199,8 +198,38 @@ creationRepository.createCreation(body.build(), new
             }
         });
 ```
+5. Langing URLs repository
+--------------------------
 
+Create `LandingUrlsRepository` instance:
 
+```
+LandingUrlsRepository repository = new LandingUrlsRepositoryBuilder()
+                .setContext(getApplicationContext())
+                .setAuthToken(authToken)
+                .build();
+```
+
+Example of `LandingUrlsRepository` uses:
+
+```
+repository.getLandingUrls(new ResponseCallback<CreatubblesResponse<List<LandingUrl>>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<List<LandingUrl>> response) {
+                   //Do something if OK
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                //Do something if goes wrong
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+            });
+```
 
 ## Used libs
 1. Retrofit 2: [http://square.github.io/retrofit/](http://square.github.io/retrofit/)

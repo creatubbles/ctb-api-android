@@ -4,40 +4,40 @@ package com.creatubbles.api.exception;
  * Created by mariuszostapowicz on 08.03.2016.
  */
 public class Error {
-    String code;
-    String source;
-    String title;
-    String detail;
+    private Integer status;
+    private String code;
+    private String source;
+    private String title;
+    private String detail;
+
+    public Integer getStatus() {
+        return status;
+    }
 
     public String getCode() {
         return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public String getSource() {
         return source;
     }
 
-    public void setSource(String source) {
-        this.source = source;
-    }
-
     public String getTitle() {
         return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getDetail() {
         return detail;
     }
 
-    public void setDetail(String detail) {
-        this.detail = detail;
+    @Override
+    public String toString() {
+        return "Error{" +
+                "status=" + status +
+                ", code='" + code + '\'' +
+                ", source='" + source + '\'' +
+                ", title='" + title + '\'' +
+                ", detail='" + detail + '\'' +
+                '}';
     }
 }

@@ -13,5 +13,14 @@ public class EndPoints {
     public static final String CREATIONS_UPLOADS = "creations/{id}/uploads";
     public static final String PING_CREATIONS_UPLOADS = "uploads/{id}";
     public static final String LANDING_URLS = "landing_urls";
+    public static final String GALLERY_SUBMISSIONS = "gallery_submissions";
+    public static final String CONTENTS = "contents";
+    public static final String BUBBLES = "bubbles";
+    public static final String COMMENTS = "comments";
+    public static final String NOTIFICATIONS = "notifications";
+    public static final String GROUPS = "groups";
+    public static final String PARTNER_APPLICATIONS = "partner_applications";
+    public static final String SCHOOLS = "schools";
+    public static final String AVATAR_SUGGESTIONS = "avatar_suggestions";
 
 }

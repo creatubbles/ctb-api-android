@@ -1,13 +1,10 @@
 package com.creatubbles.api.model.creation;
 
-import com.google.gson.annotations.SerializedName;
-
 public class Image {
 
-    @SerializedName("links")
-    private Links links;
+    private CreationImageLinks links;
 
-    public Links getLinks() {
+    public CreationImageLinks getLinks() {
         return links;
     }
 

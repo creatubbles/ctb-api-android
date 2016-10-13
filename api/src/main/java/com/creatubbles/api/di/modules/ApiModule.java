@@ -25,6 +25,10 @@ import com.creatubbles.api.service.LandingUrlsService;
 import com.creatubbles.api.service.OAuthService;
 import com.creatubbles.api.service.UploadService;
 import com.creatubbles.api.service.UserService;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.TimeZone;
 
 import javax.inject.Singleton;
 
@@ -42,8 +46,17 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    ServiceGenerator provideServiceGenerator(Configuration configuration) {
-        return new ServiceGenerator(configuration);
+    ServiceGenerator provideServiceGenerator(Configuration configuration, ObjectMapper objectMapper) {
+        return new ServiceGenerator(configuration, objectMapper);
+    }
+
+    @Provides
+    @Singleton
+    ObjectMapper provideObjectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        objectMapper.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return objectMapper;
     }
 
     @Provides
@@ -56,7 +69,7 @@ public class ApiModule {
 
     private ApiModule(Configuration configuration) {
         this.configuration = configuration;
-        provideServiceGenerator(configuration).initialize();
+        provideServiceGenerator(configuration, provideObjectMapper()).initialize();
     }
 
     public static void initialize(Configuration apiConfiguration) {
@@ -96,8 +109,8 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    OAuthRepository provideOAuthRepository(OAuthService oAuthService) {
-        return new OAuthRepositoryImpl(oAuthService);
+    OAuthRepository provideOAuthRepository(OAuthService oAuthService, ObjectMapper objectMapper) {
+        return new OAuthRepositoryImpl(objectMapper, oAuthService);
     }
 
     @Provides
@@ -109,8 +122,8 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    GalleryRepository provideGalleryRepository(GalleryService galleryService) {
-        return new GalleryRepositoryImpl(galleryService);
+    GalleryRepository provideGalleryRepository(GalleryService galleryService, ObjectMapper objectMapper) {
+        return new GalleryRepositoryImpl(objectMapper, galleryService);
     }
 
     @Provides
@@ -122,8 +135,8 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    CreationRepository provideCreationRepository(CreationService creationService) {
-        return new CreationRepositoryImpl(creationService);
+    CreationRepository provideCreationRepository(CreationService creationService, ObjectMapper objectMapper) {
+        return new CreationRepositoryImpl(objectMapper, creationService);
     }
 
     @Provides
@@ -134,8 +147,8 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    UserRepository provideUserRepository(UserService userService) {
-        return new UserRepositoryImpl(userService);
+    UserRepository provideUserRepository(UserService userService, ObjectMapper objectMapper) {
+        return new UserRepositoryImpl(objectMapper, userService);
     }
 
     @Provides
@@ -146,8 +159,8 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    UploadRepository provideUploadRepository(UploadService uploadService, Context context) {
-        return new UploadRepositoryImpl(uploadService, context);
+    UploadRepository provideUploadRepository(UploadService uploadService, Context context, ObjectMapper objectMapper) {
+        return new UploadRepositoryImpl(objectMapper, uploadService, context);
     }
 
     @Provides
@@ -159,8 +172,8 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    LandingUrlsRepository provideLandingUrlsRepository(LandingUrlsService landingUrlsService) {
-        return new LandingUrlsRepositoryImpl(landingUrlsService);
+    LandingUrlsRepository provideLandingUrlsRepository(LandingUrlsService landingUrlsService, ObjectMapper objectMapper) {
+        return new LandingUrlsRepositoryImpl(objectMapper, landingUrlsService);
     }
 
 }

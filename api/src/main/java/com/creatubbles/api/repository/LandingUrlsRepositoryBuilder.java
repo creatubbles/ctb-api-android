@@ -4,6 +4,7 @@ import com.creatubbles.api.di.components.DaggerApiComponent;
 import com.creatubbles.api.di.modules.ApiModule;
 import com.creatubbles.api.model.AuthToken;
 import com.creatubbles.api.service.LandingUrlsService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.inject.Inject;
 
@@ -15,12 +16,15 @@ public class LandingUrlsRepositoryBuilder {
     @Inject
     LandingUrlsService landingUrlsService;
 
+    @Inject
+    ObjectMapper objectMapper;
+
     private AuthToken authToken;
 
     public LandingUrlsRepository build() {
         DaggerApiComponent.builder().apiModule(ApiModule.getInstance(authToken)).build()
                 .inject(this);
-        return new LandingUrlsRepositoryImpl(landingUrlsService);
+        return new LandingUrlsRepositoryImpl(objectMapper, landingUrlsService);
     }
 
 

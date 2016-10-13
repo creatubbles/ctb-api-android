@@ -1,16 +1,18 @@
 package com.creatubbles.api.repository;
 
-import com.creatubbles.api.model.LandingUrlResponse;
-import com.creatubbles.api.model.url.LandingUrl;
+import com.creatubbles.api.model.CreatubblesResponse;
+import com.creatubbles.api.model.landing_url.LandingUrl;
+import com.creatubbles.api.model.landing_url.LandingUrlType;
 import com.creatubbles.api.response.ResponseCallback;
-import com.creatubbles.api.service.LandingUrlType;
+
+import java.util.List;
 
 /**
  * Created by Janek on 05.08.2016.
  */
 public interface LandingUrlsRepository {
 
-    void getLandingUrls(ResponseCallback<LandingUrlResponse> callback);
+    void getLandingUrls(ResponseCallback<CreatubblesResponse<List<LandingUrl>>> callback);
 
-    void getSpecificLandingUrl(LandingUrlType type, ResponseCallback<LandingUrl> callback);
+    void getSpecificLandingUrl(LandingUrlType type, ResponseCallback<CreatubblesResponse<LandingUrl>> callback);
 }

@@ -1,14 +1,18 @@
 package com.creatubbles.api.repository;
 
-import com.creatubbles.api.model.CreationListResponse;
-import com.creatubbles.api.model.CreationResponse;
-import com.creatubbles.api.model.UploadResponse;
+import com.creatubbles.api.model.CreatubblesResponse;
+import com.creatubbles.api.model.creation.Creation;
+import com.creatubbles.api.model.upload.Upload;
 import com.creatubbles.api.request.CreationListRequest;
-import com.creatubbles.api.request.CreationRequest;
 import com.creatubbles.api.request.UploadRequest;
-import com.creatubbles.api.response.CallbackMapper;
+import com.creatubbles.api.response.BaseResponseMapper;
+import com.creatubbles.api.response.JsonApiResponseMapper;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.service.CreationService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.jasminb.jsonapi.JSONAPIDocument;
+
+import java.util.List;
 
 import retrofit2.Call;
 
@@ -20,49 +24,50 @@ public class CreationRepositoryImpl implements CreationRepository {
 
 
     private CreationService creationService;
+    private ObjectMapper objectMapper;
 
-    public CreationRepositoryImpl(CreationService creationService) {
+    public CreationRepositoryImpl(ObjectMapper objectMapper, CreationService creationService) {
+        this.objectMapper = objectMapper;
         this.creationService = creationService;
     }
 
     @Override
-    public void getCretiationsList(CreationListRequest body, ResponseCallback<CreationListResponse>
+    public void getCretiationsList(CreationListRequest body, ResponseCallback<CreatubblesResponse<List<Creation>>>
             callback) {
-        Call<CreationListResponse> call = creationService.getListOfCreation(body);
-        call.enqueue(new CallbackMapper<CreationListResponse>().map(callback));
+        Call<JSONAPIDocument<List<Creation>>> call = creationService.getListOfCreation(body);
+        call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void getCreationById(String id, ResponseCallback<CreationResponse> callback) {
-        Call<CreationResponse> call = creationService.getCreationById(id);
-        call.enqueue(new CallbackMapper<CreationResponse>().map(callback));
+    public void getCreationById(String id, ResponseCallback<CreatubblesResponse<Creation>> callback) {
+        Call<JSONAPIDocument<Creation>> call = creationService.getCreationById(id);
+        call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void updateCreation(String id, CreationRequest body,
+    public void updateCreation(String id, Creation creation,
                                ResponseCallback<Void> callback) {
-        Call<Void> call = creationService.updateCreation(id, body);
-        call.enqueue(new CallbackMapper<Void>().map(callback));
+        Call<Void> call = creationService.updateCreation(id, creation);
+        call.enqueue(new BaseResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void createCreation(CreationRequest body, ResponseCallback<CreationResponse>
+    public void createCreation(Creation creation, ResponseCallback<CreatubblesResponse<Creation>>
             callback) {
-        Call<CreationResponse> call = creationService.createCreation(body);
-        call.enqueue(new CallbackMapper<CreationResponse>().map(callback));
+        Call<JSONAPIDocument<Creation>> call = creationService.createCreation(creation);
+        call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void createUpload(String id, UploadRequest body, ResponseCallback<UploadResponse>
-            callback) {
-        Call<UploadResponse> call = creationService.createUpload(id, body);
-        call.enqueue(new CallbackMapper<UploadResponse>().map(callback));
+    public void createUpload(String id, UploadRequest body, ResponseCallback<CreatubblesResponse<Upload>> callback) {
+        Call<JSONAPIDocument<Upload>> call = creationService.createUpload(id, body);
+        call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void updateCreationUpload(String pingUrl, ResponseCallback<String> callback) {
+    public void updateCreationUpload(String pingUrl, ResponseCallback<Void> callback) {
         String id = pingUrl.substring(pingUrl.lastIndexOf("/") + 1);
-        Call<String> call = creationService.updateCreationUpload(id);
-        call.enqueue(new CallbackMapper<String>().map(callback));
+        Call<Void> call = creationService.updateCreationUpload(id);
+        call.enqueue(new BaseResponseMapper<>(objectMapper, callback));
     }
 }

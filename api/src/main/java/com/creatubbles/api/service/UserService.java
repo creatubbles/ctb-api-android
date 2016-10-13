@@ -1,9 +1,11 @@
 package com.creatubbles.api.service;
 
 import com.creatubbles.api.EndPoints;
+import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
-import com.creatubbles.api.model.user.UserList;
-import com.creatubbles.api.request.CreatorRequest;
+import com.github.jasminb.jsonapi.JSONAPIDocument;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -17,15 +19,15 @@ import retrofit2.http.Path;
 public interface UserService {
 
     @GET(EndPoints.USERS + "/{id}")
-    Call<User> getUserById(@Path("id") String id);
+    Call<JSONAPIDocument<User>> getUserById(@Path("id") String id);
 
     @GET(EndPoints.USERS + "/me")
-    Call<User> getUser();
+    Call<JSONAPIDocument<User>> getUser();
 
     @GET(EndPoints.USERS)
-    Call<UserList> getUsers();
+    Call<JSONAPIDocument<List<User>>> getUsers();
 
     @POST(EndPoints.CREATORS)
-    Call<User> createUser(@Body CreatorRequest creatorRequest);
+    Call<JSONAPIDocument<User>> createUser(@Body NewUser newUser);
 
 }

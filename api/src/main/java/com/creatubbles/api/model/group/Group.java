@@ -1,16 +1,14 @@
 package com.creatubbles.api.model.group;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Group {
 
-    @SerializedName("id")
     private Integer id;
 
-    @SerializedName("name")
     private String name;
 
-    @SerializedName("taggings_count")
+    @JsonProperty("taggings_count")
     private Integer taggingsCount;
 
     public Integer getId() {

@@ -1,6 +1,7 @@
 package com.creatubbles.api.model;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by Janek on 05.02.2016.
@@ -8,14 +9,19 @@ import com.google.gson.annotations.SerializedName;
 public class AuthToken {
 
 
-    @SerializedName("access_token")
+    @JsonProperty("access_token")
     private String accessToken;
 
-    @SerializedName("token_type")
+    @JsonProperty("token_type")
     private String tokenType;
 
-    @SerializedName("expires_in")
+    @JsonProperty("expires_in")
     private Long expiresIn;
+
+    @JsonCreator
+    private AuthToken() {
+
+    }
 
     public AuthToken(String accessToken, String tokenType, Long expiresIn) {
         this.accessToken = accessToken;

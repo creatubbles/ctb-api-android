@@ -5,6 +5,7 @@ import com.creatubbles.api.di.modules.ApiModule;
 import com.creatubbles.api.exception.InvalidParametersException;
 import com.creatubbles.api.model.AuthToken;
 import com.creatubbles.api.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.inject.Inject;
 
@@ -16,13 +17,16 @@ public class UserRepositoryBuilder {
     @Inject
     UserService userService;
 
+    @Inject
+    ObjectMapper objectMapper;
+
     private AuthToken authToken;
 
     public UserRepository build() {
         if (hasValidParameters()) {
             DaggerApiComponent.builder().apiModule(ApiModule.getInstance(authToken)).build()
                     .inject(this);
-            return new UserRepositoryImpl(userService);
+            return new UserRepositoryImpl(objectMapper, userService);
         }
         throw new InvalidParametersException("Missing authorization token!");
     }

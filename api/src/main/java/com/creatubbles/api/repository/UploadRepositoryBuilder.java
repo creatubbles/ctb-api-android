@@ -4,6 +4,7 @@ import com.creatubbles.api.Configuration;
 import com.creatubbles.api.di.components.DaggerApiComponent;
 import com.creatubbles.api.di.modules.ApiModule;
 import com.creatubbles.api.service.UploadService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.inject.Inject;
 
@@ -18,9 +19,12 @@ public class UploadRepositoryBuilder {
     @Inject
     Configuration configuration;
 
+    @Inject
+    ObjectMapper objectMapper;
+
     public UploadRepository build() {
         DaggerApiComponent.builder().apiModule(ApiModule.getInstance()).build().inject(this);
-        return new UploadRepositoryImpl(uploadService, configuration.getContext());
+        return new UploadRepositoryImpl(objectMapper, uploadService, configuration.getContext());
     }
 
 
