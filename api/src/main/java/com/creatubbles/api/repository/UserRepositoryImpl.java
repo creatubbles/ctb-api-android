@@ -1,5 +1,6 @@
 package com.creatubbles.api.repository;
 
+import com.creatubbles.api.model.CreatubblesResponse;
 import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
 import com.creatubbles.api.response.JsonApiResponseMapper;
@@ -26,25 +27,25 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void getUserById(String id, ResponseCallback<User> callback) {
+    public void getUserById(String id, ResponseCallback<CreatubblesResponse<User>> callback) {
         Call<JSONAPIDocument<User>> call = userService.getUserById(id);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void getUser(ResponseCallback<User> callback) {
+    public void getUser(ResponseCallback<CreatubblesResponse<User>> callback) {
         Call<JSONAPIDocument<User>> call = userService.getUser();
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void getUsersList(ResponseCallback<List<User>> callback) {
+    public void getUsersList(ResponseCallback<CreatubblesResponse<List<User>>> callback) {
         Call<JSONAPIDocument<List<User>>> call = userService.getUsers();
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void createUser(NewUser newUser, ResponseCallback<User> callback) {
+    public void createUser(NewUser newUser, ResponseCallback<CreatubblesResponse<User>> callback) {
         Call<JSONAPIDocument<User>> call = userService.createUser(newUser);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }

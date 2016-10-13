@@ -1,5 +1,6 @@
 package com.creatubbles.api.repository;
 
+import com.creatubbles.api.model.CreatubblesResponse;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.upload.Upload;
 import com.creatubbles.api.request.CreationListRequest;
@@ -31,14 +32,14 @@ public class CreationRepositoryImpl implements CreationRepository {
     }
 
     @Override
-    public void getCretiationsList(CreationListRequest body, ResponseCallback<List<Creation>>
+    public void getCretiationsList(CreationListRequest body, ResponseCallback<CreatubblesResponse<List<Creation>>>
             callback) {
         Call<JSONAPIDocument<List<Creation>>> call = creationService.getListOfCreation(body);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void getCreationById(String id, ResponseCallback<Creation> callback) {
+    public void getCreationById(String id, ResponseCallback<CreatubblesResponse<Creation>> callback) {
         Call<JSONAPIDocument<Creation>> call = creationService.getCreationById(id);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
@@ -51,14 +52,14 @@ public class CreationRepositoryImpl implements CreationRepository {
     }
 
     @Override
-    public void createCreation(Creation creation, ResponseCallback<Creation>
+    public void createCreation(Creation creation, ResponseCallback<CreatubblesResponse<Creation>>
             callback) {
         Call<JSONAPIDocument<Creation>> call = creationService.createCreation(creation);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void createUpload(String id, UploadRequest body, ResponseCallback<Upload> callback) {
+    public void createUpload(String id, UploadRequest body, ResponseCallback<CreatubblesResponse<Upload>> callback) {
         Call<JSONAPIDocument<Upload>> call = creationService.createUpload(id, body);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
