@@ -1,25 +1,5 @@
 # Creatubbles API Android (ctb-api-andorid)
-## Usage
-**Maven**:
-```    
-<dependency>
-  <groupId>com.creatubbles</groupId>
-  <artifactId>api</artifactId>
-  <version>1.0.5</version>
-  <type>pom</type>
-</dependency>
-```
 
-**Gradle**:
-```
-    compile 'com.creatubbles:api:1.0.5'
-```
-**Ivy**:
-```
-<dependency org='com.creatubbles' name='api' rev='1.0.5'>
-  <artifact name='$AID' ext='pom'></artifact>
-</dependency>
-```
 ## Architecture
 1. **Packages**
     - **API Module**: Implementing all server method.
@@ -71,7 +51,7 @@ REMEMBER: CLIENT_ID and CLIENT_SECRET need to be your own secret keys.
 
 ```
 CreatubblesApi.initialize(new Configuration.Builder()
-              .application(YourApplicationObject)
+              .application(ApplicationObject)
               .baseUrl(BASE_URL)
               .clientId(CLIENT_ID)
               .clientSecret(CLIENT_SECRET)
