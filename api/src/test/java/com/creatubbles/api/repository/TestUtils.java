@@ -16,9 +16,8 @@ class TestUtils {
 
     @SuppressWarnings("NewApi")
     static void resetModule() {
-        Method m = null;
         try {
-            m = ApiModule.class.getDeclaredMethod("reset");
+            Method m = ApiModule.class.getDeclaredMethod("reset");
             m.setAccessible(true);
             m.invoke(null);
         } catch (ReflectiveOperationException e) {

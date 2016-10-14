@@ -1,7 +1,5 @@
 package com.creatubbles.api.repository;
 
-import android.app.Application;
-
 import com.creatubbles.api.CreatubblesApi;
 import com.creatubbles.api.exception.InitializationException;
 import com.creatubbles.api.exception.InvalidParametersException;
@@ -18,9 +16,6 @@ import static org.junit.Assert.assertNotNull;
  * Created by Janek on 18.02.2016.
  */
 public class UserRepositoryBuilderTest {
-
-    @Mock
-    Application context;
 
     @Mock
     AuthToken authToken;

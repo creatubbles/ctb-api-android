@@ -45,15 +45,15 @@ public class ApiModule {
     private static AuthToken authToken = null;
     private Configuration configuration = null;
 
-    private ApiModule(Configuration configuration) {
-        this.configuration = configuration;
-        provideServiceGenerator(configuration, provideObjectMapper()).initialize();
-    }
-
     public static void initialize(Configuration apiConfiguration) {
         if (instance == null) {
             instance = new ApiModule(apiConfiguration);
         }
+    }
+
+    private ApiModule(Configuration configuration) {
+        this.configuration = configuration;
+        provideServiceGenerator(configuration, provideObjectMapper()).initialize();
     }
 
     public static ApiModule getInstance(AuthToken token) {
@@ -81,6 +81,12 @@ public class ApiModule {
 
     @Provides
     @Singleton
+    Context provideContext() {
+        return configuration.getContext();
+    }
+
+    @Provides
+    @Singleton
     ServiceGenerator provideServiceGenerator(Configuration configuration, ObjectMapper objectMapper) {
         return new ServiceGenerator(configuration, objectMapper);
     }
@@ -92,12 +98,6 @@ public class ApiModule {
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         objectMapper.setTimeZone(TimeZone.getTimeZone("UTC"));
         return objectMapper;
-    }
-
-    @Provides
-    @Singleton
-    Context provideContext() {
-        return configuration.getContext();
     }
 
     @Provides
@@ -178,6 +178,7 @@ public class ApiModule {
     /**
      * Method created only for the purpose of making unit tests independent
      */
+    @SuppressWarnings("unused")
     private static void reset() {
         instance = null;
     }

@@ -1,21 +1,15 @@
 package com.creatubbles.api.repository;
 
-import android.app.Application;
-
 import com.creatubbles.api.CreatubblesApi;
 import com.creatubbles.api.exception.InitializationException;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static junit.framework.Assert.assertNotNull;
 
 public class OAuthRepositoryBuilderTest {
-
-    @Mock
-    Application context;
 
     private OAuthRepositoryBuilder target;
 
