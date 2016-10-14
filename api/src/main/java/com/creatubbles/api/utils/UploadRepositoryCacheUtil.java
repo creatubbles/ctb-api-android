@@ -74,7 +74,6 @@ public class UploadRepositoryCacheUtil {
         for(int i = 0; i < uploadFileNameArray.length; i++) {
 
             UploadRepository uploadRepository = new UploadRepositoryBuilder()
-                    .setContext(context)
                     .build();
 
             uploadRepository.uploadFile(uploadFileUrlArray[i],

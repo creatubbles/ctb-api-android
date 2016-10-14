@@ -1,7 +1,5 @@
 package com.creatubbles.api.repository;
 
-import android.content.Context;
-
 import com.creatubbles.api.di.components.DaggerApiComponent;
 import com.creatubbles.api.di.modules.ApiModule;
 import com.creatubbles.api.exception.InvalidParametersException;
@@ -23,28 +21,22 @@ public class CreationRepositoryBuilder {
     ObjectMapper objectMapper;
 
     private AuthToken authToken;
-    private Context context;
 
     public CreationRepository build() {
         if (hasValidParameters()) {
-            DaggerApiComponent.builder().apiModule(new ApiModule(context, authToken)).build()
+            DaggerApiComponent.builder().apiModule(ApiModule.getInstance(authToken)).build()
                     .inject(this);
             return new CreationRepositoryImpl(objectMapper, creationService);
         }
-        throw new InvalidParametersException("Missing application context or authorization token!");
+        throw new InvalidParametersException("Missing authorization token!");
     }
 
     private boolean hasValidParameters() {
-        return authToken != null && context != null;
+        return authToken != null;
     }
 
     public CreationRepositoryBuilder setAuthToken(AuthToken authToken) {
         this.authToken = authToken;
-        return this;
-    }
-
-    public CreationRepositoryBuilder setContext(Context context) {
-        this.context = context;
         return this;
     }
 
