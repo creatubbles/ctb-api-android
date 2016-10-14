@@ -1,6 +1,7 @@
 package com.creatubbles.api.repository;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.creatubbles.api.model.CreatubblesResponse;
 import com.creatubbles.api.model.user.MultipleCreators;
@@ -42,50 +43,50 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void getCreators(ResponseCallback<CreatubblesResponse<List<User>>> callback) {
-        Call<JSONAPIDocument<List<User>>> call = userService.getCreators(CURRENT_USER);
+    public void getCreators(@Nullable Integer page, ResponseCallback<CreatubblesResponse<List<User>>> callback) {
+        Call<JSONAPIDocument<List<User>>> call = userService.getCreators(CURRENT_USER, page);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void getManagers(ResponseCallback<CreatubblesResponse<List<User>>> callback) {
-        Call<JSONAPIDocument<List<User>>> call = userService.getManagers(CURRENT_USER);
+    public void getManagers(@Nullable Integer page, ResponseCallback<CreatubblesResponse<List<User>>> callback) {
+        Call<JSONAPIDocument<List<User>>> call = userService.getManagers(CURRENT_USER, page);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void getConnections(ResponseCallback<CreatubblesResponse<List<User>>> callback) {
-        Call<JSONAPIDocument<List<User>>> call = userService.getConnections(CURRENT_USER);
+    public void getConnections(@Nullable Integer page, ResponseCallback<CreatubblesResponse<List<User>>> callback) {
+        Call<JSONAPIDocument<List<User>>> call = userService.getConnections(CURRENT_USER, page);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void getFollowedUsers(ResponseCallback<CreatubblesResponse<List<User>>> callback) {
-        Call<JSONAPIDocument<List<User>>> call = userService.getFollowedUsers(CURRENT_USER);
+    public void getFollowedUsers(@Nullable Integer page, ResponseCallback<CreatubblesResponse<List<User>>> callback) {
+        Call<JSONAPIDocument<List<User>>> call = userService.getFollowedUsers(CURRENT_USER, page);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void getCreators(@NonNull String userId, ResponseCallback<CreatubblesResponse<List<User>>> callback) {
-        Call<JSONAPIDocument<List<User>>> call = userService.getCreators(userId);
+    public void getCreators(@NonNull String userId, @Nullable Integer page, ResponseCallback<CreatubblesResponse<List<User>>> callback) {
+        Call<JSONAPIDocument<List<User>>> call = userService.getCreators(userId, page);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void getManagers(@NonNull String userId, ResponseCallback<CreatubblesResponse<List<User>>> callback) {
-        Call<JSONAPIDocument<List<User>>> call = userService.getManagers(userId);
+    public void getManagers(@NonNull String userId, @Nullable Integer page, ResponseCallback<CreatubblesResponse<List<User>>> callback) {
+        Call<JSONAPIDocument<List<User>>> call = userService.getManagers(userId, page);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void getFollowedUsers(@NonNull String userId, ResponseCallback<CreatubblesResponse<List<User>>> callback) {
-        Call<JSONAPIDocument<List<User>>> call = userService.getFollowedUsers(userId);
+    public void getFollowedUsers(@NonNull String userId, @Nullable Integer page, ResponseCallback<CreatubblesResponse<List<User>>> callback) {
+        Call<JSONAPIDocument<List<User>>> call = userService.getFollowedUsers(userId, page);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void getConnections(@NonNull String userId, ResponseCallback<CreatubblesResponse<List<User>>> callback) {
-        Call<JSONAPIDocument<List<User>>> call = userService.getConnections(userId);
+    public void getConnections(@NonNull String userId, @Nullable Integer page, ResponseCallback<CreatubblesResponse<List<User>>> callback) {
+        Call<JSONAPIDocument<List<User>>> call = userService.getConnections(userId, page);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
@@ -96,8 +97,8 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void getUsersAvailableForSwitching(ResponseCallback<CreatubblesResponse<List<User>>> callback) {
-        Call<JSONAPIDocument<List<User>>> call = userService.getSwitchUsers();
+    public void getUsersAvailableForSwitching(@Nullable Integer page, ResponseCallback<CreatubblesResponse<List<User>>> callback) {
+        Call<JSONAPIDocument<List<User>>> call = userService.getSwitchUsers(page);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
@@ -108,8 +109,8 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void getCreatorsFromGroup(@NonNull String groupId, ResponseCallback<CreatubblesResponse<List<User>>> callback) {
-        Call<JSONAPIDocument<List<User>>> call = userService.getCreatorsFromGroup(groupId);
+    public void getCreatorsFromGroup(@NonNull String groupId, @Nullable Integer page, ResponseCallback<CreatubblesResponse<List<User>>> callback) {
+        Call<JSONAPIDocument<List<User>>> call = userService.getCreatorsFromGroup(groupId, page);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 

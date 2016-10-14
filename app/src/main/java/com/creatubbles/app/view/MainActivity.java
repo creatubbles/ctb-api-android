@@ -207,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
                 .setContext(getApplicationContext())
                 .setAuthToken(authToken)
                 .build();
-        userRepository.getCreatorsFromGroup("9320", getUserListCallback());
+        userRepository.getCreatorsFromGroup("9320", null, getUserListCallback());
     }
 
     public void onCreateUserClicked(View btn) {
@@ -286,8 +286,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void getUserList(Function<ResponseCallback<CreatubblesResponse<List<User>>>> f) {
-        f.consume(getUserListCallback());
+    private void getUserList(BiFunction<Integer, ResponseCallback<CreatubblesResponse<List<User>>>> f) {
+        f.consume(null, getUserListCallback());
     }
 
     @NonNull
@@ -613,5 +613,8 @@ public class MainActivity extends AppCompatActivity {
 
     interface Function<T> {
         void consume(T t);
+    }
+    interface BiFunction<T, U> {
+        void consume(T first, U second);
     }
 }
