@@ -1,7 +1,5 @@
 package com.creatubbles.api.repository;
 
-import android.content.Context;
-
 import com.creatubbles.api.di.components.DaggerApiComponent;
 import com.creatubbles.api.di.modules.ApiModule;
 import com.creatubbles.api.exception.InvalidParametersException;
@@ -24,19 +22,18 @@ public class GalleryRepositoryBuilder {
     ObjectMapper objectMapper;
 
     private AuthToken authToken;
-    private Context context;
 
     public GalleryRepository build() {
         if (hasValidParameters()) {
-            DaggerApiComponent.builder().apiModule(new ApiModule(context, authToken)).build()
+            DaggerApiComponent.builder().apiModule(ApiModule.getInstance(authToken)).build()
                     .inject(this);
             return new GalleryRepositoryImpl(objectMapper, galleryService);
         }
-        throw new InvalidParametersException("Missing application context or authorization token!");
+        throw new InvalidParametersException("Missing application authorization token!");
     }
 
-    private boolean hasValidParameters() {
-        return authToken != null && context != null;
+    public boolean hasValidParameters() {
+        return authToken != null;
     }
 
     public GalleryRepositoryBuilder setAuthToken(AuthToken authToken) {
@@ -44,10 +41,6 @@ public class GalleryRepositoryBuilder {
         return this;
     }
 
-    public GalleryRepositoryBuilder setContext(Context context) {
-        this.context = context;
-        return this;
-    }
 }
 
 

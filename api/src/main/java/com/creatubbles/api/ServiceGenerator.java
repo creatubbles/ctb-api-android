@@ -1,7 +1,5 @@
 package com.creatubbles.api;
 
-import android.content.Context;
-
 import com.creatubbles.api.interceptor.CreatubbleInterceptor;
 import com.creatubbles.api.model.AuthToken;
 import com.creatubbles.api.model.creation.Creation;
@@ -30,14 +28,14 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
  */
 public class ServiceGenerator {
 
-    private Context appContext;
+    Configuration configuration;
 
     private Retrofit.Builder builder;
 
     private ObjectMapper objectMapper;
 
-    public ServiceGenerator(Context context, ObjectMapper objectMapper) {
-        appContext = context;
+    public ServiceGenerator(Configuration configuration, ObjectMapper objectMapper) {
+        this.configuration = configuration;
         this.objectMapper = objectMapper;
         initialize();
     }
@@ -45,21 +43,18 @@ public class ServiceGenerator {
     public void initialize() {
         OkHttpClient client = new OkHttpClient.Builder()
                 .cookieJar(getAcceptAllCookieJar())
-                .addInterceptor(CreatubbleInterceptor.getFileUploadInterceptor(appContext))
+                .addInterceptor(CreatubbleInterceptor.getFileUploadInterceptor(configuration.getContext()))
                 .addInterceptor(CreatubbleInterceptor.getLogginInterceptor())
                 .build();
 
         builder = new Retrofit.Builder()
-                .baseUrl(EndPoints.URL_BASE)
+                .baseUrl(configuration.getBaseUrl())
                 .client(client);
 
         JSONAPIConverterFactory converterFactory = new JSONAPIConverterFactory(objectMapper, Creation.class, User.class, NewUser.class, Upload.class, Gallery.class, LandingUrl.class);
         converterFactory.setAlternativeFactory(JacksonConverterFactory.create(objectMapper));
         builder.addConverterFactory(converterFactory);
 
-        if (EndPoints.SET_STAGING) {
-            builder.baseUrl(EndPoints.URL_BASE_STAGING);
-        }
     }
 
     public <S> S createService(Class<S> serviceClass, final ContentType contentType) {
@@ -70,7 +65,7 @@ public class ServiceGenerator {
         OkHttpClient client = new OkHttpClient.Builder()
                 .cookieJar(getAcceptAllCookieJar())
                 .addInterceptor(CreatubbleInterceptor.getHeaderInterceptor(headerParamMap))
-                .addInterceptor(CreatubbleInterceptor.getFileUploadInterceptor(appContext))
+                .addInterceptor(CreatubbleInterceptor.getFileUploadInterceptor(configuration.getContext()))
                 .addInterceptor(CreatubbleInterceptor.getLogginInterceptor())
                 .build();
 
@@ -111,7 +106,7 @@ public class ServiceGenerator {
         OkHttpClient client = new OkHttpClient.Builder()
                 .cookieJar(getAcceptAllCookieJar())
                 .addInterceptor(CreatubbleInterceptor.getHeaderInterceptor(headerParamMap))
-                .addInterceptor(CreatubbleInterceptor.getFileUploadInterceptor(appContext))
+                .addInterceptor(CreatubbleInterceptor.getFileUploadInterceptor(configuration.getContext()))
                 .addInterceptor(CreatubbleInterceptor.getLogginInterceptor())
                 .build();
 
@@ -132,7 +127,7 @@ public class ServiceGenerator {
             @Override
             public List<Cookie> loadForRequest(HttpUrl url) {
                 List<Cookie> cookies = cookieStore.get(url);
-                return cookies != null ? cookies : new ArrayList<Cookie>();
+                return cookies != null ? cookies : new ArrayList<>();
             }
         };
     }

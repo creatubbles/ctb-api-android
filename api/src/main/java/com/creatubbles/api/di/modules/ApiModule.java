@@ -2,8 +2,10 @@ package com.creatubbles.api.di.modules;
 
 import android.content.Context;
 
+import com.creatubbles.api.Configuration;
 import com.creatubbles.api.ContentType;
 import com.creatubbles.api.ServiceGenerator;
+import com.creatubbles.api.exception.InitializationException;
 import com.creatubbles.api.model.AuthToken;
 import com.creatubbles.api.repository.CreationRepository;
 import com.creatubbles.api.repository.CreationRepositoryImpl;
@@ -39,11 +41,54 @@ import dagger.Provides;
 @Module
 public class ApiModule {
 
+    private static ApiModule instance = null;
+    private static AuthToken authToken = null;
+    private Configuration configuration = null;
+
+    public static void initialize(Configuration apiConfiguration) {
+        if (instance == null) {
+            instance = new ApiModule(apiConfiguration);
+        }
+    }
+
+    private ApiModule(Configuration configuration) {
+        this.configuration = configuration;
+        provideServiceGenerator(configuration, provideObjectMapper()).initialize();
+    }
+
+    public static ApiModule getInstance(AuthToken token) {
+        if (instance == null) {
+            throw new InitializationException("Creatubbles Api wasn't initialized!");
+        } else {
+            authToken = token;
+            return instance;
+        }
+    }
+
+    public static ApiModule getInstance() {
+        if (instance == null) {
+            throw new InitializationException("CreatubblesApi wasn't initialized!");
+        } else {
+            return instance;
+        }
+    }
 
     @Provides
     @Singleton
-    ServiceGenerator provideServiceGenerator(Context context, ObjectMapper objectMapper) {
-        return new ServiceGenerator(context, objectMapper);
+    Configuration provideConfiguration() {
+        return configuration;
+    }
+
+    @Provides
+    @Singleton
+    Context provideContext() {
+        return configuration.getContext();
+    }
+
+    @Provides
+    @Singleton
+    ServiceGenerator provideServiceGenerator(Configuration configuration, ObjectMapper objectMapper) {
+        return new ServiceGenerator(configuration, objectMapper);
     }
 
     @Provides
@@ -53,27 +98,6 @@ public class ApiModule {
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         objectMapper.setTimeZone(TimeZone.getTimeZone("UTC"));
         return objectMapper;
-    }
-
-    private AuthToken authToken = null;
-
-    private Context context = null;
-
-    public ApiModule(Context context, AuthToken authToken) {
-        this.authToken = authToken;
-        this.context = context;
-        provideServiceGenerator(this.context, provideObjectMapper()).initialize();
-    }
-
-    public ApiModule(Context context) {
-        this.context = context;
-        provideServiceGenerator(this.context, provideObjectMapper()).initialize();
-    }
-
-    @Provides
-    @Singleton
-    Context provideContext() {
-        return this.context;
     }
 
     @Provides
@@ -149,6 +173,14 @@ public class ApiModule {
     @Singleton
     LandingUrlsRepository provideLandingUrlsRepository(LandingUrlsService landingUrlsService, ObjectMapper objectMapper) {
         return new LandingUrlsRepositoryImpl(objectMapper, landingUrlsService);
+    }
+
+    /**
+     * Method created only for the purpose of making unit tests independent
+     */
+    @SuppressWarnings("unused")
+    private static void reset() {
+        instance = null;
     }
 
 }
