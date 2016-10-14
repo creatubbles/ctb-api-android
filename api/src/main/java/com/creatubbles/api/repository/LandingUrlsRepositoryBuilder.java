@@ -1,10 +1,7 @@
 package com.creatubbles.api.repository;
 
-import android.content.Context;
-
 import com.creatubbles.api.di.components.DaggerApiComponent;
 import com.creatubbles.api.di.modules.ApiModule;
-import com.creatubbles.api.exception.InvalidParametersException;
 import com.creatubbles.api.model.AuthToken;
 import com.creatubbles.api.service.LandingUrlsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,20 +20,11 @@ public class LandingUrlsRepositoryBuilder {
     ObjectMapper objectMapper;
 
     private AuthToken authToken;
-    private Context context;
 
     public LandingUrlsRepository build() {
-        if (context != null) {
-            if (authToken != null) {
-                DaggerApiComponent.builder().apiModule(new ApiModule(context, authToken)).build()
-                        .inject(this);
-            } else {
-                DaggerApiComponent.builder().apiModule(new ApiModule(context)).build()
-                        .inject(this);
-            }
-            return new LandingUrlsRepositoryImpl(objectMapper, landingUrlsService);
-        }
-        throw new InvalidParametersException("Missing application context!");
+        DaggerApiComponent.builder().apiModule(ApiModule.getInstance(authToken)).build()
+                .inject(this);
+        return new LandingUrlsRepositoryImpl(objectMapper, landingUrlsService);
     }
 
 
@@ -45,8 +33,4 @@ public class LandingUrlsRepositoryBuilder {
         return this;
     }
 
-    public LandingUrlsRepositoryBuilder setContext(Context context) {
-        this.context = context;
-        return this;
-    }
 }
