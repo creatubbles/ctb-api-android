@@ -8,17 +8,14 @@ import com.creatubbles.api.model.AuthToken;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.RobolectricTestRunner;
 
 import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by Janek on 07.03.2016.
  */
-@RunWith(RobolectricTestRunner.class)
 public class GalleryRepositoryBuilderTest {
 
     @Mock
