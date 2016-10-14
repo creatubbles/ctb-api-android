@@ -77,7 +77,7 @@ public class UploadRepositoryTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testUserByIdSuccessfulRequest() {
+    public void testUploadFileSuccessfulRequest() {
         Answer successfulAnswer = invocation -> {
             Object[] arg = invocation.getArguments();
             Callback<String> retrofitCallback = ((Callback<String>) arg[arg.length - 1]);
@@ -93,7 +93,7 @@ public class UploadRepositoryTest {
     }
 
     @Test
-    public void testUserByIdFailedRequest() {
+    public void testUploadFileFailedRequest() {
         Answer failedAnswer = invocation -> {
             Object[] arg = invocation.getArguments();
             Callback<?> retrofitCallback = ((Callback) arg[arg.length - 1]);

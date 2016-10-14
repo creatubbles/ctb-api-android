@@ -5,7 +5,7 @@ import android.content.Context;
 import com.creatubbles.api.Configuration;
 import com.creatubbles.api.ContentType;
 import com.creatubbles.api.ServiceGenerator;
-import com.creatubbles.api.exception.InvalidParametersException;
+import com.creatubbles.api.exception.InitializationException;
 import com.creatubbles.api.model.AuthToken;
 import com.creatubbles.api.repository.CreationRepository;
 import com.creatubbles.api.repository.CreationRepositoryImpl;
@@ -42,30 +42,8 @@ import dagger.Provides;
 public class ApiModule {
 
     private static ApiModule instance = null;
-    private Configuration configuration = null;
-
-    @Provides
-    @Singleton
-    ServiceGenerator provideServiceGenerator(Configuration configuration, ObjectMapper objectMapper) {
-        return new ServiceGenerator(configuration, objectMapper);
-    }
-
-    @Provides
-    @Singleton
-    ObjectMapper provideObjectMapper() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        objectMapper.setTimeZone(TimeZone.getTimeZone("UTC"));
-        return objectMapper;
-    }
-
-    @Provides
-    @Singleton
-    Configuration provideConfiguration() {
-        return configuration;
-    }
-
     private static AuthToken authToken = null;
+    private Configuration configuration = null;
 
     private ApiModule(Configuration configuration) {
         this.configuration = configuration;
@@ -80,7 +58,7 @@ public class ApiModule {
 
     public static ApiModule getInstance(AuthToken token) {
         if (instance == null) {
-            throw new InvalidParametersException("Creatubbles Api wasn't initialized!");
+            throw new InitializationException("Creatubbles Api wasn't initialized!");
         } else {
             authToken = token;
             return instance;
@@ -89,10 +67,31 @@ public class ApiModule {
 
     public static ApiModule getInstance() {
         if (instance == null) {
-            throw new InvalidParametersException("CreatubblesApi wasn't initialized!");
+            throw new InitializationException("CreatubblesApi wasn't initialized!");
         } else {
             return instance;
         }
+    }
+
+    @Provides
+    @Singleton
+    Configuration provideConfiguration() {
+        return configuration;
+    }
+
+    @Provides
+    @Singleton
+    ServiceGenerator provideServiceGenerator(Configuration configuration, ObjectMapper objectMapper) {
+        return new ServiceGenerator(configuration, objectMapper);
+    }
+
+    @Provides
+    @Singleton
+    ObjectMapper provideObjectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        objectMapper.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return objectMapper;
     }
 
     @Provides
@@ -174,6 +173,13 @@ public class ApiModule {
     @Singleton
     LandingUrlsRepository provideLandingUrlsRepository(LandingUrlsService landingUrlsService, ObjectMapper objectMapper) {
         return new LandingUrlsRepositoryImpl(objectMapper, landingUrlsService);
+    }
+
+    /**
+     * Method created only for the purpose of making unit tests independent
+     */
+    private static void reset() {
+        instance = null;
     }
 
 }

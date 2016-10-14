@@ -29,7 +29,7 @@ public class GalleryRepositoryBuilder {
                     .inject(this);
             return new GalleryRepositoryImpl(objectMapper, galleryService);
         }
-        throw new InvalidParametersException("Missing application context or authorization token!");
+        throw new InvalidParametersException("Missing application authorization token!");
     }
 
     public boolean hasValidParameters() {

@@ -10,6 +10,11 @@ import com.creatubbles.api.exception.InvalidParametersException;
 
 public class Configuration {
 
+    private static final String INVALID_CLIENT_ID_MESSAGE = "ClientId can't be null!";
+    private static final String INVALID_CLIENT_SECRET_MESSAGE = "ClientSecret can't be null!";
+    private static final String INVALID_BASE_URL_MESSAGE = "BaseUrl can't be null!";
+    private static final String INVALID_APPLICATION_CONTEXT_MESSAGE = "Application Context can't be null!";
+
     private final String clientId;
     private final String clientSecret;
     private final String baseUrl;
@@ -51,13 +56,13 @@ public class Configuration {
 
         public Configuration build() {
             if (clientId == null) {
-                throw new InvalidParametersException("ClientId can't be null!");
+                throw new InvalidParametersException(INVALID_CLIENT_ID_MESSAGE);
             } else if (clientSecret == null) {
-                throw new InvalidParametersException("ClientSecret can't be null!");
+                throw new InvalidParametersException(INVALID_CLIENT_SECRET_MESSAGE);
             } else if (baseUrl == null) {
-                throw new InvalidParametersException("BaseUrl can't be null!");
+                throw new InvalidParametersException(INVALID_BASE_URL_MESSAGE);
             } else if (context == null) {
-                throw new InvalidParametersException("Application Context can't be null!");
+                throw new InvalidParametersException(INVALID_APPLICATION_CONTEXT_MESSAGE);
             } else {
                 return new Configuration(this);
             }

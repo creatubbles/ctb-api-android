@@ -1,8 +1,9 @@
 package com.creatubbles.api.repository;
 
-import android.content.Context;
+import android.app.Application;
 
-import com.creatubbles.api.exception.InvalidParametersException;
+import com.creatubbles.api.CreatubblesApi;
+import com.creatubbles.api.exception.InitializationException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,23 +15,27 @@ import static junit.framework.Assert.assertNotNull;
 public class OAuthRepositoryBuilderTest {
 
     @Mock
-    Context context;
+    Application context;
 
     private OAuthRepositoryBuilder target;
+
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+        CreatubblesApi.reset();
+        TestUtils.resetModule();
         target = new OAuthRepositoryBuilder();
     }
 
-    @Test(expected = InvalidParametersException.class)
-    public void testThrowsWhenPassedNullParameters() {
+    @Test(expected = InitializationException.class)
+    public void testThrowsWhenCreatubblesApiIsNotInitialized() {
         target.build();
     }
 
     @Test
     public void testIsNotNullWhenPassedCorrectParameters() {
+        TestUtils.initializeCreatubblesApi();
         OAuthRepository repository = target.build();
         assertNotNull(repository);
     }
