@@ -3,6 +3,7 @@ package com.creatubbles.api.repository;
 import android.support.annotation.NonNull;
 
 import com.creatubbles.api.model.CreatubblesResponse;
+import com.creatubbles.api.model.user.MultipleCreators;
 import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
 import com.creatubbles.api.response.JsonApiResponseMapper;
@@ -97,6 +98,12 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public void getUsersAvailableForSwitching(ResponseCallback<CreatubblesResponse<List<User>>> callback) {
         Call<JSONAPIDocument<List<User>>> call = userService.getSwitchUsers();
+        call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
+    }
+
+    @Override
+    public void createMultipleCreators(@NonNull MultipleCreators multipleCreators, ResponseCallback<CreatubblesResponse<MultipleCreators>> callback) {
+        Call<JSONAPIDocument<MultipleCreators>> call = userService.createMultipleCreators(multipleCreators);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 

@@ -104,6 +104,14 @@
             android:onClick="onCreateUserClicked"
             android:enabled="false"/>
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/create_multiple_users_btn"
+            android:text="Create Multiple Users"
+            android:onClick="onCreateMultipleUsersClicked"
+            android:enabled="false"/>
+
         <TextView
             android:id="@+id/galley_method_title"
             android:layout_width="wrap_content"

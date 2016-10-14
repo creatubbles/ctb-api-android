@@ -2,6 +2,7 @@ package com.creatubbles.api.repository;
 
 import com.creatubbles.api.exception.ErrorResponse;
 import com.creatubbles.api.model.CreatubblesResponse;
+import com.creatubbles.api.model.user.MultipleCreators;
 import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
 import com.creatubbles.api.request.ISO_3166_CountryCode;
@@ -45,6 +46,9 @@ public class UserRepositoryTest {
 
     @Mock
     ResponseCallback<CreatubblesResponse<User>> userResponseCallback;
+
+    @Mock
+    ResponseCallback<CreatubblesResponse<MultipleCreators>> multipleCreatorsCallback;
 
     @Mock
     UserService mockedUserService;
@@ -228,6 +232,34 @@ public class UserRepositoryTest {
 
         verify(userResponseCallback).onError(ERROR_MESSAGE);
         verify(userResponseCallback, never()).onSuccess(any());
+    }
+
+    @Test
+    public void testCreateMultipleCreatorsSuccess() {
+
+        doAnswer(getSuccessfulAnswer(body)).when(listCall).enqueue(any());
+        doReturn(listCall).when(mockedUserService).createMultipleCreators(any());
+
+        MultipleCreators multipleCreators = new MultipleCreators.Builder(10, 2000)
+                .build();
+
+        target.createMultipleCreators(multipleCreators, multipleCreatorsCallback);
+
+        verify(multipleCreatorsCallback, never()).onError(anyString());
+        verify(multipleCreatorsCallback).onSuccess(any());
+    }
+
+    @Test
+    public void testCreateMultipleCreatorsFailed() {
+        doAnswer(getFailedAnswer(ERROR_MESSAGE)).when(listCall).enqueue(any());
+        doReturn(listCall).when(mockedUserService).createMultipleCreators(any());
+        MultipleCreators multipleCreators = new MultipleCreators.Builder(10, 2000)
+                .build();
+
+        target.createMultipleCreators(multipleCreators, multipleCreatorsCallback);
+
+        verify(multipleCreatorsCallback).onError(ERROR_MESSAGE);
+        verify(multipleCreatorsCallback, never()).onSuccess(any());
     }
 
     @Test

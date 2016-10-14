@@ -94,4 +94,12 @@ public interface UserRepository {
      */
     void getUsersAvailableForSwitching(ResponseCallback<CreatubblesResponse<List<User>>> callback);
 
+    /**
+     * This method adds multiple creators (managed users) to the list of creators managed by logged-in user.
+     * Those creators have name generated automatically based on current user’s name.
+     *
+     * @param multipleCreators object defining required params
+     */
+    void createMultipleCreators(@NonNull MultipleCreators multipleCreators, ResponseCallback<CreatubblesResponse<MultipleCreators>> callback);
+
 }

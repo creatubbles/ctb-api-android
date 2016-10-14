@@ -1,6 +1,7 @@
 package com.creatubbles.api.service;
 
 import com.creatubbles.api.EndPoints;
+import com.creatubbles.api.model.user.MultipleCreators;
 import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
 import com.github.jasminb.jsonapi.JSONAPIDocument;
@@ -38,4 +39,7 @@ public interface UserService {
 
     @GET(EndPoints.SWITCH_USERS)
     Call<JSONAPIDocument<List<User>>> getSwitchUsers();
+
+    @POST(EndPoints.CREATOR_BUILDER_JOBS)
+    Call<JSONAPIDocument<MultipleCreators>> createMultipleCreators(@Body MultipleCreators request);
 }

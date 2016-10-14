@@ -26,6 +26,7 @@ import com.creatubbles.api.model.gallery.Gallery;
 import com.creatubbles.api.model.landing_url.LandingUrl;
 import com.creatubbles.api.model.landing_url.LandingUrlType;
 import com.creatubbles.api.model.upload.Upload;
+import com.creatubbles.api.model.user.MultipleCreators;
 import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
 import com.creatubbles.api.repository.CreationRepository;
@@ -48,6 +49,7 @@ import com.creatubbles.app.R;
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import javax.inject.Inject;
 
@@ -64,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     @Bind({R.id.get_user_btn, R.id.get_user_creators_btn, R.id.create_user_btn, R.id.create_gallery_btn,
             R.id.get_galleries_btn, R.id.create_creation_btn, R.id.create_upload_btn, R.id.get_creation_by_id_btn,
             R.id.get_all_landing_urls_btn, R.id.get_specific_landing_url_btn, R.id.get_user_managers_btn,
-            R.id.get_user_connections_btn, R.id.get_user_followed_btn, R.id.get_switch_users_btn})
+            R.id.get_user_connections_btn, R.id.get_user_followed_btn, R.id.get_switch_users_btn, R.id.create_multiple_users_btn})
     List<Button> actionButtons;
 
     @Bind(R.id.send_file_btn)
@@ -140,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onServerError(ErrorResponse errorResponse) {
-
+                        displayError(errorResponse);
                     }
 
                     @Override
@@ -216,10 +218,36 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onServerError(ErrorResponse errorResponse) {
-                Toast.makeText(MainActivity.this, errorResponse.getErrors().get
-                        (0).getDetail(), Toast
+                displayError(errorResponse);
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+    }
+
+    public void onCreateMultipleUsersClicked(View view) {
+        UserRepository userRepository = new UserRepositoryBuilder()
+                .setContext(getApplicationContext())
+                .setAuthToken(authToken)
+                .build();
+        MultipleCreators multipleCreators = new MultipleCreators.Builder(5, 2000)
+                .setGroup("TestGroup" + new Random().nextInt(50))
+                .build();
+
+        userRepository.createMultipleCreators(multipleCreators, new ResponseCallback<CreatubblesResponse<MultipleCreators>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<MultipleCreators> response) {
+                Toast.makeText(MainActivity.this, response.toString(), Toast
                         .LENGTH_SHORT)
                         .show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                displayError(errorResponse);
             }
 
             @Override
@@ -238,8 +266,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onServerError(ErrorResponse errorResponse) {
-                Toast.makeText(MainActivity.this, errorResponse.toString(), Toast.LENGTH_SHORT)
-                        .show();
+                displayError(errorResponse);
             }
 
             @Override
@@ -302,11 +329,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onServerError(ErrorResponse errorResponse) {
-                        Toast.makeText(MainActivity.this, errorResponse.getErrors
-                                ().get
-                                (0).getDetail(), Toast
-                                .LENGTH_SHORT)
-                                .show();
+                        displayError(errorResponse);
                     }
                 });
     }
@@ -357,7 +380,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onServerError(ErrorResponse errorResponse) {
-
+                displayError(errorResponse);
             }
 
             @Override
@@ -565,6 +588,12 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    void displayError(ErrorResponse errorResponse) {
+        Toast.makeText(MainActivity.this, errorResponse.toString(), Toast
+                .LENGTH_SHORT)
+                .show();
     }
 
     interface Function<T> {
