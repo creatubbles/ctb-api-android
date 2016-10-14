@@ -61,19 +61,39 @@ Check our demo app. You can check how to invoke method and connect to Creatubble
 - **your Client_ID and Client_Secret**
 - **your email and password to your creatubbles account**
 
-1. Authorize Repository
+
+1. Initialization
+-----------------------
+Before you start using CreatubblesApi library you must initialize it with your own configuration object.
+
+
+REMEMBER: CLIENT_ID and CLIENT_SECRET need to be your own secret keys.
+
+```
+CreatubblesApi.initialize(new Configuration.Builder()
+              .application(YourApplicationObject)
+              .baseUrl(BASE_URL)
+              .clientId(CLIENT_ID)
+              .clientSecret(CLIENT_SECRET)
+              .build());
+  }
+
+```
+
+The lack of any configuration's parameter will produce InvalidParametersException.
+
+
+After initialization you can start using all of the available repositories.
+
+2. Authorize Repository
 -----------------------
 
-To authorize to creatubble you use `OAuthRepository`. If you want to create instance of `OAuthRepository` you need to use `OAuthRepositoryBuilder` which implement Builder Pattern.
+To authorize to creatubbles you use `OAuthRepository`. If you want to create instance of `OAuthRepository` you need to use `OAuthRepositoryBuilder` which implement Builder Pattern.
 Example of create instance `OAuthRepository`:
 
-    REMEMBER: CLIENT_ID and CLIENT_SECRET need to be your own secret keys.
 
 ```
 OAuthRepository oauthRepository = new OAuthRepositoryBuilder()
-                .setContext(getApplicationContext())
-                .setClientId(CLIENT_ID)
-                .setClientSecret(CLIENT_SECRET)
                 .build();
 ```
 
@@ -106,13 +126,12 @@ oauthRepository.authorize("emial@email.com", "password", new ResponseCallback<Au
         });
 ```
 
-2. UserRepository
+3. UserRepository
 ---
 
 Create `UserRepository` instance:
 ```
 UserRepository userRepository = new UserRepositoryBuilder()
-                .setContext(getApplicationContext())
                 .setAuthToken(authToken)
                 .build();
 ```
@@ -136,13 +155,12 @@ userRepository.getUsersList(new ResponseCallback<CreatubblesResponse<List<User>>
         });
 ```
 
-3. GalleryRepository
+4. GalleryRepository
 --------------------
 
 Create `GalleryRepository` instance:
 ```
 GalleryRepository galleryRepository = new GalleryRepositoryBuilder()
-                .setContext(getApplicationContext())
                 .setAuthToken(authToken)
                 .build();
 ```
@@ -166,13 +184,12 @@ galleryRepository.getGalleryById("aaa777", ResponseCallback<CreatubblesResponse<
         });
 ```
 
-4. CreationRepository
+5. CreationRepository
 ---------------------
 
 Create `CreationRepository` instance:
 ```
 CreationRepository creationRepository = new CreationRepositoryBuilder()
-                .setContext(getApplicationContext())
                 .setAuthToken(authToken)
                 .build();
 ```
@@ -198,14 +215,13 @@ creationRepository.createCreation(newCreation, new
             }
         });
 ```
-5. Langing URLs repository
+6. Langing URLs repository
 --------------------------
 
 Create `LandingUrlsRepository` instance:
 
 ```
 LandingUrlsRepository repository = new LandingUrlsRepositoryBuilder()
-                .setContext(getApplicationContext())
                 .setAuthToken(authToken)
                 .build();
 ```
