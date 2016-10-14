@@ -102,4 +102,9 @@ public interface UserRepository {
      */
     void createMultipleCreators(@NonNull MultipleCreators multipleCreators, ResponseCallback<CreatubblesResponse<MultipleCreators>> callback);
 
+
+    /**
+     * Method used to obtain current user’s creators by group.
+     */
+    void getCreatorsFromGroup(@NonNull String groupId, ResponseCallback<CreatubblesResponse<List<User>>> callback);
 }

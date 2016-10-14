@@ -287,6 +287,28 @@ public class UserRepositoryTest {
         verify(userResponseCallback, only()).onSuccess(any());
     }
 
+    @Test
+    public void testCreatorsFromGroupSuccessful() {
+        doAnswer(getSuccessfulAnswer(body)).when(listCall).enqueue(any());
+        doReturn(listCall).when(mockedUserService).getCreatorsFromGroup(anyString());
+
+        target.getCreatorsFromGroup(anyString(), userListResponseResponseCallback);
+
+        verify(userListResponseResponseCallback, never()).onError(any(String.class));
+        verify(userListResponseResponseCallback).onSuccess(any());
+
+    }
+
+    @Test
+    public void testCreatorsFromGroupFailedRequest() {
+        doAnswer(getFailedAnswer(ERROR_MESSAGE)).when(listCall).enqueue(any());
+        doReturn(listCall).when(mockedUserService).getCreatorsFromGroup(anyString());
+
+        target.getCreatorsFromGroup(anyString(), userListResponseResponseCallback);
+
+        verify(userListResponseResponseCallback).onError(ERROR_MESSAGE);
+        verify(userListResponseResponseCallback, never()).onSuccess(any());
+    }
 
     private void mockUserServiceAnswerForUserById(Answer answer) {
         doAnswer(answer).when(userCall).enqueue(any());

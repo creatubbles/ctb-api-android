@@ -3,6 +3,7 @@ package com.creatubbles.app.view;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -66,7 +67,8 @@ public class MainActivity extends AppCompatActivity {
     @Bind({R.id.get_user_btn, R.id.get_user_creators_btn, R.id.create_user_btn, R.id.create_gallery_btn,
             R.id.get_galleries_btn, R.id.create_creation_btn, R.id.create_upload_btn, R.id.get_creation_by_id_btn,
             R.id.get_all_landing_urls_btn, R.id.get_specific_landing_url_btn, R.id.get_user_managers_btn,
-            R.id.get_user_connections_btn, R.id.get_user_followed_btn, R.id.get_switch_users_btn, R.id.create_multiple_users_btn})
+            R.id.get_user_connections_btn, R.id.get_user_followed_btn, R.id.get_switch_users_btn, R.id.create_multiple_users_btn,
+            R.id.get_creators_from_group_btn})
     List<Button> actionButtons;
 
     @Bind(R.id.send_file_btn)
@@ -200,6 +202,14 @@ public class MainActivity extends AppCompatActivity {
         getUserList(userRepository::getUsersAvailableForSwitching);
     }
 
+    public void onGetCreatorsFromGroup(View btn) {
+        UserRepository userRepository = new UserRepositoryBuilder()
+                .setContext(getApplicationContext())
+                .setAuthToken(authToken)
+                .build();
+        userRepository.getCreatorsFromGroup("9320", getUserListCallback());
+    }
+
     public void onCreateUserClicked(View btn) {
         UserRepository userRepository = new UserRepositoryBuilder()
                 .setContext(getApplicationContext())
@@ -277,7 +287,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getUserList(Function<ResponseCallback<CreatubblesResponse<List<User>>>> f) {
-        f.consume(new ResponseCallback<CreatubblesResponse<List<User>>>() {
+        f.consume(getUserListCallback());
+    }
+
+    @NonNull
+    private ResponseCallback<CreatubblesResponse<List<User>>> getUserListCallback() {
+        return new ResponseCallback<CreatubblesResponse<List<User>>>() {
             public void onSuccess(CreatubblesResponse<List<User>> response) {
                 if (response.getData().isEmpty()) {
                     Toast.makeText(MainActivity.this, "Success but no results", Toast
@@ -301,7 +316,7 @@ public class MainActivity extends AppCompatActivity {
             public void onError(String message) {
 
             }
-        });
+        };
     }
 
     public void onCreateCreationClicked(View btn) {

@@ -33,7 +33,7 @@ public interface UserService {
 
     @GET(EndPoints.USERS + "/{id}/followed_users")
     Call<JSONAPIDocument<List<User>>> getFollowedUsers(@Path("id") String id);
-    
+
     @POST(EndPoints.CREATORS)
     Call<JSONAPIDocument<User>> createUser(@Body NewUser newUser);
 
@@ -42,4 +42,7 @@ public interface UserService {
 
     @POST(EndPoints.CREATOR_BUILDER_JOBS)
     Call<JSONAPIDocument<MultipleCreators>> createMultipleCreators(@Body MultipleCreators request);
+
+    @GET(EndPoints.GROUPS + "/{id}/creators")
+    Call<JSONAPIDocument<List<User>>> getCreatorsFromGroup(@Path("id") String groupId);
 }

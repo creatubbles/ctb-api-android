@@ -107,4 +107,10 @@ public class UserRepositoryImpl implements UserRepository {
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
+    @Override
+    public void getCreatorsFromGroup(@NonNull String groupId, ResponseCallback<CreatubblesResponse<List<User>>> callback) {
+        Call<JSONAPIDocument<List<User>>> call = userService.getCreatorsFromGroup(groupId);
+        call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
+    }
+
 }
