@@ -6,6 +6,7 @@ import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.gallery.Gallery;
 import com.creatubbles.api.model.landing_url.LandingUrl;
 import com.creatubbles.api.model.upload.Upload;
+import com.creatubbles.api.model.user.MultipleCreators;
 import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,6 +30,8 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 public class ServiceGenerator {
 
     Configuration configuration;
+    private final Class[] jsonApiModels = {Creation.class, User.class, NewUser.class, Upload.class,
+            Gallery.class, LandingUrl.class, MultipleCreators.class};
 
     private Retrofit.Builder builder;
 
@@ -51,7 +54,7 @@ public class ServiceGenerator {
                 .baseUrl(configuration.getBaseUrl())
                 .client(client);
 
-        JSONAPIConverterFactory converterFactory = new JSONAPIConverterFactory(objectMapper, Creation.class, User.class, NewUser.class, Upload.class, Gallery.class, LandingUrl.class);
+        JSONAPIConverterFactory converterFactory = new JSONAPIConverterFactory(objectMapper, jsonApiModels);
         converterFactory.setAlternativeFactory(JacksonConverterFactory.create(objectMapper));
         builder.addConverterFactory(converterFactory);
 

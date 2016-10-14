@@ -3,6 +3,7 @@ package com.creatubbles.app.view;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -25,6 +26,7 @@ import com.creatubbles.api.model.gallery.Gallery;
 import com.creatubbles.api.model.landing_url.LandingUrl;
 import com.creatubbles.api.model.landing_url.LandingUrlType;
 import com.creatubbles.api.model.upload.Upload;
+import com.creatubbles.api.model.user.MultipleCreators;
 import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
 import com.creatubbles.api.repository.CreationRepository;
@@ -46,6 +48,7 @@ import com.creatubbles.app.R;
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -54,24 +57,17 @@ import okhttp3.MediaType;
 
 public class MainActivity extends AppCompatActivity {
 
+    @Bind({R.id.get_user_btn, R.id.get_user_creators_btn, R.id.create_user_btn, R.id.create_gallery_btn,
+            R.id.get_galleries_btn, R.id.create_creation_btn, R.id.create_upload_btn, R.id.get_creation_by_id_btn,
+            R.id.get_all_landing_urls_btn, R.id.get_specific_landing_url_btn, R.id.get_user_managers_btn,
+            R.id.get_user_connections_btn, R.id.get_user_followed_btn, R.id.get_switch_users_btn, R.id.create_multiple_users_btn,
+            R.id.get_creators_from_group_btn})
+    List<Button> actionButtons;
+
     @Bind(R.id.send_file_btn)
     Button sendFileBtn;
     @Bind(R.id.authorize_btn)
     Button authorizeBtn;
-    @Bind(R.id.get_user_list_btn)
-    Button getUserListBtn;
-    @Bind(R.id.create_user_btn)
-    Button createUserBtn;
-    @Bind(R.id.create_gallery_btn)
-    Button createGalleryBtn;
-    @Bind(R.id.get_galleries_btn)
-    Button getGalleriesBtn;
-    @Bind(R.id.create_creation_btn)
-    Button createCreationBtn;
-    @Bind(R.id.create_upload_btn)
-    Button createUploadBtn;
-    @Bind(R.id.get_creation_by_id_btn)
-    Button getCreationByIdBtn;
     @Bind(R.id.file_name)
     EditText fileName;
     @Bind(R.id.scrollview)
@@ -128,18 +124,12 @@ public class MainActivity extends AppCompatActivity {
                                 .LENGTH_SHORT).show();
 
                         authToken = response;
-                        getUserListBtn.setEnabled(true);
-                        createUserBtn.setEnabled(true);
-                        createCreationBtn.setEnabled(true);
-                        createUploadBtn.setEnabled(true);
-                        getCreationByIdBtn.setEnabled(true);
-                        createGalleryBtn.setEnabled(true);
-                        getGalleriesBtn.setEnabled(true);
+                        ButterKnife.apply(actionButtons, (view, index) -> view.setEnabled(true));
                     }
 
                     @Override
                     public void onServerError(ErrorResponse errorResponse) {
-
+                        displayError(errorResponse);
                     }
 
                     @Override
@@ -149,36 +139,53 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    public void onGetUserListClicked(View btn) {
+    public void getUserClicked(View btn) {
         UserRepository userRepository = new UserRepositoryBuilder()
                 .setAuthToken(authToken)
                 .build();
+        getUser(userRepository::getUser);
+    }
 
-        userRepository.getUsersList(new ResponseCallback<CreatubblesResponse<List<User>>>() {
-            @Override
-            public void onSuccess(CreatubblesResponse<List<User>> response) {
-                for (User creator : response.getData()) {
-                    Toast.makeText(MainActivity.this, creator.toString(), Toast
-                            .LENGTH_SHORT).show();
-                }
-                Toast.makeText(MainActivity.this, "success", Toast
-                        .LENGTH_SHORT)
-                        .show();
-            }
+    public void onGetUserCreatorsClicked(View btn) {
+        UserRepository userRepository = new UserRepositoryBuilder()
+                .setAuthToken(authToken)
+                .build();
+        getUserList(userRepository::getCreators);
+    }
 
-            @Override
-            public void onServerError(ErrorResponse errorResponse) {
-                Toast.makeText(MainActivity.this, errorResponse.getErrors().get
-                        (0).getDetail(), Toast
-                        .LENGTH_SHORT)
-                        .show();
-            }
+    public void onGetUserConnectionsClicked(View view) {
+        UserRepository userRepository = new UserRepositoryBuilder()
+                .setAuthToken(authToken)
+                .build();
+        getUserList(userRepository::getConnections);
+    }
 
-            @Override
-            public void onError(String message) {
+    public void onGetUserFollowedClicked(View view) {
+        UserRepository userRepository = new UserRepositoryBuilder()
+                .setAuthToken(authToken)
+                .build();
+        getUserList(userRepository::getFollowedUsers);
+    }
 
-            }
-        });
+    public void onGetUserManagersClicked(View btn) {
+        UserRepository userRepository = new UserRepositoryBuilder()
+                .setAuthToken(authToken)
+                .build();
+        getUserList(userRepository::getManagers);
+    }
+
+    public void onGetSwitchUsersClicked(View btn) {
+        UserRepository userRepository = new UserRepositoryBuilder()
+                .setAuthToken(authToken)
+                .build();
+        getUserList(userRepository::getUsersAvailableForSwitching);
+    }
+
+    public void onGetCreatorsFromGroup(View btn) {
+        UserRepository userRepository = new UserRepositoryBuilder()
+                .setAuthToken(authToken)
+                .build();
+        userRepository.getCreatorsFromGroup("9320", null, getUserListCallback());
     }
 
     public void onCreateUserClicked(View btn) {
@@ -198,8 +205,85 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onServerError(ErrorResponse errorResponse) {
-                Toast.makeText(MainActivity.this, errorResponse.getErrors().get
-                        (0).getDetail(), Toast
+                displayError(errorResponse);
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+    }
+
+    public void onCreateMultipleUsersClicked(View view) {
+        UserRepository userRepository = new UserRepositoryBuilder()
+                .setAuthToken(authToken)
+                .build();
+        MultipleCreators multipleCreators = new MultipleCreators.Builder(5, 2000)
+                .setGroup("TestGroup" + new Random().nextInt(50))
+                .build();
+
+        userRepository.createMultipleCreators(multipleCreators, new ResponseCallback<CreatubblesResponse<MultipleCreators>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<MultipleCreators> response) {
+                Toast.makeText(MainActivity.this, response.toString(), Toast
+                        .LENGTH_SHORT)
+                        .show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                displayError(errorResponse);
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+    }
+
+    private void getUser(Function<ResponseCallback<CreatubblesResponse<User>>> f) {
+        f.consume(new ResponseCallback<CreatubblesResponse<User>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<User> response) {
+                Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                displayError(errorResponse);
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+    }
+
+    private void getUserList(BiFunction<Integer, ResponseCallback<CreatubblesResponse<List<User>>>> f) {
+        f.consume(null, getUserListCallback());
+    }
+
+    @NonNull
+    private ResponseCallback<CreatubblesResponse<List<User>>> getUserListCallback() {
+        return new ResponseCallback<CreatubblesResponse<List<User>>>() {
+            public void onSuccess(CreatubblesResponse<List<User>> response) {
+                if (response.getData().isEmpty()) {
+                    Toast.makeText(MainActivity.this, "Success but no results", Toast
+                            .LENGTH_SHORT).show();
+                } else {
+                    for (User creator : response.getData()) {
+                        Toast.makeText(MainActivity.this, creator.toString(), Toast
+                                .LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                Toast.makeText(MainActivity.this, errorResponse.toString(), Toast
                         .LENGTH_SHORT)
                         .show();
             }
@@ -208,7 +292,7 @@ public class MainActivity extends AppCompatActivity {
             public void onError(String message) {
 
             }
-        });
+        };
     }
 
     public void onCreateCreationClicked(View btn) {
@@ -235,11 +319,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onServerError(ErrorResponse errorResponse) {
-                        Toast.makeText(MainActivity.this, errorResponse.getErrors
-                                ().get
-                                (0).getDetail(), Toast
-                                .LENGTH_SHORT)
-                                .show();
+                        displayError(errorResponse);
                     }
                 });
     }
@@ -288,7 +368,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onServerError(ErrorResponse errorResponse) {
-
+                displayError(errorResponse);
             }
 
             @Override
@@ -492,5 +572,18 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    void displayError(ErrorResponse errorResponse) {
+        Toast.makeText(MainActivity.this, errorResponse.toString(), Toast
+                .LENGTH_SHORT)
+                .show();
+    }
+
+    interface Function<T> {
+        void consume(T t);
+    }
+    interface BiFunction<T, U> {
+        void consume(T first, U second);
     }
 }

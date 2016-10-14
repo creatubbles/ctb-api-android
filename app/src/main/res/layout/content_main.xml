@@ -47,12 +47,61 @@
             android:text="User methods: "
             android:layout_marginTop="15dp"/>
 
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/get_user_list_btn"
-            android:text="Get User List"
-            android:onClick="onGetUserListClicked"
+            android:id="@+id/get_user_btn"
+            android:text="Get Current User"
+            android:onClick="getUserClicked"
+            android:enabled="false"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_user_creators_btn"
+            android:text="Get Creators"
+            android:onClick="onGetUserCreatorsClicked"
+            android:enabled="false"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_user_managers_btn"
+            android:text="Get Managers"
+            android:onClick="onGetUserManagersClicked"
+            android:enabled="false"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_user_connections_btn"
+            android:text="Get Connections"
+            android:onClick="onGetUserConnectionsClicked"
+            android:enabled="false"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_user_followed_btn"
+            android:text="Get Followed users"
+            android:onClick="onGetUserFollowedClicked"
+            android:enabled="false"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_switch_users_btn"
+            android:text="Get Users for switching"
+            android:onClick="onGetSwitchUsersClicked"
+            android:enabled="false"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_creators_from_group_btn"
+            android:text="Get Creators from Group"
+            android:onClick="onGetCreatorsFromGroup"
             android:enabled="false"/>
 
         <Button
@@ -61,6 +110,14 @@
             android:id="@+id/create_user_btn"
             android:text="Create User"
             android:onClick="onCreateUserClicked"
+            android:enabled="false"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/create_multiple_users_btn"
+            android:text="Create Multiple Users"
+            android:onClick="onCreateMultipleUsersClicked"
             android:enabled="false"/>
 
         <TextView

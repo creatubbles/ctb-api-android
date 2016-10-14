@@ -2,6 +2,7 @@ package com.creatubbles.api.repository;
 
 import com.creatubbles.api.exception.ErrorResponse;
 import com.creatubbles.api.model.CreatubblesResponse;
+import com.creatubbles.api.model.user.MultipleCreators;
 import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
 import com.creatubbles.api.request.ISO_3166_CountryCode;
@@ -20,9 +21,9 @@ import org.mockito.stubbing.Answer;
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
+import static com.creatubbles.api.repository.RepositoryTestUtil.getFailedAnswer;
+import static com.creatubbles.api.repository.RepositoryTestUtil.getSuccessfulAnswer;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -38,11 +39,16 @@ public class UserRepositoryTest {
     private static final String ERROR_MESSAGE = "What an error!";
     private UserRepository target;
 
+    private NewUser newUser;
+
     @Mock
     ResponseCallback<CreatubblesResponse<List<User>>> userListResponseResponseCallback;
 
     @Mock
     ResponseCallback<CreatubblesResponse<User>> userResponseCallback;
+
+    @Mock
+    ResponseCallback<CreatubblesResponse<MultipleCreators>> multipleCreatorsCallback;
 
     @Mock
     UserService mockedUserService;
@@ -57,109 +63,71 @@ public class UserRepositoryTest {
     ErrorResponse errorResponse;
 
     @Mock
-    NewUser newUser;
-
-    @Mock
     JSONAPIDocument<?> body;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         target = new UserRepositoryImpl(new ObjectMapper(), mockedUserService);
+        newUser = new NewUser.Builder("name")
+                .displayName("displayName")
+                .country(ISO_3166_CountryCode.POLAND.getCountryCodeA2())
+                .birthYear(2000)
+                .birthMonth(1)
+                .build();
     }
 
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testUserByIdSuccessfulRequest() {
+        mockUserServiceAnswerForUserById(getSuccessfulAnswer(body));
 
-        Answer successfulAnswer = invocation -> {
-            Object[] getUserByIdArguments = invocation.getArguments();
-            Callback<JSONAPIDocument<?>> retrofitCallback = (Callback<JSONAPIDocument<?>>) getUserByIdArguments[getUserByIdArguments
-                    .length - 1];
-            retrofitCallback.onResponse(null, Response.success(body));
-            return null;
-        };
-        mockUserServiceAnswerForUserById(successfulAnswer);
-        target.getUserById(any(String.class), userResponseCallback);
+        target.getUser(any(String.class), userResponseCallback);
+
         verify(userResponseCallback, never()).onError(any(String.class));
         verify(userResponseCallback).onSuccess(any());
     }
 
     @Test
     public void testUserByIdFailedRequest() {
-        Answer failedAnswer = invocation -> {
-            Object[] getUserByIdArguments = invocation.getArguments();
-            Callback<?> retrofitCallback = ((Callback) getUserByIdArguments[getUserByIdArguments
-                    .length - 1]);
-            retrofitCallback.onFailure(null, new Exception(ERROR_MESSAGE));
-            return null;
-        };
-        mockUserServiceAnswerForUserById(failedAnswer);
-        target.getUserById(any(String.class), userResponseCallback);
+        mockUserServiceAnswerForUserById(getFailedAnswer(ERROR_MESSAGE));
+
+        target.getUser(userResponseCallback);
+
         verify(userResponseCallback).onError(ERROR_MESSAGE);
         verify(userResponseCallback, never()).onSuccess(any());
     }
 
-    @SuppressWarnings("unchecked")
     @Test
-    public void testUserSuccessfulRequest() {
-        Answer successfulAnswer = invocation -> {
-            Object[] getUserArguments = invocation.getArguments();
-            Callback<JSONAPIDocument<?>> retrofitCallback = ((Callback<JSONAPIDocument<?>>) getUserArguments[getUserArguments
-                    .length - 1]);
-            retrofitCallback.onResponse(null, Response.success(body));
-            return null;
-        };
-        mockUserServiceAnswerForUser(successfulAnswer);
-        target.getUser(userResponseCallback);
-        verify(userResponseCallback, never()).onError(any(String.class));
-        verify(userResponseCallback).onSuccess(any());
+    public void testCreatorsSuccessfulRequest() {
+
+        doAnswer(getSuccessfulAnswer(body)).when(listCall).enqueue(any());
+        doReturn(listCall).when(mockedUserService).getCreators(anyString(), any());
+
+        target.getCreators(anyString(), any(), userListResponseResponseCallback);
+
+        verify(userListResponseResponseCallback, never()).onError(anyString());
+        verify(userListResponseResponseCallback).onSuccess(any());
+
     }
 
     @Test
-    public void testUserFailedRequest() {
-        Answer failedAnswer = invocation -> {
-            Object[] getUserArguments = invocation.getArguments();
-            Callback<?> retrofitCallback = ((Callback) getUserArguments[getUserArguments
-                    .length - 1]);
-            retrofitCallback.onFailure(null, new Exception(ERROR_MESSAGE));
-            return null;
-        };
-        mockUserServiceAnswerForUser(failedAnswer);
-        target.getUser(userResponseCallback);
-        verify(userResponseCallback).onError(ERROR_MESSAGE);
-        verify(userResponseCallback, never()).onSuccess(any());
-    }
+    public void testCreatorsFailedRequest() {
+        doAnswer(getFailedAnswer(ERROR_MESSAGE)).when(listCall).enqueue(any());
+        doReturn(listCall).when(mockedUserService).getCreators(anyString(), any());
 
-    private void mockUserServiceAnswerForUserById(Answer answer) {
-        doAnswer(answer).when(userCall).enqueue(any());
+        target.getCreators(null, userListResponseResponseCallback);
 
-        doReturn(userCall).when(mockedUserService).getUserById(any(String.class));
-    }
-
-    private void mockUserServiceAnswerForUser(Answer answer) {
-        doAnswer(answer).when(userCall).enqueue(any());
-
-        doReturn(userCall).when(mockedUserService).getUser();
+        verify(userListResponseResponseCallback).onError(ERROR_MESSAGE);
+        verify(userListResponseResponseCallback, never()).onSuccess(any());
     }
 
     @Test
-    @SuppressWarnings("unchecked")
-    public void testUsersListSuccessfulRequest() {
-        Answer successfulAnswer = new Answer<Void>() {
-            @Override
-            public Void answer(InvocationOnMock invocation) {
-                Object[] getUsersListAguments = invocation.getArguments();
-                Callback<JSONAPIDocument<?>> retrofitCallback = ((Callback<JSONAPIDocument<?>>) getUsersListAguments[getUsersListAguments
-                        .length - 1]);
-                retrofitCallback.onResponse(null, Response.success(body));
-                return null;
-            }
-        };
-        mockUserServiceAnswerForUsersList(successfulAnswer);
+    public void testFollowedSuccessfulRequest() {
+        doAnswer(getSuccessfulAnswer(body)).when(listCall).enqueue(any());
+        doReturn(listCall).when(mockedUserService).getFollowedUsers(anyString(), any());
 
-        target.getUsersList(userListResponseResponseCallback);
+        target.getFollowedUsers(anyString(), any(), userListResponseResponseCallback);
 
         verify(userListResponseResponseCallback, never()).onError(any(String.class));
         verify(userListResponseResponseCallback).onSuccess(any());
@@ -167,86 +135,142 @@ public class UserRepositoryTest {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
-    public void testUsersListFailedRequest() {
-        Answer failedAnswer = new Answer<Void>() {
-            @Override
-            public Void answer(InvocationOnMock invocation) {
-                Object[] getUsersListArguments = invocation.getArguments();
-                Callback retrofitCallback = ((Callback)
-                        getUsersListArguments[getUsersListArguments.length - 1]);
-                retrofitCallback.onFailure(null, new Exception
-                        (ERROR_MESSAGE));
-                return null;
-            }
-        };
-        mockUserServiceAnswerForUsersList(failedAnswer);
-        target.getUsersList(userListResponseResponseCallback);
+    public void testFollowedFailedRequest() {
+        doAnswer(getFailedAnswer(ERROR_MESSAGE)).when(listCall).enqueue(any());
+        doReturn(listCall).when(mockedUserService).getFollowedUsers(anyString(), any());
+
+        target.getFollowedUsers(null, userListResponseResponseCallback);
+
         verify(userListResponseResponseCallback).onError(ERROR_MESSAGE);
         verify(userListResponseResponseCallback, never()).onSuccess(any());
     }
 
     @Test
-    @SuppressWarnings("unchecked")
-    public void testCreatUserSuccessful() {
-        Answer successfulAnswer = new Answer<Void>() {
-            @Override
-            public Void answer(InvocationOnMock invocation) {
-                Object[] getUsersListArguments = invocation.getArguments();
-                Callback<JSONAPIDocument<?>> retrofitCallback = ((Callback<JSONAPIDocument<?>>)
-                        getUsersListArguments[getUsersListArguments.length - 1]);
-                retrofitCallback.onResponse(null, Response.success(body));
-                return null;
-            }
-        };
-        mockUserServiceAnswerForCreateUser(successfulAnswer);
+    public void testManagersSuccessfulRequest() {
+        doAnswer(getSuccessfulAnswer(body)).when(listCall).enqueue(any());
+        doReturn(listCall).when(mockedUserService).getManagers(anyString(), any());
+
+        target.getManagers(anyString(), any(), userListResponseResponseCallback);
+
+        verify(userListResponseResponseCallback, never()).onError(any(String.class));
+        verify(userListResponseResponseCallback).onSuccess(any());
+
+    }
+
+    @Test
+    public void testManagersFailedRequest() {
+        doAnswer(getFailedAnswer(ERROR_MESSAGE)).when(listCall).enqueue(any());
+        doReturn(listCall).when(mockedUserService).getManagers(anyString(), any());
+
+        target.getManagers(null, userListResponseResponseCallback);
+
+        verify(userListResponseResponseCallback).onError(ERROR_MESSAGE);
+        verify(userListResponseResponseCallback, never()).onSuccess(any());
+    }
+
+    @Test
+    public void testConnectionsSuccessfulRequest() {
+        doAnswer(getSuccessfulAnswer(body)).when(listCall).enqueue(any());
+        doReturn(listCall).when(mockedUserService).getConnections(anyString(), any());
+
+        target.getConnections(anyString(), any(), userListResponseResponseCallback);
+
+        verify(userListResponseResponseCallback, never()).onError(any(String.class));
+        verify(userListResponseResponseCallback).onSuccess(any());
+
+    }
+
+    @Test
+    public void testConnectionsFailedRequest() {
+        doAnswer(getFailedAnswer(ERROR_MESSAGE)).when(listCall).enqueue(any());
+        doReturn(listCall).when(mockedUserService).getConnections(anyString(), any());
+
+        target.getConnections(null, userListResponseResponseCallback);
+
+        verify(userListResponseResponseCallback).onError(ERROR_MESSAGE);
+        verify(userListResponseResponseCallback, never()).onSuccess(any());
+    }
+
+    @Test
+    public void testSwitchUsersSuccessfulRequest() {
+        doAnswer(getSuccessfulAnswer(body)).when(listCall).enqueue(any());
+        doReturn(listCall).when(mockedUserService).getSwitchUsers(any());
+
+        target.getUsersAvailableForSwitching(any(), userListResponseResponseCallback);
+
+        verify(userListResponseResponseCallback, never()).onError(any(String.class));
+        verify(userListResponseResponseCallback).onSuccess(any());
+
+    }
+
+    @Test
+    public void testSwitchUsersFailedRequest() {
+        doAnswer(getFailedAnswer(ERROR_MESSAGE)).when(listCall).enqueue(any());
+        doReturn(listCall).when(mockedUserService).getSwitchUsers(any());
+
+        target.getUsersAvailableForSwitching(any(), userListResponseResponseCallback);
+
+        verify(userListResponseResponseCallback).onError(ERROR_MESSAGE);
+        verify(userListResponseResponseCallback, never()).onSuccess(any());
+    }
+
+    @Test
+    public void testCreateUserSuccessful() {
+        mockUserServiceAnswerForCreateUser(getSuccessfulAnswer(body));
+
         target.createUser(newUser, userResponseCallback);
+
         verify(userResponseCallback, never()).onError(anyString());
         verify(userResponseCallback).onSuccess(any());
     }
 
     @Test
-    public void testCreatUserFailed() {
-        Answer failedAnswer = new Answer<Void>() {
+    public void testCreateUserFailed() {
+        mockUserServiceAnswerForCreateUser(getFailedAnswer(ERROR_MESSAGE));
 
-            @Override
-            public Void answer(InvocationOnMock invocation) {
-                Object[] getUsersListArguments = invocation.getArguments();
-                Callback<?> retrofitCallback = ((Callback)
-                        getUsersListArguments[getUsersListArguments.length - 1]);
-                retrofitCallback.onFailure(null, new Exception
-                        (ERROR_MESSAGE));
-                return null;
-            }
-        };
-        mockUserServiceAnswerForCreateUser(failedAnswer);
         target.createUser(newUser, userResponseCallback);
+
         verify(userResponseCallback).onError(ERROR_MESSAGE);
         verify(userResponseCallback, never()).onSuccess(any());
     }
 
     @Test
-    @SuppressWarnings("unchecked")
+    public void testCreateMultipleCreatorsSuccess() {
+
+        doAnswer(getSuccessfulAnswer(body)).when(listCall).enqueue(any());
+        doReturn(listCall).when(mockedUserService).createMultipleCreators(any());
+
+        MultipleCreators multipleCreators = new MultipleCreators.Builder(10, 2000)
+                .build();
+
+        target.createMultipleCreators(multipleCreators, multipleCreatorsCallback);
+
+        verify(multipleCreatorsCallback, never()).onError(anyString());
+        verify(multipleCreatorsCallback).onSuccess(any());
+    }
+
+    @Test
+    public void testCreateMultipleCreatorsFailed() {
+        doAnswer(getFailedAnswer(ERROR_MESSAGE)).when(listCall).enqueue(any());
+        doReturn(listCall).when(mockedUserService).createMultipleCreators(any());
+        MultipleCreators multipleCreators = new MultipleCreators.Builder(10, 2000)
+                .build();
+
+        target.createMultipleCreators(multipleCreators, multipleCreatorsCallback);
+
+        verify(multipleCreatorsCallback).onError(ERROR_MESSAGE);
+        verify(multipleCreatorsCallback, never()).onSuccess(any());
+    }
+
+    @Test
     public void testPasswordAuthorizationCredentialsRequest() {
-        mockCreatorRequest();
         Answer paramsValidator = new Answer<Call<User>>() {
             public Call<User> answer(InvocationOnMock invocation) {
                 Object[] getArguments = invocation.getArguments();
                 assertEquals(newUser.getName(), ((NewUser) getArguments[0]).getName
                         ());
 
-                Answer successfulAnswer = new Answer<Void>() {
-                    @Override
-                    public Void answer(InvocationOnMock invocation) throws Throwable {
-                        Object[] getAccessTokenArguments = invocation.getArguments();
-                        Callback<JSONAPIDocument<?>> retrofitCallback = ((Callback<JSONAPIDocument<?>>)
-                                getAccessTokenArguments[getAccessTokenArguments.length - 1]);
-
-                        retrofitCallback.onResponse(null, Response.success(body));
-                        return null;
-                    }
-                };
-                doAnswer(successfulAnswer)
+                doAnswer(getSuccessfulAnswer(body))
                         .when(userCall)
                         .enqueue(any());
 
@@ -263,22 +287,38 @@ public class UserRepositoryTest {
         verify(userResponseCallback, only()).onSuccess(any());
     }
 
-    private void mockCreatorRequest() {
-        doReturn("name").when(newUser).getName();
-        doReturn("displayName").when(newUser).getDisplayName();
-        doReturn(ISO_3166_CountryCode.POLAND.getCountryCodeA2()).when(newUser).getCountry();
-        doReturn(2000).when(newUser).getBirthMonth();
-        doReturn(1).when(newUser).getBirthYear();
+    @Test
+    public void testCreatorsFromGroupSuccessful() {
+        doAnswer(getSuccessfulAnswer(body)).when(listCall).enqueue(any());
+        doReturn(listCall).when(mockedUserService).getCreatorsFromGroup(anyString(), any());
+
+        target.getCreatorsFromGroup(anyString(), any(), userListResponseResponseCallback);
+
+        verify(userListResponseResponseCallback, never()).onError(any(String.class));
+        verify(userListResponseResponseCallback).onSuccess(any());
+
+    }
+
+    @Test
+    public void testCreatorsFromGroupFailedRequest() {
+        doAnswer(getFailedAnswer(ERROR_MESSAGE)).when(listCall).enqueue(any());
+        doReturn(listCall).when(mockedUserService).getCreatorsFromGroup(anyString(), any());
+
+        target.getCreatorsFromGroup(anyString(), any(), userListResponseResponseCallback);
+
+        verify(userListResponseResponseCallback).onError(ERROR_MESSAGE);
+        verify(userListResponseResponseCallback, never()).onSuccess(any());
+    }
+
+    private void mockUserServiceAnswerForUserById(Answer answer) {
+        doAnswer(answer).when(userCall).enqueue(any());
+
+        doReturn(userCall).when(mockedUserService).getUserById(any(String.class));
     }
 
     private void mockUserServiceAnswerForCreateUser(Answer answer) {
         doAnswer(answer).when(listCall).enqueue(any());
         doReturn(listCall).when(mockedUserService).createUser(any(NewUser.class));
-    }
-
-    private void mockUserServiceAnswerForUsersList(Answer answer) {
-        doAnswer(answer).when(listCall).enqueue(any());
-        doReturn(listCall).when(mockedUserService).getUsers();
     }
 
 }
