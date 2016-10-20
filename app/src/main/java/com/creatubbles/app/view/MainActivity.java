@@ -41,7 +41,6 @@ import com.creatubbles.api.repository.UploadRepository;
 import com.creatubbles.api.repository.UploadRepositoryBuilder;
 import com.creatubbles.api.repository.UserRepository;
 import com.creatubbles.api.repository.UserRepositoryBuilder;
-import com.creatubbles.api.request.UploadRequest;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.app.R;
 
@@ -61,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             R.id.get_galleries_btn, R.id.create_creation_btn, R.id.create_upload_btn, R.id.get_creation_by_id_btn,
             R.id.get_all_landing_urls_btn, R.id.get_specific_landing_url_btn, R.id.get_user_managers_btn,
             R.id.get_user_connections_btn, R.id.get_user_followed_btn, R.id.get_switch_users_btn, R.id.create_multiple_users_btn,
-            R.id.get_creators_from_group_btn})
+            R.id.get_creators_from_group_btn, R.id.get_recent_creations_btn})
     List<Button> actionButtons;
 
     @Bind(R.id.send_file_btn)
@@ -331,7 +330,7 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         Creation newCreation = new Creation.Builder("testCreation", Collections.emptyList()).build();
-        creationRepository.createCreation(newCreation, new
+        creationRepository.create(newCreation, new
                 ResponseCallback<CreatubblesResponse<Creation>>() {
                     @Override
                     public void onSuccess(CreatubblesResponse<Creation> response) {
@@ -354,33 +353,59 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    public void onGetRecentCreationsClicked(View view) {
+        CreationRepository creationRepository = new CreationRepositoryBuilder()
+                .setAuthToken(authToken)
+                .build();
+        creationRepository.getRecent(null, Boolean.FALSE, new ResponseCallback<CreatubblesResponse<List<Creation>>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<List<Creation>> response) {
+                Toast.makeText(MainActivity.this, "Creations: " + response.getMeta().getTotalCount(),
+                        Toast.LENGTH_SHORT)
+                        .show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                displayError(errorResponse);
+            }
+
+            @Override
+            public void onError(String message) {
+                Toast.makeText(MainActivity.this, message, Toast
+                        .LENGTH_SHORT)
+                        .show();
+            }
+        });
+    }
+
     public void onCreateUploadClicked(View btn) {
         CreationRepository creationRepository = new CreationRepositoryBuilder()
                 .setAuthToken(authToken)
                 .build();
 
-        creationRepository.createUpload("V4QbH3DE", new UploadRequest(ContentType
-                .JPG), new ResponseCallback<CreatubblesResponse<Upload>>() {
-            @Override
-            public void onSuccess(CreatubblesResponse<Upload> response) {
-                Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_SHORT)
-                        .show();
+        creationRepository.startUpload("V4QbH3DE", ContentType.JPG,
+                new ResponseCallback<CreatubblesResponse<Upload>>() {
+                    @Override
+                    public void onSuccess(CreatubblesResponse<Upload> response) {
+                        Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_SHORT)
+                                .show();
 
-                responseFromCreateUpload = response.getData();
-                sendFileBtn.setEnabled(true);
-                fileName.setEnabled(true);
-            }
+                        responseFromCreateUpload = response.getData();
+                        sendFileBtn.setEnabled(true);
+                        fileName.setEnabled(true);
+                    }
 
-            @Override
-            public void onServerError(ErrorResponse errorResponse) {
+                    @Override
+                    public void onServerError(ErrorResponse errorResponse) {
 
-            }
+                    }
 
-            @Override
-            public void onError(String message) {
+                    @Override
+                    public void onError(String message) {
 
-            }
-        });
+                    }
+                });
 
     }
 
@@ -389,7 +414,7 @@ public class MainActivity extends AppCompatActivity {
                 .setAuthToken(authToken)
                 .build();
         //TODO: add working creation ID
-        creationRepository.getCreationById("ghOq9eug", new ResponseCallback<CreatubblesResponse<Creation>>() {
+        creationRepository.getById("ghOq9eug", new ResponseCallback<CreatubblesResponse<Creation>>() {
             @Override
             public void onSuccess(CreatubblesResponse<Creation> response) {
                 Toast.makeText(MainActivity.this, response.toString(), Toast
@@ -430,6 +455,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     private void sendFile() {
         String filePath = fileName.getText().toString();
         if (filePath.length() <= 0) {
@@ -447,26 +473,24 @@ public class MainActivity extends AppCompatActivity {
                             CreationRepository creationRepository = new CreationRepositoryBuilder()
                                     .setAuthToken(authToken)
                                     .build();
-                            creationRepository.updateCreationUpload(responseFromCreateUpload
-                                    .getPingUrl(), new ResponseCallback<Void>() {
+                            creationRepository.finishUpload(responseFromCreateUpload, null,
+                                    new ResponseCallback<Void>() {
+                                        @Override
+                                        public void onSuccess(Void response) {
+                                            Toast.makeText(MainActivity.this, "Successful uploading!", Toast
+                                                    .LENGTH_SHORT).show();
+                                        }
 
+                                        @Override
+                                        public void onServerError(ErrorResponse errorResponse) {
 
-                                @Override
-                                public void onSuccess(Void response) {
-                                    Toast.makeText(MainActivity.this, "Successful uploading!", Toast
-                                            .LENGTH_SHORT).show();
-                                }
+                                        }
 
-                                @Override
-                                public void onServerError(ErrorResponse errorResponse) {
+                                        @Override
+                                        public void onError(String message) {
 
-                                }
-
-                                @Override
-                                public void onError(String message) {
-
-                                }
-                            });
+                                        }
+                                    });
                         }
 
                         @Override
@@ -481,7 +505,6 @@ public class MainActivity extends AppCompatActivity {
                     });
         }
     }
-
 
     public void onCreateGalleryClicked(View view) {
         GalleryRepository galleryRepository = new GalleryRepositoryBuilder().setAuthToken
@@ -613,6 +636,7 @@ public class MainActivity extends AppCompatActivity {
     interface Function<T> {
         void consume(T t);
     }
+
     interface BiFunction<T, U> {
         void consume(T first, U second);
     }
