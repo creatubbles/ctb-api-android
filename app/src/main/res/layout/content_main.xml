@@ -40,6 +40,14 @@
             android:text="Authorize"
             android:onClick="onAuthorizeClicked"/>
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/switch_btn"
+            android:text="Switch user"
+            android:onClick="onSwitchClicked"
+            android:enabled="false" />
+
         <TextView
             android:id="@+id/user_method_title"
             android:layout_width="wrap_content"

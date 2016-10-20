@@ -27,5 +27,11 @@ public interface OAuthService {
                                    @Field("client_secret") String secret,
                                    @Field("grant_type") GrantType grantType);
 
+    @FormUrlEncoded
+    @POST(EndPoints.OAUTH_TOKEN)
+    Call<AuthToken> switchUser(@Field("access_token") String currentToken,
+                               @Field("grant_type") GrantType grantType,
+                               @Field("target_user_id") String targetUserId,
+                               @Field("group_id") String groupId);
 
 }
