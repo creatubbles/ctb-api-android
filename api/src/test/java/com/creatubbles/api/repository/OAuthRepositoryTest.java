@@ -172,7 +172,7 @@ public class OAuthRepositoryTest {
     }
 
     @Test
-    public void testSwitchAccountSuccessfulRequest() {
+    public void testswitchUserSuccessfulRequest() {
         Answer successfulAnswer = new Answer<Void>() {
             public Void answer(InvocationOnMock invocation) {
                 Object[] getAccessTokenArguments = invocation.getArguments();
@@ -184,13 +184,13 @@ public class OAuthRepositoryTest {
             }
         };
         mockOAuthServiceAnswerForSwitchUser(successfulAnswer);
-        target.switchAccount(anyAuthToken(), "", null, authTokenResponseCallback);
+        target.switchUser(anyAuthToken(), "", null, authTokenResponseCallback);
         verify(authTokenResponseCallback, never()).onError(any(String.class));
         verify(authTokenResponseCallback).onSuccess(any(AuthToken.class));
     }
 
     @Test
-    public void testSwitchAccountFailedRequest() {
+    public void testswitchUserFailedRequest() {
         Answer failedAnswer = new Answer<Void>() {
             public Void answer(InvocationOnMock invocation) {
                 Object[] getAccessTokenArguments = invocation.getArguments();
@@ -202,7 +202,7 @@ public class OAuthRepositoryTest {
             }
         };
         mockOAuthServiceAnswerForSwitchUser(failedAnswer);
-        target.switchAccount(anyAuthToken(), "", null, authTokenResponseCallback);
+        target.switchUser(anyAuthToken(), "", null, authTokenResponseCallback);
         verify(authTokenResponseCallback).onError(ERROR_MESSAGE);
         verify(authTokenResponseCallback, never()).onSuccess(any(AuthToken.class));
     }

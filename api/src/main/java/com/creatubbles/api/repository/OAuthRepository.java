@@ -26,5 +26,5 @@ public interface OAuthRepository {
      * @param targetUserId the user for which to obtain an access token
      * @param groupId      (optional) limits further user switching to the given group
      */
-    void switchAccount(@NonNull AuthToken currentToken, @NonNull String targetUserId, @Nullable String groupId, ResponseCallback<AuthToken> callback);
+    void switchUser(@NonNull AuthToken currentToken, @NonNull String targetUserId, @Nullable String groupId, ResponseCallback<AuthToken> callback);
 }

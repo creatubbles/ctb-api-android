@@ -44,7 +44,7 @@ public class OAuthRepositoryImpl implements OAuthRepository {
     }
 
     @Override
-    public void switchAccount(@NonNull AuthToken currentToken, @NonNull String targetUserId, @Nullable String groupId, ResponseCallback<AuthToken> callback) {
+    public void switchUser(@NonNull AuthToken currentToken, @NonNull String targetUserId, @Nullable String groupId, ResponseCallback<AuthToken> callback) {
         Call<AuthToken> call = oAuthService.switchUser(currentToken.getAccessToken(), GrantType.USER_SWITCH, targetUserId, groupId);
         call.enqueue(new SameResponseMapper<>(objectMapper, callback));
     }

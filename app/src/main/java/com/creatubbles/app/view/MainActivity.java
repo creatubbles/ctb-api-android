@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
     public void onSwitchClicked(View btn) {
         OAuthRepository repository = new OAuthRepositoryBuilder().build();
 
-        repository.switchAccount(authToken, usersAvailableForSwitching.get(0).getId(), null, new ResponseCallback<AuthToken>() {
+        repository.switchUser(authToken, usersAvailableForSwitching.get(0).getId(), null, new ResponseCallback<AuthToken>() {
             @Override
             public void onSuccess(AuthToken response) {
                 Toast.makeText(MainActivity.this, response.getAccessToken(), Toast
