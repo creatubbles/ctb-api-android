@@ -72,8 +72,11 @@ public class MainActivity extends AppCompatActivity {
     EditText fileName;
     @Bind(R.id.scrollview)
     ScrollView scrollView;
+    @Bind(R.id.switch_btn)
+    Button switchBtn;
 
     Upload responseFromCreateUpload;
+    List<User> usersAvailableForSwitching;
     AuthToken authToken;
 
     @Override
@@ -139,6 +142,30 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    public void onSwitchClicked(View btn) {
+        OAuthRepository repository = new OAuthRepositoryBuilder().build();
+
+        repository.switchUser(authToken, usersAvailableForSwitching.get(0).getId(), null, new ResponseCallback<AuthToken>() {
+            @Override
+            public void onSuccess(AuthToken response) {
+                Toast.makeText(MainActivity.this, response.getAccessToken(), Toast
+                        .LENGTH_SHORT).show();
+
+                authToken = response;
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                displayError(errorResponse);
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+    }
+
     public void getUserClicked(View btn) {
         UserRepository userRepository = new UserRepositoryBuilder()
                 .setAuthToken(authToken)
@@ -179,6 +206,8 @@ public class MainActivity extends AppCompatActivity {
                 .setAuthToken(authToken)
                 .build();
         getUserList(userRepository::getUsersAvailableForSwitching);
+
+        switchBtn.setEnabled(true);
     }
 
     public void onGetCreatorsFromGroup(View btn) {
@@ -274,6 +303,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Success but no results", Toast
                             .LENGTH_SHORT).show();
                 } else {
+                    usersAvailableForSwitching = response.getData();
                     for (User creator : response.getData()) {
                         Toast.makeText(MainActivity.this, creator.toString(), Toast
                                 .LENGTH_SHORT).show();

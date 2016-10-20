@@ -6,7 +6,6 @@ import com.creatubbles.api.service.GrantType;
 import com.creatubbles.api.service.OAuthService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -16,10 +15,12 @@ import org.mockito.stubbing.Answer;
 
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 
+import static com.creatubbles.api.repository.RepositoryTestUtil.getFailedAnswer;
+import static com.creatubbles.api.repository.RepositoryTestUtil.getSuccessfulAnswer;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.never;
@@ -42,56 +43,28 @@ public class OAuthRepositoryTest {
     @Mock
     Call<AuthToken> call;
 
+    private AuthToken body;
+
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         target = new OAuthRepositoryImpl(new ObjectMapper(), mockedOAuthService);
     }
 
-    @After
-    public void tearDown() {
-        //May come in handy
-    }
-
 
     @Test
     public void testSimpleAuthorizationSuccessfulRequest() {
-        //Mocked answer for getAccessToken for simple user
-        Answer successfulAnswer = new Answer<Void>() {
-            @Override
-            public Void answer(InvocationOnMock invocation) throws Throwable {
-                Object[] getAccessTokenArguments = invocation.getArguments();
-                Callback retrofitCallback = ((Callback)
-                        getAccessTokenArguments[getAccessTokenArguments.length - 1]);
+        mockOAuthServiceAnswerForSimpleUser(getSuccessfulAnswer(body));
 
-                retrofitCallback.onResponse(null, Response.success(any(AuthToken.class)));
-                return null;
-            }
-        };
-
-        //Attaching answer above to mocked OAuthService
-        mockOAuthServiceAnswerForSimpleUser(successfulAnswer);
-
-        //Performing request
         target.authorize(authTokenResponseCallback);
-        //Verifying answers
+
         verify(authTokenResponseCallback, never()).onError(any(String.class));
         verify(authTokenResponseCallback).onSuccess(any(AuthToken.class));
     }
 
     @Test
     public void testSimpleAuthorizationFailedRequest() {
-        Answer failedAnswer = new Answer<Void>() {
-            public Void answer(InvocationOnMock invocation) {
-                Object[] getAccessTokenArguments = invocation.getArguments();
-                Callback retrofitCallback = ((Callback)
-                        getAccessTokenArguments[getAccessTokenArguments.length - 1]);
-
-                retrofitCallback.onFailure(null, new Exception(ERROR_MESSAGE));
-                return null;
-            }
-        };
-        mockOAuthServiceAnswerForSimpleUser(failedAnswer);
+        mockOAuthServiceAnswerForSimpleUser(getFailedAnswer(ERROR_MESSAGE));
         target.authorize(authTokenResponseCallback);
         verify(authTokenResponseCallback).onError(ERROR_MESSAGE);
         verify(authTokenResponseCallback, never()).onSuccess(any(AuthToken.class));
@@ -99,18 +72,10 @@ public class OAuthRepositoryTest {
 
     @Test
     public void testPasswordAuthorizationSuccessfulRequest() {
-        Answer successfulAnswer = new Answer<Void>() {
-            public Void answer(InvocationOnMock invocation) {
-                Object[] getAccessTokenArguments = invocation.getArguments();
-                Callback retrofitCallback = ((Callback)
-                        getAccessTokenArguments[getAccessTokenArguments.length - 1]);
+        mockOAuthServiceAnswerForPasswordUser(getSuccessfulAnswer(body));
 
-                retrofitCallback.onResponse(null, Response.success(any(AuthToken.class)));
-                return null;
-            }
-        };
-        mockOAuthServiceAnswerForPasswordUser(successfulAnswer);
         target.authorize("", "", authTokenResponseCallback);
+
         verify(authTokenResponseCallback, never()).onError(any(String.class));
         verify(authTokenResponseCallback).onSuccess(any(AuthToken.class));
     }
@@ -125,20 +90,10 @@ public class OAuthRepositoryTest {
                 assertEquals(login, getAccessTokenArguments[3]);
                 assertEquals(password, getAccessTokenArguments[4]);
 
-                Answer successfulAnswer = new Answer<Void>() {
-                    @Override
-                    public Void answer(InvocationOnMock invocation) throws Throwable {
-                        Object[] getAccessTokenArguments = invocation.getArguments();
-                        Callback retrofitCallback = ((Callback)
-                                getAccessTokenArguments[getAccessTokenArguments.length - 1]);
 
-                        retrofitCallback.onResponse(null, Response.success(any(AuthToken.class)));
-                        return null;
-                    }
-                };
-                doAnswer(successfulAnswer)
+                doAnswer(getSuccessfulAnswer(body))
                         .when(call)
-                        .enqueue(any(Callback.class));
+                        .enqueue(any());
 
                 return call;
             }
@@ -154,18 +109,30 @@ public class OAuthRepositoryTest {
 
     @Test
     public void testPasswordAuthorizationFailedRequest() {
-        Answer failedAnswer = new Answer<Void>() {
-            public Void answer(InvocationOnMock invocation) {
-                Object[] getAccessTokenArguments = invocation.getArguments();
-                Callback retrofitCallback = ((Callback)
-                        getAccessTokenArguments[getAccessTokenArguments.length - 1]);
+        mockOAuthServiceAnswerForPasswordUser(getFailedAnswer(ERROR_MESSAGE));
 
-                retrofitCallback.onFailure(null, new Exception(ERROR_MESSAGE));
-                return null;
-            }
-        };
-        mockOAuthServiceAnswerForPasswordUser(failedAnswer);
         target.authorize("", "", authTokenResponseCallback);
+
+        verify(authTokenResponseCallback).onError(ERROR_MESSAGE);
+        verify(authTokenResponseCallback, never()).onSuccess(any(AuthToken.class));
+    }
+
+    @Test
+    public void testswitchUserSuccessfulRequest() {
+        mockOAuthServiceAnswerForSwitchUser(getSuccessfulAnswer(body));
+
+        target.switchUser(anyAuthToken(), "", null, authTokenResponseCallback);
+
+        verify(authTokenResponseCallback, never()).onError(any(String.class));
+        verify(authTokenResponseCallback).onSuccess(any(AuthToken.class));
+    }
+
+    @Test
+    public void testswitchUserFailedRequest() {
+        mockOAuthServiceAnswerForSwitchUser(getFailedAnswer(ERROR_MESSAGE));
+
+        target.switchUser(anyAuthToken(), "", null, authTokenResponseCallback);
+
         verify(authTokenResponseCallback).onError(ERROR_MESSAGE);
         verify(authTokenResponseCallback, never()).onSuccess(any(AuthToken.class));
     }
@@ -183,12 +150,27 @@ public class OAuthRepositoryTest {
     private void mockOAuthServiceAnswerForPasswordUser(Answer answer) {
         doAnswer(answer)
                 .when(call)
-                .enqueue(any(Callback.class));
+                .enqueue(any());
 
         doReturn(call)
                 .when(mockedOAuthService)
                 .getAccessToken(any(String.class), any(String.class), any(GrantType.class),
                         any(String.class), any(String.class));
+    }
+
+    private void mockOAuthServiceAnswerForSwitchUser(Answer answer) {
+        doAnswer(answer)
+                .when(call)
+                .enqueue(any());
+
+        doReturn(call)
+                .when(mockedOAuthService)
+                .switchUser(anyString(), any(GrantType.class), anyString(),
+                        anyString());
+    }
+
+    private AuthToken anyAuthToken() {
+        return new AuthToken("", "", 1L);
     }
 
 }

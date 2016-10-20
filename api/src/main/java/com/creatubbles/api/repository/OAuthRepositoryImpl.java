@@ -1,5 +1,8 @@
 package com.creatubbles.api.repository;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.creatubbles.api.model.AuthToken;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.response.SameResponseMapper;
@@ -40,11 +43,20 @@ public class OAuthRepositoryImpl implements OAuthRepository {
         call.enqueue(new SameResponseMapper<>(objectMapper, callback));
     }
 
+    @Override
+    public void switchUser(@NonNull AuthToken currentToken, @NonNull String targetUserId, @Nullable String groupId, ResponseCallback<AuthToken> callback) {
+        Call<AuthToken> call = oAuthService.switchUser(currentToken.getAccessToken(), GrantType.USER_SWITCH, targetUserId, groupId);
+        call.enqueue(new SameResponseMapper<>(objectMapper, callback));
+    }
+
+    @Override
     public void setClientId(String clientId) {
         this.clientId = clientId;
     }
 
+    @Override
     public void setClientSecret(String clientSecret) {
         this.clientSecret = clientSecret;
     }
+
 }
