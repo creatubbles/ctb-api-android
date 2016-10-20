@@ -20,6 +20,7 @@ import retrofit2.Response;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.never;
@@ -170,6 +171,42 @@ public class OAuthRepositoryTest {
         verify(authTokenResponseCallback, never()).onSuccess(any(AuthToken.class));
     }
 
+    @Test
+    public void testSwitchAccountSuccessfulRequest() {
+        Answer successfulAnswer = new Answer<Void>() {
+            public Void answer(InvocationOnMock invocation) {
+                Object[] getAccessTokenArguments = invocation.getArguments();
+                Callback retrofitCallback = ((Callback)
+                        getAccessTokenArguments[getAccessTokenArguments.length - 1]);
+
+                retrofitCallback.onResponse(null, Response.success(any(AuthToken.class)));
+                return null;
+            }
+        };
+        mockOAuthServiceAnswerForSwitchUser(successfulAnswer);
+        target.switchAccount(anyAuthToken(), "", null, authTokenResponseCallback);
+        verify(authTokenResponseCallback, never()).onError(any(String.class));
+        verify(authTokenResponseCallback).onSuccess(any(AuthToken.class));
+    }
+
+    @Test
+    public void testSwitchAccountFailedRequest() {
+        Answer failedAnswer = new Answer<Void>() {
+            public Void answer(InvocationOnMock invocation) {
+                Object[] getAccessTokenArguments = invocation.getArguments();
+                Callback retrofitCallback = ((Callback)
+                        getAccessTokenArguments[getAccessTokenArguments.length - 1]);
+
+                retrofitCallback.onFailure(null, new Exception(ERROR_MESSAGE));
+                return null;
+            }
+        };
+        mockOAuthServiceAnswerForSwitchUser(failedAnswer);
+        target.switchAccount(anyAuthToken(), "", null, authTokenResponseCallback);
+        verify(authTokenResponseCallback).onError(ERROR_MESSAGE);
+        verify(authTokenResponseCallback, never()).onSuccess(any(AuthToken.class));
+    }
+
     private void mockOAuthServiceAnswerForSimpleUser(Answer answer) {
         doAnswer(answer)
                 .when(call)
@@ -189,6 +226,21 @@ public class OAuthRepositoryTest {
                 .when(mockedOAuthService)
                 .getAccessToken(any(String.class), any(String.class), any(GrantType.class),
                         any(String.class), any(String.class));
+    }
+
+    private void mockOAuthServiceAnswerForSwitchUser(Answer answer) {
+        doAnswer(answer)
+                .when(call)
+                .enqueue(any(Callback.class));
+
+        doReturn(call)
+                .when(mockedOAuthService)
+                .switchUser(anyString(), any(GrantType.class), anyString(),
+                        anyString());
+    }
+
+    private AuthToken anyAuthToken() {
+        return new AuthToken("", "", 1L);
     }
 
 }
