@@ -25,6 +25,7 @@ import com.creatubbles.api.service.LandingUrlsService;
 import com.creatubbles.api.service.OAuthService;
 import com.creatubbles.api.service.UploadService;
 import com.creatubbles.api.service.UserService;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -97,6 +98,8 @@ public class ApiModule {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         objectMapper.setTimeZone(TimeZone.getTimeZone("UTC"));
+        // important: when updating a resource we want to skip fields that weren't set so we don't override them with nulls
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         return objectMapper;
     }
 
