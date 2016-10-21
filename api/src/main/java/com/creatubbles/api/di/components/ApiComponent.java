@@ -1,6 +1,7 @@
 package com.creatubbles.api.di.components;
 
 import com.creatubbles.api.di.modules.ApiModule;
+import com.creatubbles.api.repository.ActivityRepositoryBuilder;
 import com.creatubbles.api.repository.CreationRepositoryBuilder;
 import com.creatubbles.api.repository.GalleryRepositoryBuilder;
 import com.creatubbles.api.repository.LandingUrlsRepositoryBuilder;
@@ -30,4 +31,6 @@ public interface ApiComponent {
     void inject(UploadRepositoryBuilder builder);
 
     void inject(LandingUrlsRepositoryBuilder landingUrlsRepositoryBuilder);
+
+    void inject(ActivityRepositoryBuilder target);
 }

@@ -23,5 +23,6 @@ public class EndPoints {
     public static final String AVATAR_SUGGESTIONS = "avatar_suggestions";
     public static final String SWITCH_USERS = "user_switch/users";
     public static final String CREATOR_BUILDER_JOBS = "creator_builder_jobs";
+    public static final String ACTIVITIES = "activities";
 
 }
