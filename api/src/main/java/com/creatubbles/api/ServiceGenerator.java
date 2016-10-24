@@ -2,6 +2,8 @@ package com.creatubbles.api;
 
 import com.creatubbles.api.interceptor.CreatubbleInterceptor;
 import com.creatubbles.api.model.AuthToken;
+import com.creatubbles.api.model.activity.Activity;
+import com.creatubbles.api.model.comment.Comment;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.gallery.Gallery;
 import com.creatubbles.api.model.landing_url.LandingUrl;
@@ -31,7 +33,7 @@ public class ServiceGenerator {
 
     Configuration configuration;
     private final Class[] jsonApiModels = {Creation.class, User.class, NewUser.class, Upload.class,
-            Gallery.class, LandingUrl.class, MultipleCreators.class};
+            Gallery.class, LandingUrl.class, MultipleCreators.class, Activity.class, Comment.class};
 
     private Retrofit.Builder builder;
 
