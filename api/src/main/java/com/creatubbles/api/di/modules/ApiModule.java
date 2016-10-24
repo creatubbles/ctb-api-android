@@ -19,7 +19,9 @@ import com.creatubbles.api.repository.UploadRepository;
 import com.creatubbles.api.repository.UploadRepositoryImpl;
 import com.creatubbles.api.repository.UserRepository;
 import com.creatubbles.api.repository.UserRepositoryImpl;
+import com.creatubbles.api.service.ActivityService;
 import com.creatubbles.api.service.CreationService;
+import com.creatubbles.api.service.CustomStyleService;
 import com.creatubbles.api.service.GalleryService;
 import com.creatubbles.api.service.LandingUrlsService;
 import com.creatubbles.api.service.OAuthService;
@@ -176,6 +178,18 @@ public class ApiModule {
     @Singleton
     LandingUrlsRepository provideLandingUrlsRepository(LandingUrlsService landingUrlsService, ObjectMapper objectMapper) {
         return new LandingUrlsRepositoryImpl(objectMapper, landingUrlsService);
+    }
+
+    @Provides
+    @Singleton
+    ActivityService provideActivityService(ServiceGenerator serviceGenerator) {
+        return serviceGenerator.createService(ActivityService.class, ContentType.VND_JSON, authToken);
+    }
+
+    @Provides
+    @Singleton
+    CustomStyleService provideCustomStyleService(ServiceGenerator serviceGenerator) {
+        return serviceGenerator.createService(CustomStyleService.class, ContentType.VND_JSON, authToken);
     }
 
     /**

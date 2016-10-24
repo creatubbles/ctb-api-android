@@ -33,6 +33,22 @@
             android:layout_height="wrap_content"
             android:text="Authorize methods: "/>
 
+        <EditText
+            android:id="@+id/email_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="email"
+            android:inputType="textEmailAddress" />
+
+        <EditText
+            android:id="@+id/password_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="password"
+            android:inputType="textPassword" />
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -237,5 +253,49 @@
             android:text="Get Specific"
             android:onClick="onGetSpecificLandingUrlClicked"
             android:enabled="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Activities methods: "
+            android:layout_marginTop="15dp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_activities_btn"
+            android:text="Get Activities"
+            android:onClick="onGetActivitiesClicked"
+            android:enabled="false"/>
+
+        <TextView
+            android:id="@+id/get_custom_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="true"
+            android:text="Get current user's custom style" />
+
+        <Button
+            android:id="@+id/get_custom_style_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:onClick="onGetCustomStyleClicked"
+            android:text="get style" />
+
+        <TextView
+            android:id="@+id/update_custom_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="true"
+            android:text="Update current user's custom style" />
+
+        <Button
+            android:id="@+id/update_custom_style_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:onClick="onUpdateCustomStyleClicked"
+            android:text="update style" />
     </LinearLayout>
 </ScrollView>

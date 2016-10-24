@@ -8,6 +8,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +22,7 @@ import com.creatubbles.api.ContentType;
 import com.creatubbles.api.exception.ErrorResponse;
 import com.creatubbles.api.model.AuthToken;
 import com.creatubbles.api.model.CreatubblesResponse;
+import com.creatubbles.api.model.activity.Activity;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.gallery.Gallery;
 import com.creatubbles.api.model.landing_url.LandingUrl;
@@ -29,8 +31,13 @@ import com.creatubbles.api.model.upload.Upload;
 import com.creatubbles.api.model.user.MultipleCreators;
 import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
+import com.creatubbles.api.repository.ActivityRepository;
+import com.creatubbles.api.repository.ActivityRepositoryBuilder;
+import com.creatubbles.api.model.user.custom_style.CustomStyle;
 import com.creatubbles.api.repository.CreationRepository;
 import com.creatubbles.api.repository.CreationRepositoryBuilder;
+import com.creatubbles.api.repository.CustomStyleRepository;
+import com.creatubbles.api.repository.CustomStyleRepositoryBuilder;
 import com.creatubbles.api.repository.GalleryRepository;
 import com.creatubbles.api.repository.GalleryRepositoryBuilder;
 import com.creatubbles.api.repository.LandingUrlsRepository;
@@ -45,6 +52,7 @@ import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.app.R;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -60,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
             R.id.get_galleries_btn, R.id.create_creation_btn, R.id.create_upload_btn, R.id.get_creation_by_id_btn,
             R.id.get_all_landing_urls_btn, R.id.get_specific_landing_url_btn, R.id.get_user_managers_btn,
             R.id.get_user_connections_btn, R.id.get_user_followed_btn, R.id.get_switch_users_btn, R.id.create_multiple_users_btn,
-            R.id.get_creators_from_group_btn, R.id.get_recent_creations_btn})
+            R.id.get_creators_from_group_btn, R.id.get_recent_creations_btn, R.id.get_activities_btn})
     List<Button> actionButtons;
 
     @Bind(R.id.send_file_btn)
@@ -73,10 +81,19 @@ public class MainActivity extends AppCompatActivity {
     ScrollView scrollView;
     @Bind(R.id.switch_btn)
     Button switchBtn;
+    @Bind(R.id.email_edit_text)
+    EditText emailText;
+    @Bind(R.id.password_edit_text)
+    EditText passwordText;
+    @Bind(R.id.get_custom_style_btn)
+    Button getCustomStyleBtn;
+    @Bind(R.id.update_custom_style_btn)
+    Button updateCustomStyleBtn;
 
     Upload responseFromCreateUpload;
     List<User> usersAvailableForSwitching;
     AuthToken authToken;
+    String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
 
         OAuthRepository repository = new OAuthRepositoryBuilder().build();
 
-        repository.authorize("email@email.com", "password", new
+        ResponseCallback<AuthToken> callback = new
                 ResponseCallback<AuthToken>() {
 
                     @Override
@@ -138,7 +155,12 @@ public class MainActivity extends AppCompatActivity {
                     public void onError(String message) {
 
                     }
-                });
+                };
+        if (TextUtils.isEmpty(emailText.getText())) {
+            repository.authorize(callback);
+        } else {
+            repository.authorize(emailText.getText().toString(), passwordText.getText().toString(), callback);
+        }
     }
 
     public void onSwitchClicked(View btn) {
@@ -276,6 +298,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(CreatubblesResponse<User> response) {
                 Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+                userId = response.getData().getId();
+                getCustomStyleBtn.setEnabled(true);
+                updateCustomStyleBtn.setEnabled(true);
             }
 
             @Override
@@ -625,6 +650,76 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    public void onGetCustomStyleClicked(View btn) {
+        CustomStyleRepository customStyleRepository = new CustomStyleRepositoryBuilder()
+                .setAuthToken(authToken)
+                .build();
+        customStyleRepository.getCustomStyle(userId, new ResponseCallback<CreatubblesResponse<CustomStyle>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<CustomStyle> response) {
+                Toast.makeText(MainActivity.this, response.toString(), Toast
+                        .LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+    }
+
+    public void onUpdateCustomStyleClicked(View btn) {
+        CustomStyleRepository customStyleRepository = new CustomStyleRepositoryBuilder()
+                .setAuthToken(authToken)
+                .build();
+        List<String> colors = Arrays.asList("#C0C0C0", "#DD1F26", "#BC2025");
+        customStyleRepository.updateCustomStyle(userId, new CustomStyle("style1", "pattern0", "pattern0", "Arial", "My bio", colors, colors), new ResponseCallback<CreatubblesResponse<CustomStyle>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<CustomStyle> response) {
+                Toast.makeText(MainActivity.this, response.toString(), Toast
+                        .LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+
+            }
+
+            @Override
+            public void onError(String message){
+
+                }
+            });
+    }
+
+    public void onGetActivitiesClicked(View btn) {
+        ActivityRepository activityRepository = new ActivityRepositoryBuilder(authToken)
+                .build();
+
+        activityRepository.getActivities(null, new ResponseCallback<CreatubblesResponse<List<Activity>>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<List<Activity>> response) {
+                Toast.makeText(MainActivity.this, "Total activities: " + response.getMeta().getTotalCount(),
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                displayError(errorResponse);
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
     }
 
     void displayError(ErrorResponse errorResponse) {
