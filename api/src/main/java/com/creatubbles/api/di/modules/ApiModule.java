@@ -20,6 +20,7 @@ import com.creatubbles.api.repository.UploadRepositoryImpl;
 import com.creatubbles.api.repository.UserRepository;
 import com.creatubbles.api.repository.UserRepositoryImpl;
 import com.creatubbles.api.service.ActivityService;
+import com.creatubbles.api.service.CommentService;
 import com.creatubbles.api.service.CreationService;
 import com.creatubbles.api.service.CustomStyleService;
 import com.creatubbles.api.service.GalleryService;
@@ -184,6 +185,11 @@ public class ApiModule {
     @Singleton
     ActivityService provideActivityService(ServiceGenerator serviceGenerator) {
         return serviceGenerator.createService(ActivityService.class, ContentType.VND_JSON, authToken);
+    }
+    @Provides
+    @Singleton
+    CommentService provideCommentService(ServiceGenerator serviceGenerator) {
+        return serviceGenerator.createService(CommentService.class, ContentType.VND_JSON, authToken);
     }
 
     @Provides

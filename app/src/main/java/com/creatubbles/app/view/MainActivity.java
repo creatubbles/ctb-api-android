@@ -23,6 +23,7 @@ import com.creatubbles.api.exception.ErrorResponse;
 import com.creatubbles.api.model.AuthToken;
 import com.creatubbles.api.model.CreatubblesResponse;
 import com.creatubbles.api.model.activity.Activity;
+import com.creatubbles.api.model.comment.Comment;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.gallery.Gallery;
 import com.creatubbles.api.model.landing_url.LandingUrl;
@@ -31,9 +32,11 @@ import com.creatubbles.api.model.upload.Upload;
 import com.creatubbles.api.model.user.MultipleCreators;
 import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
+import com.creatubbles.api.model.user.custom_style.CustomStyle;
 import com.creatubbles.api.repository.ActivityRepository;
 import com.creatubbles.api.repository.ActivityRepositoryBuilder;
-import com.creatubbles.api.model.user.custom_style.CustomStyle;
+import com.creatubbles.api.repository.CommentRepository;
+import com.creatubbles.api.repository.CommentRepositoryBuilder;
 import com.creatubbles.api.repository.CreationRepository;
 import com.creatubbles.api.repository.CreationRepositoryBuilder;
 import com.creatubbles.api.repository.CustomStyleRepository;
@@ -89,6 +92,10 @@ public class MainActivity extends AppCompatActivity {
     Button getCustomStyleBtn;
     @Bind(R.id.update_custom_style_btn)
     Button updateCustomStyleBtn;
+    @Bind(R.id.get_user_comments_btn)
+    Button getUserComments;
+    @Bind(R.id.create_user_comment_btn)
+    Button createUserComment;
 
     Upload responseFromCreateUpload;
     List<User> usersAvailableForSwitching;
@@ -301,6 +308,8 @@ public class MainActivity extends AppCompatActivity {
                 userId = response.getData().getId();
                 getCustomStyleBtn.setEnabled(true);
                 updateCustomStyleBtn.setEnabled(true);
+                getUserComments.setEnabled(true);
+                createUserComment.setEnabled(true);
             }
 
             @Override
@@ -707,6 +716,52 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(CreatubblesResponse<List<Activity>> response) {
                 Toast.makeText(MainActivity.this, "Total activities: " + response.getMeta().getTotalCount(),
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                displayError(errorResponse);
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+    }
+
+    public void onGetUserComments(View view) {
+        CommentRepository commentRepository = new CommentRepositoryBuilder(authToken)
+                .build();
+
+        commentRepository.getForUser(null, userId, new ResponseCallback<CreatubblesResponse<List<Comment>>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<List<Comment>> response) {
+                Toast.makeText(MainActivity.this, "Total comments: " + response.getMeta().getTotalCount(),
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                displayError(errorResponse);
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+    }
+
+    public void onCreateUserComments(View view) {
+        CommentRepository commentRepository = new CommentRepositoryBuilder(authToken)
+                .build();
+        Comment comment = Comment.create("Test comment");
+        commentRepository.createForUser(comment, userId, new ResponseCallback<CreatubblesResponse<Comment>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<Comment> response) {
+                Toast.makeText(MainActivity.this, response.toString(),
                         Toast.LENGTH_SHORT).show();
             }
 
