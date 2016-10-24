@@ -26,6 +26,7 @@
 5. `UploadRepository` - for upload media (images, videos) to server
 6. `LandingUrlsRepository` - for fetching landing urls
 7. `ActivityRepository` - for fetching list of activities
+8. `CustomStyleRepository` - for operations on user's custom style
 
 ## Preview
 ### Demo
@@ -253,6 +254,35 @@ activityRepository.getActivities(page, new ResponseCallback<CreatubblesResponse<
             @Override
             public void onError(String message) {
             }
+        });
+```
+
+8. Custom style repository
+--------------------------
+
+Create `CustomStyleRepository` instance:
+
+```
+CustomStyleRepository customStyleRepository = new CustomStyleRepositoryBuilder()
+               .setAuthToken(authToken)
+               .build();
+```
+
+Example of `CustomStyleRepository` uses:
+
+```
+customStyleRepository.getCustomStyle(userId, new ResponseCallback<CreatubblesResponse<CustomStyle>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<CustomStyle> response) {
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+            }
+
+            @Override
+            public void onError(String message){
+            }      
         });
 ```
 
