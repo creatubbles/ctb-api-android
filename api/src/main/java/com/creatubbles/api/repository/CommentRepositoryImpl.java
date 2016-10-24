@@ -21,8 +21,8 @@ import retrofit2.Call;
  */
 public class CommentRepositoryImpl implements CommentRepository {
 
-    private CommentService service;
-    private ObjectMapper objectMapper;
+    private final CommentService service;
+    private final ObjectMapper objectMapper;
 
     public CommentRepositoryImpl(CommentService service, ObjectMapper objectMapper) {
         this.service = service;
