@@ -150,7 +150,7 @@ GalleryRepository galleryRepository = new GalleryRepositoryBuilder()
 
 Example of `GalleryRepository` uses:
 ```
-galleryRepository.getGalleryById("aaa777", ResponseCallback<CreatubblesResponse<Gallery>>() {
+galleryRepository.getById("aaa777", ResponseCallback<CreatubblesResponse<Gallery>>() {
             @Override
             public void onSuccess(CreatubblesResponse<Gallery> response) {
                 //Do something if OK

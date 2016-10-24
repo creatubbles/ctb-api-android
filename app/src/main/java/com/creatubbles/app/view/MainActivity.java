@@ -545,16 +545,15 @@ public class MainActivity extends AppCompatActivity {
                 (authToken).build();
 
         Gallery gallery = new Gallery("myNewGallery2", "TestGallery", true, null);
-        galleryRepository.createGallery(gallery, new ResponseCallback<CreatubblesResponse<Gallery>>() {
+        galleryRepository.create(gallery, new ResponseCallback<CreatubblesResponse<Gallery>>() {
             @Override
             public void onSuccess(CreatubblesResponse<Gallery> response) {
-                Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(MainActivity.this, "Gallery Created", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onServerError(ErrorResponse errorResponse) {
-
+                displayError(errorResponse);
             }
 
             @Override
@@ -568,18 +567,16 @@ public class MainActivity extends AppCompatActivity {
         GalleryRepository galleryRepository = new GalleryRepositoryBuilder().setAuthToken
                 (authToken).build();
 
-        galleryRepository.getGalleriesByUser("me", new ResponseCallback<CreatubblesResponse<List<Gallery>>>() {
+        galleryRepository.getMine(null, null, new ResponseCallback<CreatubblesResponse<List<Gallery>>>() {
             @Override
             public void onSuccess(CreatubblesResponse<List<Gallery>> response) {
-                for (Gallery gallery : response.getData()) {
-                    Toast.makeText(MainActivity.this, gallery.toString(), Toast
-                            .LENGTH_SHORT).show();
-                }
+                Toast.makeText(MainActivity.this, "Galleries total count: " + response.getMeta().getTotalCount(),
+                        Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onServerError(ErrorResponse errorResponse) {
-
+                displayError(errorResponse);
             }
 
             @Override

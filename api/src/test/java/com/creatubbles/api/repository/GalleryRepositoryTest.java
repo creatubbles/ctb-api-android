@@ -1,6 +1,8 @@
 package com.creatubbles.api.repository;
 
-import com.creatubbles.api.model.CreatubblesResponse;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.creatubbles.api.model.gallery.Gallery;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.service.GalleryService;
@@ -9,177 +11,141 @@ import com.github.jasminb.jsonapi.JSONAPIDocument;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.stubbing.Answer;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.never;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+@RunWith(MockitoJUnitRunner.class)
 public class GalleryRepositoryTest {
 
-    private static final String ERROR_MESSAGE = "What an error!";
     private GalleryRepository target;
 
     @Mock
-    ResponseCallback<CreatubblesResponse<Gallery>> galleryResponseCallback;
+    GalleryService galleryService;
 
     @Mock
-    ResponseCallback<CreatubblesResponse<List<Gallery>>> galleriesResponseCallback;
-
+    Call<JSONAPIDocument<Gallery>> singleCall;
     @Mock
-    GalleryService mockedGalleryService;
-
+    Call<JSONAPIDocument<List<Gallery>>> listCall;
     @Mock
-    Call<JSONAPIDocument<?>> call;
-
-    @Mock
-    JSONAPIDocument<?> body;
+    Call<Void> voidCall;
 
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        target = new GalleryRepositoryImpl(new ObjectMapper(), mockedGalleryService);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Test
-    public void testGetGalleryByIdSuccessfulRequest() {
-        Answer successfulAnswer = invocation -> {
-            Object[] getGalleryByIdArguments = invocation.getArguments();
-            Callback<JSONAPIDocument<?>> retrofitCallback = ((Callback<JSONAPIDocument<?>>)
-                    getGalleryByIdArguments[getGalleryByIdArguments.length - 1]);
-
-            retrofitCallback.onResponse(null, Response.success(body));
-            return null;
-        };
-
-        mockGalleryServiceForGalleryById(successfulAnswer);
-        target.getGalleryById(any(String.class), galleryResponseCallback);
-
-        verify(galleryResponseCallback, never()).onError(any(String.class));
-        verify(galleryResponseCallback).onSuccess(any(CreatubblesResponse.class));
+        ObjectMapper mapper = mock(ObjectMapper.class);
+        target = new GalleryRepositoryImpl(mapper, galleryService);
     }
 
     @Test
-    public void testGetGalleryByIdFailedRequest() {
-        Answer failedAnswer = invocation -> {
-            Object[] getGalleryByIdArguments = invocation.getArguments();
-            Callback<?> retrofitCallback = ((Callback)
-                    getGalleryByIdArguments[getGalleryByIdArguments.length - 1]);
-            retrofitCallback.onFailure(null, new Exception(ERROR_MESSAGE));
-            return null;
-        };
+    public void shouldCallGetPublic() throws Exception {
+        when(galleryService.getPublic(any(), anyString())).thenReturn(listCall);
 
+        target.getPublic(anyPage(), null, anyCallback());
 
-        mockGalleryServiceForGalleryById(failedAnswer);
-        target.getGalleryById(any(String.class), galleryResponseCallback);
-
-        verify(galleryResponseCallback).onError(ERROR_MESSAGE);
-        verify(galleryResponseCallback, never()).onSuccess(any());
+        verify(galleryService).getPublic(any(), anyString());
     }
 
     @Test
-    @SuppressWarnings("unchecked")
-    public void testGetListOfGalleriesByUserSuccessfulRequest() {
-        Answer successfulAnswer = invocation -> {
-            Object[] getListOfGalleriesArguments = invocation.getArguments();
-            Callback<JSONAPIDocument<?>> retrofitCallback = ((Callback<JSONAPIDocument<?>>)
-                    getListOfGalleriesArguments[getListOfGalleriesArguments.length - 1]);
-            retrofitCallback.onResponse(null, Response.success(body));
-            return null;
-        };
+    public void shouldCallGetFavorite() throws Exception {
+        when(galleryService.getFavorite(any())).thenReturn(listCall);
 
-        mockGalleryServiceForListOfGalleriesByUser(successfulAnswer);
-        target.getGalleriesByUser(any(String.class), galleriesResponseCallback);
+        target.getFavorite(anyPage(), anyCallback());
 
-        verify(galleriesResponseCallback, never()).onError(any(String.class));
-        verify(galleriesResponseCallback).onSuccess(any());
+        verify(galleryService).getFavorite(any());
     }
 
     @Test
-    public void testGetListOfGalleriesByUserFailedRequest() {
-        Answer failedAnswer = invocation -> {
-            Object[] getListOfGalleriesArguments = invocation.getArguments();
-            Callback<?> retrofitCallback = ((Callback)
-                    getListOfGalleriesArguments[getListOfGalleriesArguments.length -
-                            1]);
+    public void shouldCallGetFeatured() throws Exception {
+        when(galleryService.getFeatured(any())).thenReturn(listCall);
 
+        target.getFeatured(anyPage(), anyCallback());
 
-            retrofitCallback.onFailure(null, new Exception(ERROR_MESSAGE));
-            return null;
-        };
-        mockGalleryServiceForListOfGalleriesByUser(failedAnswer);
-        target.getGalleriesByUser(any(String.class), galleriesResponseCallback);
-
-        verify(galleriesResponseCallback).onError(ERROR_MESSAGE);
-        verify(galleriesResponseCallback, never()).onSuccess(any());
+        verify(galleryService).getFeatured(any());
     }
 
     @Test
-    @SuppressWarnings("unchecked")
+    public void shouldCallGetByUserWithCurrentUserValue() throws Exception {
+        when(galleryService.getByUser(any(), any(), any())).thenReturn(listCall);
 
-    public void testCreateGallerySuccessfulRequest() {
-        Answer successfulAnswer = invocation -> {
-            Object[] getListOfGalleriesArguments = invocation.getArguments();
-            Callback<JSONAPIDocument<?>> retrofitCallback = ((Callback<JSONAPIDocument<?>>)
-                    getListOfGalleriesArguments[getListOfGalleriesArguments.length - 1]);
-            retrofitCallback.onResponse(null, Response.success(body));
-            return null;
-        };
+        target.getMine(anyPage(), null, anyCallback());
 
-        mockGalleryServiceForCreateGallery(successfulAnswer);
-        target.createGallery(any(Gallery.class), galleryResponseCallback);
-
-        verify(galleryResponseCallback, never()).onError(any(String.class));
-        verify(galleryResponseCallback).onSuccess(any());
+        verify(galleryService).getByUser(eq(UserRepository.CURRENT_USER), any(), any());
     }
 
     @Test
-    public void testCreatefGalleryFailedRequest() {
-        Answer failedAnswer = invocation -> {
-            Object[] getListOfGalleriesArguments = invocation.getArguments();
-            Callback<?> retrofitCallback = ((Callback)
-                    getListOfGalleriesArguments[getListOfGalleriesArguments.length -
-                            1]);
+    public void shouldCallGetByUserWithId() throws Exception {
+        when(galleryService.getByUser(any(), any(), any())).thenReturn(listCall);
 
+        target.getByUser(anyPage(), anyId(), anyCallback());
 
-            retrofitCallback.onFailure(null, new Exception(ERROR_MESSAGE));
-            return null;
-        };
-        mockGalleryServiceForCreateGallery(failedAnswer);
-        target.createGallery(any(Gallery.class), galleryResponseCallback);
-
-        verify(galleryResponseCallback).onError(ERROR_MESSAGE);
-        verify(galleryResponseCallback, never()).onSuccess(any());
+        verify(galleryService).getByUser(eq(anyId()), any(), any());
     }
 
+    @Test
+    public void shouldCallGetById() {
+        when(galleryService.getById(anyString())).thenReturn(singleCall);
 
-    private void mockGalleryServiceForGalleryById(Answer answer) {
-        doAnswer(answer).when(call).enqueue(any());
+        target.getById(anyPage(), anyString(), anyCallback());
 
-        doReturn(call).when(mockedGalleryService).getGalleryById(any(String.class));
+        verify(galleryService).getById(anyString());
     }
 
-    private void mockGalleryServiceForListOfGalleriesByUser(Answer answer) {
-        doAnswer(answer).when(call).enqueue(any());
+    @Test
+    public void shouldCallGetByCreation() throws Exception {
+        when(galleryService.getByCreation(any(), any())).thenReturn(listCall);
 
-        doReturn(call).when(mockedGalleryService).getGalleriesByUser(any(String.class));
+        target.getByCreation(anyPage(), anyId(), anyCallback());
+
+        verify(galleryService).getByCreation(eq(anyId()), any());
     }
 
-    private void mockGalleryServiceForCreateGallery(Answer answer) {
-        doAnswer(answer).when(call).enqueue(any());
+    @Test
+    public void shouldCallCreate() throws Exception {
+        when(galleryService.create(any())).thenReturn(singleCall);
+        Gallery gallery = anyGallery();
 
-        doReturn(call).when(mockedGalleryService).createGallery(any(Gallery.class));
+        target.create(gallery, anyCallback());
+
+        verify(galleryService).create(gallery);
     }
 
+    @Test
+    public void shouldCallUpdate() throws Exception {
+        when(galleryService.update(any(), any())).thenReturn(voidCall);
+        Gallery gallery = anyGallery();
+
+        target.update(anyId(), gallery, anyCallback());
+
+        verify(galleryService).update(anyId(), gallery);
+    }
+
+    private Gallery anyGallery() {
+        return mock(Gallery.class);
+    }
+
+    @NonNull
+    private String anyId() {
+        return "ID";
+    }
+
+    @Nullable
+    private Integer anyPage() {
+        return 0;
+    }
+
+    @Nullable
+    private <T> ResponseCallback<T> anyCallback() {
+        return null;
+    }
 }
