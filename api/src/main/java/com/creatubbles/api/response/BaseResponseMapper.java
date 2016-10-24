@@ -32,7 +32,7 @@ public class BaseResponseMapper<T, C> implements Callback<T> {
         if (responseCallback != null) {
             if (response.isSuccessful()) {
                 responseCallback.onSuccess(processResponse(response));
-            } else if (response.message() != null) {
+            } else {
                 handleUnsuccessfulResponse(response);
             }
         }

@@ -2,15 +2,21 @@ package com.creatubbles.api.repository;
 
 import android.support.annotation.NonNull;
 
+import com.creatubbles.api.response.ResponseCallback;
+
 import org.mockito.stubbing.Answer;
 
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+
 /**
  * @author Pawel Szymanski
  */
-public class RepositoryTestUtil {
+class RepositoryTestUtil {
     @SuppressWarnings("unchecked")
     @NonNull
     static Answer getSuccessfulAnswer(Object mockedBody) {
@@ -31,5 +37,15 @@ public class RepositoryTestUtil {
             retrofitCallback.onFailure(null, new Exception(message));
             return null;
         };
+    }
+
+    static void verifySuccessfulResponseOn(ResponseCallback<?> creationListResponseCallback) {
+        verify(creationListResponseCallback, never()).onError(any(String.class));
+        verify(creationListResponseCallback).onSuccess(any());
+    }
+
+    static void verifyFailedResponseOn(ResponseCallback<?> callback, String message) {
+        verify(callback).onError(message);
+        verify(callback, never()).onSuccess(any());
     }
 }

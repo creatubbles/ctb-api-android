@@ -2,6 +2,8 @@ package com.creatubbles.api;
 
 import com.creatubbles.api.interceptor.CreatubbleInterceptor;
 import com.creatubbles.api.model.AuthToken;
+import com.creatubbles.api.model.activity.Activity;
+import com.creatubbles.api.model.comment.Comment;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.gallery.Gallery;
 import com.creatubbles.api.model.landing_url.LandingUrl;
@@ -9,6 +11,7 @@ import com.creatubbles.api.model.upload.Upload;
 import com.creatubbles.api.model.user.MultipleCreators;
 import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
+import com.creatubbles.api.model.user.custom_style.CustomStyle;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jasminb.jsonapi.retrofit.JSONAPIConverterFactory;
 
@@ -31,7 +34,8 @@ public class ServiceGenerator {
 
     Configuration configuration;
     private final Class[] jsonApiModels = {Creation.class, User.class, NewUser.class, Upload.class,
-            Gallery.class, LandingUrl.class, MultipleCreators.class};
+            Gallery.class, LandingUrl.class, MultipleCreators.class, Activity.class, Comment.class,
+            CustomStyle.class};
 
     private Retrofit.Builder builder;
 

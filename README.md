@@ -25,6 +25,7 @@
 4. `CreationRepository` - for operations on Creation
 5. `UploadRepository` - for upload media (images, videos) to server
 6. `LandingUrlsRepository` - for fetching landing urls
+7. `ActivityRepository` - for fetching list of activities
 
 ## Preview
 ### Demo
@@ -83,7 +84,7 @@ Example of `OAuthRepository` uses:
     REMEMBER: EMAIL and PASSWORD need to be your own credentials.
 
 ```
-oauthRepository.authorize("emial@email.com", "password", new ResponseCallback<AuthToken>() {
+oauthRepository.authorize("email@email.com", "password", new ResponseCallback<AuthToken>() {
 
             @Override
             public void onSuccess(AuthToken response) {
@@ -118,7 +119,7 @@ UserRepository userRepository = new UserRepositoryBuilder()
 
 Example of `UserRepository` uses:
 ```
-userRepository.getUsersList(new ResponseCallback<CreatubblesResponse<List<User>>>() {
+userRepository.getCreators(page, new ResponseCallback<CreatubblesResponse<List<User>>>() {
             @Override
             public void onSuccess(CreatubblesResponse<List<User>> response) {
                 //Do something if OK
@@ -178,7 +179,7 @@ Example of `CreationRepository` uses:
 ```
 Creation newCreation = new Creation.Builder("testCreation", Collections.emptyList()).build();
 
-creationRepository.createCreation(newCreation, new
+creationRepository.create(newCreation, new
             ResponseCallback<CreatubblesResponse<Creation>>() {
             @Override
             public void onSuccess(CreatubblesResponse<Creation> response) {
@@ -225,6 +226,34 @@ repository.getLandingUrls(new ResponseCallback<CreatubblesResponse<List<LandingU
 
             }
             });
+```
+
+7. Activities repository
+--------------------------
+
+Create `ActivityRepository` instance:
+
+```
+ActivityRepository activityRepository = new ActivityRepositoryBuilder(authToken)
+                .build();
+```
+
+Example of `ActivityRepository` uses:
+
+```
+activityRepository.getActivities(page, new ResponseCallback<CreatubblesResponse<List<Activity>>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<List<Activity>> response) {
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+            }
+
+            @Override
+            public void onError(String message) {
+            }
+        });
 ```
 
 ## Used libs

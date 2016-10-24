@@ -11,8 +11,19 @@ import com.creatubbles.api.response.ResponseCallback;
  */
 public interface OAuthRepository {
 
+    /**
+     * Method used to obtain <strong>Application only access token</strong>.
+     * This token will give you access to publicly available information and actions.
+     * Use this type of access token if you want to retrieve content independent from any users.
+     */
     void authorize(ResponseCallback<AuthToken> callback);
 
+    /**
+     * Method used to obtain <strong>User access token</strong>. User access tokens extend your access rights to allow your
+     * application to also access content and actions which have restricted visibility and are available
+     * for the user the access token was issued for. The user access token basically allows you to retrieve
+     * content and execute actions on behalf of the user the token was issued for.
+     */
     void authorize(String login, String password, ResponseCallback<AuthToken> callback);
 
     void setClientId(String clientId);

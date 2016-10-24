@@ -1,10 +1,9 @@
 package com.creatubbles.api.repository;
 
+import com.creatubbles.api.ContentType;
 import com.creatubbles.api.model.CreatubblesResponse;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.upload.Upload;
-import com.creatubbles.api.request.CreationListRequest;
-import com.creatubbles.api.request.UploadRequest;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.service.CreationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,14 +18,16 @@ import org.mockito.stubbing.Answer;
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
+import static com.creatubbles.api.repository.RepositoryTestUtil.getFailedAnswer;
+import static com.creatubbles.api.repository.RepositoryTestUtil.getSuccessfulAnswer;
+import static com.creatubbles.api.repository.RepositoryTestUtil.verifyFailedResponseOn;
+import static com.creatubbles.api.repository.RepositoryTestUtil.verifySuccessfulResponseOn;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.mock;
 
 
 public class CreationRepositoryTest {
@@ -41,7 +42,7 @@ public class CreationRepositoryTest {
     ResponseCallback<CreatubblesResponse<Creation>> creationResponseCallback;
 
     @Mock
-    ResponseCallback<Void> updateCreationResponseCallback;
+    ResponseCallback<Void> voidCallback;
 
     @Mock
     ResponseCallback<CreatubblesResponse<Upload>> uploadResponseCallback;
@@ -67,229 +68,282 @@ public class CreationRepositoryTest {
         target = new CreationRepositoryImpl(new ObjectMapper(), mockedCreationService);
     }
 
-    @SuppressWarnings("unchecked")
     @Test
-    public void testGetCreationListSuccessfulRequest() {
-        Answer successfulAnswer = invocation -> {
-            Object[] getCreationListTokenArguments = invocation.getArguments();
-            Callback<JSONAPIDocument<?>> retrofitCallback = (Callback<JSONAPIDocument<?>>)
-                    getCreationListTokenArguments[getCreationListTokenArguments.length - 1];
-            retrofitCallback.onResponse(null, Response.success(mockBody));
-            return null;
-        };
+    public void testGetRecentSuccessfulRequest() {
+        mockGetRecentWithAnswer(getSuccessfulAnswer(mockBody));
 
-        mockCreationServiceAnswerForCreationList(successfulAnswer);
+        target.getRecent(null, Boolean.FALSE, creationListResponseCallback);
 
-        target.getCretiationsList(any(CreationListRequest.class), creationListResponseCallback);
-
-        verify(creationListResponseCallback, never()).onError(any(String.class));
-        verify(creationListResponseCallback).onSuccess(any());
+        verifySuccessfulResponseOn(creationListResponseCallback);
     }
 
+    @Test
+    public void testGetRecentFailedRequest() {
+        mockGetRecentWithAnswer(getFailedAnswer(ERROR_MESSAGE));
 
-    @SuppressWarnings("unchecked")
+        target.getRecent(null, Boolean.FALSE, creationListResponseCallback);
+
+        verifyFailedResponseOn(creationListResponseCallback, ERROR_MESSAGE);
+    }
+
+    @Test
+    public void testGetByNameSuccessfulRequest() {
+        mockSearchByNameWithAnswer(getSuccessfulAnswer(mockBody));
+
+        target.getByName(null, "", Boolean.FALSE, creationListResponseCallback);
+
+        verifySuccessfulResponseOn(creationListResponseCallback);
+    }
+
+    @Test
+    public void testGetByNameFailedRequest() {
+        mockSearchByNameWithAnswer(getFailedAnswer(ERROR_MESSAGE));
+
+        target.getByName(null, "", Boolean.FALSE, creationListResponseCallback);
+
+        verifyFailedResponseOn(creationListResponseCallback, ERROR_MESSAGE);
+    }
+
+    @Test
+    public void testGetFromGallerySuccessfulRequest() {
+        mockGetFromGalleryWithAnswer(getSuccessfulAnswer(mockBody));
+
+        target.getFromGallery(null, "", Boolean.FALSE, creationListResponseCallback);
+
+        verifySuccessfulResponseOn(creationListResponseCallback);
+    }
+
+    @Test
+    public void testGetFromGalleryFailedRequest() {
+        mockGetFromGalleryWithAnswer(getFailedAnswer(ERROR_MESSAGE));
+
+        target.getFromGallery(null, "", Boolean.FALSE, creationListResponseCallback);
+
+        verifyFailedResponseOn(creationListResponseCallback, ERROR_MESSAGE);
+    }
+
+    @Test
+    public void testGetByUserSuccessfulRequest() {
+        mockGetByUserWithAnswer(getSuccessfulAnswer(mockBody));
+
+        target.getByUser(null, "", Boolean.FALSE, creationListResponseCallback);
+
+        verifySuccessfulResponseOn(creationListResponseCallback);
+    }
+
+    @Test
+    public void testGetByUserFailedRequest() {
+        mockGetByUserWithAnswer(getFailedAnswer(ERROR_MESSAGE));
+
+        target.getByUser(null, "", Boolean.FALSE, creationListResponseCallback);
+
+        verifyFailedResponseOn(creationListResponseCallback, ERROR_MESSAGE);
+    }
+
+    @Test
+    public void testGetRecommendedByUserSuccessfulRequest() {
+        mockGetRecommendedByUserWithAnswer(getSuccessfulAnswer(mockBody));
+
+        target.getRecommendedByUser(null, "", Boolean.FALSE, creationListResponseCallback);
+
+        verifySuccessfulResponseOn(creationListResponseCallback);
+    }
+
+    @Test
+    public void testGetRecommendedByUserFailedRequest() {
+        mockGetRecommendedByUserWithAnswer(getFailedAnswer(ERROR_MESSAGE));
+
+        target.getRecommendedByUser(null, "", Boolean.FALSE, creationListResponseCallback);
+
+        verifyFailedResponseOn(creationListResponseCallback, ERROR_MESSAGE);
+    }
+
+    @Test
+    public void testGetRecommendedByCreationSuccessfulRequest() {
+        mockGetRecommendedByCreationWithAnswer(getSuccessfulAnswer(mockBody));
+
+        target.getRecommendedByCreation(null, "", Boolean.FALSE, creationListResponseCallback);
+
+        verifySuccessfulResponseOn(creationListResponseCallback);
+    }
+
+    @Test
+    public void testGetRecommendedByCreationFailedRequest() {
+        mockGetRecommendedByCreationWithAnswer(getFailedAnswer(ERROR_MESSAGE));
+
+        target.getRecommendedByCreation(null, "", Boolean.FALSE, creationListResponseCallback);
+
+        verifyFailedResponseOn(creationListResponseCallback, ERROR_MESSAGE);
+    }
+
     @Test
     public void testGetCreationByIdSuccessfulRequest() {
-        Answer successfulAnswer = invocation -> {
-            Object[] getCreationByIdTokenArguments = invocation.getArguments();
-            Callback<JSONAPIDocument<?>> retrofitCallback = ((Callback<JSONAPIDocument<?>>)
-                    getCreationByIdTokenArguments[getCreationByIdTokenArguments.length - 1]);
+        mockGetByIdWithAnswer(getSuccessfulAnswer(mockBody));
 
-            retrofitCallback.onResponse(null, Response.success(mockBody));
-            return null;
-        };
+        target.getById(anyString(), creationResponseCallback);
 
-        mockCreationServiceAnswerForCreationById(successfulAnswer);
-
-        target.getCreationById(any(String.class), creationResponseCallback);
-
-        verify(creationResponseCallback, never()).onError(any(String.class));
-        verify(creationResponseCallback).onSuccess(any());
-    }
-
-
-    @SuppressWarnings("unchecked")
-    @Test
-    public void testUpdateCreationSuccessfulRequest() {
-        Answer successfulAnswer = invocation -> {
-            Object[] getUpdateCreationTokenArguments = invocation.getArguments();
-            Callback<Void> retrofitCallback = ((Callback<Void>)
-                    getUpdateCreationTokenArguments[getUpdateCreationTokenArguments.length -
-                            1]);
-
-            retrofitCallback.onResponse(null, Response.success(any(Void.class)));
-            return null;
-        };
-
-        mockCreationServiceAnswerForCreationUpdate(successfulAnswer);
-
-        target.updateCreation(any(String.class), any(Creation.class),
-                updateCreationResponseCallback);
-
-        verify(updateCreationResponseCallback, never()).onError(any(String.class));
-        verify(updateCreationResponseCallback).onSuccess(any(Void.class));
-    }
-
-    @Test
-    public void testGetCreationListFailedRequest() {
-        Answer failedAnswer = invocation -> {
-            Object[] getCreationListTokenArguments = invocation.getArguments();
-
-            Callback<?> retrofitCallback = ((Callback)
-                    getCreationListTokenArguments[getCreationListTokenArguments.length - 1]);
-
-            retrofitCallback.onFailure(null, new Exception(ERROR_MESSAGE));
-            return null;
-        };
-
-        mockCreationServiceAnswerForCreationList(failedAnswer);
-        target.getCretiationsList(any(CreationListRequest.class), creationListResponseCallback);
-
-        verify(creationListResponseCallback).onError(ERROR_MESSAGE);
-        verify(creationListResponseCallback, never()).onSuccess(any());
+        verifySuccessfulResponseOn(creationResponseCallback);
     }
 
     @Test
     public void testGetCreationByIdFailedRequest() {
-        Answer failedAnswer = invocation -> {
-            Object[] getCreationByIdTokenArguments = invocation.getArguments();
+        mockGetByIdWithAnswer(getFailedAnswer(ERROR_MESSAGE));
 
-            Callback<?> retrofitCallback = ((Callback)
-                    getCreationByIdTokenArguments[getCreationByIdTokenArguments.length - 1]);
+        target.getById(anyString(), creationResponseCallback);
 
-            retrofitCallback.onFailure(null, new Exception(ERROR_MESSAGE));
-            return null;
-        };
-        mockCreationServiceAnswerForCreationById(failedAnswer);
-        target.getCreationById(any(String.class), creationResponseCallback);
+        verifyFailedResponseOn(creationResponseCallback, ERROR_MESSAGE);
+    }
 
-        verify(creationResponseCallback).onError(ERROR_MESSAGE);
-        verify(creationResponseCallback, never()).onSuccess(any());
+    @Test
+    public void testUpdateCreationSuccessfulRequest() {
+        mockUpdateCreationWithAnswer(getSuccessfulAnswer(null));
+
+        target.update("", mock(Creation.class), voidCallback);
+
+        verifySuccessfulResponseOn(voidCallback);
     }
 
     @Test
     public void testUpdateCreationFailedRequest() {
-        Answer failedAnswer = invocation -> {
-            Object[] updateCreationTokenArguments = invocation.getArguments();
+        mockUpdateCreationWithAnswer(getFailedAnswer(ERROR_MESSAGE));
 
-            Callback<?> retrofitCallback = ((Callback)
-                    updateCreationTokenArguments[updateCreationTokenArguments.length - 1]);
-            retrofitCallback.onFailure(null, new Exception(ERROR_MESSAGE));
-            return null;
-        };
-        mockCreationServiceAnswerForCreationUpdate(failedAnswer);
-        target.updateCreation(any(String.class), any(Creation.class),
-                updateCreationResponseCallback);
+        target.update("", mock(Creation.class), voidCallback);
 
-        verify(updateCreationResponseCallback).onError(ERROR_MESSAGE);
-        verify(updateCreationResponseCallback, never()).onSuccess(any(Void.class));
+        verifyFailedResponseOn(voidCallback, ERROR_MESSAGE);
+    }
+
+    @Test
+    public void testCreateCreationSuccessfulRequest() {
+        mockCreateCreationWithAnswer(getSuccessfulAnswer(mockBody));
+
+        target.create(mock(Creation.class), creationResponseCallback);
+
+        verifySuccessfulResponseOn(creationResponseCallback);
     }
 
     @Test
     public void testCreateCreationFailedRequest() {
-        Answer failedAnswer = invocation -> {
-            Object[] getCreationListTokenArguments = invocation.getArguments();
+        mockCreateCreationWithAnswer(getFailedAnswer(ERROR_MESSAGE));
 
-            Callback<?> retrofitCallback = ((Callback)
-                    getCreationListTokenArguments[getCreationListTokenArguments.length - 1]);
+        target.create(mock(Creation.class), creationResponseCallback);
 
-            retrofitCallback.onFailure(null, new Exception(ERROR_MESSAGE));
-            return null;
-        };
-
-        mockCreationServiceAnswerForCreateCreation(failedAnswer);
-        target.createCreation(any(Creation.class), creationResponseCallback);
-
-        verify(creationResponseCallback).onError(ERROR_MESSAGE);
-        verify(creationResponseCallback, never()).onSuccess(any());
-    }
-
-    @SuppressWarnings("unchecked")
-    @Test
-    public void testCreateCreationSuccessfulRequest() {
-        Answer successfulAnswer = invocation -> {
-            Object[] getCreationListTokenArguments = invocation.getArguments();
-            Callback<JSONAPIDocument<?>> retrofitCallback = ((Callback<JSONAPIDocument<?>>)
-                    getCreationListTokenArguments[getCreationListTokenArguments.length - 1]);
-            retrofitCallback.onResponse(null, Response.success(mockBody));
-            return null;
-        };
-
-        mockCreationServiceAnswerForCreateCreation(successfulAnswer);
-        target.createCreation(any(Creation.class), creationResponseCallback);
-
-        verify(creationResponseCallback, never()).onError(any(String.class));
-        verify(creationResponseCallback).onSuccess(any());
-    }
-
-    @SuppressWarnings("unchecked")
-    @Test
-    public void testCreateUploadSuccessfulRequest() {
-        Answer successfulAnswer = invocation -> {
-            Object[] createUploadTokenArguments = invocation.getArguments();
-            Callback<JSONAPIDocument<?>> retrofitCallback = ((Callback<JSONAPIDocument<?>>)
-                    createUploadTokenArguments[createUploadTokenArguments.length - 1]);
-            retrofitCallback.onResponse(null, Response.success(mockBody));
-            return null;
-        };
-
-        mockCreationServiceAnswerForCreateUpload(successfulAnswer);
-        target.createUpload(any(String.class), any(UploadRequest.class), uploadResponseCallback);
-
-        verify(uploadResponseCallback, never()).onError(any(String.class));
-        verify(uploadResponseCallback).onSuccess(any());
+        verifyFailedResponseOn(creationResponseCallback, ERROR_MESSAGE);
     }
 
     @Test
-    public void testCreateUploadFailedRequest() {
-        Answer failedAnswer = invocation -> {
-            Object[] createUploadTokenArguments = invocation.getArguments();
-            Callback<?> retrofitCallback = ((Callback)
-                    createUploadTokenArguments[createUploadTokenArguments.length - 1]);
-            retrofitCallback.onFailure(null, new Exception(ERROR_MESSAGE));
-            return null;
-        };
+    public void testRemoveCreationSuccessfulRequest() {
+        mockRemoveCreationWithAnswer(getSuccessfulAnswer(mockBody));
 
-        mockCreationServiceAnswerForCreateUpload(failedAnswer);
-        target.createUpload(any(String.class), any(UploadRequest.class), uploadResponseCallback);
+        target.remove("", voidCallback);
 
-        verify(uploadResponseCallback).onError(ERROR_MESSAGE);
-        verify(uploadResponseCallback, never()).onSuccess(any());
+        verifySuccessfulResponseOn(voidCallback);
     }
 
+    @Test
+    public void testRemoveCreationFailedRequest() {
+        mockRemoveCreationWithAnswer(getFailedAnswer(ERROR_MESSAGE));
 
-    private void mockCreationServiceAnswerForCreationList(Answer answer) {
+        target.remove("", voidCallback);
+
+        verifyFailedResponseOn(voidCallback, ERROR_MESSAGE);
+    }
+
+    @Test
+    public void testStartUploadSuccessfulRequest() {
+        mockCreateUploadWithAnswer(getSuccessfulAnswer(mockBody));
+
+        target.startUpload("", ContentType.JPEG, uploadResponseCallback);
+
+        verifySuccessfulResponseOn(uploadResponseCallback);
+    }
+
+    @Test
+    public void testStartUploadFailedRequest() {
+        mockCreateUploadWithAnswer(getFailedAnswer(ERROR_MESSAGE));
+
+        target.startUpload("", ContentType.JPEG, uploadResponseCallback);
+
+        verifyFailedResponseOn(uploadResponseCallback, ERROR_MESSAGE);
+    }
+
+    @Test
+    public void testFinishUploadSuccessfulRequest() {
+        mockUpdateUploadWithAnswer(getSuccessfulAnswer(mockBody));
+
+        target.finishUpload(mock(Upload.class), null, voidCallback);
+
+        verifySuccessfulResponseOn(voidCallback);
+    }
+
+    @Test
+    public void testFinishUploadFailedRequest() {
+        mockUpdateUploadWithAnswer(getFailedAnswer(ERROR_MESSAGE));
+
+        target.finishUpload(mock(Upload.class), null, voidCallback);
+
+        verifyFailedResponseOn(voidCallback, ERROR_MESSAGE);
+    }
+
+    private void mockGetRecentWithAnswer(Answer successfulAnswer) {
+        doAnswer(successfulAnswer).when(call).enqueue(any());
+        doReturn(call).when(mockedCreationService).getRecent(any(), any());
+    }
+
+    private void mockGetByIdWithAnswer(Answer answer) {
         doAnswer(answer).when(call).enqueue(any());
 
-        doReturn(call).when(mockedCreationService).getListOfCreation(any(CreationListRequest
-                .class));
+        doReturn(call).when(mockedCreationService).getCreation(anyString());
     }
 
-    private void mockCreationServiceAnswerForCreationById(Answer answer) {
-        doAnswer(answer).when(call).enqueue(any());
-
-        doReturn(call).when(mockedCreationService).getCreationById(any(String.class));
-    }
-
-
-    private void mockCreationServiceAnswerForCreationUpdate(Answer answer) {
+    private void mockUpdateCreationWithAnswer(Answer answer) {
         doAnswer(answer).when(voidCall).enqueue(any());
-
-        doReturn(voidCall).when(mockedCreationService).updateCreation(any(String.class), any
-                (Creation.class));
+        doReturn(voidCall).when(mockedCreationService).updateCreation(anyString(), any());
     }
 
-    private void mockCreationServiceAnswerForCreateCreation(Answer answer) {
+    private void mockSearchByNameWithAnswer(Answer answer) {
+        doAnswer(answer).when(call).enqueue(any());
+        doReturn(call).when(mockedCreationService).searchByName(any(), anyString(), any());
+    }
+
+    private void mockCreateCreationWithAnswer(Answer answer) {
         doAnswer(answer).when(call).enqueue(any());
 
-        doReturn(call).when(mockedCreationService).createCreation(any(Creation.class));
+        doReturn(call).when(mockedCreationService).createCreation(any());
     }
 
-    private void mockCreationServiceAnswerForCreateUpload(Answer answer) {
+    private void mockCreateUploadWithAnswer(Answer answer) {
         doAnswer(answer).when(uploadCall).enqueue(any());
 
-        doReturn(uploadCall).when(mockedCreationService).createUpload(any(String.class), any
-                (UploadRequest.class));
+        doReturn(uploadCall).when(mockedCreationService).createUpload(anyString(), any());
     }
 
+    private void mockUpdateUploadWithAnswer(Answer answer) {
+        doAnswer(answer).when(uploadCall).enqueue(any());
+        doReturn(uploadCall).when(mockedCreationService).updateCreationUpload(anyString(), anyString());
+    }
+
+    private void mockGetFromGalleryWithAnswer(Answer answer) {
+        doAnswer(answer).when(call).enqueue(any());
+        doReturn(call).when(mockedCreationService).getFromGallery(any(), anyString(), any());
+    }
+
+    private void mockGetByUserWithAnswer(Answer answer) {
+        doAnswer(answer).when(call).enqueue(any());
+        doReturn(call).when(mockedCreationService).getByUser(any(), anyString(), any());
+    }
+
+    private void mockGetRecommendedByUserWithAnswer(Answer answer) {
+        doAnswer(answer).when(call).enqueue(any());
+        doReturn(call).when(mockedCreationService).getRecommendedByUser(any(), anyString(), any());
+    }
+
+    private void mockGetRecommendedByCreationWithAnswer(Answer answer) {
+        doAnswer(answer).when(call).enqueue(any());
+        doReturn(call).when(mockedCreationService).getRecommendedByCreation(any(), anyString(), any());
+    }
+
+    private void mockRemoveCreationWithAnswer(Answer answer) {
+        doAnswer(answer).when(call).enqueue(any());
+        doReturn(call).when(mockedCreationService).removeCreation(anyString());
+    }
 }

@@ -10,8 +10,7 @@ public class EndPoints {
     public static final String OAUTH_TOKEN = "oauth/token";
     public static final String USERS = "users";
     public static final String CREATIONS = "creations";
-    public static final String CREATIONS_UPLOADS = "creations/{id}/uploads";
-    public static final String PING_CREATIONS_UPLOADS = "uploads/{id}";
+    public static final String UPLOADS = "uploads";
     public static final String LANDING_URLS = "landing_urls";
     public static final String GALLERY_SUBMISSIONS = "gallery_submissions";
     public static final String CONTENTS = "contents";
@@ -24,5 +23,6 @@ public class EndPoints {
     public static final String AVATAR_SUGGESTIONS = "avatar_suggestions";
     public static final String SWITCH_USERS = "user_switch/users";
     public static final String CREATOR_BUILDER_JOBS = "creator_builder_jobs";
+    public static final String ACTIVITIES = "activities";
 
 }
