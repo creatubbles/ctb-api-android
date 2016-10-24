@@ -27,6 +27,7 @@
 6. `LandingUrlsRepository` - for fetching landing urls
 7. `ActivityRepository` - for fetching list of activities
 8. `CustomStyleRepository` - for operations on user's custom style
+9. `CommentRepository` - for operations on comments
 
 ## Preview
 ### Demo
@@ -283,6 +284,35 @@ customStyleRepository.getCustomStyle(userId, new ResponseCallback<CreatubblesRes
             @Override
             public void onError(String message){
             }      
+        });
+```
+
+9. Comments repository
+--------------------------
+
+Create `CommentRepository` instance:
+
+```
+CommentRepository commentRepository = new CommentRepositoryBuilder(authToken)
+                .build();
+```
+
+Example of `CommentRepository` uses:
+
+```
+Integer pageNumber;
+commentRepository.getForUser(pageNumber, userId, new ResponseCallback<CreatubblesResponse<List<Comment>>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<List<Comment>> response) {
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+            }
+
+            @Override
+            public void onError(String message) {
+            }
         });
 ```
 

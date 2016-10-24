@@ -297,5 +297,26 @@
             android:enabled="false"
             android:onClick="onUpdateCustomStyleClicked"
             android:text="update style" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="true"
+            android:text="Comments methods:" />
+
+        <Button
+            android:id="@+id/get_user_comments_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:onClick="onGetUserComments"
+            android:text="Get User Comments" />
+        <Button
+            android:id="@+id/create_user_comment_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:onClick="onCreateUserComments"
+            android:text="Create User Comment" />
     </LinearLayout>
 </ScrollView>
