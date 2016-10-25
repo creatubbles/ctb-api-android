@@ -11,22 +11,47 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by Janek on 05.02.2016.
  */
 public interface GalleryService {
 
-    @GET(EndPoints.USERS + "/{userId}/galleries")
-    Call<JSONAPIDocument<List<Gallery>>> getGalleriesByUser(@Path("userId") String userId);
+    String PARAM_ID = "id";
+    String PATH_ID_GALLERIES = "/{" + PARAM_ID + "}/galleries";
+    String PARAM_PAGE = "page";
+    String PARAM_SORT = "sort";
+    String PARAM_FILTER = "filter";
+
+    @GET(EndPoints.GALLERIES)
+    Call<JSONAPIDocument<List<Gallery>>> getPublic(@Query(PARAM_PAGE) Integer page,
+                                                   @Query(PARAM_SORT) String sort);
+
+
+    @GET(EndPoints.USERS + PATH_ID_GALLERIES)
+    Call<JSONAPIDocument<List<Gallery>>> getByUser(@Path(PARAM_ID) String userId,
+                                                   @Query(PARAM_PAGE) Integer page,
+                                                   @Query(PARAM_FILTER) String filter);
 
     @GET(EndPoints.CREATIONS)
-    Call<JSONAPIDocument<List<Gallery>>> getGalleriesByCreation(@Path("creationId") String creationId);
+    Call<JSONAPIDocument<List<Gallery>>> getByCreation(@Path(PARAM_ID) String creationId,
+                                                       @Query(PARAM_PAGE) Integer page);
 
-    @GET(EndPoints.GALLERIES + "/{galleryId}/galleries")
-    Call<JSONAPIDocument<Gallery>> getGalleryById(@Path("galleryId") String galleryId);
+    @GET(EndPoints.USERS + "/me/favorite_galleries")
+    Call<JSONAPIDocument<List<Gallery>>> getFavorite(@Query(PARAM_PAGE) Integer page);
+
+    @GET(EndPoints.FEATURED_GALLERIES)
+    Call<JSONAPIDocument<List<Gallery>>> getFeatured(@Query(PARAM_PAGE) Integer page);
+
+    @GET(EndPoints.GALLERIES + "/{" + PARAM_ID + "}")
+    Call<JSONAPIDocument<Gallery>> getById(@Path(PARAM_ID) String galleryId);
 
     @POST(EndPoints.GALLERIES)
-    Call<JSONAPIDocument<Gallery>> createGallery(@Body Gallery gallery);
+    Call<JSONAPIDocument<Gallery>> create(@Body Gallery gallery);
+
+    @PUT(EndPoints.GALLERIES + "/{" + PARAM_ID + "}")
+    Call<Void> update(@Path(PARAM_ID) String galleryId, @Body Gallery gallery);
 }
