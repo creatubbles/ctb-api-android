@@ -115,6 +115,22 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/follow_user_btn"
+            android:text="Follow user"
+            android:onClick="onFollowUserClicked"
+            android:enabled="false"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/unfollow_user_btn"
+            android:text="Unfollow user"
+            android:onClick="onUnfollowUserClicked"
+            android:enabled="false"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/get_switch_users_btn"
             android:text="Get Users for switching"
             android:onClick="onGetSwitchUsersClicked"

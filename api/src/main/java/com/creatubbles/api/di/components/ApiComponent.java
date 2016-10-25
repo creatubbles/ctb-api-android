@@ -9,6 +9,7 @@ import com.creatubbles.api.repository.GalleryRepositoryBuilder;
 import com.creatubbles.api.repository.LandingUrlsRepositoryBuilder;
 import com.creatubbles.api.repository.OAuthRepositoryBuilder;
 import com.creatubbles.api.repository.UploadRepositoryBuilder;
+import com.creatubbles.api.repository.UserFollowingRepositoryBuilder;
 import com.creatubbles.api.repository.UserRepositoryBuilder;
 
 import javax.inject.Singleton;
@@ -39,4 +40,6 @@ public interface ApiComponent {
     void inject(ActivityRepositoryBuilder target);
 
     void inject(CommentRepositoryBuilder target);
+
+    void inject(UserFollowingRepositoryBuilder target);
 }

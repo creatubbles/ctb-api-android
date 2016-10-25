@@ -28,6 +28,7 @@
 7. `ActivityRepository` - for fetching list of activities
 8. `CustomStyleRepository` - for operations on user's custom style
 9. `CommentRepository` - for operations on comments
+10. `UserFollowingRepository` - for following/unfollowing users
 
 ## Preview
 ### Demo

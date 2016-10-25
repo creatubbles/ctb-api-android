@@ -32,6 +32,7 @@ import com.creatubbles.api.model.upload.Upload;
 import com.creatubbles.api.model.user.MultipleCreators;
 import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
+import com.creatubbles.api.model.user.UserFollowing;
 import com.creatubbles.api.model.user.custom_style.CustomStyle;
 import com.creatubbles.api.repository.ActivityRepository;
 import com.creatubbles.api.repository.ActivityRepositoryBuilder;
@@ -49,6 +50,8 @@ import com.creatubbles.api.repository.OAuthRepository;
 import com.creatubbles.api.repository.OAuthRepositoryBuilder;
 import com.creatubbles.api.repository.UploadRepository;
 import com.creatubbles.api.repository.UploadRepositoryBuilder;
+import com.creatubbles.api.repository.UserFollowingRepository;
+import com.creatubbles.api.repository.UserFollowingRepositoryBuilder;
 import com.creatubbles.api.repository.UserRepository;
 import com.creatubbles.api.repository.UserRepositoryBuilder;
 import com.creatubbles.api.response.ResponseCallback;
@@ -71,7 +74,8 @@ public class MainActivity extends AppCompatActivity {
             R.id.get_galleries_btn, R.id.create_creation_btn, R.id.create_upload_btn, R.id.get_creation_by_id_btn,
             R.id.get_all_landing_urls_btn, R.id.get_specific_landing_url_btn, R.id.get_user_managers_btn,
             R.id.get_user_connections_btn, R.id.get_user_followed_btn, R.id.get_switch_users_btn, R.id.create_multiple_users_btn,
-            R.id.get_creators_from_group_btn, R.id.get_recent_creations_btn, R.id.get_activities_btn})
+            R.id.get_creators_from_group_btn, R.id.get_recent_creations_btn, R.id.get_activities_btn,
+            R.id.follow_user_btn, R.id.unfollow_user_btn})
     List<Button> actionButtons;
 
     @Bind(R.id.send_file_btn)
@@ -337,10 +341,8 @@ public class MainActivity extends AppCompatActivity {
                             .LENGTH_SHORT).show();
                 } else {
                     usersAvailableForSwitching = response.getData();
-                    for (User creator : response.getData()) {
-                        Toast.makeText(MainActivity.this, creator.toString(), Toast
-                                .LENGTH_SHORT).show();
-                    }
+                    Toast.makeText(MainActivity.this, "Success: total users:" + response.getMeta().getTotalCount(),
+                            Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -763,6 +765,48 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(CreatubblesResponse<Comment> response) {
                 Toast.makeText(MainActivity.this, response.toString(),
                         Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                displayError(errorResponse);
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+    }
+
+    public void onFollowUserClicked(View view) {
+        UserFollowingRepository repository = new UserFollowingRepositoryBuilder(authToken)
+                .build();
+        repository.follow("l8mD9WMm", new ResponseCallback<CreatubblesResponse<UserFollowing>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<UserFollowing> response) {
+                Toast.makeText(MainActivity.this, "User followed", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                displayError(errorResponse);
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+    }
+
+    public void onUnfollowUserClicked(View view) {
+        UserFollowingRepository repository = new UserFollowingRepositoryBuilder(authToken)
+                .build();
+        repository.unfollow("l8mD9WMm", new ResponseCallback<Void>() {
+            @Override
+            public void onSuccess(Void response) {
+                Toast.makeText(MainActivity.this, "User unfollowed", Toast.LENGTH_SHORT).show();
             }
 
             @Override
