@@ -29,6 +29,7 @@
 8. `CustomStyleRepository` - for operations on user's custom style
 9. `CommentRepository` - for operations on comments
 10. `UserFollowingRepository` - for following/unfollowing users
+11. `GroupRepository` - for managing Groups
 
 ## Preview
 ### Demo
@@ -315,6 +316,40 @@ commentRepository.getForUser(pageNumber, userId, new ResponseCallback<Creatubble
             public void onError(String message) {
             }
         });
+```
+
+11. Groups repository
+--------------------------
+
+Create `GroupRepository` instance:
+
+```
+GroupRepository repository = new GroupRepositoryBuilder(authToken)
+                .build();
+```
+
+Example of `GroupRepository` uses:
+
+```
+    Group group = new Group.Builder()
+            .setName("Test Gallery one")
+            .build();
+    repository.create(group, new ResponseCallback<CreatubblesResponse<Group>>() {
+
+        @Override
+        public void onSuccess(CreatubblesResponse<Group> response) {
+            // group created, instance at response.getData()
+        }
+
+        @Override
+        public void onServerError(ErrorResponse errorResponse) {
+        }
+
+        @Override
+        public void onError(String message) {
+
+        }
+    });
 ```
 
 ## Used libs
