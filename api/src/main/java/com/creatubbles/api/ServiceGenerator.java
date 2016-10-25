@@ -11,6 +11,7 @@ import com.creatubbles.api.model.upload.Upload;
 import com.creatubbles.api.model.user.MultipleCreators;
 import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
+import com.creatubbles.api.model.user.UserFollowing;
 import com.creatubbles.api.model.user.custom_style.CustomStyle;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jasminb.jsonapi.retrofit.JSONAPIConverterFactory;
@@ -30,12 +31,13 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 /**
  * Created by Janek on 08.02.2016.
  */
-public class ServiceGenerator {
+public class
+ServiceGenerator {
 
-    Configuration configuration;
+    private Configuration configuration;
     private final Class[] jsonApiModels = {Creation.class, User.class, NewUser.class, Upload.class,
             Gallery.class, LandingUrl.class, MultipleCreators.class, Activity.class, Comment.class,
-            CustomStyle.class};
+            CustomStyle.class, UserFollowing.class};
 
     private Retrofit.Builder builder;
 

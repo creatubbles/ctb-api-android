@@ -4,6 +4,7 @@ import com.creatubbles.api.CreatubblesApi;
 import com.creatubbles.api.TestUtils;
 import com.creatubbles.api.exception.InitializationException;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.MockitoAnnotations;
@@ -23,6 +24,12 @@ public class UploadRepositoryBuilderTest {
         CreatubblesApi.reset();
         TestUtils.resetModule();
         target = new UploadRepositoryBuilder();
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        CreatubblesApi.reset();
+        TestUtils.resetModule();
     }
 
     @Test(expected = InitializationException.class)

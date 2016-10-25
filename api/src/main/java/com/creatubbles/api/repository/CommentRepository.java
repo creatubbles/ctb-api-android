@@ -10,7 +10,7 @@ import com.creatubbles.api.response.ResponseCallback;
 import java.util.List;
 
 /**
- * Class allowing to obtain and create comments on creations, galleries and users.
+ * Interface allowing to obtain and create comments on creations, galleries and users.
  * <p>
  * Access Restrictions:
  * <ul>
