@@ -39,12 +39,12 @@ class RepositoryTestUtil {
         };
     }
 
-    static void verifySuccessfulResponseOn(ResponseCallback<?> creationListResponseCallback) {
+    static <T> void verifySuccessfulResponseOn(ResponseCallback<T> creationListResponseCallback) {
         verify(creationListResponseCallback, never()).onError(any(String.class));
         verify(creationListResponseCallback).onSuccess(any());
     }
 
-    static void verifyFailedResponseOn(ResponseCallback<?> callback, String message) {
+    static <T> void verifyFailedResponseOn(ResponseCallback<T> callback, String message) {
         verify(callback).onError(message);
         verify(callback, never()).onSuccess(any());
     }

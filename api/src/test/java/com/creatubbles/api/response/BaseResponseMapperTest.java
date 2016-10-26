@@ -31,9 +31,9 @@ import static org.mockito.Mockito.verify;
 public class BaseResponseMapperTest {
 
     @Mock
-    ResponseCallback<?> responseCallback;
+    ResponseCallback<Object> responseCallback;
 
-    private BaseResponseMapper<Object, ?> responseMapper;
+    private BaseResponseMapper<Object, Object> responseMapper;
     private ObjectMapper objectMapper;
 
     @Before
