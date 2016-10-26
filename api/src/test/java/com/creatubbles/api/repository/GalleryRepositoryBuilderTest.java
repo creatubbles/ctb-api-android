@@ -2,10 +2,10 @@ package com.creatubbles.api.repository;
 
 import com.creatubbles.api.CreatubblesApi;
 import com.creatubbles.api.TestUtils;
-import com.creatubbles.api.exception.InitializationException;
 import com.creatubbles.api.exception.InvalidParametersException;
 import com.creatubbles.api.model.AuthToken;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -26,14 +26,14 @@ public class GalleryRepositoryBuilderTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        CreatubblesApi.reset();
-        TestUtils.resetModule();
+        TestUtils.initializeCreatubblesApi();
         target = new GalleryRepositoryBuilder();
     }
 
-    @Test(expected = InitializationException.class)
-    public void testThrowsWhenCreatubblesApiIsNotInitialized() {
-        target.setAuthToken(authToken).build();
+    @After
+    public void tearDown() throws Exception {
+        TestUtils.resetModule();
+        CreatubblesApi.reset();
     }
 
     @Test(expected = InvalidParametersException.class)
@@ -43,7 +43,6 @@ public class GalleryRepositoryBuilderTest {
 
     @Test
     public void testIsNotNullWhenPassedCorrectParameters() {
-        TestUtils.initializeCreatubblesApi();
         target.setAuthToken(new AuthToken("testToken", "testTokenType", 3L));
         GalleryRepository repository = target.build();
         assertNotNull(repository);

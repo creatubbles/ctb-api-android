@@ -2,7 +2,6 @@ package com.creatubbles.api.repository;
 
 import com.creatubbles.api.CreatubblesApi;
 import com.creatubbles.api.TestUtils;
-import com.creatubbles.api.exception.InitializationException;
 
 import org.junit.After;
 import org.junit.Before;
@@ -21,8 +20,7 @@ public class UploadRepositoryBuilderTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        CreatubblesApi.reset();
-        TestUtils.resetModule();
+        TestUtils.initializeCreatubblesApi();
         target = new UploadRepositoryBuilder();
     }
 
@@ -32,14 +30,8 @@ public class UploadRepositoryBuilderTest {
         TestUtils.resetModule();
     }
 
-    @Test(expected = InitializationException.class)
-    public void testThrowsWhenCreatubblesApiIsNotInitialized() {
-        target.build();
-    }
-
     @Test
     public void testIsNotNullWhenPassedCorrectParameters() {
-        TestUtils.initializeCreatubblesApi();
         UploadRepository repository = target.build();
         assertNotNull(repository);
     }
