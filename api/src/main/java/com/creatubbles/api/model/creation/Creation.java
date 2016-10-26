@@ -87,7 +87,7 @@ public class Creation {
     private String playIframeUrl;
 
     @JsonCreator
-    private Creation() {
+    public Creation() {
     }
 
     @SuppressWarnings("WeakerAccess")

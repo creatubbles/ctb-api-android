@@ -72,7 +72,7 @@ public class Gallery {
     }
 
     @JsonCreator
-    Gallery() {
+    public Gallery() {
     }
 
     /**
