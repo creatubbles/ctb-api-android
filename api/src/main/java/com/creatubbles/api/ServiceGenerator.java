@@ -3,6 +3,8 @@ package com.creatubbles.api;
 import com.creatubbles.api.interceptor.CreatubbleInterceptor;
 import com.creatubbles.api.model.AuthToken;
 import com.creatubbles.api.model.activity.Activity;
+import com.creatubbles.api.model.bubble.Bubble;
+import com.creatubbles.api.model.bubble.BubbleColor;
 import com.creatubbles.api.model.comment.Comment;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.gallery.Gallery;
@@ -32,13 +34,12 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 /**
  * Created by Janek on 08.02.2016.
  */
-public class
-ServiceGenerator {
+public class ServiceGenerator {
 
     private Configuration configuration;
     private final Class[] jsonApiModels = {Creation.class, User.class, NewUser.class, Upload.class,
             Gallery.class, LandingUrl.class, MultipleCreators.class, Activity.class, Comment.class,
-            CustomStyle.class, UserFollowing.class, Group.class};
+            CustomStyle.class, UserFollowing.class, Group.class, Bubble.class, BubbleColor.class};
 
 
     private Retrofit.Builder builder;
