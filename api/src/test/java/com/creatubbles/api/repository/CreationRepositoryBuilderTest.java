@@ -2,14 +2,12 @@ package com.creatubbles.api.repository;
 
 import com.creatubbles.api.CreatubblesApi;
 import com.creatubbles.api.TestUtils;
-import com.creatubbles.api.exception.InitializationException;
 import com.creatubbles.api.exception.InvalidParametersException;
 import com.creatubbles.api.model.AuthToken;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -20,20 +18,16 @@ public class CreationRepositoryBuilderTest {
 
     private CreationRepositoryBuilder target;
 
-    @Mock
-    AuthToken authToken;
-
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        TestUtils.resetModule();
-        CreatubblesApi.reset();
+        TestUtils.initializeCreatubblesApi();
         target = new CreationRepositoryBuilder();
     }
 
-    @Test(expected = InitializationException.class)
-    public void testThrowsWhenCreatubblesApiIsNotInitialized() {
-        target.setAuthToken(authToken).build();
+    @After
+    public void tearDown() throws Exception {
+        TestUtils.resetModule();
+        CreatubblesApi.reset();
     }
 
     @Test(expected = InvalidParametersException.class)
@@ -43,7 +37,6 @@ public class CreationRepositoryBuilderTest {
 
     @Test
     public void testIsNotNullWhenCreatubblesApiIsInitialized() {
-        TestUtils.initializeCreatubblesApi();
         target.setAuthToken(new AuthToken("testToken", "testTokenType", 3L));
         CreationRepository repository = target.build();
         assertNotNull(repository);

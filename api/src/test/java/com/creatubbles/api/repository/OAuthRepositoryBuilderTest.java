@@ -2,8 +2,8 @@ package com.creatubbles.api.repository;
 
 import com.creatubbles.api.CreatubblesApi;
 import com.creatubbles.api.TestUtils;
-import com.creatubbles.api.exception.InitializationException;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.MockitoAnnotations;
@@ -18,19 +18,18 @@ public class OAuthRepositoryBuilderTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        CreatubblesApi.reset();
-        TestUtils.resetModule();
+        TestUtils.initializeCreatubblesApi();
         target = new OAuthRepositoryBuilder();
     }
 
-    @Test(expected = InitializationException.class)
-    public void testThrowsWhenCreatubblesApiIsNotInitialized() {
-        target.build();
+    @After
+    public void tearDown() throws Exception {
+        TestUtils.resetModule();
+        CreatubblesApi.reset();
     }
 
     @Test
     public void testIsNotNullWhenPassedCorrectParameters() {
-        TestUtils.initializeCreatubblesApi();
         OAuthRepository repository = target.build();
         assertNotNull(repository);
     }
