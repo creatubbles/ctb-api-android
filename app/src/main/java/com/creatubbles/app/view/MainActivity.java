@@ -23,6 +23,8 @@ import com.creatubbles.api.exception.ErrorResponse;
 import com.creatubbles.api.model.AuthToken;
 import com.creatubbles.api.model.CreatubblesResponse;
 import com.creatubbles.api.model.activity.Activity;
+import com.creatubbles.api.model.bubble.Bubble;
+import com.creatubbles.api.model.bubble.BubbleColor;
 import com.creatubbles.api.model.comment.Comment;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.gallery.Gallery;
@@ -37,6 +39,8 @@ import com.creatubbles.api.model.user.UserFollowing;
 import com.creatubbles.api.model.user.custom_style.CustomStyle;
 import com.creatubbles.api.repository.ActivityRepository;
 import com.creatubbles.api.repository.ActivityRepositoryBuilder;
+import com.creatubbles.api.repository.BubbleRepository;
+import com.creatubbles.api.repository.BubbleRepositoryBuilder;
 import com.creatubbles.api.repository.CommentRepository;
 import com.creatubbles.api.repository.CommentRepositoryBuilder;
 import com.creatubbles.api.repository.CreationRepository;
@@ -78,7 +82,9 @@ public class MainActivity extends AppCompatActivity {
             R.id.get_all_landing_urls_btn, R.id.get_specific_landing_url_btn, R.id.get_user_managers_btn,
             R.id.get_user_connections_btn, R.id.get_user_followed_btn, R.id.get_switch_users_btn, R.id.create_multiple_users_btn,
             R.id.get_creators_from_group_btn, R.id.get_recent_creations_btn, R.id.get_activities_btn,
-            R.id.follow_user_btn, R.id.unfollow_user_btn, R.id.get_groups_btn})
+            R.id.follow_user_btn, R.id.unfollow_user_btn, R.id.get_groups_btn, R.id.get_bubbles_on_creation_btn,
+            R.id.get_bubbles_on_gallery_btn, R.id.get_bubbles_on_user_btn, R.id.create_bubble_on_creation_btn,
+            R.id.create_bubble_on_gallery_btn, R.id.create_bubble_on_user_btn, R.id.get_bubble_colors_btn})
     List<Button> actionButtons;
 
     @Bind(R.id.send_file_btn)
@@ -107,12 +113,20 @@ public class MainActivity extends AppCompatActivity {
     Button updateGroup;
     @Bind(R.id.delete_group_btn)
     Button deleteGroup;
+    @Bind(R.id.update_bubble_btn)
+    Button updateBubble;
+    @Bind(R.id.delete_bubble_btn)
+    Button deleteBubble;
+
 
     Upload responseFromCreateUpload;
     List<User> usersAvailableForSwitching;
     AuthToken authToken;
     String userId;
     Group newGroup;
+    String bubbleId;
+    String creationId;
+    String galleryId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -381,6 +395,8 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, response.toString(), Toast
                                 .LENGTH_SHORT)
                                 .show();
+                        creationId = response.getData().getId();
+                        findViewById(R.id.create_bubble_on_creation_btn).setEnabled(true);
                     }
 
                     @Override
@@ -559,6 +575,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(CreatubblesResponse<Gallery> response) {
                 Toast.makeText(MainActivity.this, "Gallery Created", Toast.LENGTH_SHORT).show();
+                galleryId = response.getData().getId();
+                findViewById(R.id.create_bubble_on_gallery_btn).setEnabled(true);
             }
 
             @Override
@@ -930,6 +948,167 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void onGetBubblesOnCreationClicked(View view) {
+        String creationId = "LkjpOTuy";
+        BubbleRepository repository = new BubbleRepositoryBuilder(authToken)
+                .build();
+
+        repository.getForCreation(null, creationId, getCallbackForListOfBubbles());
+    }
+
+    public void onGetBubblesOnGalleryClicked(View view) {
+        String galleryId = "P2vca9F1";
+        BubbleRepository repository = new BubbleRepositoryBuilder(authToken)
+                .build();
+
+        repository.getForGallery(null, galleryId, getCallbackForListOfBubbles());
+    }
+
+    public void onGetBubblesOnUserClicked(View view) {
+        String userId = "uqJ5TLYf";
+        BubbleRepository repository = new BubbleRepositoryBuilder(authToken)
+                .build();
+
+        repository.getForUser(null, userId, getCallbackForListOfBubbles());
+    }
+
+    @NonNull
+    private ResponseCallback<CreatubblesResponse<List<Bubble>>> getCallbackForListOfBubbles() {
+        return new ResponseCallback<CreatubblesResponse<List<Bubble>>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<List<Bubble>> response) {
+                Toast.makeText(MainActivity.this, "Number of bubbles: " + response.getMeta().getTotalCount(), Toast
+                        .LENGTH_SHORT)
+                        .show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                displayError(errorResponse);
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        };
+    }
+
+    public void onCreateBubbleOnCreationClicked(View v) {
+        BubbleRepository repository = new BubbleRepositoryBuilder(authToken)
+                .build();
+        Bubble bubble = new Bubble.Builder()
+                .build();
+        repository.createForCreation(creationId, bubble, getCallbackForSingleBubble(true));
+    }
+
+    public void onCreateBubbleOnGalleryClicked(View v) {
+        BubbleRepository repository = new BubbleRepositoryBuilder(authToken)
+                .build();
+        Bubble bubble = new Bubble.Builder()
+                .build();
+        repository.createForGallery(galleryId, bubble, getCallbackForSingleBubble(false));
+    }
+
+    public void onCreateBubbleOnUserClicked(View v) {
+        BubbleRepository repository = new BubbleRepositoryBuilder(authToken)
+                .build();
+        Bubble bubble = new Bubble.Builder()
+                .build();
+        repository.createForUser(userId, bubble, getCallbackForSingleBubble(false));
+    }
+
+    @NonNull
+    private ResponseCallback<CreatubblesResponse<Bubble>> getCallbackForSingleBubble(boolean save) {
+        return new ResponseCallback<CreatubblesResponse<Bubble>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<Bubble> response) {
+                Toast.makeText(MainActivity.this, "Bubble created", Toast.LENGTH_SHORT).show();
+                if (save) {
+                    bubbleId = response.getData().getId();
+                    updateBubble.setEnabled(true);
+                    deleteBubble.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                displayError(errorResponse);
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        };
+    }
+    public void onUpdateBubbleClicked(View view) {
+        BubbleRepository repository = new BubbleRepositoryBuilder(authToken)
+                .build();
+        Bubble bubble = new Bubble.Builder()
+                .setPosition(0.1, 0.1)
+                .build();
+        repository.update(bubbleId, bubble, new ResponseCallback<Void>() {
+            @Override
+            public void onSuccess(Void response) {
+                Toast.makeText(MainActivity.this, "Bubble updated", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                displayError(errorResponse);
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+    }
+
+    public void onDeleteBubbleClicked(View view) {
+        BubbleRepository repository = new BubbleRepositoryBuilder(authToken)
+                .build();
+        repository.delete(bubbleId, new ResponseCallback<Void>() {
+            @Override
+            public void onSuccess(Void response) {
+                Toast.makeText(MainActivity.this, "Bubble deleted", Toast.LENGTH_SHORT).show();
+                updateBubble.setEnabled(false);
+                deleteBubble.setEnabled(false);
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                displayError(errorResponse);
+            }
+
+            @Override
+            public void onError(String message) {
+            }
+        });
+    }
+
+    public void onGetBubbleColorsClicked(View v) {
+        BubbleRepository repository = new BubbleRepositoryBuilder(authToken)
+                .build();
+        repository.getColors(new ResponseCallback<CreatubblesResponse<List<BubbleColor>>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<List<BubbleColor>> response) {
+                Toast.makeText(MainActivity.this, response.getData().toString(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                displayError(errorResponse);
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+    }
+
     interface Function<T> {
         void consume(T t);
     }
@@ -937,4 +1116,5 @@ public class MainActivity extends AppCompatActivity {
     interface BiFunction<T, U> {
         void consume(T first, U second);
     }
+
 }
