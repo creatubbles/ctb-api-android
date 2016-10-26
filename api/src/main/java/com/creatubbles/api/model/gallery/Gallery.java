@@ -75,6 +75,13 @@ public class Gallery {
     Gallery() {
     }
 
+    /**
+     *
+     * @param name name of the gallery
+     * @param description (optional)
+     * @param openForAll (optional) value indicating if everyone can sumbit creations to this gallery
+     * @param owner (optional) if null then current user is assumed.
+     */
     public Gallery(String name, String description, Boolean openForAll, User owner) {
         this.name = name;
         this.description = description;

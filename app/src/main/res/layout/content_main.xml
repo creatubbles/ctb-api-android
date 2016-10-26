@@ -115,6 +115,22 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/follow_user_btn"
+            android:text="Follow user"
+            android:onClick="onFollowUserClicked"
+            android:enabled="false"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/unfollow_user_btn"
+            android:text="Unfollow user"
+            android:onClick="onUnfollowUserClicked"
+            android:enabled="false"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/get_switch_users_btn"
             android:text="Get Users for switching"
             android:onClick="onGetSwitchUsersClicked"
@@ -163,7 +179,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/get_galleries_btn"
-            android:text="Get galleries"
+            android:text="Get Current User's galleries"
             android:onClick="onGetGalleriesByIdClicked"
             android:enabled="false"/>
 
@@ -297,5 +313,26 @@
             android:enabled="false"
             android:onClick="onUpdateCustomStyleClicked"
             android:text="update style" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="true"
+            android:text="Comments methods:" />
+
+        <Button
+            android:id="@+id/get_user_comments_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:onClick="onGetUserComments"
+            android:text="Get User Comments" />
+        <Button
+            android:id="@+id/create_user_comment_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:onClick="onCreateUserComments"
+            android:text="Create User Comment" />
     </LinearLayout>
 </ScrollView>

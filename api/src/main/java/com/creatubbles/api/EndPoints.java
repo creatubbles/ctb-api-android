@@ -6,6 +6,7 @@ package com.creatubbles.api;
 public class EndPoints {
 
     public static final String GALLERIES = "galleries";
+    public static final String FEATURED_GALLERIES = "featured_galleries";
     public static final String CREATORS = "creators";
     public static final String OAUTH_TOKEN = "oauth/token";
     public static final String USERS = "users";
