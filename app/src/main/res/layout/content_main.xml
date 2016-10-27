@@ -184,6 +184,15 @@
             android:onClick="onGetGalleriesByIdClicked"
             android:enabled="false"/>
 
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/submit_creation_btn"
+            android:text="Submit creation (first get galleries and create creation)"
+            android:onClick="onSubmitCreationClicked"
+            android:enabled="false" />
+
         <TextView
             android:id="@+id/creation_method_title"
             android:layout_width="wrap_content"
