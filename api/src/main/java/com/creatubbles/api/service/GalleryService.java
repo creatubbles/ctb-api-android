@@ -2,6 +2,7 @@ package com.creatubbles.api.service;
 
 
 import com.creatubbles.api.EndPoints;
+import com.creatubbles.api.model.GallerySubmission;
 import com.creatubbles.api.model.gallery.Gallery;
 import com.github.jasminb.jsonapi.JSONAPIDocument;
 
@@ -54,4 +55,7 @@ public interface GalleryService {
 
     @PUT(EndPoints.GALLERIES + "/{" + PARAM_ID + "}")
     Call<Void> update(@Path(PARAM_ID) String galleryId, @Body Gallery gallery);
+
+    @POST(EndPoints.GALLERY_SUBMISSIONS)
+    Call<JSONAPIDocument<GallerySubmission>> postSubmission(@Body GallerySubmission gallerySubmission);
 }
