@@ -26,6 +26,7 @@ import com.creatubbles.api.model.activity.Activity;
 import com.creatubbles.api.model.comment.Comment;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.gallery.Gallery;
+import com.creatubbles.api.model.group.Group;
 import com.creatubbles.api.model.landing_url.LandingUrl;
 import com.creatubbles.api.model.landing_url.LandingUrlType;
 import com.creatubbles.api.model.upload.Upload;
@@ -44,6 +45,8 @@ import com.creatubbles.api.repository.CustomStyleRepository;
 import com.creatubbles.api.repository.CustomStyleRepositoryBuilder;
 import com.creatubbles.api.repository.GalleryRepository;
 import com.creatubbles.api.repository.GalleryRepositoryBuilder;
+import com.creatubbles.api.repository.GroupRepository;
+import com.creatubbles.api.repository.GroupRepositoryBuilder;
 import com.creatubbles.api.repository.LandingUrlsRepository;
 import com.creatubbles.api.repository.LandingUrlsRepositoryBuilder;
 import com.creatubbles.api.repository.OAuthRepository;
@@ -75,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
             R.id.get_all_landing_urls_btn, R.id.get_specific_landing_url_btn, R.id.get_user_managers_btn,
             R.id.get_user_connections_btn, R.id.get_user_followed_btn, R.id.get_switch_users_btn, R.id.create_multiple_users_btn,
             R.id.get_creators_from_group_btn, R.id.get_recent_creations_btn, R.id.get_activities_btn,
-            R.id.follow_user_btn, R.id.unfollow_user_btn})
+            R.id.follow_user_btn, R.id.unfollow_user_btn, R.id.get_groups_btn})
     List<Button> actionButtons;
 
     @Bind(R.id.send_file_btn)
@@ -100,11 +103,16 @@ public class MainActivity extends AppCompatActivity {
     Button getUserComments;
     @Bind(R.id.create_user_comment_btn)
     Button createUserComment;
+    @Bind(R.id.update_group_btn)
+    Button updateGroup;
+    @Bind(R.id.delete_group_btn)
+    Button deleteGroup;
 
     Upload responseFromCreateUpload;
     List<User> usersAvailableForSwitching;
     AuthToken authToken;
     String userId;
+    Group newGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -822,6 +830,104 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(MainActivity.this, errorResponse.toString(), Toast
                 .LENGTH_SHORT)
                 .show();
+    }
+
+    public void onGetGroupsClicked(View view) {
+        GroupRepository repository = new GroupRepositoryBuilder(authToken)
+                .build();
+
+        repository.getAll(new ResponseCallback<CreatubblesResponse<List<Group>>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<List<Group>> response) {
+                Toast.makeText(MainActivity.this, "Groups count: " + response.getData().size(),
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                displayError(errorResponse);
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+    }
+
+    public void onCreateGroupClicked(View view) {
+        GroupRepository repository = new GroupRepositoryBuilder(authToken)
+                .build();
+        Group group = new Group.Builder()
+                .setName("Test Gallery one")
+                .build();
+        repository.create(group, new ResponseCallback<CreatubblesResponse<Group>>() {
+
+            @Override
+            public void onSuccess(CreatubblesResponse<Group> response) {
+                Toast.makeText(MainActivity.this, "Group created: " + response.getData().toString(),
+                        Toast.LENGTH_SHORT).show();
+                newGroup = response.getData();
+                updateGroup.setEnabled(true);
+                deleteGroup.setEnabled(true);
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                displayError(errorResponse);
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+    }
+
+    public void onUpdateGroupClicked(View view) {
+        GroupRepository repository = new GroupRepositoryBuilder(authToken)
+                .build();
+        Group group = new Group.Builder()
+                .setName("Test Gallery renamed")
+                .build();
+
+        repository.update(newGroup.getId(), group, new ResponseCallback<Void>() {
+            @Override
+            public void onSuccess(Void response) {
+                Toast.makeText(MainActivity.this, "Group updated", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                displayError(errorResponse);
+            }
+
+            @Override
+            public void onError(String message) {
+            }
+        });
+    }
+
+    public void onDeleteGroupClicked(View view) {
+        GroupRepository repository = new GroupRepositoryBuilder(authToken)
+                .build();
+        repository.delete(newGroup.getId(), new ResponseCallback<Void>() {
+            @Override
+            public void onSuccess(Void response) {
+                updateGroup.setEnabled(false);
+                deleteGroup.setEnabled(false);
+                Toast.makeText(MainActivity.this, "Group deleted", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                displayError(errorResponse);
+            }
+
+            @Override
+            public void onError(String message) {
+            }
+        });
     }
 
     interface Function<T> {

@@ -6,6 +6,7 @@ import com.creatubbles.api.repository.CommentRepositoryBuilder;
 import com.creatubbles.api.repository.CreationRepositoryBuilder;
 import com.creatubbles.api.repository.CustomStyleRepositoryBuilder;
 import com.creatubbles.api.repository.GalleryRepositoryBuilder;
+import com.creatubbles.api.repository.GroupRepositoryBuilder;
 import com.creatubbles.api.repository.LandingUrlsRepositoryBuilder;
 import com.creatubbles.api.repository.OAuthRepositoryBuilder;
 import com.creatubbles.api.repository.UploadRepositoryBuilder;
@@ -42,4 +43,6 @@ public interface ApiComponent {
     void inject(CommentRepositoryBuilder target);
 
     void inject(UserFollowingRepositoryBuilder target);
+
+    void inject(GroupRepositoryBuilder target);
 }
