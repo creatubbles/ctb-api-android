@@ -17,14 +17,14 @@ import retrofit2.Call;
 /**
  * Created by Mariusz Ostapowicz on 20.03.2016.
  */
-public class UploadRepositoryImpl implements UploadRepository {
+class UploadRepositoryImpl implements UploadRepository {
 
     private UploadService uploadService;
     private ObjectMapper objectMapper;
 
     private Context context;
 
-    public UploadRepositoryImpl(ObjectMapper objectMapper, UploadService uploadService, Context context) {
+    UploadRepositoryImpl(ObjectMapper objectMapper, UploadService uploadService, Context context) {
         this.objectMapper = objectMapper;
         this.uploadService = uploadService;
         this.context = context;

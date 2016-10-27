@@ -24,8 +24,7 @@ import retrofit2.Call;
 /**
  * Created by Janek on 07.03.2016.
  */
-public class CreationRepositoryImpl implements CreationRepository {
-
+class CreationRepositoryImpl implements CreationRepository {
 
     private final CreationService creationService;
     private final ObjectMapper objectMapper;
