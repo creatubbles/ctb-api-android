@@ -20,7 +20,8 @@ public class CreatubblesApiInitializationTest {
 
     @After
     public void tearDown() throws Exception {
-
+        TestUtils.resetModule();
+        CreatubblesApi.reset();
     }
 
     @Test(expected = NullPointerException.class)
