@@ -2,6 +2,7 @@ package com.creatubbles.api.service;
 
 import com.creatubbles.api.EndPoints;
 import com.creatubbles.api.model.creation.Creation;
+import com.creatubbles.api.model.image_manipulation.ImageManipulation;
 import com.creatubbles.api.model.upload.Upload;
 import com.creatubbles.api.request.UploadRequest;
 import com.github.jasminb.jsonapi.JSONAPIDocument;
@@ -80,4 +81,8 @@ public interface CreationService {
     @PUT
     @FormUrlEncoded
     Call<Void> updateCreationUpload(@Url String pingUrl, @Field(PARAM_ABORTED_WITH) String abortedWith);
+
+    @PUT(EndPoints.CREATIONS + "/" + PATH_CREATION_ID + "/image_manipulation")
+    Call<Void> putImageManipulation(@Path(PARAM_CREATION_ID) String id, @Body ImageManipulation imageManipulation);
+
 }

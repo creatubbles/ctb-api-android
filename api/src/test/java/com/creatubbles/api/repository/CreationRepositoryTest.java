@@ -3,6 +3,7 @@ package com.creatubbles.api.repository;
 import com.creatubbles.api.ContentType;
 import com.creatubbles.api.model.CreatubblesResponse;
 import com.creatubbles.api.model.creation.Creation;
+import com.creatubbles.api.model.image_manipulation.ImageManipulation;
 import com.creatubbles.api.model.upload.Upload;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.service.CreationService;
@@ -28,6 +29,8 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 
 public class CreationRepositoryTest {
@@ -282,6 +285,16 @@ public class CreationRepositoryTest {
         target.finishUpload(mock(Upload.class), null, voidCallback);
 
         verifyFailedResponseOn(voidCallback, ERROR_MESSAGE);
+    }
+
+    @Test
+    public void shouldCallPutImageManipulationWhenUpdatingImage() throws Exception {
+        when(mockedCreationService.putImageManipulation(any(), any())).thenReturn(voidCall);
+
+        target.updateImage("", mock(ImageManipulation.class), voidCallback);
+
+        verify(mockedCreationService).putImageManipulation(any(), any());
+        verify(voidCall).enqueue(any());
     }
 
     private void mockGetRecentWithAnswer(Answer successfulAnswer) {
