@@ -36,6 +36,7 @@ import com.creatubbles.api.model.image_manipulation.Rotation;
 import com.creatubbles.api.model.landing_url.LandingUrl;
 import com.creatubbles.api.model.landing_url.LandingUrlType;
 import com.creatubbles.api.model.upload.Upload;
+import com.creatubbles.api.model.user.AccountDetails;
 import com.creatubbles.api.model.user.MultipleCreators;
 import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
@@ -86,7 +87,8 @@ public class MainActivity extends AppCompatActivity {
             R.id.get_specific_landing_url_btn, R.id.get_user_managers_btn, R.id.get_user_connections_btn,
             R.id.get_user_followed_btn, R.id.get_switch_users_btn, R.id.create_multiple_users_btn,
             R.id.get_creators_from_group_btn, R.id.get_recent_creations_btn, R.id.get_activities_btn,
-            R.id.follow_user_btn, R.id.unfollow_user_btn, R.id.get_groups_btn, R.id.get_bubble_colors_btn})
+            R.id.follow_user_btn, R.id.unfollow_user_btn, R.id.get_groups_btn, R.id.get_bubble_colors_btn,
+            R.id.get_user_details_btn})
     List<Button> actionButtons;
 
     @Bind(R.id.send_file_btn)
@@ -1157,6 +1159,29 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Void response) {
                 Toast.makeText(MainActivity.this, "Image Modified", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                displayError(errorResponse);
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+    }
+
+    public void onGetAccountDetailsClicked(View v) {
+        UserRepository repository = new UserRepositoryBuilder()
+                .setAuthToken(authToken)
+                .build();
+
+        repository.getAccountDetails(new ResponseCallback<CreatubblesResponse<AccountDetails>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<AccountDetails> response) {
+                Toast.makeText(MainActivity.this, response.getData().toString(), Toast.LENGTH_SHORT).show();
             }
 
             @Override

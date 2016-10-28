@@ -84,6 +84,14 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/get_user_details_btn"
+            android:text="Get Current User's details"
+            android:onClick="onGetAccountDetailsClicked"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/get_user_creators_btn"
             android:text="Get Creators"
             android:onClick="onGetUserCreatorsClicked"
