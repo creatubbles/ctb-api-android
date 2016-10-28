@@ -19,12 +19,12 @@ import retrofit2.Call;
 /**
  * @author Pawel Szymanski
  */
-public class CommentRepositoryImpl implements CommentRepository {
+class CommentRepositoryImpl implements CommentRepository {
 
     private final CommentService service;
     private final ObjectMapper objectMapper;
 
-    public CommentRepositoryImpl(CommentService service, ObjectMapper objectMapper) {
+    CommentRepositoryImpl(CommentService service, ObjectMapper objectMapper) {
         this.service = service;
         this.objectMapper = objectMapper;
     }

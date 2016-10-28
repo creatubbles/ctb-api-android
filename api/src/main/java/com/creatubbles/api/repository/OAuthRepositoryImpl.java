@@ -15,7 +15,7 @@ import retrofit2.Call;
 /**
  * @author Matthew Platek on 11.02.2016.
  */
-public class OAuthRepositoryImpl implements OAuthRepository {
+class OAuthRepositoryImpl implements OAuthRepository {
 
     private OAuthService oAuthService;
 
@@ -25,7 +25,7 @@ public class OAuthRepositoryImpl implements OAuthRepository {
 
     private ObjectMapper objectMapper;
 
-    public OAuthRepositoryImpl(ObjectMapper objectMapper, OAuthService oAuthService) {
+    OAuthRepositoryImpl(ObjectMapper objectMapper, OAuthService oAuthService) {
         this.objectMapper = objectMapper;
         this.oAuthService = oAuthService;
     }

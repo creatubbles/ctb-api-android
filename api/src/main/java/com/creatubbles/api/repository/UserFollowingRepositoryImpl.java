@@ -16,7 +16,7 @@ import retrofit2.Call;
 /**
  * @author Pawel Szymanski
  */
-public class UserFollowingRepositoryImpl implements UserFollowingRepository {
+class UserFollowingRepositoryImpl implements UserFollowingRepository {
 
     private final UserService userService;
     private final ObjectMapper objectMapper;

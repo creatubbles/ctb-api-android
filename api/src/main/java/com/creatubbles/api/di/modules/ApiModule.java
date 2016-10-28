@@ -7,18 +7,6 @@ import com.creatubbles.api.ContentType;
 import com.creatubbles.api.ServiceGenerator;
 import com.creatubbles.api.exception.InitializationException;
 import com.creatubbles.api.model.AuthToken;
-import com.creatubbles.api.repository.CreationRepository;
-import com.creatubbles.api.repository.CreationRepositoryImpl;
-import com.creatubbles.api.repository.GalleryRepository;
-import com.creatubbles.api.repository.GalleryRepositoryImpl;
-import com.creatubbles.api.repository.LandingUrlsRepository;
-import com.creatubbles.api.repository.LandingUrlsRepositoryImpl;
-import com.creatubbles.api.repository.OAuthRepository;
-import com.creatubbles.api.repository.OAuthRepositoryImpl;
-import com.creatubbles.api.repository.UploadRepository;
-import com.creatubbles.api.repository.UploadRepositoryImpl;
-import com.creatubbles.api.repository.UserRepository;
-import com.creatubbles.api.repository.UserRepositoryImpl;
 import com.creatubbles.api.service.ActivityService;
 import com.creatubbles.api.service.CommentService;
 import com.creatubbles.api.service.CreationService;
@@ -115,21 +103,9 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    OAuthRepository provideOAuthRepository(OAuthService oAuthService, ObjectMapper objectMapper) {
-        return new OAuthRepositoryImpl(objectMapper, oAuthService);
-    }
-
-    @Provides
-    @Singleton
     GalleryService provideGalleryService(ServiceGenerator serviceGenerator) {
         return serviceGenerator.createService(GalleryService.class, ContentType.VND_JSON,
                 authToken);
-    }
-
-    @Provides
-    @Singleton
-    GalleryRepository provideGalleryRepository(GalleryService galleryService, ObjectMapper objectMapper) {
-        return new GalleryRepositoryImpl(objectMapper, galleryService);
     }
 
     @Provides
@@ -141,32 +117,14 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    CreationRepository provideCreationRepository(CreationService creationService, ObjectMapper objectMapper) {
-        return new CreationRepositoryImpl(objectMapper, creationService);
-    }
-
-    @Provides
-    @Singleton
     UserService provideUserService(ServiceGenerator serviceGenerator) {
         return serviceGenerator.createService(UserService.class, ContentType.VND_JSON, authToken);
     }
 
     @Provides
     @Singleton
-    UserRepository provideUserRepository(UserService userService, ObjectMapper objectMapper) {
-        return new UserRepositoryImpl(objectMapper, userService);
-    }
-
-    @Provides
-    @Singleton
     UploadService provideUploadService(ServiceGenerator serviceGenerator) {
         return serviceGenerator.createService(UploadService.class);
-    }
-
-    @Provides
-    @Singleton
-    UploadRepository provideUploadRepository(UploadService uploadService, Context context, ObjectMapper objectMapper) {
-        return new UploadRepositoryImpl(objectMapper, uploadService, context);
     }
 
     @Provides
@@ -178,15 +136,10 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    LandingUrlsRepository provideLandingUrlsRepository(LandingUrlsService landingUrlsService, ObjectMapper objectMapper) {
-        return new LandingUrlsRepositoryImpl(objectMapper, landingUrlsService);
-    }
-
-    @Provides
-    @Singleton
     ActivityService provideActivityService(ServiceGenerator serviceGenerator) {
         return serviceGenerator.createService(ActivityService.class, ContentType.VND_JSON, authToken);
     }
+
     @Provides
     @Singleton
     CommentService provideCommentService(ServiceGenerator serviceGenerator) {

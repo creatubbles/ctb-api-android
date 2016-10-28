@@ -8,6 +8,7 @@ import com.creatubbles.api.model.comment.Comment;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.gallery.Gallery;
 import com.creatubbles.api.model.group.Group;
+import com.creatubbles.api.model.image_manipulation.ImageManipulation;
 import com.creatubbles.api.model.landing_url.LandingUrl;
 import com.creatubbles.api.model.upload.Upload;
 import com.creatubbles.api.model.user.MultipleCreators;
@@ -39,7 +40,8 @@ ServiceGenerator {
     private Configuration configuration;
     private final Class[] jsonApiModels = {Creation.class, User.class, NewUser.class, Upload.class,
             Gallery.class, LandingUrl.class, MultipleCreators.class, Activity.class, Comment.class,
-            CustomStyle.class, UserFollowing.class, Group.class, GallerySubmission.class};
+            CustomStyle.class, UserFollowing.class, Group.class, GallerySubmission.class,
+            ImageManipulation.class};
 
 
     private Retrofit.Builder builder;

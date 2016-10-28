@@ -16,12 +16,12 @@ import retrofit2.Call;
  * Created by Janek on 21.10.2016.
  */
 
-public class CustomStyleRepositoryImpl implements CustomStyleRepository {
+class CustomStyleRepositoryImpl implements CustomStyleRepository {
 
     private final CustomStyleService customStyleService;
     private final ObjectMapper objectMapper;
 
-    public CustomStyleRepositoryImpl(ObjectMapper objectMapper, CustomStyleService customStyleService) {
+    CustomStyleRepositoryImpl(ObjectMapper objectMapper, CustomStyleService customStyleService) {
         this.customStyleService = customStyleService;
         this.objectMapper = objectMapper;
     }

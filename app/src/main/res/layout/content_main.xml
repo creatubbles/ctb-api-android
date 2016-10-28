@@ -227,6 +227,14 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/modify_image_btn"
+            android:text="Modify Image"
+            android:onClick="onModifyImageClicked"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/create_upload_btn"
             android:text="Create Upload"
             android:onClick="onCreateUploadClicked"

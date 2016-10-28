@@ -22,12 +22,12 @@ import retrofit2.Call;
 /**
  * Created by Janek on 07.03.2016.
  */
-public class GalleryRepositoryImpl implements GalleryRepository {
+class GalleryRepositoryImpl implements GalleryRepository {
 
     private GalleryService galleryService;
     private ObjectMapper objectMapper;
 
-    public GalleryRepositoryImpl(ObjectMapper objectMapper, GalleryService galleryService) {
+    GalleryRepositoryImpl(ObjectMapper objectMapper, GalleryService galleryService) {
         this.objectMapper = objectMapper;
         this.galleryService = galleryService;
     }

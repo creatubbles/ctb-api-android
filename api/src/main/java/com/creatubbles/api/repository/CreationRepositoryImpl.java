@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import com.creatubbles.api.ContentType;
 import com.creatubbles.api.model.CreatubblesResponse;
 import com.creatubbles.api.model.creation.Creation;
+import com.creatubbles.api.model.image_manipulation.ImageManipulation;
 import com.creatubbles.api.model.upload.Upload;
 import com.creatubbles.api.request.UploadRequest;
 import com.creatubbles.api.response.BaseResponseMapper;
@@ -23,13 +24,12 @@ import retrofit2.Call;
 /**
  * Created by Janek on 07.03.2016.
  */
-public class CreationRepositoryImpl implements CreationRepository {
-
+class CreationRepositoryImpl implements CreationRepository {
 
     private final CreationService creationService;
     private final ObjectMapper objectMapper;
 
-    public CreationRepositoryImpl(ObjectMapper objectMapper, CreationService creationService) {
+    CreationRepositoryImpl(ObjectMapper objectMapper, CreationService creationService) {
         this.objectMapper = objectMapper;
         this.creationService = creationService;
     }
@@ -111,6 +111,12 @@ public class CreationRepositoryImpl implements CreationRepository {
     @Override
     public void finishUpload(@NonNull Upload upload, @Nullable String abortReason, ResponseCallback<Void> callback) {
         Call<Void> call = creationService.updateCreationUpload(upload.getPingUrl(), abortReason);
+        call.enqueue(new BaseResponseMapper<>(objectMapper, callback));
+    }
+
+    @Override
+    public void updateImage(@NonNull String creationId, @NonNull ImageManipulation imageManipulation, ResponseCallback<Void> callback) {
+        Call<Void> call = creationService.putImageManipulation(creationId, imageManipulation);
         call.enqueue(new BaseResponseMapper<>(objectMapper, callback));
     }
 
