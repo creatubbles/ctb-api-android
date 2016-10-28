@@ -27,6 +27,9 @@ import com.creatubbles.api.model.comment.Comment;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.gallery.Gallery;
 import com.creatubbles.api.model.group.Group;
+import com.creatubbles.api.model.image_manipulation.Cropping;
+import com.creatubbles.api.model.image_manipulation.ImageManipulation;
+import com.creatubbles.api.model.image_manipulation.Rotation;
 import com.creatubbles.api.model.landing_url.LandingUrl;
 import com.creatubbles.api.model.landing_url.LandingUrlType;
 import com.creatubbles.api.model.upload.Upload;
@@ -74,7 +77,7 @@ import okhttp3.MediaType;
 public class MainActivity extends AppCompatActivity {
 
     @Bind({R.id.get_user_btn, R.id.get_user_creators_btn, R.id.create_user_btn, R.id.create_gallery_btn,
-            R.id.get_galleries_btn, R.id.create_creation_btn, R.id.create_upload_btn, R.id.get_creation_by_id_btn,
+            R.id.get_galleries_btn, R.id.create_creation_btn,
             R.id.get_all_landing_urls_btn, R.id.get_specific_landing_url_btn, R.id.get_user_managers_btn,
             R.id.get_user_connections_btn, R.id.get_user_followed_btn, R.id.get_switch_users_btn, R.id.create_multiple_users_btn,
             R.id.get_creators_from_group_btn, R.id.get_recent_creations_btn, R.id.get_activities_btn,
@@ -113,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
     AuthToken authToken;
     String userId;
     Group newGroup;
+    String creationId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -381,6 +385,10 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, response.toString(), Toast
                                 .LENGTH_SHORT)
                                 .show();
+                        creationId = response.getData().getId();
+                        findViewById(R.id.create_upload_btn).setEnabled(true);
+                        findViewById(R.id.get_creation_by_id_btn).setEnabled(true);
+                        findViewById(R.id.modify_image_btn).setEnabled(true);
                     }
 
                     @Override
@@ -428,7 +436,7 @@ public class MainActivity extends AppCompatActivity {
                 .setAuthToken(authToken)
                 .build();
 
-        creationRepository.startUpload("V4QbH3DE", ContentType.JPG,
+        creationRepository.startUpload(creationId, ContentType.JPG,
                 new ResponseCallback<CreatubblesResponse<Upload>>() {
                     @Override
                     public void onSuccess(CreatubblesResponse<Upload> response) {
@@ -457,8 +465,7 @@ public class MainActivity extends AppCompatActivity {
         CreationRepository creationRepository = new CreationRepositoryBuilder()
                 .setAuthToken(authToken)
                 .build();
-        //TODO: add working creation ID
-        creationRepository.getById("ghOq9eug", new ResponseCallback<CreatubblesResponse<Creation>>() {
+        creationRepository.getById(creationId, new ResponseCallback<CreatubblesResponse<Creation>>() {
             @Override
             public void onSuccess(CreatubblesResponse<Creation> response) {
                 Toast.makeText(MainActivity.this, response.toString(), Toast
@@ -926,6 +933,31 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onError(String message) {
+            }
+        });
+    }
+
+    public void onModifyImageClicked(View v) {
+        CreationRepository repository = new CreationRepositoryBuilder()
+                .setAuthToken(authToken)
+                .build();
+
+        ImageManipulation manipulation = new ImageManipulation.Builder().setRotation(Rotation.ROTATION_90)
+                .setCropping(new Cropping(0, 0, 100, 100)).build();
+        repository.updateImage(creationId, manipulation, new ResponseCallback<Void>() {
+            @Override
+            public void onSuccess(Void response) {
+                Toast.makeText(MainActivity.this, "Image Modified", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                displayError(errorResponse);
+            }
+
+            @Override
+            public void onError(String message) {
+
             }
         });
     }
