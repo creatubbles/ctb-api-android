@@ -75,7 +75,7 @@ public interface CreationService {
     @DELETE(EndPoints.CREATIONS + "/" + PATH_CREATION_ID)
     Call<Void> removeCreation(@Path(PARAM_CREATION_ID) String creationId);
 
-    @POST(EndPoints.CREATIONS + "/" + PATH_CREATION_ID)
+    @POST(EndPoints.CREATIONS + "/" + PATH_CREATION_ID + "/uploads")
     Call<JSONAPIDocument<Upload>> createUpload(@Path(PARAM_CREATION_ID) String id, @Body UploadRequest body);
 
     @PUT
