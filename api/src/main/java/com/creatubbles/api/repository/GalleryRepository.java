@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.creatubbles.api.model.CreatubblesResponse;
+import com.creatubbles.api.model.GallerySubmission;
 import com.creatubbles.api.model.gallery.Gallery;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.service.GalleryFilter;
@@ -60,4 +61,9 @@ public interface GalleryRepository {
      * Get galleries of a creation.
      */
     void getByCreation(@Nullable Integer page, @NonNull String creationId, ResponseCallback<CreatubblesResponse<List<Gallery>>> callback);
+
+    /**
+     * Submit creation with {@code creationId} to the gallery with {@code galleryId}.
+     */
+    void submitCreation(String galleryId, String creationId, ResponseCallback<CreatubblesResponse<GallerySubmission>> callback);
 }

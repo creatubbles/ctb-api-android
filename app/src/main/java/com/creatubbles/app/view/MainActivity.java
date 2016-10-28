@@ -22,6 +22,7 @@ import com.creatubbles.api.ContentType;
 import com.creatubbles.api.exception.ErrorResponse;
 import com.creatubbles.api.model.AuthToken;
 import com.creatubbles.api.model.CreatubblesResponse;
+import com.creatubbles.api.model.GallerySubmission;
 import com.creatubbles.api.model.activity.Activity;
 import com.creatubbles.api.model.comment.Comment;
 import com.creatubbles.api.model.creation.Creation;
@@ -107,12 +108,16 @@ public class MainActivity extends AppCompatActivity {
     Button updateGroup;
     @Bind(R.id.delete_group_btn)
     Button deleteGroup;
+    @Bind(R.id.submit_creation_btn)
+    Button submitCreation;
 
     Upload responseFromCreateUpload;
     List<User> usersAvailableForSwitching;
     AuthToken authToken;
     String userId;
     Group newGroup;
+    String galleryId;
+    String creationId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -381,6 +386,10 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, response.toString(), Toast
                                 .LENGTH_SHORT)
                                 .show();
+                        creationId = response.getData().getId();
+                        if (galleryId != null) {
+                            submitCreation.setEnabled(true);
+                        }
                     }
 
                     @Override
@@ -582,6 +591,13 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(CreatubblesResponse<List<Gallery>> response) {
                 Toast.makeText(MainActivity.this, "Galleries total count: " + response.getMeta().getTotalCount(),
                         Toast.LENGTH_SHORT).show();
+                if (!response.getData().isEmpty()) {
+                    Gallery gallery = response.getData().get(0);
+                    galleryId = gallery.getId();
+                    if (creationId != null) {
+                        submitCreation.setEnabled(true);
+                    }
+                }
             }
 
             @Override
@@ -917,6 +933,31 @@ public class MainActivity extends AppCompatActivity {
                 updateGroup.setEnabled(false);
                 deleteGroup.setEnabled(false);
                 Toast.makeText(MainActivity.this, "Group deleted", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                displayError(errorResponse);
+            }
+
+            @Override
+            public void onError(String message) {
+            }
+        });
+    }
+
+    public void onSubmitCreationClicked(View view) {
+        GalleryRepository repository = new GalleryRepositoryBuilder()
+                .setAuthToken(authToken)
+                .build();
+
+        repository.submitCreation(galleryId, creationId, new ResponseCallback<CreatubblesResponse<GallerySubmission>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<GallerySubmission> response) {
+                Toast.makeText(MainActivity.this, "Creation submitted", Toast.LENGTH_SHORT).show();
+                submitCreation.setEnabled(false);
+                galleryId = null;
+                creationId = null;
             }
 
             @Override

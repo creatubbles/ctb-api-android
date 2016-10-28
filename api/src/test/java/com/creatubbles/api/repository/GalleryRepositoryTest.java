@@ -3,6 +3,7 @@ package com.creatubbles.api.repository;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.creatubbles.api.model.GallerySubmission;
 import com.creatubbles.api.model.gallery.Gallery;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.service.GalleryService;
@@ -40,6 +41,8 @@ public class GalleryRepositoryTest {
     Call<JSONAPIDocument<List<Gallery>>> listCall;
     @Mock
     Call<Void> voidCall;
+    @Mock
+    Call<JSONAPIDocument<GallerySubmission>> submissionCall;
 
     @Before
     public void setUp() {
@@ -128,6 +131,15 @@ public class GalleryRepositoryTest {
         target.update(anyId(), gallery, anyCallback());
 
         verify(galleryService).update(anyId(), gallery);
+    }
+
+    @Test
+    public void shouldCallPostSubmissionWhenSubmittingCreation() throws Exception {
+        when(galleryService.postSubmission(any())).thenReturn(submissionCall);
+
+        target.submitCreation(anyId(), anyId(), anyCallback());
+
+        verify(galleryService).postSubmission(any());
     }
 
     private Gallery anyGallery() {

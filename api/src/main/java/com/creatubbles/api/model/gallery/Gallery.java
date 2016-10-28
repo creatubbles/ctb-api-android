@@ -58,6 +58,10 @@ public class Gallery {
     @Relationship("owner")
     private User owner;
 
+    public Gallery(String galleryId) {
+        this.id = galleryId;
+    }
+
     public String getId() {
         return id;
     }
@@ -72,7 +76,7 @@ public class Gallery {
     }
 
     @JsonCreator
-    Gallery() {
+    public Gallery() {
     }
 
     /**
