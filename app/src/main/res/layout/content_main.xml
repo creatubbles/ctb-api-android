@@ -389,5 +389,81 @@
             android:enabled="false"
             android:onClick="onDeleteGroupClicked"
             android:text="Delete Group" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="true"
+            android:text="Bubbles methods:" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_bubbles_on_user_btn"
+            android:text="Get Bubbles on User"
+            android:onClick="onGetBubblesOnUserClicked"
+            android:enabled="false"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_bubbles_on_gallery_btn"
+            android:text="Get Bubbles on Gallery"
+            android:onClick="onGetBubblesOnGalleryClicked"
+            android:enabled="false"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_bubbles_on_creation_btn"
+            android:text="Get Bubbles on Creation"
+            android:onClick="onGetBubblesOnCreationClicked"
+            android:enabled="false"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/create_bubble_on_creation_btn"
+            android:text="Create Bubble on Creation"
+            android:onClick="onCreateBubbleOnCreationClicked"
+            android:enabled="false"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/create_bubble_on_gallery_btn"
+            android:text="Create Bubble on Gallery"
+            android:onClick="onCreateBubbleOnGalleryClicked"
+            android:enabled="false"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/create_bubble_on_user_btn"
+            android:text="Create Bubble on User"
+            android:onClick="onCreateBubbleOnUserClicked"
+            android:enabled="false"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/update_bubble_btn"
+            android:text="Update Bubble"
+            android:onClick="onUpdateBubbleClicked"
+            android:enabled="false"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/delete_bubble_btn"
+            android:text="Delete bubble"
+            android:onClick="onDeleteBubbleClicked"
+            android:enabled="false"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_bubble_colors_btn"
+            android:text="Get Bubble colors"
+            android:onClick="onGetBubbleColorsClicked"
+            android:enabled="false"/>
     </LinearLayout>
 </ScrollView>

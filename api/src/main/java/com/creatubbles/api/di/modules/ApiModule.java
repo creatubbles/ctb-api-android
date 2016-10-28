@@ -8,6 +8,7 @@ import com.creatubbles.api.ServiceGenerator;
 import com.creatubbles.api.exception.InitializationException;
 import com.creatubbles.api.model.AuthToken;
 import com.creatubbles.api.service.ActivityService;
+import com.creatubbles.api.service.BubbleService;
 import com.creatubbles.api.service.CommentService;
 import com.creatubbles.api.service.CreationService;
 import com.creatubbles.api.service.CustomStyleService;
@@ -156,6 +157,11 @@ public class ApiModule {
     @Singleton
     GroupService provideGroupService(ServiceGenerator serviceGenerator) {
         return serviceGenerator.createService(GroupService.class, ContentType.VND_JSON, authToken);
+    }
+
+    @Provides
+    BubbleService provideService(ServiceGenerator serviceGenerator) {
+        return serviceGenerator.createService(BubbleService.class, ContentType.VND_JSON, authToken);
     }
 
     /**
