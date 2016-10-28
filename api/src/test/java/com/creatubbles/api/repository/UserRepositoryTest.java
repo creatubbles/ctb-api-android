@@ -2,6 +2,7 @@ package com.creatubbles.api.repository;
 
 import com.creatubbles.api.exception.ErrorResponse;
 import com.creatubbles.api.model.CreatubblesResponse;
+import com.creatubbles.api.model.user.AccountDetails;
 import com.creatubbles.api.model.user.MultipleCreators;
 import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
@@ -32,6 +33,7 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.only;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 
 public class UserRepositoryTest {
@@ -64,6 +66,9 @@ public class UserRepositoryTest {
 
     @Mock
     JSONAPIDocument<?> body;
+
+    @Mock
+    Call<JSONAPIDocument<AccountDetails>> accountCall;
 
     @Before
     public void setUp() {
@@ -308,6 +313,20 @@ public class UserRepositoryTest {
 
         verify(userListResponseResponseCallback).onError(ERROR_MESSAGE);
         verify(userListResponseResponseCallback, never()).onSuccess(any());
+    }
+
+    @Test
+    public void shouldCallGetAccouthWhenObtainingAccountDetails() throws Exception {
+        when(mockedUserService.getAccount(any())).thenReturn(accountCall);
+
+        target.getAccountDetails(anyCallback());
+
+        verify(mockedUserService).getAccount(any());
+        verify(accountCall).enqueue(any());
+    }
+
+    private <T> ResponseCallback<T> anyCallback() {
+        return null;
     }
 
     private void mockUserServiceAnswerForUserById(Answer answer) {
