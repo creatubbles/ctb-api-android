@@ -1,6 +1,7 @@
 package com.creatubbles.api.service;
 
 import com.creatubbles.api.EndPoints;
+import com.creatubbles.api.model.user.AccountDetails;
 import com.creatubbles.api.model.user.MultipleCreators;
 import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
@@ -58,5 +59,8 @@ public interface UserService {
 
     @DELETE(EndPoints.USERS + "/" + PATH_ID + "/following")
     Call<Void> deleteFollowing(@Path(PARAM_ID) String userId);
+
+    @GET(EndPoints.USERS + "/" + PATH_ID + "/account")
+    Call<JSONAPIDocument<AccountDetails>> getAccount(@Path(PARAM_ID) String id);
 
 }

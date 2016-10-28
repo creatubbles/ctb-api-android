@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.creatubbles.api.model.CreatubblesResponse;
+import com.creatubbles.api.model.user.AccountDetails;
 import com.creatubbles.api.model.user.MultipleCreators;
 import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
@@ -100,4 +101,20 @@ public interface UserRepository {
      * Method used to obtain current user’s creators by group.
      */
     void getCreatorsFromGroup(@NonNull String groupId, @Nullable Integer page, ResponseCallback<CreatubblesResponse<List<User>>> callback);
+
+    /**
+     * Method used to obtain current user's account details. This requires user access token
+     * and the user must be manager of given user.
+     *
+     * @see AccountDetails
+     */
+    void getAccountDetails(ResponseCallback<CreatubblesResponse<AccountDetails>> callback);
+
+    /**
+     * Method used to obtain specific user's account details. This requires user access token
+     * and the user must be manager of given user.
+     *
+     * @see AccountDetails
+     */
+    void getAccountDetails(@NonNull String userId, ResponseCallback<CreatubblesResponse<AccountDetails>> callback);
 }

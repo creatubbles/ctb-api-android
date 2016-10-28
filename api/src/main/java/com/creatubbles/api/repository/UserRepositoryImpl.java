@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.creatubbles.api.model.CreatubblesResponse;
+import com.creatubbles.api.model.user.AccountDetails;
 import com.creatubbles.api.model.user.MultipleCreators;
 import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
@@ -111,6 +112,18 @@ class UserRepositoryImpl implements UserRepository {
     @Override
     public void getCreatorsFromGroup(@NonNull String groupId, @Nullable Integer page, ResponseCallback<CreatubblesResponse<List<User>>> callback) {
         Call<JSONAPIDocument<List<User>>> call = userService.getCreatorsFromGroup(groupId, page);
+        call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
+    }
+
+    @Override
+    public void getAccountDetails(ResponseCallback<CreatubblesResponse<AccountDetails>> callback) {
+        Call<JSONAPIDocument<AccountDetails>> call = userService.getAccount(CURRENT_USER);
+        call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
+    }
+
+    @Override
+    public void getAccountDetails(@NonNull String userId, ResponseCallback<CreatubblesResponse<AccountDetails>> callback) {
+        Call<JSONAPIDocument<AccountDetails>> call = userService.getAccount(userId);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 

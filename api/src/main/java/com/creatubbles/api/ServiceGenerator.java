@@ -13,6 +13,7 @@ import com.creatubbles.api.model.group.Group;
 import com.creatubbles.api.model.image_manipulation.ImageManipulation;
 import com.creatubbles.api.model.landing_url.LandingUrl;
 import com.creatubbles.api.model.upload.Upload;
+import com.creatubbles.api.model.user.AccountDetails;
 import com.creatubbles.api.model.user.MultipleCreators;
 import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
@@ -42,7 +43,7 @@ public class ServiceGenerator {
     private final Class[] jsonApiModels = {Creation.class, User.class, NewUser.class, Upload.class,
             Gallery.class, LandingUrl.class, MultipleCreators.class, Activity.class, Comment.class,
             CustomStyle.class, UserFollowing.class, Group.class, Bubble.class, BubbleColor.class,
-            GallerySubmission.class,ImageManipulation.class};
+            GallerySubmission.class, ImageManipulation.class, AccountDetails.class};
 
 
     private Retrofit.Builder builder;
