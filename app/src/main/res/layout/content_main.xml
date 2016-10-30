@@ -92,6 +92,30 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/update_account_btn"
+            android:text="Update Current User's details (get user first)"
+            android:onClick="onUpdateAccountDetailsClicked"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/link_school_btn"
+            android:text="Link school with account (get user first)"
+            android:onClick="onLinkSchoolWithAccountClicked"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/change_password_btn"
+            android:text="Change Password (get user first)"
+            android:onClick="onChangePasswordClicked"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/get_user_creators_btn"
             android:text="Get Creators"
             android:onClick="onGetUserCreatorsClicked"

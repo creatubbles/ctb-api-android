@@ -23,6 +23,7 @@ import com.creatubbles.api.exception.ErrorResponse;
 import com.creatubbles.api.model.AuthToken;
 import com.creatubbles.api.model.CreatubblesResponse;
 import com.creatubbles.api.model.GallerySubmission;
+import com.creatubbles.api.model.PasswordChange;
 import com.creatubbles.api.model.activity.Activity;
 import com.creatubbles.api.model.bubble.Bubble;
 import com.creatubbles.api.model.bubble.BubbleColor;
@@ -35,12 +36,14 @@ import com.creatubbles.api.model.image_manipulation.ImageManipulation;
 import com.creatubbles.api.model.image_manipulation.Rotation;
 import com.creatubbles.api.model.landing_url.LandingUrl;
 import com.creatubbles.api.model.landing_url.LandingUrlType;
+import com.creatubbles.api.model.school.School;
 import com.creatubbles.api.model.upload.Upload;
 import com.creatubbles.api.model.user.AccountDetails;
 import com.creatubbles.api.model.user.MultipleCreators;
 import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
 import com.creatubbles.api.model.user.UserFollowing;
+import com.creatubbles.api.model.user.custom_style.AgeDisplayType;
 import com.creatubbles.api.model.user.custom_style.CustomStyle;
 import com.creatubbles.api.repository.ActivityRepository;
 import com.creatubbles.api.repository.ActivityRepositoryBuilder;
@@ -343,6 +346,9 @@ public class MainActivity extends AppCompatActivity {
                 updateCustomStyleBtn.setEnabled(true);
                 getUserComments.setEnabled(true);
                 createUserComment.setEnabled(true);
+                findViewById(R.id.update_account_btn).setEnabled(true);
+                findViewById(R.id.link_school_btn).setEnabled(true);
+                findViewById(R.id.change_password_btn).setEnabled(true);
             }
 
             @Override
@@ -744,10 +750,10 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onError(String message){
+            public void onError(String message) {
 
-                }
-            });
+            }
+        });
     }
 
     public void onGetActivitiesClicked(View btn) {
@@ -1056,6 +1062,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
     }
+
     public void onUpdateBubbleClicked(View view) {
         BubbleRepository repository = new BubbleRepositoryBuilder(authToken)
                 .build();
@@ -1182,6 +1189,85 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(CreatubblesResponse<AccountDetails> response) {
                 Toast.makeText(MainActivity.this, response.getData().toString(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                displayError(errorResponse);
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+    }
+
+    public void onUpdateAccountDetailsClicked(View v) {
+        AccountDetails accountDetails = new AccountDetails.Builder()
+                .setAgeDisplayType(AgeDisplayType.DO_NOT_SHOW)
+                .setBirthYear(2000)
+                .build();
+
+        UserRepository repository = new UserRepositoryBuilder()
+                .setAuthToken(authToken)
+                .build();
+
+        repository.updateAccountDetails(userId, accountDetails, new ResponseCallback<Void>() {
+            @Override
+            public void onSuccess(Void response) {
+                Toast.makeText(MainActivity.this, "Account updated", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                displayError(errorResponse);
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+    }
+
+    public void onLinkSchoolWithAccountClicked(View v) {
+        School school = new School.Builder("Test school", "PL")
+                .build();
+
+        UserRepository repository = new UserRepositoryBuilder()
+                .setAuthToken(authToken)
+                .build();
+
+        repository.linkSchoolWithAccount(userId, school, new ResponseCallback<Void>() {
+            @Override
+            public void onSuccess(Void response) {
+                Toast.makeText(MainActivity.this, "School linked", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                displayError(errorResponse);
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+    }
+
+    public void onChangePasswordClicked(View v) {
+        // use the same password - in result not changing password just testing the request
+        PasswordChange passwordChange = PasswordChange.create(passwordText.getText().toString(),
+                passwordText.getText().toString());
+        UserRepository repository = new UserRepositoryBuilder()
+                .setAuthToken(authToken)
+                .build();
+        repository.changePassword(userId, passwordChange, new ResponseCallback<CreatubblesResponse<User>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<User> response) {
+                Toast.makeText(MainActivity.this, "Password changed", Toast.LENGTH_SHORT).show();
             }
 
             @Override
