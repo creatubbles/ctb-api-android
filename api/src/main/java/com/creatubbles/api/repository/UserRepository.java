@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.creatubbles.api.model.CreatubblesResponse;
+import com.creatubbles.api.model.PasswordChange;
+import com.creatubbles.api.model.school.School;
 import com.creatubbles.api.model.user.AccountDetails;
 import com.creatubbles.api.model.user.MultipleCreators;
 import com.creatubbles.api.model.user.NewUser;
@@ -117,4 +119,10 @@ public interface UserRepository {
      * @see AccountDetails
      */
     void getAccountDetails(@NonNull String userId, ResponseCallback<CreatubblesResponse<AccountDetails>> callback);
+
+    void updateAccountDetails(@NonNull String userId, @NonNull AccountDetails accountDetails, ResponseCallback<Void> callback);
+
+    void linkSchoolWithAccount(@NonNull String userId, @NonNull School school, ResponseCallback<Void> callback);
+
+    void changePassword(@NonNull String userId, @NonNull PasswordChange passwordChange, ResponseCallback<CreatubblesResponse<User>> callback);
 }

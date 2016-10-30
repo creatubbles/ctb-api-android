@@ -1,11 +1,13 @@
 package com.creatubbles.api.service;
 
 import com.creatubbles.api.EndPoints;
+import com.creatubbles.api.model.PasswordChange;
 import com.creatubbles.api.model.user.AccountDetails;
 import com.creatubbles.api.model.user.MultipleCreators;
 import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
 import com.creatubbles.api.model.user.UserFollowing;
+import com.creatubbles.api.request.SchoolRequest;
 import com.github.jasminb.jsonapi.JSONAPIDocument;
 
 import java.util.List;
@@ -15,6 +17,7 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -63,4 +66,12 @@ public interface UserService {
     @GET(EndPoints.USERS + "/" + PATH_ID + "/account")
     Call<JSONAPIDocument<AccountDetails>> getAccount(@Path(PARAM_ID) String id);
 
+    @PUT(EndPoints.USERS + "/" + PATH_ID + "/account")
+    Call<Void> putAccountData(@Path(PARAM_ID) String userId, @Body AccountDetails accountDetails);
+
+    @POST(EndPoints.USERS + "/" + PATH_ID + "/password_change")
+    Call<JSONAPIDocument<User>> postPasswordChange(@Path(PARAM_ID) String userId, @Body PasswordChange passwordChange);
+
+    @PUT(EndPoints.USERS + "/" + PATH_ID + "/account")
+    Call<Void> putSchool(@Path(PARAM_ID) String userId, @Body SchoolRequest schoolRequest);
 }

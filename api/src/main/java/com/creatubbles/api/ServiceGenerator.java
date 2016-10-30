@@ -3,6 +3,7 @@ package com.creatubbles.api;
 import com.creatubbles.api.interceptor.CreatubbleInterceptor;
 import com.creatubbles.api.model.AuthToken;
 import com.creatubbles.api.model.GallerySubmission;
+import com.creatubbles.api.model.PasswordChange;
 import com.creatubbles.api.model.activity.Activity;
 import com.creatubbles.api.model.bubble.Bubble;
 import com.creatubbles.api.model.bubble.BubbleColor;
@@ -12,6 +13,7 @@ import com.creatubbles.api.model.gallery.Gallery;
 import com.creatubbles.api.model.group.Group;
 import com.creatubbles.api.model.image_manipulation.ImageManipulation;
 import com.creatubbles.api.model.landing_url.LandingUrl;
+import com.creatubbles.api.model.school.School;
 import com.creatubbles.api.model.upload.Upload;
 import com.creatubbles.api.model.user.AccountDetails;
 import com.creatubbles.api.model.user.MultipleCreators;
@@ -43,7 +45,8 @@ public class ServiceGenerator {
     private final Class[] jsonApiModels = {Creation.class, User.class, NewUser.class, Upload.class,
             Gallery.class, LandingUrl.class, MultipleCreators.class, Activity.class, Comment.class,
             CustomStyle.class, UserFollowing.class, Group.class, Bubble.class, BubbleColor.class,
-            GallerySubmission.class, ImageManipulation.class, AccountDetails.class};
+            GallerySubmission.class, ImageManipulation.class, AccountDetails.class, School.class,
+            PasswordChange.class};
 
 
     private Retrofit.Builder builder;

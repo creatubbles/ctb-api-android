@@ -4,10 +4,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.creatubbles.api.model.CreatubblesResponse;
+import com.creatubbles.api.model.PasswordChange;
+import com.creatubbles.api.model.school.School;
 import com.creatubbles.api.model.user.AccountDetails;
 import com.creatubbles.api.model.user.MultipleCreators;
 import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
+import com.creatubbles.api.request.SchoolRequest;
+import com.creatubbles.api.response.BaseResponseMapper;
 import com.creatubbles.api.response.JsonApiResponseMapper;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.service.UserService;
@@ -124,6 +128,25 @@ class UserRepositoryImpl implements UserRepository {
     @Override
     public void getAccountDetails(@NonNull String userId, ResponseCallback<CreatubblesResponse<AccountDetails>> callback) {
         Call<JSONAPIDocument<AccountDetails>> call = userService.getAccount(userId);
+        call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
+    }
+
+    @Override
+    public void updateAccountDetails(@NonNull String userId, @NonNull AccountDetails accountDetails, ResponseCallback<Void> callback) {
+        Call<Void> call = userService.putAccountData(userId, accountDetails);
+        call.enqueue(new BaseResponseMapper<>(objectMapper, callback));
+    }
+
+    @Override
+    public void linkSchoolWithAccount(@NonNull String userId, @NonNull School school, ResponseCallback<Void> callback) {
+        SchoolRequest request = new SchoolRequest(school);
+        Call<Void> call = userService.putSchool(userId, request);
+        call.enqueue(new BaseResponseMapper<>(objectMapper, callback));
+    }
+
+    @Override
+    public void changePassword(@NonNull String userId, @NonNull PasswordChange passwordChange, ResponseCallback<CreatubblesResponse<User>> callback) {
+        Call<JSONAPIDocument<User>> call = userService.postPasswordChange(userId, passwordChange);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 

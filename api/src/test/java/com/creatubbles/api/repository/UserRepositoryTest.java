@@ -2,6 +2,8 @@ package com.creatubbles.api.repository;
 
 import com.creatubbles.api.exception.ErrorResponse;
 import com.creatubbles.api.model.CreatubblesResponse;
+import com.creatubbles.api.model.PasswordChange;
+import com.creatubbles.api.model.school.School;
 import com.creatubbles.api.model.user.AccountDetails;
 import com.creatubbles.api.model.user.MultipleCreators;
 import com.creatubbles.api.model.user.NewUser;
@@ -30,6 +32,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.only;
 import static org.mockito.Mockito.verify;
@@ -55,11 +58,6 @@ public class UserRepositoryTest {
     @Mock
     UserService mockedUserService;
 
-    @Mock
-    Call<User> userCall;
-
-    @Mock
-    Call<List<User>> listCall;
 
     @Mock
     ErrorResponse errorResponse;
@@ -69,6 +67,15 @@ public class UserRepositoryTest {
 
     @Mock
     Call<JSONAPIDocument<AccountDetails>> accountCall;
+
+    @Mock
+    Call<Void> voidCall;
+
+    @Mock
+    Call<JSONAPIDocument<User>> userCall;
+
+    @Mock
+    Call<JSONAPIDocument<List<User>>> listCall;
 
     @Before
     public void setUp() {
@@ -269,8 +276,8 @@ public class UserRepositoryTest {
 
     @Test
     public void testPasswordAuthorizationCredentialsRequest() {
-        Answer paramsValidator = new Answer<Call<User>>() {
-            public Call<User> answer(InvocationOnMock invocation) {
+        Answer paramsValidator = new Answer<Call<JSONAPIDocument<User>>>() {
+            public Call<JSONAPIDocument<User>> answer(InvocationOnMock invocation) {
                 Object[] getArguments = invocation.getArguments();
                 assertEquals(newUser.getName(), ((NewUser) getArguments[0]).getName
                         ());
@@ -316,13 +323,44 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void shouldCallGetAccouthWhenObtainingAccountDetails() throws Exception {
+    public void shouldCallGetAccountWhenObtainingAccountDetails() throws Exception {
         when(mockedUserService.getAccount(any())).thenReturn(accountCall);
 
         target.getAccountDetails(anyCallback());
 
         verify(mockedUserService).getAccount(any());
         verify(accountCall).enqueue(any());
+    }
+
+    @Test
+    public void shouldCallPutAccountDataWhenUpdating() throws Exception {
+        when(mockedUserService.putAccountData(any(), any())).thenReturn(voidCall);
+
+        target.updateAccountDetails("", mock(AccountDetails.class), anyCallback());
+
+        verify(mockedUserService).putAccountData(any(), any());
+        verify(voidCall).enqueue(any());
+    }
+
+    @Test
+    public void shouldPutAccountDataChangeWhenLinkingSchool() throws Exception {
+        when(mockedUserService.putSchool(any(), any())).thenReturn(voidCall);
+
+        target.linkSchoolWithAccount("", mock(School.class), anyCallback());
+
+        verify(mockedUserService).putSchool(any(), any());
+        verify(voidCall).enqueue(any());
+    }
+
+
+    @Test
+    public void shouldPostPasswordChangeWhenChangingPassword() throws Exception {
+        when(mockedUserService.postPasswordChange(any(), any())).thenReturn(userCall);
+
+        target.changePassword("", mock(PasswordChange.class), anyCallback());
+
+        verify(mockedUserService).postPasswordChange(any(), any());
+        verify(userCall).enqueue(any());
     }
 
     private <T> ResponseCallback<T> anyCallback() {

@@ -11,7 +11,6 @@ import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Relationship;
 import com.github.jasminb.jsonapi.annotations.Type;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -49,10 +48,10 @@ public class AccountDetails {
     private String uiLocale;
 
     @JsonProperty("group_list")
-    private List<String> groupList = Collections.emptyList();
+    private List<String> groupList;
 
     @JsonProperty("owned_tags")
-    private List<String> ownedTags = Collections.emptyList();
+    private List<String> ownedTags;
 
     @JsonProperty("preapprove_comments")
     private Boolean preapproveComments;
