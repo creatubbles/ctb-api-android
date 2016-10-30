@@ -16,7 +16,7 @@ import retrofit2.Call;
 /**
  * @author Pawel Szymanski
  */
-public class GroupRepositoryImpl implements GroupRepository {
+class GroupRepositoryImpl implements GroupRepository {
     private final GroupService service;
     private final ObjectMapper objectMapper;
 

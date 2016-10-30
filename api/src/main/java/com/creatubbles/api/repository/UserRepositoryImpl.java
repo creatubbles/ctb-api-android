@@ -20,12 +20,12 @@ import retrofit2.Call;
 /**
  * Created by Janek on 18.02.2016.
  */
-public class UserRepositoryImpl implements UserRepository {
+class UserRepositoryImpl implements UserRepository {
 
     private UserService userService;
     private ObjectMapper objectMapper;
 
-    public UserRepositoryImpl(ObjectMapper objectMapper, UserService service) {
+    UserRepositoryImpl(ObjectMapper objectMapper, UserService service) {
         this.objectMapper = objectMapper;
         this.userService = service;
     }

@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.creatubbles.api.model.CreatubblesResponse;
+import com.creatubbles.api.model.GallerySubmission;
 import com.creatubbles.api.model.gallery.Gallery;
 import com.creatubbles.api.response.BaseResponseMapper;
 import com.creatubbles.api.response.JsonApiResponseMapper;
@@ -21,12 +22,12 @@ import retrofit2.Call;
 /**
  * Created by Janek on 07.03.2016.
  */
-public class GalleryRepositoryImpl implements GalleryRepository {
+class GalleryRepositoryImpl implements GalleryRepository {
 
     private GalleryService galleryService;
     private ObjectMapper objectMapper;
 
-    public GalleryRepositoryImpl(ObjectMapper objectMapper, GalleryService galleryService) {
+    GalleryRepositoryImpl(ObjectMapper objectMapper, GalleryService galleryService) {
         this.objectMapper = objectMapper;
         this.galleryService = galleryService;
     }
@@ -89,6 +90,12 @@ public class GalleryRepositoryImpl implements GalleryRepository {
     public void getByCreation(@Nullable Integer page, @NonNull String creationId,
                               ResponseCallback<CreatubblesResponse<List<Gallery>>> callback) {
         Call<JSONAPIDocument<List<Gallery>>> call = galleryService.getByCreation(creationId, page);
+        call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
+    }
+
+    @Override
+    public void submitCreation(@NonNull String galleryId, @NonNull String creationId, ResponseCallback<CreatubblesResponse<GallerySubmission>> callback) {
+        Call<JSONAPIDocument<GallerySubmission>> call = galleryService.postSubmission(new GallerySubmission(galleryId, creationId));
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 

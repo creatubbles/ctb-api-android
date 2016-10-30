@@ -2,11 +2,15 @@ package com.creatubbles.api;
 
 import com.creatubbles.api.interceptor.CreatubbleInterceptor;
 import com.creatubbles.api.model.AuthToken;
+import com.creatubbles.api.model.GallerySubmission;
 import com.creatubbles.api.model.activity.Activity;
+import com.creatubbles.api.model.bubble.Bubble;
+import com.creatubbles.api.model.bubble.BubbleColor;
 import com.creatubbles.api.model.comment.Comment;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.gallery.Gallery;
 import com.creatubbles.api.model.group.Group;
+import com.creatubbles.api.model.image_manipulation.ImageManipulation;
 import com.creatubbles.api.model.landing_url.LandingUrl;
 import com.creatubbles.api.model.upload.Upload;
 import com.creatubbles.api.model.user.MultipleCreators;
@@ -14,6 +18,7 @@ import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
 import com.creatubbles.api.model.user.UserFollowing;
 import com.creatubbles.api.model.user.avatar.Avatar;
+import com.creatubbles.api.model.user.avatar.AvatarSuggestion;
 import com.creatubbles.api.model.user.avatar.AvatarSuggestion;
 import com.creatubbles.api.model.user.custom_style.CustomStyle;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,13 +39,13 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 /**
  * Created by Janek on 08.02.2016.
  */
-public class
-ServiceGenerator {
+public class ServiceGenerator {
 
     private Configuration configuration;
     private final Class[] jsonApiModels = {Creation.class, User.class, NewUser.class, Upload.class,
             Gallery.class, LandingUrl.class, MultipleCreators.class, Activity.class, Comment.class,
-            CustomStyle.class, UserFollowing.class, Group.class, Avatar.class, AvatarSuggestion.class};
+            CustomStyle.class, UserFollowing.class, Group.class, Bubble.class, BubbleColor.class,
+            GallerySubmission.class,ImageManipulation.class, Avatar.class, AvatarSuggestion.class};
 
 
     private Retrofit.Builder builder;

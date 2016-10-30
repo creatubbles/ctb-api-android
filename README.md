@@ -30,6 +30,7 @@
 9. `CommentRepository` - for operations on comments
 10. `UserFollowingRepository` - for following/unfollowing users
 11. `GroupRepository` - for managing Groups
+12. `BubbleRepository` - for managing bubbles on creations, galleries and users
 
 ## Preview
 ### Demo
@@ -350,6 +351,34 @@ Example of `GroupRepository` uses:
 
         }
     });
+```
+
+12. Bubble repository
+--------------------------
+
+Create `BubbleRepository` instance:
+
+```
+    BubbleRepository repository = new BubbleRepositoryBuilder(authToken)
+                    .build();
+```
+
+Example of `BubbleRepository` uses:
+
+```
+    repository.getForCreation(page, creationId, new ResponseCallback<CreatubblesResponse<List<Bubble>>>() {
+          @Override
+          public void onSuccess(CreatubblesResponse<List<Bubble>> response) {
+          }
+
+          @Override
+          public void onServerError(ErrorResponse errorResponse) {
+          }
+
+          @Override
+          public void onError(String message) {
+          }
+      });
 ```
 
 ## Used libs

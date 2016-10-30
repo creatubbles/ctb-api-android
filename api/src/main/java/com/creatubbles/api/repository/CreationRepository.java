@@ -6,13 +6,15 @@ import android.support.annotation.Nullable;
 import com.creatubbles.api.ContentType;
 import com.creatubbles.api.model.CreatubblesResponse;
 import com.creatubbles.api.model.creation.Creation;
+import com.creatubbles.api.model.image_manipulation.ImageManipulation;
 import com.creatubbles.api.model.upload.Upload;
 import com.creatubbles.api.response.ResponseCallback;
 
 import java.util.List;
 
 /**
- * Created by Janek on 07.03.2016.
+ * Interface defining methods operating on creations.
+ * To create an instance use {@link CreationRepositoryBuilder}.
  */
 public interface CreationRepository {
 
@@ -107,4 +109,11 @@ public interface CreationRepository {
      * @param abortReason argument included when upload fails. Include the body returned by the failed upload attempt or 'user' in case the user aborted the upload
      */
     void finishUpload(@NonNull Upload upload, @Nullable String abortReason, ResponseCallback<Void> callback);
+
+    /**
+     * Method used to modify image of a creation identified by {@code creationId}.
+     *
+     * @param imageManipulation object describing operations to perform on an image
+     */
+    void updateImage(@NonNull String creationId, @NonNull ImageManipulation imageManipulation, ResponseCallback<Void> callback);
 }

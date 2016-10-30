@@ -87,7 +87,7 @@ public class Creation {
     private String playIframeUrl;
 
     @JsonCreator
-    private Creation() {
+    public Creation() {
     }
 
     @SuppressWarnings("WeakerAccess")
@@ -96,6 +96,10 @@ public class Creation {
         this.creators = creators;
         this.reflectionText = reflectionText;
         this.reflectionVideoUrl = reflectionVideoUrl;
+    }
+
+    public Creation(String creationId) {
+        this.id = creationId;
     }
 
     public String getName() {

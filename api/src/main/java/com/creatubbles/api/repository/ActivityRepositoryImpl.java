@@ -21,7 +21,7 @@ public class ActivityRepositoryImpl implements ActivityRepository {
     private final ActivityService activityService;
     private final ObjectMapper objectMapper;
 
-    public ActivityRepositoryImpl(ObjectMapper objectMapper, ActivityService activityService) {
+    ActivityRepositoryImpl(ObjectMapper objectMapper, ActivityService activityService) {
         this.objectMapper = objectMapper;
         this.activityService = activityService;
     }

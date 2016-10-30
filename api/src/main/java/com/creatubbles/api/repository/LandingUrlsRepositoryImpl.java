@@ -16,12 +16,12 @@ import retrofit2.Call;
 /**
  * Created by Janek on 05.08.2016.
  */
-public class LandingUrlsRepositoryImpl implements LandingUrlsRepository {
+class LandingUrlsRepositoryImpl implements LandingUrlsRepository {
 
     private LandingUrlsService landingUrlsService;
     private ObjectMapper objectMapper;
 
-    public LandingUrlsRepositoryImpl(ObjectMapper objectMapper, LandingUrlsService landingUrlsService) {
+    LandingUrlsRepositoryImpl(ObjectMapper objectMapper, LandingUrlsService landingUrlsService) {
         this.objectMapper = objectMapper;
         this.landingUrlsService = landingUrlsService;
     }
