@@ -34,9 +34,12 @@ import com.creatubbles.api.model.user.MultipleCreators;
 import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
 import com.creatubbles.api.model.user.UserFollowing;
+import com.creatubbles.api.model.user.avatar.Avatar;
 import com.creatubbles.api.model.user.custom_style.CustomStyle;
 import com.creatubbles.api.repository.ActivityRepository;
 import com.creatubbles.api.repository.ActivityRepositoryBuilder;
+import com.creatubbles.api.repository.AvatarRepository;
+import com.creatubbles.api.repository.AvatarRepositoryBuilder;
 import com.creatubbles.api.repository.CommentRepository;
 import com.creatubbles.api.repository.CommentRepositoryBuilder;
 import com.creatubbles.api.repository.CreationRepository;
@@ -107,6 +110,8 @@ public class MainActivity extends AppCompatActivity {
     Button updateGroup;
     @Bind(R.id.delete_group_btn)
     Button deleteGroup;
+    @Bind(R.id.update_avatar)
+    Button updateAvatar;
 
     Upload responseFromCreateUpload;
     List<User> usersAvailableForSwitching;
@@ -257,6 +262,33 @@ public class MainActivity extends AppCompatActivity {
         userRepository.getCreatorsFromGroup("9320", null, getUserListCallback());
     }
 
+    public void onUpdateAvatarClicked(View btn) {
+        AvatarRepository avatarRepository = new AvatarRepositoryBuilder(authToken).build();
+        avatarRepository.updateAvatar(userId, new Avatar(null, null), new ResponseCallback<CreatubblesResponse<Avatar>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<Avatar> response) {
+                Toast.makeText(MainActivity.this, response.toString(), Toast
+                        .LENGTH_SHORT)
+                        .show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                Toast.makeText(MainActivity.this, "server error", Toast
+                        .LENGTH_SHORT)
+                        .show();
+            }
+
+            @Override
+            public void onError(String message) {
+                Toast.makeText(MainActivity.this, "error", Toast
+                        .LENGTH_SHORT)
+                        .show();
+                System.out.println(message);
+            }
+        });
+    }
+
     public void onCreateUserClicked(View btn) {
         UserRepository userRepository = new UserRepositoryBuilder()
                 .setAuthToken(authToken)
@@ -322,6 +354,8 @@ public class MainActivity extends AppCompatActivity {
                 updateCustomStyleBtn.setEnabled(true);
                 getUserComments.setEnabled(true);
                 createUserComment.setEnabled(true);
+                updateAvatar.setEnabled(true);
+
             }
 
             @Override
@@ -709,10 +743,10 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onError(String message){
+            public void onError(String message) {
 
-                }
-            });
+            }
+        });
     }
 
     public void onGetActivitiesClicked(View btn) {

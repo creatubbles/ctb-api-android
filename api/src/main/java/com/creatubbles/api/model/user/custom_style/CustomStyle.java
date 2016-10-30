@@ -1,6 +1,7 @@
 
 package com.creatubbles.api.model.user.custom_style;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.creatubbles.api.model.creation.Creation;
@@ -77,20 +78,6 @@ public class CustomStyle {
 
     public String getId() {
         return id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    @Nullable
-    public Creation getHeaderCreation() {
-        return headerCreation;
-    }
-
-    @Nullable
-    public Creation getBodyCreation() {
-        return bodyCreation;
     }
 
     @Nullable
@@ -193,6 +180,31 @@ public class CustomStyle {
         public CustomStyle build() {
             return new CustomStyle(name, headerBackgroundId, bodyBackgroundId, font, bio, bodyColors, headerColors);
         }
+    }
+
+    /**
+     * @return instance of custom style owner
+     */
+    @NonNull
+    public User getUser() {
+        return user;
+    }
+
+
+    /**
+     * @return instance of creation used as header background
+     */
+    @Nullable
+    public Creation getHeaderCreation() {
+        return headerCreation;
+    }
+
+    /**
+     * @return instance of creation used as body background
+     */
+    @Nullable
+    public Creation getBodyCreation() {
+        return bodyCreation;
     }
 
     @Override

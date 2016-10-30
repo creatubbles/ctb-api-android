@@ -5,6 +5,8 @@ import com.creatubbles.api.model.user.MultipleCreators;
 import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
 import com.creatubbles.api.model.user.UserFollowing;
+import com.creatubbles.api.model.user.avatar.Avatar;
+import com.creatubbles.api.model.user.avatar.AvatarSuggestion;
 import com.github.jasminb.jsonapi.JSONAPIDocument;
 
 import java.util.List;
@@ -13,7 +15,10 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -58,5 +63,12 @@ public interface UserService {
 
     @DELETE(EndPoints.USERS + "/" + PATH_ID + "/following")
     Call<Void> deleteFollowing(@Path(PARAM_ID) String userId);
+
+    @Multipart
+    @PUT(EndPoints.USERS + "/" + PATH_ID + "/" + "avatar")
+    Call<JSONAPIDocument<Avatar>> updateAvatar(@Path(PARAM_ID) String userId, @Part("avatar") Avatar body);
+
+    @GET(EndPoints.AVATAR_SUGGESTIONS)
+    Call<JSONAPIDocument<List<AvatarSuggestion>>> getSuggestedAvatars();
 
 }
