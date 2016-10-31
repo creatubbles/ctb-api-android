@@ -120,9 +120,20 @@ public interface UserRepository {
      */
     void getAccountDetails(@NonNull String userId, ResponseCallback<CreatubblesResponse<AccountDetails>> callback);
 
+    /**
+     * Method used to update details of user specified by {@code userId}.This requires user access token
+     * and the user must be manager of given user.
+     */
     void updateAccountDetails(@NonNull String userId, @NonNull AccountDetails accountDetails, ResponseCallback<Void> callback);
 
+    /**
+     * Method used to link user with a School.
+     */
     void linkSchoolWithAccount(@NonNull String userId, @NonNull School school, ResponseCallback<Void> callback);
 
+    /**
+     * Method used to change user's password. In case of managed user you only need to provide new password.
+     * When changing manager's password you have to provide both new and current password.
+     */
     void changePassword(@NonNull String userId, @NonNull PasswordChange passwordChange, ResponseCallback<CreatubblesResponse<User>> callback);
 }
