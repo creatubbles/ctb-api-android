@@ -9,6 +9,7 @@ import com.creatubbles.api.repository.CustomStyleRepositoryBuilder;
 import com.creatubbles.api.repository.GalleryRepositoryBuilder;
 import com.creatubbles.api.repository.GroupRepositoryBuilder;
 import com.creatubbles.api.repository.LandingUrlsRepositoryBuilder;
+import com.creatubbles.api.repository.NotificationRepositoryBuilder;
 import com.creatubbles.api.repository.OAuthRepositoryBuilder;
 import com.creatubbles.api.repository.UploadRepositoryBuilder;
 import com.creatubbles.api.repository.UserFollowingRepositoryBuilder;
@@ -48,4 +49,6 @@ public interface ApiComponent {
     void inject(GroupRepositoryBuilder target);
 
     void inject(BubbleRepositoryBuilder target);
+
+    void inject(NotificationRepositoryBuilder target);
 }

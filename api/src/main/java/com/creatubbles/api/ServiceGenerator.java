@@ -13,6 +13,10 @@ import com.creatubbles.api.model.gallery.Gallery;
 import com.creatubbles.api.model.group.Group;
 import com.creatubbles.api.model.image_manipulation.ImageManipulation;
 import com.creatubbles.api.model.landing_url.LandingUrl;
+import com.creatubbles.api.model.notification.CreationEntity;
+import com.creatubbles.api.model.notification.GalleryEntity;
+import com.creatubbles.api.model.notification.Notification;
+import com.creatubbles.api.model.notification.UserEntity;
 import com.creatubbles.api.model.school.School;
 import com.creatubbles.api.model.upload.Upload;
 import com.creatubbles.api.model.user.AccountDetails;
@@ -46,7 +50,8 @@ public class ServiceGenerator {
             Gallery.class, LandingUrl.class, MultipleCreators.class, Activity.class, Comment.class,
             CustomStyle.class, UserFollowing.class, Group.class, Bubble.class, BubbleColor.class,
             GallerySubmission.class, ImageManipulation.class, AccountDetails.class, School.class,
-            PasswordChange.class};
+            PasswordChange.class, Notification.class, CreationEntity.class, GalleryEntity.class,
+            UserEntity.class};
 
 
     private Retrofit.Builder builder;
