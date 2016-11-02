@@ -36,6 +36,7 @@ import com.creatubbles.api.model.image_manipulation.ImageManipulation;
 import com.creatubbles.api.model.image_manipulation.Rotation;
 import com.creatubbles.api.model.landing_url.LandingUrl;
 import com.creatubbles.api.model.landing_url.LandingUrlType;
+import com.creatubbles.api.model.notification.Notification;
 import com.creatubbles.api.model.school.School;
 import com.creatubbles.api.model.upload.Upload;
 import com.creatubbles.api.model.user.AccountDetails;
@@ -61,6 +62,8 @@ import com.creatubbles.api.repository.GroupRepository;
 import com.creatubbles.api.repository.GroupRepositoryBuilder;
 import com.creatubbles.api.repository.LandingUrlsRepository;
 import com.creatubbles.api.repository.LandingUrlsRepositoryBuilder;
+import com.creatubbles.api.repository.NotificationRepository;
+import com.creatubbles.api.repository.NotificationRepositoryBuilder;
 import com.creatubbles.api.repository.OAuthRepository;
 import com.creatubbles.api.repository.OAuthRepositoryBuilder;
 import com.creatubbles.api.repository.UploadRepository;
@@ -91,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
             R.id.get_user_followed_btn, R.id.get_switch_users_btn, R.id.create_multiple_users_btn,
             R.id.get_creators_from_group_btn, R.id.get_recent_creations_btn, R.id.get_activities_btn,
             R.id.follow_user_btn, R.id.unfollow_user_btn, R.id.get_groups_btn, R.id.get_bubble_colors_btn,
-            R.id.get_user_details_btn})
+            R.id.get_user_details_btn, R.id.get_notifications_btn, R.id.update_last_viewed_time_btn})
     List<Button> actionButtons;
 
     @Bind(R.id.send_file_btn)
@@ -135,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
     String galleryId;
     String creationId;
     String bubbleId;
+    String notificationId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -1268,6 +1272,79 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(CreatubblesResponse<User> response) {
                 Toast.makeText(MainActivity.this, "Password changed", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                displayError(errorResponse);
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+    }
+
+    public void onGetNotificationsClicked(View v) {
+        NotificationRepository repository = new NotificationRepositoryBuilder(authToken)
+                .build();
+
+        repository.getNotifications(null, null,
+                new ResponseCallback<CreatubblesResponse<List<Notification>>>() {
+                    @Override
+                    public void onSuccess(CreatubblesResponse<List<Notification>> response) {
+                        Toast.makeText(MainActivity.this, "Notification count: " + response.getMeta().getTotalCount(),
+                                Toast.LENGTH_SHORT).show();
+                        if (!response.getData().isEmpty()) {
+                            notificationId = response.getData().get(0).getId();
+                            findViewById(R.id.mark_as_read_btn).setEnabled(true);
+                        }
+
+                    }
+
+                    @Override
+                    public void onServerError(ErrorResponse errorResponse) {
+                        displayError(errorResponse);
+                    }
+
+                    @Override
+                    public void onError(String message) {
+
+                    }
+                });
+    }
+
+    public void onReadNotificationClicked(View v) {
+        NotificationRepository repository = new NotificationRepositoryBuilder(authToken)
+                .build();
+
+        repository.markRead(notificationId, new ResponseCallback<Void>() {
+            @Override
+            public void onSuccess(Void response) {
+                Toast.makeText(MainActivity.this, "Notification marked as read", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                displayError(errorResponse);
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+    }
+
+    public void onUpdateNotificationViewedTimeClicked(View view) {
+        NotificationRepository repository = new NotificationRepositoryBuilder(authToken)
+                .build();
+
+        repository.updateLastViewedDate(new ResponseCallback<Void>() {
+            @Override
+            public void onSuccess(Void response) {
+                Toast.makeText(MainActivity.this, "Notification view time updated", Toast.LENGTH_SHORT).show();
             }
 
             @Override

@@ -497,5 +497,35 @@
             android:text="Get Bubble colors"
             android:onClick="onGetBubbleColorsClicked"
             android:enabled="false"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="true"
+            android:text="Notifications methods:" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_notifications_btn"
+            android:text="Get Notifications"
+            android:onClick="onGetNotificationsClicked"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/mark_as_read_btn"
+            android:text="Read notification"
+            android:onClick="onReadNotificationClicked"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/update_last_viewed_time_btn"
+            android:text="Update last viewed time"
+            android:onClick="onUpdateNotificationViewedTimeClicked"
+            android:enabled="false" />
     </LinearLayout>
 </ScrollView>
