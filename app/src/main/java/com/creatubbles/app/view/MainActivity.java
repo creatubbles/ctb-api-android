@@ -41,6 +41,7 @@ import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
 import com.creatubbles.api.model.user.UserFollowing;
 import com.creatubbles.api.model.user.avatar.Avatar;
+import com.creatubbles.api.model.user.avatar.AvatarSuggestion;
 import com.creatubbles.api.model.user.custom_style.CustomStyle;
 import com.creatubbles.api.repository.ActivityRepository;
 import com.creatubbles.api.repository.ActivityRepositoryBuilder;
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
             R.id.get_specific_landing_url_btn, R.id.get_user_managers_btn, R.id.get_user_connections_btn,
             R.id.get_user_followed_btn, R.id.get_switch_users_btn, R.id.create_multiple_users_btn,
             R.id.get_creators_from_group_btn, R.id.get_recent_creations_btn, R.id.get_activities_btn,
-            R.id.follow_user_btn, R.id.unfollow_user_btn, R.id.get_groups_btn, R.id.get_bubble_colors_btn})
+            R.id.follow_user_btn, R.id.unfollow_user_btn, R.id.get_groups_btn, R.id.get_bubble_colors_btn, R.id.get_avatar_suggestion})
     List<Button> actionButtons;
 
     @Bind(R.id.send_file_btn)
@@ -135,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
     String galleryId;
     String creationId;
     String bubbleId;
+    AvatarSuggestion avatarSuggestion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -279,9 +281,12 @@ public class MainActivity extends AppCompatActivity {
         userRepository.getCreatorsFromGroup("9320", null, getUserListCallback());
     }
 
+    /**
+     * This feature is probably disabled on server side
+     */
     public void onUpdateAvatarClicked(View btn) {
         AvatarRepository avatarRepository = new AvatarRepositoryBuilder(authToken).build();
-        avatarRepository.updateAvatar(userId, new Avatar(null, null), new ResponseCallback<CreatubblesResponse<Avatar>>() {
+        avatarRepository.updateAvatar(userId, new Avatar(avatarSuggestion, null), new ResponseCallback<CreatubblesResponse<Avatar>>() {
             @Override
             public void onSuccess(CreatubblesResponse<Avatar> response) {
                 Toast.makeText(MainActivity.this, response.toString(), Toast
@@ -302,6 +307,28 @@ public class MainActivity extends AppCompatActivity {
                         .LENGTH_SHORT)
                         .show();
                 System.out.println(message);
+            }
+        });
+    }
+
+    public void onGetSuggestedAvatarClicked(View btn) {
+        AvatarRepository avatarRepository = new AvatarRepositoryBuilder(authToken).build();
+        avatarRepository.getSuggestedAvatars(new ResponseCallback<CreatubblesResponse<List<AvatarSuggestion>>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<List<AvatarSuggestion>> response) {
+                if (response != null) {
+                    avatarSuggestion = response.getData().get(0);
+                }
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+
+            }
+
+            @Override
+            public void onError(String message) {
+
             }
         });
     }
@@ -1088,6 +1115,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
     }
+
     public void onUpdateBubbleClicked(View view) {
         BubbleRepository repository = new BubbleRepositoryBuilder(authToken)
                 .build();
