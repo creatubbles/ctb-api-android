@@ -4,6 +4,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.creatubbles.api.model.CreatubblesResponse;
+import com.creatubbles.api.model.PasswordChange;
+import com.creatubbles.api.model.school.School;
+import com.creatubbles.api.model.user.AccountDetails;
 import com.creatubbles.api.model.user.MultipleCreators;
 import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
@@ -100,4 +103,37 @@ public interface UserRepository {
      * Method used to obtain current user’s creators by group.
      */
     void getCreatorsFromGroup(@NonNull String groupId, @Nullable Integer page, ResponseCallback<CreatubblesResponse<List<User>>> callback);
+
+    /**
+     * Method used to obtain current user's account details. This requires user access token
+     * and the user must be manager of given user.
+     *
+     * @see AccountDetails
+     */
+    void getAccountDetails(ResponseCallback<CreatubblesResponse<AccountDetails>> callback);
+
+    /**
+     * Method used to obtain specific user's account details. This requires user access token
+     * and the user must be manager of given user.
+     *
+     * @see AccountDetails
+     */
+    void getAccountDetails(@NonNull String userId, ResponseCallback<CreatubblesResponse<AccountDetails>> callback);
+
+    /**
+     * Method used to update details of user specified by {@code userId}.This requires user access token
+     * and the user must be manager of given user.
+     */
+    void updateAccountDetails(@NonNull String userId, @NonNull AccountDetails accountDetails, ResponseCallback<Void> callback);
+
+    /**
+     * Method used to link user with a School.
+     */
+    void linkSchoolWithAccount(@NonNull String userId, @NonNull School school, ResponseCallback<Void> callback);
+
+    /**
+     * Method used to change user's password. In case of managed user you only need to provide new password.
+     * When changing manager's password you have to provide both new and current password.
+     */
+    void changePassword(@NonNull String userId, @NonNull PasswordChange passwordChange, ResponseCallback<CreatubblesResponse<User>> callback);
 }
