@@ -16,6 +16,7 @@ import com.creatubbles.api.service.GalleryService;
 import com.creatubbles.api.service.GroupService;
 import com.creatubbles.api.service.LandingUrlsService;
 import com.creatubbles.api.service.OAuthService;
+import com.creatubbles.api.service.ReportService;
 import com.creatubbles.api.service.UploadService;
 import com.creatubbles.api.service.UserService;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -162,6 +163,11 @@ public class ApiModule {
     @Provides
     BubbleService provideService(ServiceGenerator serviceGenerator) {
         return serviceGenerator.createService(BubbleService.class, ContentType.VND_JSON, authToken);
+    }
+
+    @Provides
+    ReportService provideReportService(ServiceGenerator serviceGenerator) {
+        return serviceGenerator.createService(ReportService.class, ContentType.VND_JSON, authToken);
     }
 
     /**
