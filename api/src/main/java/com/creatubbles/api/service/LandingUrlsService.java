@@ -15,10 +15,15 @@ import retrofit2.http.Path;
  */
 public interface LandingUrlsService {
 
+    String PARAM_ID = "id";
+    String PARAM_TYPE = "type";
+
     @GET(EndPoints.LANDING_URLS)
     Call<JSONAPIDocument<List<LandingUrl>>> getLandingUrls();
 
-    @GET(EndPoints.LANDING_URLS + "/{type}")
-    Call<JSONAPIDocument<LandingUrl>> getLandingUrl(@Path("type") String urlType);
+    @GET(EndPoints.LANDING_URLS + "/{" + PARAM_TYPE + "}")
+    Call<JSONAPIDocument<LandingUrl>> getLandingUrl(@Path(PARAM_TYPE) String urlType);
 
+    @GET(EndPoints.CREATIONS + "/{" + PARAM_ID + "}/landing_url")
+    Call<JSONAPIDocument<LandingUrl>> getForCreation(@Path(PARAM_ID) String creationId);
 }
