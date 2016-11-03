@@ -3,6 +3,7 @@ package com.creatubbles.api.di.components;
 import com.creatubbles.api.di.modules.ApiModule;
 import com.creatubbles.api.repository.ActivityRepositoryBuilder;
 import com.creatubbles.api.repository.BubbleRepositoryBuilder;
+import com.creatubbles.api.repository.AvatarRepositoryBuilder;
 import com.creatubbles.api.repository.CommentRepositoryBuilder;
 import com.creatubbles.api.repository.CreationRepositoryBuilder;
 import com.creatubbles.api.repository.CustomStyleRepositoryBuilder;
@@ -49,6 +50,8 @@ public interface ApiComponent {
     void inject(GroupRepositoryBuilder target);
 
     void inject(BubbleRepositoryBuilder target);
+
+    void inject(AvatarRepositoryBuilder avatarRepositoryBuilder);
 
     void inject(NotificationRepositoryBuilder target);
 }

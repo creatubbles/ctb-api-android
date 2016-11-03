@@ -193,6 +193,22 @@
             android:onClick="onCreateMultipleUsersClicked"
             android:enabled="false"/>
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/update_avatar"
+            android:text="Update avatar"
+            android:onClick="onUpdateAvatarClicked"
+            android:enabled="false"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_avatar_suggestion"
+            android:text="Get avatar suggestion"
+            android:onClick="onGetSuggestedAvatarClicked"
+            android:enabled="false"/>
+
         <TextView
             android:id="@+id/galley_method_title"
             android:layout_width="wrap_content"

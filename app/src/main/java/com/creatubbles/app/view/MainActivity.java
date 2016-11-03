@@ -44,12 +44,16 @@ import com.creatubbles.api.model.user.MultipleCreators;
 import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
 import com.creatubbles.api.model.user.UserFollowing;
+import com.creatubbles.api.model.user.avatar.Avatar;
+import com.creatubbles.api.model.user.avatar.AvatarSuggestion;
 import com.creatubbles.api.model.user.custom_style.AgeDisplayType;
 import com.creatubbles.api.model.user.custom_style.CustomStyle;
 import com.creatubbles.api.repository.ActivityRepository;
 import com.creatubbles.api.repository.ActivityRepositoryBuilder;
 import com.creatubbles.api.repository.BubbleRepository;
 import com.creatubbles.api.repository.BubbleRepositoryBuilder;
+import com.creatubbles.api.repository.AvatarRepository;
+import com.creatubbles.api.repository.AvatarRepositoryBuilder;
 import com.creatubbles.api.repository.CommentRepository;
 import com.creatubbles.api.repository.CommentRepositoryBuilder;
 import com.creatubbles.api.repository.CreationRepository;
@@ -94,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
             R.id.get_user_followed_btn, R.id.get_switch_users_btn, R.id.create_multiple_users_btn,
             R.id.get_creators_from_group_btn, R.id.get_recent_creations_btn, R.id.get_activities_btn,
             R.id.follow_user_btn, R.id.unfollow_user_btn, R.id.get_groups_btn, R.id.get_bubble_colors_btn,
-            R.id.get_user_details_btn, R.id.get_notifications_btn, R.id.update_last_viewed_time_btn})
+            R.id.get_user_details_btn, R.id.get_avatar_suggestion, R.id.get_notifications_btn, R.id.update_last_viewed_time_btn})
     List<Button> actionButtons;
 
     @Bind(R.id.send_file_btn)
@@ -129,6 +133,8 @@ public class MainActivity extends AppCompatActivity {
     Button updateBubble;
     @Bind(R.id.delete_bubble_btn)
     Button deleteBubble;
+    @Bind(R.id.update_avatar)
+    Button updateAvatar;
 
     Upload responseFromCreateUpload;
     List<User> usersAvailableForSwitching;
@@ -138,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
     String galleryId;
     String creationId;
     String bubbleId;
+    AvatarSuggestion avatarSuggestion;
     String notificationId;
 
     @Override
@@ -283,6 +290,58 @@ public class MainActivity extends AppCompatActivity {
         userRepository.getCreatorsFromGroup("9320", null, getUserListCallback());
     }
 
+    public void onUpdateAvatarClicked(View btn) {
+        AvatarRepository avatarRepository = new AvatarRepositoryBuilder(authToken).build();
+        avatarRepository.updateAvatar(userId, new Avatar.Builder().avatarSuggestion(avatarSuggestion).build(), new ResponseCallback<CreatubblesResponse<Avatar>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<Avatar> response) {
+                Toast.makeText(MainActivity.this, response.toString(), Toast
+                        .LENGTH_SHORT)
+                        .show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                Toast.makeText(MainActivity.this, "server error", Toast
+                        .LENGTH_SHORT)
+                        .show();
+            }
+
+            @Override
+            public void onError(String message) {
+                Toast.makeText(MainActivity.this, "error", Toast
+                        .LENGTH_SHORT)
+                        .show();
+                System.out.println(message);
+            }
+        });
+    }
+
+    public void onGetSuggestedAvatarClicked(View btn) {
+        AvatarRepository avatarRepository = new AvatarRepositoryBuilder(authToken).build();
+        avatarRepository.getSuggestedAvatars(new ResponseCallback<CreatubblesResponse<List<AvatarSuggestion>>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<List<AvatarSuggestion>> response) {
+                if (response != null) {
+                    avatarSuggestion = response.getData().get(0);
+                    Toast.makeText(MainActivity.this, avatarSuggestion.toString(), Toast
+                            .LENGTH_SHORT)
+                            .show();
+                }
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+    }
+
     public void onCreateUserClicked(View btn) {
         UserRepository userRepository = new UserRepositoryBuilder()
                 .setAuthToken(authToken)
@@ -353,6 +412,8 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.update_account_btn).setEnabled(true);
                 findViewById(R.id.link_school_btn).setEnabled(true);
                 findViewById(R.id.change_password_btn).setEnabled(true);
+                updateAvatar.setEnabled(true);
+
             }
 
             @Override

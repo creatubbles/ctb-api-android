@@ -24,6 +24,9 @@ import com.creatubbles.api.model.user.MultipleCreators;
 import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
 import com.creatubbles.api.model.user.UserFollowing;
+import com.creatubbles.api.model.user.avatar.Avatar;
+import com.creatubbles.api.model.user.avatar.AvatarSuggestion;
+import com.creatubbles.api.model.user.avatar.AvatarSuggestion;
 import com.creatubbles.api.model.user.custom_style.CustomStyle;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jasminb.jsonapi.retrofit.JSONAPIConverterFactory;
@@ -51,7 +54,7 @@ public class ServiceGenerator {
             CustomStyle.class, UserFollowing.class, Group.class, Bubble.class, BubbleColor.class,
             GallerySubmission.class, ImageManipulation.class, AccountDetails.class, School.class,
             PasswordChange.class, Notification.class, CreationEntity.class, GalleryEntity.class,
-            UserEntity.class};
+            UserEntity.class, Avatar.class, AvatarSuggestion.class};
 
 
     private Retrofit.Builder builder;

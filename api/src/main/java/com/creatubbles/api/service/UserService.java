@@ -7,6 +7,8 @@ import com.creatubbles.api.model.user.MultipleCreators;
 import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
 import com.creatubbles.api.model.user.UserFollowing;
+import com.creatubbles.api.model.user.avatar.Avatar;
+import com.creatubbles.api.model.user.avatar.AvatarSuggestion;
 import com.creatubbles.api.request.SchoolRequest;
 import com.github.jasminb.jsonapi.JSONAPIDocument;
 
@@ -20,6 +22,8 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+
+import static com.creatubbles.api.EndPoints.USER_AVATAR;
 
 /**
  * Created by Janek on 05.02.2016.
@@ -74,4 +78,11 @@ public interface UserService {
 
     @PUT(EndPoints.USERS + "/" + PATH_ID + "/account")
     Call<Void> putSchool(@Path(PARAM_ID) String userId, @Body SchoolRequest schoolRequest);
+
+    @PUT(EndPoints.USERS + "/" + PATH_ID + "/" + USER_AVATAR)
+    Call<JSONAPIDocument<Avatar>> updateAvatar(@Path(PARAM_ID) String userId, @Body Avatar body);
+
+    @GET(EndPoints.AVATAR_SUGGESTIONS)
+    Call<JSONAPIDocument<List<AvatarSuggestion>>> getSuggestedAvatars();
+
 }
