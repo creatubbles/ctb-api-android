@@ -25,7 +25,7 @@ public class AvatarRepositoryImpl implements AvatarRepository {
     private final UserService userService;
 
 
-    public AvatarRepositoryImpl(ObjectMapper objectMapper, UserService userService) {
+    AvatarRepositoryImpl(ObjectMapper objectMapper, UserService userService) {
         this.objectMapper = objectMapper;
         this.userService = userService;
     }

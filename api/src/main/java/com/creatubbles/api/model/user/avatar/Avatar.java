@@ -21,7 +21,7 @@ public class Avatar {
     public Avatar() {
     }
 
-    public Avatar(@Nullable AvatarSuggestion avatarSuggestion, Creation avatarCreation) {
+    private Avatar(@Nullable AvatarSuggestion avatarSuggestion, Creation avatarCreation) {
         this.avatarSuggestion = avatarSuggestion;
         this.avatarCreation = avatarCreation;
     }
@@ -81,12 +81,20 @@ public class Avatar {
 
     public static class Builder {
 
-        private final Creation avatarCreation;
-        private final AvatarSuggestion avatarSuggestion;
+        private Creation avatarCreation;
+        private AvatarSuggestion avatarSuggestion;
 
-        public Builder(Creation avatarCreation, AvatarSuggestion avatarSuggestion) {
+        public Builder() {
+        }
+
+        public Builder avatarCreation(Creation avatarCreation) {
             this.avatarCreation = avatarCreation;
+            return this;
+        }
+
+        public Builder avatarSuggestion(AvatarSuggestion avatarSuggestion) {
             this.avatarSuggestion = avatarSuggestion;
+            return this;
         }
 
         public Avatar build() {

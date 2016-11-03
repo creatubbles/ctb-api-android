@@ -288,7 +288,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onUpdateAvatarClicked(View btn) {
         AvatarRepository avatarRepository = new AvatarRepositoryBuilder(authToken).build();
-        avatarRepository.updateAvatar(userId, new Avatar(avatarSuggestion, null), new ResponseCallback<CreatubblesResponse<Avatar>>() {
+        avatarRepository.updateAvatar(userId, new Avatar.Builder().avatarSuggestion(avatarSuggestion).build(), new ResponseCallback<CreatubblesResponse<Avatar>>() {
             @Override
             public void onSuccess(CreatubblesResponse<Avatar> response) {
                 Toast.makeText(MainActivity.this, response.toString(), Toast
