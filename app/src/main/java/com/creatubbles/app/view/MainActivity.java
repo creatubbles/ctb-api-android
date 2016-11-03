@@ -24,6 +24,7 @@ import com.creatubbles.api.model.AuthToken;
 import com.creatubbles.api.model.CreatubblesResponse;
 import com.creatubbles.api.model.GallerySubmission;
 import com.creatubbles.api.model.PasswordChange;
+import com.creatubbles.api.model.Report;
 import com.creatubbles.api.model.activity.Activity;
 import com.creatubbles.api.model.bubble.Bubble;
 import com.creatubbles.api.model.bubble.BubbleColor;
@@ -63,6 +64,8 @@ import com.creatubbles.api.repository.LandingUrlsRepository;
 import com.creatubbles.api.repository.LandingUrlsRepositoryBuilder;
 import com.creatubbles.api.repository.OAuthRepository;
 import com.creatubbles.api.repository.OAuthRepositoryBuilder;
+import com.creatubbles.api.repository.ReportRepository;
+import com.creatubbles.api.repository.ReportRepositoryBuilder;
 import com.creatubbles.api.repository.UploadRepository;
 import com.creatubbles.api.repository.UploadRepositoryBuilder;
 import com.creatubbles.api.repository.UserFollowingRepository;
@@ -135,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
     String galleryId;
     String creationId;
     String bubbleId;
+    String commentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -349,6 +353,7 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.update_account_btn).setEnabled(true);
                 findViewById(R.id.link_school_btn).setEnabled(true);
                 findViewById(R.id.change_password_btn).setEnabled(true);
+                findViewById(R.id.report_user_btn).setEnabled(true);
             }
 
             @Override
@@ -414,6 +419,7 @@ public class MainActivity extends AppCompatActivity {
                         findViewById(R.id.modify_image_btn).setEnabled(true);
                         findViewById(R.id.create_bubble_on_creation_btn).setEnabled(true);
                         findViewById(R.id.get_bubbles_on_creation_btn).setEnabled(true);
+                        findViewById(R.id.report_creation_btn).setEnabled(true);
                         if (galleryId != null) {
                             submitCreation.setEnabled(true);
                         }
@@ -597,6 +603,7 @@ public class MainActivity extends AppCompatActivity {
                 galleryId = response.getData().getId();
                 findViewById(R.id.create_bubble_on_gallery_btn).setEnabled(true);
                 findViewById(R.id.get_bubbles_on_creation_btn).setEnabled(true);
+                findViewById(R.id.report_gallery_btn).setEnabled(true);
                 if (creationId != null) {
                     submitCreation.setEnabled(true);
                 }
@@ -811,6 +818,8 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(CreatubblesResponse<Comment> response) {
                 Toast.makeText(MainActivity.this, response.toString(),
                         Toast.LENGTH_SHORT).show();
+                commentId = response.getData().getId();
+                findViewById(R.id.report_comment_btn).setEnabled(true);
             }
 
             @Override
@@ -1280,6 +1289,58 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void onReportUserClicked(View v) {
+        ReportRepository repository = new ReportRepositoryBuilder(authToken)
+                .build();
+        Report report = Report.create("Test report");
+
+        repository.reportUser(userId, report, getReportCallback());
+    }
+
+    public void onReportCreationClicked(View v) {
+        ReportRepository repository = new ReportRepositoryBuilder(authToken)
+                .build();
+        Report report = Report.create("Test report");
+
+        repository.reportCreation(creationId, report, getReportCallback());
+    }
+
+    public void onReportGalleryClicked(View v) {
+        ReportRepository repository = new ReportRepositoryBuilder(authToken)
+                .build();
+        Report report = Report.create("Test report");
+
+        repository.reportGallery(galleryId, report, getReportCallback());
+    }
+
+    public void onReportCommentClicked(View v) {
+        ReportRepository repository = new ReportRepositoryBuilder(authToken)
+                .build();
+        Report report = Report.create("Test report");
+
+        repository.reportComment(commentId, report, getReportCallback());
+    }
+
+    @NonNull
+    private ResponseCallback<Void> getReportCallback() {
+        return new ResponseCallback<Void>() {
+            @Override
+            public void onSuccess(Void response) {
+                Toast.makeText(MainActivity.this, "Reported", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                displayError(errorResponse);
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        };
     }
 
     interface Function<T> {

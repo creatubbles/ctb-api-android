@@ -497,5 +497,43 @@
             android:text="Get Bubble colors"
             android:onClick="onGetBubbleColorsClicked"
             android:enabled="false"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="true"
+            android:text="Reporting methods:" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/report_user_btn"
+            android:text="Report User"
+            android:onClick="onReportUserClicked"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/report_creation_btn"
+            android:text="Report Creation"
+            android:onClick="onReportCreationClicked"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/report_gallery_btn"
+            android:text="Report Gallery"
+            android:onClick="onReportGalleryClicked"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/report_comment_btn"
+            android:text="Report Comment"
+            android:onClick="onReportCommentClicked"
+            android:enabled="false" />
     </LinearLayout>
 </ScrollView>
