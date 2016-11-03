@@ -31,6 +31,7 @@
 10. `UserFollowingRepository` - for following/unfollowing users
 11. `GroupRepository` - for managing Groups
 12. `BubbleRepository` - for managing bubbles on creations, galleries and users
+13. `AvatarRepository` - for managing user's avatar
 
 ## Preview
 ### Demo
@@ -379,6 +380,34 @@ Example of `BubbleRepository` uses:
           public void onError(String message) {
           }
       });
+```
+
+13. Avatar repository
+--------------------------
+
+Create `AvatarRepository` instance:
+
+```
+    AvatarRepository avatarRepository = new AvatarRepositoryBuilder(authToken)
+                    .build();
+```
+
+Example of `AvatarRepository` uses:
+
+```
+        avatarRepository.updateAvatar(userId, avatar, new ResponseCallback<CreatubblesResponse<Avatar>>() {
+        @Override
+        public void onSuccess(CreatubblesResponse<Avatar> response) {
+        }
+
+        @Override
+        public void onServerError(ErrorResponse errorResponse) {
+        }
+
+        @Override
+        public void onError(String message) {
+        }
+    });
 ```
 
 ## Used libs
