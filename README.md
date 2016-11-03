@@ -31,6 +31,7 @@
 10. `UserFollowingRepository` - for following/unfollowing users
 11. `GroupRepository` - for managing Groups
 12. `BubbleRepository` - for managing bubbles on creations, galleries and users
+15. `ReportRepository` - for reporting resources
 
 ## Preview
 ### Demo
@@ -379,6 +380,37 @@ Example of `BubbleRepository` uses:
           public void onError(String message) {
           }
       });
+```
+
+15. Report repository
+--------------------------
+
+Create `ReportRepository` instance:
+
+```
+     ReportRepository repository = new ReportRepositoryBuilder(authToken)
+                    .build();
+```
+
+Example of `ReportRepository` uses:
+
+```
+    Report report = Report.create("Example report");
+
+    repository.reportUser(userId, report, new ResponseCallback<Void>() {
+          @Override
+          public void onSuccess(Void response) {
+          }
+
+          @Override
+          public void onServerError(ErrorResponse errorResponse) {
+          }
+
+          @Override
+          public void onError(String message) {
+
+          }
+      };);
 ```
 
 ## Used libs
