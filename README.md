@@ -31,7 +31,7 @@
 10. `UserFollowingRepository` - for following/unfollowing users
 11. `GroupRepository` - for managing Groups
 12. `BubbleRepository` - for managing bubbles on creations, galleries and users
-
+14. `NotificationRepository` - for managing notifications
 ## Preview
 ### Demo
 
@@ -379,6 +379,36 @@ Example of `BubbleRepository` uses:
           public void onError(String message) {
           }
       });
+
+```
+
+14. Notification repository
+--------------------------
+
+Create `NotificationRepository` instance:
+
+```
+    NotificationRepository repository = new NotificationRepositoryBuilder(authToken)
+                        .build();
+```
+
+Example of `NotificationRepository` uses:
+
+```
+repository.getNotifications(page, filter,
+        new ResponseCallback<CreatubblesResponse<List<Notification>>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<List<Notification>> response) {
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+            }
+
+            @Override
+            public void onError(String message) {
+            }
+        });
 ```
 
 ## Used libs
