@@ -15,6 +15,7 @@ import com.creatubbles.api.service.CustomStyleService;
 import com.creatubbles.api.service.GalleryService;
 import com.creatubbles.api.service.GroupService;
 import com.creatubbles.api.service.LandingUrlsService;
+import com.creatubbles.api.service.NotificationService;
 import com.creatubbles.api.service.OAuthService;
 import com.creatubbles.api.service.UploadService;
 import com.creatubbles.api.service.UserService;
@@ -160,8 +161,13 @@ public class ApiModule {
     }
 
     @Provides
-    BubbleService provideService(ServiceGenerator serviceGenerator) {
+    BubbleService provideBubbleService(ServiceGenerator serviceGenerator) {
         return serviceGenerator.createService(BubbleService.class, ContentType.VND_JSON, authToken);
+    }
+
+    @Provides
+    NotificationService profideNotificationService(ServiceGenerator serviceGenerator) {
+        return serviceGenerator.createService(NotificationService.class, ContentType.VND_JSON, authToken);
     }
 
     /**
