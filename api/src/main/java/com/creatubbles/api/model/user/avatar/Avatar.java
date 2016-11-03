@@ -14,7 +14,7 @@ import java.util.Date;
 /**
  * Created by Janek on 24.10.2016.
  */
-@Type("avatar")
+@Type("user_avatars")
 public class Avatar {
 
     @JsonCreator

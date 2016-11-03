@@ -318,6 +318,9 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(CreatubblesResponse<List<AvatarSuggestion>> response) {
                 if (response != null) {
                     avatarSuggestion = response.getData().get(0);
+                    Toast.makeText(MainActivity.this, avatarSuggestion.toString(), Toast
+                            .LENGTH_SHORT)
+                            .show();
                 }
             }
 

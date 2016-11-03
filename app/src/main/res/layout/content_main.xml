@@ -173,7 +173,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/get_avatar_suggestion"
-            android:text="Update avatar"
+            android:text="Get avatar suggestion"
             android:onClick="onGetSuggestedAvatarClicked"
             android:enabled="false"/>
 

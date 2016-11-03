@@ -10,7 +10,7 @@ import com.github.jasminb.jsonapi.annotations.Type;
 /**
  * Created by Janek on 24.10.2016.
  */
-@Type("avatar_suggestion")
+@Type("avatar_suggestions")
 public class AvatarSuggestion {
 
     @JsonCreator
@@ -39,4 +39,11 @@ public class AvatarSuggestion {
         return avatarUrl;
     }
 
+    @Override
+    public String toString() {
+        return "AvatarSuggestion{" +
+                "id='" + id + '\'' +
+                ", avatarUrl='" + avatarUrl + '\'' +
+                '}';
+    }
 }
