@@ -33,6 +33,7 @@
 12. `BubbleRepository` - for managing bubbles on creations, galleries and users
 13. `AvatarRepository` - for managing user's avatar
 14. `NotificationRepository` - for managing notifications
+15. `ReportRepository` - for reporting resources
 
 ## Preview
 ### Demo
@@ -440,6 +441,37 @@ repository.getNotifications(page, filter,
             public void onError(String message) {
             }
         });
+```
+
+15. Report repository
+--------------------------
+
+Create `ReportRepository` instance:
+
+```
+     ReportRepository repository = new ReportRepositoryBuilder(authToken)
+                    .build();
+```
+
+Example of `ReportRepository` uses:
+
+```
+    Report report = Report.create("Example report");
+
+    repository.reportUser(userId, report, new ResponseCallback<Void>() {
+          @Override
+          public void onSuccess(Void response) {
+          }
+
+          @Override
+          public void onServerError(ErrorResponse errorResponse) {
+          }
+
+          @Override
+          public void onError(String message) {
+
+          }
+      };);
 ```
 
 ## Used libs
