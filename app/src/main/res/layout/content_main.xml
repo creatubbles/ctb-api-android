@@ -313,7 +313,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:enabled="true"
-            android:text="Get specific landing url" />
+            android:text="Landing URLs:" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -322,19 +322,13 @@
             android:onClick="onGetAllLandingUrlsClicked"
             android:enabled="true"/>
 
-        <TextView
-            android:id="@+id/get_specific_landing_url"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:enabled="true"
-            android:text="Get Specific landing Url" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/get_specific_landing_url_btn"
             android:text="Get Specific"
             android:onClick="onGetSpecificLandingUrlClicked"
-            android:enabled="true"/>
+            android:enabled="true" />
 
         <TextView
             android:layout_width="wrap_content"

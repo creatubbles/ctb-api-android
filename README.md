@@ -217,7 +217,7 @@ LandingUrlsRepository repository = new LandingUrlsRepositoryBuilder()
 Example of `LandingUrlsRepository` uses:
 
 ```
-repository.getLandingUrls(new ResponseCallback<CreatubblesResponse<List<LandingUrl>>>() {
+repository.getAll(new ResponseCallback<CreatubblesResponse<List<LandingUrl>>>() {
             @Override
             public void onSuccess(CreatubblesResponse<List<LandingUrl>> response) {
                    //Do something if OK

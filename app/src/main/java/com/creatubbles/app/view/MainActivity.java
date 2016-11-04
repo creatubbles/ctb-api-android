@@ -50,10 +50,10 @@ import com.creatubbles.api.model.user.custom_style.AgeDisplayType;
 import com.creatubbles.api.model.user.custom_style.CustomStyle;
 import com.creatubbles.api.repository.ActivityRepository;
 import com.creatubbles.api.repository.ActivityRepositoryBuilder;
-import com.creatubbles.api.repository.BubbleRepository;
-import com.creatubbles.api.repository.BubbleRepositoryBuilder;
 import com.creatubbles.api.repository.AvatarRepository;
 import com.creatubbles.api.repository.AvatarRepositoryBuilder;
+import com.creatubbles.api.repository.BubbleRepository;
+import com.creatubbles.api.repository.BubbleRepositoryBuilder;
 import com.creatubbles.api.repository.CommentRepository;
 import com.creatubbles.api.repository.CommentRepositoryBuilder;
 import com.creatubbles.api.repository.CreationRepository;
@@ -413,7 +413,6 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.link_school_btn).setEnabled(true);
                 findViewById(R.id.change_password_btn).setEnabled(true);
                 updateAvatar.setEnabled(true);
-
             }
 
             @Override
@@ -479,6 +478,7 @@ public class MainActivity extends AppCompatActivity {
                         findViewById(R.id.modify_image_btn).setEnabled(true);
                         findViewById(R.id.create_bubble_on_creation_btn).setEnabled(true);
                         findViewById(R.id.get_bubbles_on_creation_btn).setEnabled(true);
+                        findViewById(R.id.get_landing_url_for_creation_btn).setEnabled(true);
                         if (galleryId != null) {
                             submitCreation.setEnabled(true);
                         }
@@ -705,7 +705,7 @@ public class MainActivity extends AppCompatActivity {
     public void onGetAllLandingUrlsClicked(View view) {
         LandingUrlsRepository repository = new LandingUrlsRepositoryBuilder().setAuthToken(authToken).build();
 
-        repository.getLandingUrls(new ResponseCallback<CreatubblesResponse<List<LandingUrl>>>() {
+        repository.getAll(new ResponseCallback<CreatubblesResponse<List<LandingUrl>>>() {
             @Override
             public void onSuccess(CreatubblesResponse<List<LandingUrl>> response) {
                 for (LandingUrl url : response.getData()) {
@@ -717,7 +717,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onServerError(ErrorResponse errorResponse) {
-
+                displayError(errorResponse);
             }
 
             @Override
@@ -731,7 +731,7 @@ public class MainActivity extends AppCompatActivity {
 
         LandingUrlsRepository repository = new LandingUrlsRepositoryBuilder().setAuthToken(authToken).build();
 
-        repository.getSpecificLandingUrl(LandingUrlType.COMMON_REGISTRATION, new
+        repository.getSpecific(LandingUrlType.COMMON_REGISTRATION, new
                 ResponseCallback<CreatubblesResponse<LandingUrl>>() {
 
 
@@ -743,7 +743,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onServerError(ErrorResponse errorResponse) {
-
+                        displayError(errorResponse);
                     }
 
                     @Override
@@ -752,7 +752,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        repository.getSpecificLandingUrl(LandingUrlType.USER_PROFILE, new
+        repository.getSpecific(LandingUrlType.USER_PROFILE, new
                 ResponseCallback<CreatubblesResponse<LandingUrl>>() {
 
 
@@ -764,7 +764,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onServerError(ErrorResponse errorResponse) {
-
+                        displayError(errorResponse);
                     }
 
                     @Override
@@ -772,6 +772,31 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    public void onGetLandingUrlForCreationClicked(View view) {
+
+        LandingUrlsRepository repository = new LandingUrlsRepositoryBuilder()
+                .setAuthToken(authToken)
+                .build();
+
+        repository.getForCreation(creationId, new ResponseCallback<CreatubblesResponse<LandingUrl>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<LandingUrl> response) {
+                Toast.makeText(MainActivity.this, response.toString(), Toast
+                        .LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                displayError(errorResponse);
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
     }
 
     public void onGetCustomStyleClicked(View btn) {
@@ -787,7 +812,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onServerError(ErrorResponse errorResponse) {
-
+                displayError(errorResponse);
             }
 
             @Override
@@ -811,7 +836,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onServerError(ErrorResponse errorResponse) {
-
+                displayError(errorResponse);
             }
 
             @Override
