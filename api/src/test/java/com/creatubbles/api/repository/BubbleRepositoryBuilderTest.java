@@ -2,7 +2,7 @@ package com.creatubbles.api.repository;
 
 import com.creatubbles.api.CreatubblesApi;
 import com.creatubbles.api.TestUtils;
-import com.creatubbles.api.model.AuthToken;
+import com.creatubbles.api.model.auth.AccessToken;
 
 import org.junit.After;
 import org.junit.Before;
@@ -42,7 +42,7 @@ public class BubbleRepositoryBuilderTest {
         assertNotNull(builder.build());
     }
 
-    private AuthToken anyAuthToken() {
-        return mock(AuthToken.class);
+    private AccessToken anyAuthToken() {
+        return mock(AccessToken.class);
     }
 }

@@ -2,8 +2,7 @@ package com.creatubbles.api.repository;
 
 import com.creatubbles.api.di.components.DaggerApiComponent;
 import com.creatubbles.api.di.modules.ApiModule;
-import com.creatubbles.api.exception.InvalidParametersException;
-import com.creatubbles.api.model.AuthToken;
+import com.creatubbles.api.model.auth.AccessToken;
 import com.creatubbles.api.service.CustomStyleService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -21,23 +20,22 @@ public class CustomStyleRepositoryBuilder {
     @Inject
     ObjectMapper objectMapper;
 
-    private AuthToken authToken;
+    private final AccessToken accessToken;
+
+    /**
+     * Either user or application access token is required.
+     */
+    public CustomStyleRepositoryBuilder(AccessToken accessToken) {
+        if (accessToken == null) {
+            throw new NullPointerException("accessToken can't be null!");
+        }
+        this.accessToken = accessToken;
+    }
 
     public CustomStyleRepository build() {
-        if (hasValidParameters()) {
-            DaggerApiComponent.builder().apiModule(ApiModule.getInstance(authToken)).build()
-                    .inject(this);
-            return new CustomStyleRepositoryImpl(objectMapper, customStyleService);
-        }
-        throw new InvalidParametersException("Missing authorization token!");
+        DaggerApiComponent.builder().apiModule(ApiModule.getInstance(accessToken)).build()
+                .inject(this);
+        return new CustomStyleRepositoryImpl(objectMapper, customStyleService);
     }
 
-    public boolean hasValidParameters() {
-        return authToken != null;
-    }
-
-    public CustomStyleRepositoryBuilder setAuthToken(AuthToken authToken) {
-        this.authToken = authToken;
-        return this;
-    }
 }

@@ -2,7 +2,7 @@ package com.creatubbles.api.repository;
 
 import com.creatubbles.api.di.components.DaggerApiComponent;
 import com.creatubbles.api.di.modules.ApiModule;
-import com.creatubbles.api.model.AuthToken;
+import com.creatubbles.api.model.auth.AccessToken;
 import com.creatubbles.api.service.NotificationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -13,22 +13,28 @@ import javax.inject.Inject;
  */
 public class NotificationRepositoryBuilder {
 
-    private final AuthToken authToken;
+    private final AccessToken accessToken;
     @Inject
     NotificationService service;
     @Inject
     ObjectMapper objectMapper;
 
-    public NotificationRepositoryBuilder(AuthToken authToken) {
-        if (authToken == null) {
-            throw new NullPointerException("authToken can't be null");
+    /**
+     * <ul>
+     * <li>With an application only access token you can’t retrieve any notifications data</li>
+     * <li>With an user access token you can get all notifications addressed to this user</li>
+     * </ul>
+     */
+    public NotificationRepositoryBuilder(AccessToken accessToken) {
+        if (accessToken == null) {
+            throw new NullPointerException("accessToken can't be null");
         }
-        this.authToken = authToken;
+        this.accessToken = accessToken;
     }
 
     public NotificationRepository build() {
         DaggerApiComponent.builder()
-                .apiModule(ApiModule.getInstance(authToken))
+                .apiModule(ApiModule.getInstance(accessToken))
                 .build()
                 .inject(this);
         return new NotificationRepositoryImpl(service, objectMapper);

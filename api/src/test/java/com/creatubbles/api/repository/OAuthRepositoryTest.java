@@ -1,6 +1,9 @@
 package com.creatubbles.api.repository;
 
 import com.creatubbles.api.model.AuthToken;
+import com.creatubbles.api.model.auth.AccessToken;
+import com.creatubbles.api.model.auth.ApplicationAccessToken;
+import com.creatubbles.api.model.auth.UserAccessToken;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.service.GrantType;
 import com.creatubbles.api.service.OAuthService;
@@ -23,6 +26,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
@@ -35,7 +39,7 @@ public class OAuthRepositoryTest {
     private OAuthRepository target;
 
     @Mock
-    ResponseCallback<AuthToken> authTokenResponseCallback;
+    ResponseCallback<? extends AccessToken> authTokenResponseCallback;
 
     @Mock
     OAuthService mockedOAuthService;
@@ -43,7 +47,8 @@ public class OAuthRepositoryTest {
     @Mock
     Call<AuthToken> call;
 
-    private AuthToken body;
+    @Mock
+    AuthToken body;
 
     @Before
     public void setUp() {
@@ -56,28 +61,28 @@ public class OAuthRepositoryTest {
     public void testSimpleAuthorizationSuccessfulRequest() {
         mockOAuthServiceAnswerForSimpleUser(getSuccessfulAnswer(body));
 
-        target.authorize(authTokenResponseCallback);
+        target.authorize((ResponseCallback<ApplicationAccessToken>) authTokenResponseCallback);
 
         verify(authTokenResponseCallback, never()).onError(any(String.class));
-        verify(authTokenResponseCallback).onSuccess(any(AuthToken.class));
+        verify(authTokenResponseCallback).onSuccess(any());
     }
 
     @Test
     public void testSimpleAuthorizationFailedRequest() {
         mockOAuthServiceAnswerForSimpleUser(getFailedAnswer(ERROR_MESSAGE));
-        target.authorize(authTokenResponseCallback);
+        target.authorize((ResponseCallback<ApplicationAccessToken>) authTokenResponseCallback);
         verify(authTokenResponseCallback).onError(ERROR_MESSAGE);
-        verify(authTokenResponseCallback, never()).onSuccess(any(AuthToken.class));
+        verify(authTokenResponseCallback, never()).onSuccess(any());
     }
 
     @Test
     public void testPasswordAuthorizationSuccessfulRequest() {
         mockOAuthServiceAnswerForPasswordUser(getSuccessfulAnswer(body));
 
-        target.authorize("", "", authTokenResponseCallback);
+        target.authorize("", "", (ResponseCallback<UserAccessToken>) authTokenResponseCallback);
 
         verify(authTokenResponseCallback, never()).onError(any(String.class));
-        verify(authTokenResponseCallback).onSuccess(any(AuthToken.class));
+        verify(authTokenResponseCallback).onSuccess(any());
     }
 
     @Test
@@ -104,37 +109,37 @@ public class OAuthRepositoryTest {
                 .getAccessToken(any(String.class), any(String.class), any(GrantType.class),
                         any(String.class), any(String.class));
 
-        target.authorize(login, password, authTokenResponseCallback);
+        target.authorize(login, password, (ResponseCallback<UserAccessToken>) authTokenResponseCallback);
     }
 
     @Test
     public void testPasswordAuthorizationFailedRequest() {
         mockOAuthServiceAnswerForPasswordUser(getFailedAnswer(ERROR_MESSAGE));
 
-        target.authorize("", "", authTokenResponseCallback);
+        target.authorize("", "", (ResponseCallback<UserAccessToken>) authTokenResponseCallback);
 
         verify(authTokenResponseCallback).onError(ERROR_MESSAGE);
-        verify(authTokenResponseCallback, never()).onSuccess(any(AuthToken.class));
+        verify(authTokenResponseCallback, never()).onSuccess(any());
     }
 
     @Test
     public void testswitchUserSuccessfulRequest() {
         mockOAuthServiceAnswerForSwitchUser(getSuccessfulAnswer(body));
 
-        target.switchUser(anyAuthToken(), "", null, authTokenResponseCallback);
+        target.switchUser(anyToken(), "", null, (ResponseCallback<UserAccessToken>) authTokenResponseCallback);
 
         verify(authTokenResponseCallback, never()).onError(any(String.class));
-        verify(authTokenResponseCallback).onSuccess(any(AuthToken.class));
+        verify(authTokenResponseCallback).onSuccess(any());
     }
 
     @Test
     public void testswitchUserFailedRequest() {
         mockOAuthServiceAnswerForSwitchUser(getFailedAnswer(ERROR_MESSAGE));
 
-        target.switchUser(anyAuthToken(), "", null, authTokenResponseCallback);
+        target.switchUser(anyToken(), "", null, (ResponseCallback<UserAccessToken>) authTokenResponseCallback);
 
         verify(authTokenResponseCallback).onError(ERROR_MESSAGE);
-        verify(authTokenResponseCallback, never()).onSuccess(any(AuthToken.class));
+        verify(authTokenResponseCallback, never()).onSuccess(any());
     }
 
     private void mockOAuthServiceAnswerForSimpleUser(Answer answer) {
@@ -169,8 +174,8 @@ public class OAuthRepositoryTest {
                         anyString());
     }
 
-    private AuthToken anyAuthToken() {
-        return new AuthToken("", "", 1L);
+    private UserAccessToken anyToken() {
+        return mock(UserAccessToken.class);
     }
 
 }

@@ -14,13 +14,6 @@ import java.util.List;
 
 /**
  * Class allowing to perform operations o galleries.
- * <p>
- * Access Restrictions
- * <ul>
- * <li>With an application only access token you can only retrieve public galleries (public and non-empty galleries)</li>
- * <li>With an user access token you can list public galleries and the all galleries which belong to the user, including empty ones.</li>
- * </ul>
- * </p>
  */
 public interface GalleryRepository {
 

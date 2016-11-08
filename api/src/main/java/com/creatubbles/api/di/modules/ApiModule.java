@@ -6,7 +6,7 @@ import com.creatubbles.api.Configuration;
 import com.creatubbles.api.ContentType;
 import com.creatubbles.api.ServiceGenerator;
 import com.creatubbles.api.exception.InitializationException;
-import com.creatubbles.api.model.AuthToken;
+import com.creatubbles.api.model.auth.AccessToken;
 import com.creatubbles.api.service.AbilityService;
 import com.creatubbles.api.service.ActivityService;
 import com.creatubbles.api.service.BubbleService;
@@ -39,7 +39,7 @@ import dagger.Provides;
 public class ApiModule {
 
     private static ApiModule instance = null;
-    private static AuthToken authToken = null;
+    private static AccessToken accessToken = null;
     private Configuration configuration = null;
 
     public static void initialize(Configuration apiConfiguration) {
@@ -53,11 +53,11 @@ public class ApiModule {
         provideServiceGenerator(configuration, provideObjectMapper()).initialize();
     }
 
-    public static ApiModule getInstance(AuthToken token) {
+    public static ApiModule getInstance(AccessToken accessToken) {
         if (instance == null) {
             throw new InitializationException("Creatubbles Api wasn't initialized!");
         } else {
-            authToken = token;
+            ApiModule.accessToken = accessToken;
             return instance;
         }
     }
@@ -108,21 +108,19 @@ public class ApiModule {
     @Provides
     @Singleton
     GalleryService provideGalleryService(ServiceGenerator serviceGenerator) {
-        return serviceGenerator.createService(GalleryService.class, ContentType.VND_JSON,
-                authToken);
+        return serviceGenerator.createService(GalleryService.class, ContentType.VND_JSON, accessToken);
     }
 
     @Provides
     @Singleton
     CreationService provideCreationService(ServiceGenerator serviceGenerator) {
-        return serviceGenerator.createService(CreationService.class, ContentType.VND_JSON,
-                authToken);
+        return serviceGenerator.createService(CreationService.class, ContentType.VND_JSON, accessToken);
     }
 
     @Provides
     @Singleton
     UserService provideUserService(ServiceGenerator serviceGenerator) {
-        return serviceGenerator.createService(UserService.class, ContentType.VND_JSON, authToken);
+        return serviceGenerator.createService(UserService.class, ContentType.VND_JSON, accessToken);
     }
 
     @Provides
@@ -134,52 +132,51 @@ public class ApiModule {
     @Provides
     @Singleton
     LandingUrlsService provideLandingUrlsService(ServiceGenerator serviceGenerator) {
-        return serviceGenerator.createService(LandingUrlsService.class, ContentType.URL_ENCODED,
-                authToken);
+        return serviceGenerator.createService(LandingUrlsService.class, ContentType.URL_ENCODED, accessToken);
     }
 
     @Provides
     @Singleton
     ActivityService provideActivityService(ServiceGenerator serviceGenerator) {
-        return serviceGenerator.createService(ActivityService.class, ContentType.VND_JSON, authToken);
+        return serviceGenerator.createService(ActivityService.class, ContentType.VND_JSON, accessToken);
     }
 
     @Provides
     @Singleton
     CommentService provideCommentService(ServiceGenerator serviceGenerator) {
-        return serviceGenerator.createService(CommentService.class, ContentType.VND_JSON, authToken);
+        return serviceGenerator.createService(CommentService.class, ContentType.VND_JSON, accessToken);
     }
 
     @Provides
     @Singleton
     CustomStyleService provideCustomStyleService(ServiceGenerator serviceGenerator) {
-        return serviceGenerator.createService(CustomStyleService.class, ContentType.VND_JSON, authToken);
+        return serviceGenerator.createService(CustomStyleService.class, ContentType.VND_JSON, accessToken);
     }
 
     @Provides
     @Singleton
     GroupService provideGroupService(ServiceGenerator serviceGenerator) {
-        return serviceGenerator.createService(GroupService.class, ContentType.VND_JSON, authToken);
+        return serviceGenerator.createService(GroupService.class, ContentType.VND_JSON, accessToken);
     }
 
     @Provides
     BubbleService provideBubbleService(ServiceGenerator serviceGenerator) {
-        return serviceGenerator.createService(BubbleService.class, ContentType.VND_JSON, authToken);
+        return serviceGenerator.createService(BubbleService.class, ContentType.VND_JSON, accessToken);
     }
 
     @Provides
     NotificationService profideNotificationService(ServiceGenerator serviceGenerator) {
-        return serviceGenerator.createService(NotificationService.class, ContentType.VND_JSON, authToken);
+        return serviceGenerator.createService(NotificationService.class, ContentType.VND_JSON, accessToken);
     }
 
     @Provides
     ReportService provideReportService(ServiceGenerator serviceGenerator) {
-        return serviceGenerator.createService(ReportService.class, ContentType.VND_JSON, authToken);
+        return serviceGenerator.createService(ReportService.class, ContentType.VND_JSON, accessToken);
     }
 
     @Provides
     AbilityService provideAbilityService(ServiceGenerator serviceGenerator) {
-        return serviceGenerator.createService(AbilityService.class, ContentType.VND_JSON, authToken);
+        return serviceGenerator.createService(AbilityService.class, ContentType.VND_JSON, accessToken);
     }
 
     /**
