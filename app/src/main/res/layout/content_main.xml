@@ -583,5 +583,21 @@
             android:text="Report Comment"
             android:onClick="onReportCommentClicked"
             android:enabled="false" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="true"
+            android:text="Ability methods:" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_ability"
+            android:text="Get user ability"
+            android:onClick="onGetAbilityClicked"
+            android:enabled="false" />
+
+
     </LinearLayout>
 </ScrollView>

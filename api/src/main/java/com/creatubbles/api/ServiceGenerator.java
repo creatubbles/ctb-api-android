@@ -1,6 +1,7 @@
 package com.creatubbles.api;
 
 import com.creatubbles.api.interceptor.CreatubbleInterceptor;
+import com.creatubbles.api.model.Ability;
 import com.creatubbles.api.model.AuthToken;
 import com.creatubbles.api.model.GallerySubmission;
 import com.creatubbles.api.model.PasswordChange;
@@ -26,7 +27,6 @@ import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
 import com.creatubbles.api.model.user.UserFollowing;
 import com.creatubbles.api.model.user.avatar.Avatar;
-import com.creatubbles.api.model.user.avatar.AvatarSuggestion;
 import com.creatubbles.api.model.user.avatar.AvatarSuggestion;
 import com.creatubbles.api.model.user.custom_style.CustomStyle;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -55,7 +55,7 @@ public class ServiceGenerator {
             CustomStyle.class, UserFollowing.class, Group.class, Bubble.class, BubbleColor.class,
             GallerySubmission.class, ImageManipulation.class, AccountDetails.class, School.class,
             PasswordChange.class, Notification.class, CreationEntity.class, GalleryEntity.class,
-            UserEntity.class, Avatar.class, AvatarSuggestion.class, Report.class};
+            UserEntity.class, Avatar.class, AvatarSuggestion.class, Report.class, Ability.class};
 
 
     private Retrofit.Builder builder;

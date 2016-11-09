@@ -20,9 +20,12 @@ import android.widget.Toast;
 
 import com.creatubbles.api.ContentType;
 import com.creatubbles.api.exception.ErrorResponse;
+import com.creatubbles.api.model.Ability;
 import com.creatubbles.api.model.AuthToken;
 import com.creatubbles.api.model.CreatubblesResponse;
 import com.creatubbles.api.model.GallerySubmission;
+import com.creatubbles.api.model.ObjectType;
+import com.creatubbles.api.model.Operation;
 import com.creatubbles.api.model.PasswordChange;
 import com.creatubbles.api.model.Report;
 import com.creatubbles.api.model.activity.Activity;
@@ -49,6 +52,8 @@ import com.creatubbles.api.model.user.avatar.Avatar;
 import com.creatubbles.api.model.user.avatar.AvatarSuggestion;
 import com.creatubbles.api.model.user.custom_style.AgeDisplayType;
 import com.creatubbles.api.model.user.custom_style.CustomStyle;
+import com.creatubbles.api.repository.AbilityRepository;
+import com.creatubbles.api.repository.AbilityRepositoryBuilder;
 import com.creatubbles.api.repository.ActivityRepository;
 import com.creatubbles.api.repository.ActivityRepositoryBuilder;
 import com.creatubbles.api.repository.AvatarRepository;
@@ -418,6 +423,7 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.change_password_btn).setEnabled(true);
                 updateAvatar.setEnabled(true);
                 findViewById(R.id.report_user_btn).setEnabled(true);
+                findViewById(R.id.get_ability).setEnabled(true);
             }
 
             @Override
@@ -1504,6 +1510,26 @@ public class MainActivity extends AppCompatActivity {
 
             }
         };
+    }
+
+    public void onGetAbilityClicked(View view) {
+        AbilityRepository abilityRepository = new AbilityRepositoryBuilder(authToken).build();
+        abilityRepository.getSpecitfic(ObjectType.USER, userId, Operation.EDIT, new ResponseCallback<CreatubblesResponse<Ability>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<Ability> response) {
+                Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
     }
 
     interface Function<T> {
