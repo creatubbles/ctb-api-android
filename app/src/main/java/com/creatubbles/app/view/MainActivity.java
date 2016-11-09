@@ -21,7 +21,6 @@ import android.widget.Toast;
 import com.creatubbles.api.ContentType;
 import com.creatubbles.api.exception.ErrorResponse;
 import com.creatubbles.api.model.Ability;
-import com.creatubbles.api.model.AuthToken;
 import com.creatubbles.api.model.CreatubblesResponse;
 import com.creatubbles.api.model.GallerySubmission;
 import com.creatubbles.api.model.ObjectType;
@@ -29,6 +28,9 @@ import com.creatubbles.api.model.Operation;
 import com.creatubbles.api.model.PasswordChange;
 import com.creatubbles.api.model.Report;
 import com.creatubbles.api.model.activity.Activity;
+import com.creatubbles.api.model.auth.AccessToken;
+import com.creatubbles.api.model.auth.ApplicationAccessToken;
+import com.creatubbles.api.model.auth.UserAccessToken;
 import com.creatubbles.api.model.bubble.Bubble;
 import com.creatubbles.api.model.bubble.BubbleColor;
 import com.creatubbles.api.model.comment.Comment;
@@ -146,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
 
     Upload responseFromCreateUpload;
     List<User> usersAvailableForSwitching;
-    AuthToken authToken;
+    AccessToken accessToken;
     String userId;
     Group newGroup;
     String galleryId;
@@ -195,45 +197,62 @@ public class MainActivity extends AppCompatActivity {
 
         OAuthRepository repository = new OAuthRepositoryBuilder().build();
 
-        ResponseCallback<AuthToken> callback = new
-                ResponseCallback<AuthToken>() {
-
-                    @Override
-                    public void onSuccess(AuthToken response) {
-                        Toast.makeText(MainActivity.this, response.getAccessToken(), Toast
-                                .LENGTH_SHORT).show();
-
-                        authToken = response;
-                        ButterKnife.apply(actionButtons, (view, index) -> view.setEnabled(true));
-                    }
-
-                    @Override
-                    public void onServerError(ErrorResponse errorResponse) {
-                        displayError(errorResponse);
-                    }
-
-                    @Override
-                    public void onError(String message) {
-
-                    }
-                };
         if (TextUtils.isEmpty(emailText.getText())) {
-            repository.authorize(callback);
+            repository.authorize(new ResponseCallback<ApplicationAccessToken>() {
+                @Override
+                public void onSuccess(ApplicationAccessToken response) {
+                    onSuccessAuth(response);
+                }
+
+                @Override
+                public void onServerError(ErrorResponse errorResponse) {
+                    displayError(errorResponse);
+                }
+
+                @Override
+                public void onError(String message) {
+
+                }
+            });
         } else {
-            repository.authorize(emailText.getText().toString(), passwordText.getText().toString(), callback);
+            repository.authorize(emailText.getText().toString(), passwordText.getText().toString(),
+                    new ResponseCallback<UserAccessToken>() {
+                        @Override
+                        public void onSuccess(UserAccessToken response) {
+                            onSuccessAuth(response);
+                        }
+
+                        @Override
+                        public void onServerError(ErrorResponse errorResponse) {
+                            displayError(errorResponse);
+                        }
+
+                        @Override
+                        public void onError(String message) {
+
+                        }
+                    });
         }
+    }
+
+    void onSuccessAuth(AccessToken response) {
+        Toast.makeText(MainActivity.this, response.getToken(), Toast
+                .LENGTH_SHORT).show();
+
+        accessToken = response;
+        ButterKnife.apply(actionButtons, (view, index) -> view.setEnabled(true));
     }
 
     public void onSwitchClicked(View btn) {
         OAuthRepository repository = new OAuthRepositoryBuilder().build();
 
-        repository.switchUser(authToken, usersAvailableForSwitching.get(0).getId(), null, new ResponseCallback<AuthToken>() {
+        repository.switchUser((UserAccessToken) accessToken, usersAvailableForSwitching.get(0).getId(), null, new ResponseCallback<UserAccessToken>() {
             @Override
-            public void onSuccess(AuthToken response) {
-                Toast.makeText(MainActivity.this, response.getAccessToken(), Toast
+            public void onSuccess(UserAccessToken response) {
+                Toast.makeText(MainActivity.this, response.getToken(), Toast
                         .LENGTH_SHORT).show();
 
-                authToken = response;
+                accessToken = response;
             }
 
             @Override
@@ -249,43 +268,37 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getUserClicked(View btn) {
-        UserRepository userRepository = new UserRepositoryBuilder()
-                .setAuthToken(authToken)
+        UserRepository userRepository = new UserRepositoryBuilder(accessToken)
                 .build();
         getUser(userRepository::getUser);
     }
 
     public void onGetUserCreatorsClicked(View btn) {
-        UserRepository userRepository = new UserRepositoryBuilder()
-                .setAuthToken(authToken)
+        UserRepository userRepository = new UserRepositoryBuilder(accessToken)
                 .build();
         getUserList(userRepository::getCreators);
     }
 
     public void onGetUserConnectionsClicked(View view) {
-        UserRepository userRepository = new UserRepositoryBuilder()
-                .setAuthToken(authToken)
+        UserRepository userRepository = new UserRepositoryBuilder(accessToken)
                 .build();
         getUserList(userRepository::getConnections);
     }
 
     public void onGetUserFollowedClicked(View view) {
-        UserRepository userRepository = new UserRepositoryBuilder()
-                .setAuthToken(authToken)
+        UserRepository userRepository = new UserRepositoryBuilder(accessToken)
                 .build();
         getUserList(userRepository::getFollowedUsers);
     }
 
     public void onGetUserManagersClicked(View btn) {
-        UserRepository userRepository = new UserRepositoryBuilder()
-                .setAuthToken(authToken)
+        UserRepository userRepository = new UserRepositoryBuilder(accessToken)
                 .build();
         getUserList(userRepository::getManagers);
     }
 
     public void onGetSwitchUsersClicked(View btn) {
-        UserRepository userRepository = new UserRepositoryBuilder()
-                .setAuthToken(authToken)
+        UserRepository userRepository = new UserRepositoryBuilder(accessToken)
                 .build();
         getUserList(userRepository::getUsersAvailableForSwitching);
 
@@ -293,14 +306,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onGetCreatorsFromGroup(View btn) {
-        UserRepository userRepository = new UserRepositoryBuilder()
-                .setAuthToken(authToken)
+        UserRepository userRepository = new UserRepositoryBuilder(accessToken)
                 .build();
         userRepository.getCreatorsFromGroup("9320", null, getUserListCallback());
     }
 
     public void onUpdateAvatarClicked(View btn) {
-        AvatarRepository avatarRepository = new AvatarRepositoryBuilder(authToken).build();
+        AvatarRepository avatarRepository = new AvatarRepositoryBuilder((UserAccessToken) accessToken)
+                .build();
         avatarRepository.updateAvatar(userId, new Avatar.Builder().avatarSuggestion(avatarSuggestion).build(), new ResponseCallback<CreatubblesResponse<Avatar>>() {
             @Override
             public void onSuccess(CreatubblesResponse<Avatar> response) {
@@ -327,7 +340,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onGetSuggestedAvatarClicked(View btn) {
-        AvatarRepository avatarRepository = new AvatarRepositoryBuilder(authToken).build();
+        AvatarRepository avatarRepository = new AvatarRepositoryBuilder((UserAccessToken) accessToken).build();
         avatarRepository.getSuggestedAvatars(new ResponseCallback<CreatubblesResponse<List<AvatarSuggestion>>>() {
             @Override
             public void onSuccess(CreatubblesResponse<List<AvatarSuggestion>> response) {
@@ -352,8 +365,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onCreateUserClicked(View btn) {
-        UserRepository userRepository = new UserRepositoryBuilder()
-                .setAuthToken(authToken)
+        UserRepository userRepository = new UserRepositoryBuilder(accessToken)
                 .build();
 
         NewUser user = new NewUser.Builder("testCreator90123")
@@ -379,8 +391,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onCreateMultipleUsersClicked(View view) {
-        UserRepository userRepository = new UserRepositoryBuilder()
-                .setAuthToken(authToken)
+        UserRepository userRepository = new UserRepositoryBuilder(accessToken)
                 .build();
         MultipleCreators multipleCreators = new MultipleCreators.Builder(5, 2000)
                 .setGroup("TestGroup" + new Random().nextInt(50))
@@ -471,8 +482,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onCreateCreationClicked(View btn) {
-        CreationRepository creationRepository = new CreationRepositoryBuilder()
-                .setAuthToken(authToken)
+        CreationRepository creationRepository = new CreationRepositoryBuilder(accessToken)
                 .build();
 
         Creation newCreation = new Creation.Builder("testCreation", Collections.emptyList()).build();
@@ -511,8 +521,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onGetRecentCreationsClicked(View view) {
-        CreationRepository creationRepository = new CreationRepositoryBuilder()
-                .setAuthToken(authToken)
+        CreationRepository creationRepository = new CreationRepositoryBuilder(accessToken)
                 .build();
         creationRepository.getRecent(null, Boolean.FALSE, new ResponseCallback<CreatubblesResponse<List<Creation>>>() {
             @Override
@@ -537,8 +546,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onCreateUploadClicked(View btn) {
-        CreationRepository creationRepository = new CreationRepositoryBuilder()
-                .setAuthToken(authToken)
+        CreationRepository creationRepository = new CreationRepositoryBuilder(accessToken)
                 .build();
 
         creationRepository.startUpload(creationId, ContentType.JPG,
@@ -567,8 +575,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onGetCreationByIdClicked(View btn) {
-        CreationRepository creationRepository = new CreationRepositoryBuilder()
-                .setAuthToken(authToken)
+        CreationRepository creationRepository = new CreationRepositoryBuilder(accessToken)
                 .build();
         creationRepository.getById(creationId, new ResponseCallback<CreatubblesResponse<Creation>>() {
             @Override
@@ -626,8 +633,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(String response) {
 
-                            CreationRepository creationRepository = new CreationRepositoryBuilder()
-                                    .setAuthToken(authToken)
+                            CreationRepository creationRepository = new CreationRepositoryBuilder(accessToken)
                                     .build();
                             creationRepository.finishUpload(responseFromCreateUpload, null,
                                     new ResponseCallback<Void>() {
@@ -663,8 +669,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onCreateGalleryClicked(View view) {
-        GalleryRepository galleryRepository = new GalleryRepositoryBuilder().setAuthToken
-                (authToken).build();
+        GalleryRepository galleryRepository = new GalleryRepositoryBuilder(accessToken).build();
 
         Gallery gallery = new Gallery("myNewGallery2", "TestGallery", true, null);
         galleryRepository.create(gallery, new ResponseCallback<CreatubblesResponse<Gallery>>() {
@@ -693,8 +698,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onGetGalleriesByIdClicked(View view) {
-        GalleryRepository galleryRepository = new GalleryRepositoryBuilder().setAuthToken
-                (authToken).build();
+        GalleryRepository galleryRepository = new GalleryRepositoryBuilder(accessToken)
+                .build();
 
         galleryRepository.getMine(null, null, new ResponseCallback<CreatubblesResponse<List<Gallery>>>() {
             @Override
@@ -716,7 +721,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onGetAllLandingUrlsClicked(View view) {
-        LandingUrlsRepository repository = new LandingUrlsRepositoryBuilder().setAuthToken(authToken).build();
+        LandingUrlsRepository repository = new LandingUrlsRepositoryBuilder(accessToken)
+                .build();
 
         repository.getAll(new ResponseCallback<CreatubblesResponse<List<LandingUrl>>>() {
             @Override
@@ -742,7 +748,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void onGetSpecificLandingUrlClicked(View view) {
 
-        LandingUrlsRepository repository = new LandingUrlsRepositoryBuilder().setAuthToken(authToken).build();
+        LandingUrlsRepository repository = new LandingUrlsRepositoryBuilder(accessToken)
+                .build();
 
         repository.getSpecific(LandingUrlType.COMMON_REGISTRATION, new
                 ResponseCallback<CreatubblesResponse<LandingUrl>>() {
@@ -789,8 +796,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onGetLandingUrlForCreationClicked(View view) {
 
-        LandingUrlsRepository repository = new LandingUrlsRepositoryBuilder()
-                .setAuthToken(authToken)
+        LandingUrlsRepository repository = new LandingUrlsRepositoryBuilder(accessToken)
                 .build();
 
         repository.getForCreation(creationId, new ResponseCallback<CreatubblesResponse<LandingUrl>>() {
@@ -813,8 +819,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onGetCustomStyleClicked(View btn) {
-        CustomStyleRepository customStyleRepository = new CustomStyleRepositoryBuilder()
-                .setAuthToken(authToken)
+        CustomStyleRepository customStyleRepository = new CustomStyleRepositoryBuilder(accessToken)
                 .build();
         customStyleRepository.getCustomStyle(userId, new ResponseCallback<CreatubblesResponse<CustomStyle>>() {
             @Override
@@ -836,8 +841,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onUpdateCustomStyleClicked(View btn) {
-        CustomStyleRepository customStyleRepository = new CustomStyleRepositoryBuilder()
-                .setAuthToken(authToken)
+        CustomStyleRepository customStyleRepository = new CustomStyleRepositoryBuilder(accessToken)
                 .build();
         List<String> colors = Arrays.asList("#C0C0C0", "#DD1F26", "#BC2025");
         customStyleRepository.updateCustomStyle(userId, new CustomStyle("style1", "pattern0", "pattern0", "Arial", "My bio", colors, colors), new ResponseCallback<CreatubblesResponse<CustomStyle>>() {
@@ -860,7 +864,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onGetActivitiesClicked(View btn) {
-        ActivityRepository activityRepository = new ActivityRepositoryBuilder(authToken)
+        ActivityRepository activityRepository = new ActivityRepositoryBuilder(accessToken)
                 .build();
 
         activityRepository.getActivities(null, new ResponseCallback<CreatubblesResponse<List<Activity>>>() {
@@ -883,7 +887,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onGetUserComments(View view) {
-        CommentRepository commentRepository = new CommentRepositoryBuilder(authToken)
+        CommentRepository commentRepository = new CommentRepositoryBuilder(accessToken)
                 .build();
 
         commentRepository.getForUser(null, userId, new ResponseCallback<CreatubblesResponse<List<Comment>>>() {
@@ -906,7 +910,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onCreateUserComments(View view) {
-        CommentRepository commentRepository = new CommentRepositoryBuilder(authToken)
+        CommentRepository commentRepository = new CommentRepositoryBuilder(accessToken)
                 .build();
         Comment comment = Comment.create("Test comment");
         commentRepository.createForUser(comment, userId, new ResponseCallback<CreatubblesResponse<Comment>>() {
@@ -931,7 +935,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onFollowUserClicked(View view) {
-        UserFollowingRepository repository = new UserFollowingRepositoryBuilder(authToken)
+        UserFollowingRepository repository = new UserFollowingRepositoryBuilder((UserAccessToken) accessToken)
                 .build();
         repository.follow("l8mD9WMm", new ResponseCallback<CreatubblesResponse<UserFollowing>>() {
             @Override
@@ -952,7 +956,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onUnfollowUserClicked(View view) {
-        UserFollowingRepository repository = new UserFollowingRepositoryBuilder(authToken)
+        UserFollowingRepository repository = new UserFollowingRepositoryBuilder((UserAccessToken) accessToken)
                 .build();
         repository.unfollow("l8mD9WMm", new ResponseCallback<Void>() {
             @Override
@@ -979,7 +983,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onGetGroupsClicked(View view) {
-        GroupRepository repository = new GroupRepositoryBuilder(authToken)
+        GroupRepository repository = new GroupRepositoryBuilder((UserAccessToken) accessToken)
                 .build();
 
         repository.getAll(new ResponseCallback<CreatubblesResponse<List<Group>>>() {
@@ -1002,7 +1006,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onCreateGroupClicked(View view) {
-        GroupRepository repository = new GroupRepositoryBuilder(authToken)
+        GroupRepository repository = new GroupRepositoryBuilder((UserAccessToken) accessToken)
                 .build();
         Group group = new Group.Builder()
                 .setName("Test Gallery one")
@@ -1031,7 +1035,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onUpdateGroupClicked(View view) {
-        GroupRepository repository = new GroupRepositoryBuilder(authToken)
+        GroupRepository repository = new GroupRepositoryBuilder((UserAccessToken) accessToken)
                 .build();
         Group group = new Group.Builder()
                 .setName("Test Gallery renamed")
@@ -1055,7 +1059,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onDeleteGroupClicked(View view) {
-        GroupRepository repository = new GroupRepositoryBuilder(authToken)
+        GroupRepository repository = new GroupRepositoryBuilder((UserAccessToken) accessToken)
                 .build();
         repository.delete(newGroup.getId(), new ResponseCallback<Void>() {
             @Override
@@ -1077,21 +1081,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onGetBubblesOnCreationClicked(View view) {
-        BubbleRepository repository = new BubbleRepositoryBuilder(authToken)
+        BubbleRepository repository = new BubbleRepositoryBuilder(accessToken)
                 .build();
 
         repository.getForCreation(null, creationId, getCallbackForListOfBubbles());
     }
 
     public void onGetBubblesOnGalleryClicked(View view) {
-        BubbleRepository repository = new BubbleRepositoryBuilder(authToken)
+        BubbleRepository repository = new BubbleRepositoryBuilder(accessToken)
                 .build();
 
         repository.getForGallery(null, galleryId, getCallbackForListOfBubbles());
     }
 
     public void onGetBubblesOnUserClicked(View view) {
-        BubbleRepository repository = new BubbleRepositoryBuilder(authToken)
+        BubbleRepository repository = new BubbleRepositoryBuilder(accessToken)
                 .build();
 
         repository.getForUser(null, userId, getCallbackForListOfBubbles());
@@ -1120,7 +1124,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onCreateBubbleOnCreationClicked(View v) {
-        BubbleRepository repository = new BubbleRepositoryBuilder(authToken)
+        BubbleRepository repository = new BubbleRepositoryBuilder(accessToken)
                 .build();
         Bubble bubble = new Bubble.Builder()
                 .build();
@@ -1128,7 +1132,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onCreateBubbleOnGalleryClicked(View v) {
-        BubbleRepository repository = new BubbleRepositoryBuilder(authToken)
+        BubbleRepository repository = new BubbleRepositoryBuilder(accessToken)
                 .build();
         Bubble bubble = new Bubble.Builder()
                 .build();
@@ -1136,7 +1140,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onCreateBubbleOnUserClicked(View v) {
-        BubbleRepository repository = new BubbleRepositoryBuilder(authToken)
+        BubbleRepository repository = new BubbleRepositoryBuilder(accessToken)
                 .build();
         Bubble bubble = new Bubble.Builder()
                 .build();
@@ -1169,7 +1173,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onUpdateBubbleClicked(View view) {
-        BubbleRepository repository = new BubbleRepositoryBuilder(authToken)
+        BubbleRepository repository = new BubbleRepositoryBuilder(accessToken)
                 .build();
         Bubble bubble = new Bubble.Builder()
                 .setPosition(0.1, 0.1)
@@ -1193,7 +1197,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onDeleteBubbleClicked(View view) {
-        BubbleRepository repository = new BubbleRepositoryBuilder(authToken)
+        BubbleRepository repository = new BubbleRepositoryBuilder(accessToken)
                 .build();
         repository.delete(bubbleId, new ResponseCallback<Void>() {
             @Override
@@ -1215,7 +1219,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onGetBubbleColorsClicked(View v) {
-        BubbleRepository repository = new BubbleRepositoryBuilder(authToken)
+        BubbleRepository repository = new BubbleRepositoryBuilder(accessToken)
                 .build();
         repository.getColors(new ResponseCallback<CreatubblesResponse<List<BubbleColor>>>() {
             @Override
@@ -1236,8 +1240,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSubmitCreationClicked(View view) {
-        GalleryRepository repository = new GalleryRepositoryBuilder()
-                .setAuthToken(authToken)
+        GalleryRepository repository = new GalleryRepositoryBuilder(accessToken)
                 .build();
 
         repository.submitCreation(galleryId, creationId, new ResponseCallback<CreatubblesResponse<GallerySubmission>>() {
@@ -1261,8 +1264,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onModifyImageClicked(View v) {
-        CreationRepository repository = new CreationRepositoryBuilder()
-                .setAuthToken(authToken)
+        CreationRepository repository = new CreationRepositoryBuilder(accessToken)
                 .build();
 
         ImageManipulation manipulation = new ImageManipulation.Builder().setRotation(Rotation.ROTATION_90)
@@ -1286,8 +1288,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onGetAccountDetailsClicked(View v) {
-        UserRepository repository = new UserRepositoryBuilder()
-                .setAuthToken(authToken)
+        UserRepository repository = new UserRepositoryBuilder(accessToken)
                 .build();
 
         repository.getAccountDetails(new ResponseCallback<CreatubblesResponse<AccountDetails>>() {
@@ -1314,8 +1315,7 @@ public class MainActivity extends AppCompatActivity {
                 .setBirthYear(2000)
                 .build();
 
-        UserRepository repository = new UserRepositoryBuilder()
-                .setAuthToken(authToken)
+        UserRepository repository = new UserRepositoryBuilder(accessToken)
                 .build();
 
         repository.updateAccountDetails(userId, accountDetails, new ResponseCallback<Void>() {
@@ -1340,8 +1340,7 @@ public class MainActivity extends AppCompatActivity {
         School school = new School.Builder("Test school", "PL")
                 .build();
 
-        UserRepository repository = new UserRepositoryBuilder()
-                .setAuthToken(authToken)
+        UserRepository repository = new UserRepositoryBuilder(accessToken)
                 .build();
 
         repository.linkSchoolWithAccount(userId, school, new ResponseCallback<Void>() {
@@ -1366,8 +1365,7 @@ public class MainActivity extends AppCompatActivity {
         // use the same password - in result not changing password just testing the request
         PasswordChange passwordChange = PasswordChange.create(passwordText.getText().toString(),
                 passwordText.getText().toString());
-        UserRepository repository = new UserRepositoryBuilder()
-                .setAuthToken(authToken)
+        UserRepository repository = new UserRepositoryBuilder(accessToken)
                 .build();
         repository.changePassword(userId, passwordChange, new ResponseCallback<CreatubblesResponse<User>>() {
             @Override
@@ -1388,7 +1386,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onGetNotificationsClicked(View v) {
-        NotificationRepository repository = new NotificationRepositoryBuilder(authToken)
+        NotificationRepository repository = new NotificationRepositoryBuilder(accessToken)
                 .build();
 
         repository.getNotifications(null, null,
@@ -1417,7 +1415,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onReadNotificationClicked(View v) {
-        NotificationRepository repository = new NotificationRepositoryBuilder(authToken)
+        NotificationRepository repository = new NotificationRepositoryBuilder(accessToken)
                 .build();
 
         repository.markRead(notificationId, new ResponseCallback<Void>() {
@@ -1439,7 +1437,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onUpdateNotificationViewedTimeClicked(View view) {
-        NotificationRepository repository = new NotificationRepositoryBuilder(authToken)
+        NotificationRepository repository = new NotificationRepositoryBuilder(accessToken)
                 .build();
 
         repository.updateLastViewedDate(new ResponseCallback<Void>() {
@@ -1461,7 +1459,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onReportUserClicked(View v) {
-        ReportRepository repository = new ReportRepositoryBuilder(authToken)
+        ReportRepository repository = new ReportRepositoryBuilder((UserAccessToken) accessToken)
                 .build();
         Report report = Report.create("Test report");
 
@@ -1469,7 +1467,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onReportCreationClicked(View v) {
-        ReportRepository repository = new ReportRepositoryBuilder(authToken)
+        ReportRepository repository = new ReportRepositoryBuilder((UserAccessToken) accessToken)
                 .build();
         Report report = Report.create("Test report");
 
@@ -1477,7 +1475,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onReportGalleryClicked(View v) {
-        ReportRepository repository = new ReportRepositoryBuilder(authToken)
+        ReportRepository repository = new ReportRepositoryBuilder((UserAccessToken) accessToken)
                 .build();
         Report report = Report.create("Test report");
 
@@ -1485,7 +1483,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onReportCommentClicked(View v) {
-        ReportRepository repository = new ReportRepositoryBuilder(authToken)
+        ReportRepository repository = new ReportRepositoryBuilder((UserAccessToken) accessToken)
                 .build();
         Report report = Report.create("Test report");
 
@@ -1513,7 +1511,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onGetAbilityClicked(View view) {
-        AbilityRepository abilityRepository = new AbilityRepositoryBuilder(authToken).build();
+        AbilityRepository abilityRepository = new AbilityRepositoryBuilder((UserAccessToken) accessToken)
+                .build();
         abilityRepository.getSpecitfic(ObjectType.USER, userId, Operation.EDIT, new ResponseCallback<CreatubblesResponse<Ability>>() {
             @Override
             public void onSuccess(CreatubblesResponse<Ability> response) {

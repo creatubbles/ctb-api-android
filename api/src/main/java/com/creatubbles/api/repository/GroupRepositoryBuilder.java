@@ -2,7 +2,7 @@ package com.creatubbles.api.repository;
 
 import com.creatubbles.api.di.components.DaggerApiComponent;
 import com.creatubbles.api.di.modules.ApiModule;
-import com.creatubbles.api.model.AuthToken;
+import com.creatubbles.api.model.auth.UserAccessToken;
 import com.creatubbles.api.service.GroupService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -15,25 +15,25 @@ import javax.inject.Inject;
  */
 public class GroupRepositoryBuilder {
 
-    private final AuthToken authToken;
+    private final UserAccessToken accessToken;
     @Inject
     GroupService service;
     @Inject
     ObjectMapper objectMapper;
 
     /**
-     * @param authToken instance of user access token.
+     * GroupRepository requires {@link com.creatubbles.api.model.auth.UserAccessToken}.
      */
-    public GroupRepositoryBuilder(AuthToken authToken) {
-        if (authToken == null) {
-            throw new NullPointerException("authToken can't be null");
+    public GroupRepositoryBuilder(UserAccessToken accessToken) {
+        if (accessToken == null) {
+            throw new NullPointerException("accessToken can't be null");
         }
-        this.authToken = authToken;
+        this.accessToken = accessToken;
     }
 
     public GroupRepository build() {
         DaggerApiComponent.builder()
-                .apiModule(ApiModule.getInstance(authToken))
+                .apiModule(ApiModule.getInstance(accessToken))
                 .build()
                 .inject(this);
         return new GroupRepositoryImpl(service, objectMapper);

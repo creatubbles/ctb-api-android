@@ -2,7 +2,7 @@ package com.creatubbles.api.repository;
 
 import com.creatubbles.api.di.components.DaggerApiComponent;
 import com.creatubbles.api.di.modules.ApiModule;
-import com.creatubbles.api.model.AuthToken;
+import com.creatubbles.api.model.auth.UserAccessToken;
 import com.creatubbles.api.service.AbilityService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -20,17 +20,17 @@ public class AbilityRepositoryBuilder {
     @Inject
     ObjectMapper objectMapper;
 
-    private final AuthToken authToken;
+    private final UserAccessToken accessToken;
 
-    public AbilityRepositoryBuilder(AuthToken authToken) {
-        if (authToken == null) {
-            throw new NullPointerException("AuthToken can't be null");
+    public AbilityRepositoryBuilder(UserAccessToken accessToken) {
+        if (accessToken == null) {
+            throw new NullPointerException("accessToken can't be null");
         }
-        this.authToken = authToken;
+        this.accessToken = accessToken;
     }
 
     public AbilityRepository build() {
-        DaggerApiComponent.builder().apiModule(ApiModule.getInstance(authToken)).build()
+        DaggerApiComponent.builder().apiModule(ApiModule.getInstance(accessToken)).build()
                 .inject(this);
         return new AbilityRepositoryImpl(objectMapper, abilityService);
     }

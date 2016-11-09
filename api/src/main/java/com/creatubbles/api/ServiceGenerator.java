@@ -2,11 +2,11 @@ package com.creatubbles.api;
 
 import com.creatubbles.api.interceptor.CreatubbleInterceptor;
 import com.creatubbles.api.model.Ability;
-import com.creatubbles.api.model.AuthToken;
 import com.creatubbles.api.model.GallerySubmission;
 import com.creatubbles.api.model.PasswordChange;
 import com.creatubbles.api.model.Report;
 import com.creatubbles.api.model.activity.Activity;
+import com.creatubbles.api.model.auth.AccessToken;
 import com.creatubbles.api.model.bubble.Bubble;
 import com.creatubbles.api.model.bubble.BubbleColor;
 import com.creatubbles.api.model.comment.Comment;
@@ -122,13 +122,13 @@ public class ServiceGenerator {
     }
 
     public <S> S createService(Class<S> serviceClass, final ContentType contentType, final
-    AuthToken token) {
+    AccessToken token) {
 
         Map<String, String> headerParamMap = new HashMap<>();
         headerParamMap.put("Accept", "application/vnd.api+json");
         headerParamMap.put("Content-Type", contentType.getRes());
         if (token != null) {
-            headerParamMap.put("Authorization", token.getTokenType() + " " + token.getAccessToken());
+            headerParamMap.put("Authorization", token.getType() + " " + token.getToken());
         }
 
         OkHttpClient client = new OkHttpClient.Builder()

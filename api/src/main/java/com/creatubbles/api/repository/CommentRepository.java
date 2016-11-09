@@ -11,13 +11,6 @@ import java.util.List;
 
 /**
  * Interface allowing to obtain and create comments on creations, galleries and users.
- * <p>
- * Access Restrictions:
- * <ul>
- * <li>With an application only access token you get the published comments and cannot create new comments.</li>
- * <li>With an user access token you get all published comments and comments the user can approve.</li>
- * </ul>
- * </p>
  *
  * @author Pawel Szymanski
  */

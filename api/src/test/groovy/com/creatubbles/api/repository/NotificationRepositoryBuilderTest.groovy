@@ -2,9 +2,8 @@ package com.creatubbles.api.repository
 
 import com.creatubbles.api.CreatubblesApi
 import com.creatubbles.api.TestUtils
-import com.creatubbles.api.model.AuthToken
+import com.creatubbles.api.model.auth.AccessToken
 import spock.lang.Specification
-
 /**
  * @author Pawel Szymanski
  */
@@ -37,6 +36,6 @@ class NotificationRepositoryBuilderTest extends Specification {
     }
 
     def anyToken() {
-        Mock(AuthToken)
+        Mock(AccessToken)
     }
 }

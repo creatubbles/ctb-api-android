@@ -93,13 +93,13 @@ Example of `OAuthRepository` uses:
     REMEMBER: EMAIL and PASSWORD need to be your own credentials.
 
 ```
-oauthRepository.authorize("email@email.com", "password", new ResponseCallback<AuthToken>() {
+oauthRepository.authorize("email@email.com", "password", new ResponseCallback<UserAccessToken>() {
 
             @Override
-            public void onSuccess(AuthToken response) {
+            public void onSuccess(UserAccessToken response) {
 
                 //Success if response code is [200...300], e.g.
-                Toast.makeText(MainActivity.this, response.getAccessToken(), Toast
+                Toast.makeText(MainActivity.this, response.getToken(), Toast
                         .LENGTH_SHORT).show();
 
             }
@@ -121,8 +121,7 @@ oauthRepository.authorize("email@email.com", "password", new ResponseCallback<Au
 
 Create `UserRepository` instance:
 ```
-UserRepository userRepository = new UserRepositoryBuilder()
-                .setAuthToken(authToken)
+UserRepository userRepository = new UserRepositoryBuilder(accessToken)
                 .build();
 ```
 
@@ -150,8 +149,7 @@ userRepository.getCreators(page, new ResponseCallback<CreatubblesResponse<List<U
 
 Create `GalleryRepository` instance:
 ```
-GalleryRepository galleryRepository = new GalleryRepositoryBuilder()
-                .setAuthToken(authToken)
+GalleryRepository galleryRepository = new GalleryRepositoryBuilder(accessToken)
                 .build();
 ```
 
@@ -179,8 +177,7 @@ galleryRepository.getById("aaa777", ResponseCallback<CreatubblesResponse<Gallery
 
 Create `CreationRepository` instance:
 ```
-CreationRepository creationRepository = new CreationRepositoryBuilder()
-                .setAuthToken(authToken)
+CreationRepository creationRepository = new CreationRepositoryBuilder(accessToken)
                 .build();
 ```
 
@@ -211,8 +208,7 @@ creationRepository.create(newCreation, new
 Create `LandingUrlsRepository` instance:
 
 ```
-LandingUrlsRepository repository = new LandingUrlsRepositoryBuilder()
-                .setAuthToken(authToken)
+LandingUrlsRepository repository = new LandingUrlsRepositoryBuilder(accessToken)
                 .build();
 ```
 
@@ -243,7 +239,7 @@ repository.getAll(new ResponseCallback<CreatubblesResponse<List<LandingUrl>>>() 
 Create `ActivityRepository` instance:
 
 ```
-ActivityRepository activityRepository = new ActivityRepositoryBuilder(authToken)
+ActivityRepository activityRepository = new ActivityRepositoryBuilder(accessToken)
                 .build();
 ```
 
@@ -271,8 +267,7 @@ activityRepository.getActivities(page, new ResponseCallback<CreatubblesResponse<
 Create `CustomStyleRepository` instance:
 
 ```
-CustomStyleRepository customStyleRepository = new CustomStyleRepositoryBuilder()
-               .setAuthToken(authToken)
+CustomStyleRepository customStyleRepository = new CustomStyleRepositoryBuilder(accessToken)
                .build();
 ```
 
@@ -300,7 +295,7 @@ customStyleRepository.getCustomStyle(userId, new ResponseCallback<CreatubblesRes
 Create `CommentRepository` instance:
 
 ```
-CommentRepository commentRepository = new CommentRepositoryBuilder(authToken)
+CommentRepository commentRepository = new CommentRepositoryBuilder(accessToken)
                 .build();
 ```
 
@@ -329,7 +324,7 @@ commentRepository.getForUser(pageNumber, userId, new ResponseCallback<Creatubble
 Create `GroupRepository` instance:
 
 ```
-GroupRepository repository = new GroupRepositoryBuilder(authToken)
+GroupRepository repository = new GroupRepositoryBuilder(accessToken)
                 .build();
 ```
 
@@ -363,7 +358,7 @@ Example of `GroupRepository` uses:
 Create `BubbleRepository` instance:
 
 ```
-    BubbleRepository repository = new BubbleRepositoryBuilder(authToken)
+    BubbleRepository repository = new BubbleRepositoryBuilder(accessToken)
                     .build();
 ```
 
@@ -391,7 +386,7 @@ Example of `BubbleRepository` uses:
 Create `AvatarRepository` instance:
 
 ```
-    AvatarRepository avatarRepository = new AvatarRepositoryBuilder(authToken)
+    AvatarRepository avatarRepository = new AvatarRepositoryBuilder(accessToken)
                     .build();
 ```
 
@@ -421,7 +416,7 @@ Example of `AvatarRepository` uses:
 Create `NotificationRepository` instance:
 
 ```
-    NotificationRepository repository = new NotificationRepositoryBuilder(authToken)
+    NotificationRepository repository = new NotificationRepositoryBuilder(accessToken)
                         .build();
 ```
 
@@ -450,7 +445,7 @@ repository.getNotifications(page, filter,
 Create `ReportRepository` instance:
 
 ```
-     ReportRepository repository = new ReportRepositoryBuilder(authToken)
+     ReportRepository repository = new ReportRepositoryBuilder(accessToken)
                     .build();
 ```
 
@@ -481,7 +476,7 @@ Example of `ReportRepository` uses:
 Create `AbilityRepository` instance:
 
 ```
-     AbilityRepository abilityRepository = new AbilityRepositoryBuilder(authToken)
+     AbilityRepository abilityRepository = new AbilityRepositoryBuilder(accessToken)
                     .build();
 ```
 

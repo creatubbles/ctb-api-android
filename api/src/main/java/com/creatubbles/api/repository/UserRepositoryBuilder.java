@@ -2,8 +2,7 @@ package com.creatubbles.api.repository;
 
 import com.creatubbles.api.di.components.DaggerApiComponent;
 import com.creatubbles.api.di.modules.ApiModule;
-import com.creatubbles.api.exception.InvalidParametersException;
-import com.creatubbles.api.model.AuthToken;
+import com.creatubbles.api.model.auth.AccessToken;
 import com.creatubbles.api.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -20,23 +19,26 @@ public class UserRepositoryBuilder {
     @Inject
     ObjectMapper objectMapper;
 
-    private AuthToken authToken;
+    private final AccessToken accessToken;
+
+    /**
+     * <ul>
+     * <li>With an application only access token you can only retrieve public data</li>
+     * <li>With an user access token you can list users, and get all data this user has access to</li>
+     * </ul>
+     */
+    public UserRepositoryBuilder(AccessToken accessToken) {
+        if (accessToken == null) {
+            throw new NullPointerException("accessToken can't be null!");
+        }
+        this.accessToken = accessToken;
+    }
+
 
     public UserRepository build() {
-        if (hasValidParameters()) {
-            DaggerApiComponent.builder().apiModule(ApiModule.getInstance(authToken)).build()
-                    .inject(this);
-            return new UserRepositoryImpl(objectMapper, userService);
-        }
-        throw new InvalidParametersException("Missing authorization token!");
+        DaggerApiComponent.builder().apiModule(ApiModule.getInstance(accessToken)).build()
+                .inject(this);
+        return new UserRepositoryImpl(objectMapper, userService);
     }
 
-    public boolean hasValidParameters() {
-        return authToken != null;
-    }
-
-    public UserRepositoryBuilder setAuthToken(AuthToken authToken) {
-        this.authToken = authToken;
-        return this;
-    }
 }

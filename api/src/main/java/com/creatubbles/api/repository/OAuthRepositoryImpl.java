@@ -4,8 +4,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.creatubbles.api.model.AuthToken;
+import com.creatubbles.api.model.auth.ApplicationAccessToken;
+import com.creatubbles.api.model.auth.UserAccessToken;
+import com.creatubbles.api.response.AuthResponseMapper;
 import com.creatubbles.api.response.ResponseCallback;
-import com.creatubbles.api.response.SameResponseMapper;
 import com.creatubbles.api.service.GrantType;
 import com.creatubbles.api.service.OAuthService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,22 +33,22 @@ class OAuthRepositoryImpl implements OAuthRepository {
     }
 
     @Override
-    public void authorize(ResponseCallback<AuthToken> callback) {
+    public void authorize(ResponseCallback<ApplicationAccessToken> callback) {
         Call<AuthToken> call = oAuthService.getAccessToken(clientId, clientSecret, GrantType.CLIENT_CREDENTIALS);
-        call.enqueue(new SameResponseMapper<>(objectMapper, callback));
+        call.enqueue(new AuthResponseMapper<>(objectMapper, GrantType.CLIENT_CREDENTIALS, callback));
     }
 
     @Override
-    public void authorize(String login, String password, ResponseCallback<AuthToken> callback) {
+    public void authorize(String login, String password, ResponseCallback<UserAccessToken> callback) {
         Call<AuthToken> call = oAuthService.getAccessToken(clientId, clientSecret, GrantType.PASSWORD, login,
                 password);
-        call.enqueue(new SameResponseMapper<>(objectMapper, callback));
+        call.enqueue(new AuthResponseMapper<>(objectMapper, GrantType.PASSWORD, callback));
     }
 
     @Override
-    public void switchUser(@NonNull AuthToken currentToken, @NonNull String targetUserId, @Nullable String groupId, ResponseCallback<AuthToken> callback) {
-        Call<AuthToken> call = oAuthService.switchUser(currentToken.getAccessToken(), GrantType.USER_SWITCH, targetUserId, groupId);
-        call.enqueue(new SameResponseMapper<>(objectMapper, callback));
+    public void switchUser(@NonNull UserAccessToken currentToken, @NonNull String targetUserId, @Nullable String groupId, ResponseCallback<UserAccessToken> callback) {
+        Call<AuthToken> call = oAuthService.switchUser(currentToken.getToken(), GrantType.USER_SWITCH, targetUserId, groupId);
+        call.enqueue(new AuthResponseMapper<>(objectMapper, GrantType.USER_SWITCH, callback));
     }
 
     @Override
