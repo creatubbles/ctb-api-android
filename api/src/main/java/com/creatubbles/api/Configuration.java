@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.creatubbles.api.exception.InvalidParametersException;
 
+
 /**
  * Created by Janek on 11.10.2016.
  */
@@ -19,12 +20,14 @@ public class Configuration {
     private final String clientSecret;
     private final String baseUrl;
     private final Application context;
+    private final Locale locale;
 
     public Configuration(Builder builder) {
         this.clientId = builder.clientId;
         this.clientSecret = builder.clientSecret;
         this.baseUrl = builder.baseUrl;
         this.context = builder.context;
+        this.locale = builder.locale;
     }
 
     public static class Builder {
@@ -33,6 +36,7 @@ public class Configuration {
         String clientSecret;
         String baseUrl;
         Application context;
+        Locale locale;
 
         public Builder clientId(String clientId) {
             this.clientId = clientId;
@@ -51,6 +55,11 @@ public class Configuration {
 
         public Builder application(Application application) {
             this.context = application;
+            return this;
+        }
+
+        public Builder locale(Locale locale) {
+            this.locale = locale;
             return this;
         }
 
@@ -83,5 +92,9 @@ public class Configuration {
 
     public Application getContext() {
         return context;
+    }
+
+    public Locale getLocale() {
+        return locale;
     }
 }

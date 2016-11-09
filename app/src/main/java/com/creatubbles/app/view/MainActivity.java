@@ -1521,7 +1521,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onServerError(ErrorResponse errorResponse) {
-
+                displayError(errorResponse);
             }
 
             @Override
