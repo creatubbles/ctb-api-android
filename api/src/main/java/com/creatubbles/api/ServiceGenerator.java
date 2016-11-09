@@ -11,6 +11,7 @@ import com.creatubbles.api.model.bubble.Bubble;
 import com.creatubbles.api.model.bubble.BubbleColor;
 import com.creatubbles.api.model.comment.Comment;
 import com.creatubbles.api.model.creation.Creation;
+import com.creatubbles.api.model.creation.ToybooDetails;
 import com.creatubbles.api.model.gallery.Gallery;
 import com.creatubbles.api.model.group.Group;
 import com.creatubbles.api.model.image_manipulation.ImageManipulation;
@@ -55,7 +56,8 @@ public class ServiceGenerator {
             CustomStyle.class, UserFollowing.class, Group.class, Bubble.class, BubbleColor.class,
             GallerySubmission.class, ImageManipulation.class, AccountDetails.class, School.class,
             PasswordChange.class, Notification.class, CreationEntity.class, GalleryEntity.class,
-            UserEntity.class, Avatar.class, AvatarSuggestion.class, Report.class, Ability.class};
+            UserEntity.class, Avatar.class, AvatarSuggestion.class, Report.class, Ability.class,
+            ToybooDetails.class};
 
 
     private Retrofit.Builder builder;
