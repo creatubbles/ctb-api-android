@@ -34,6 +34,7 @@
 13. `AvatarRepository` - for managing user's avatar
 14. `NotificationRepository` - for managing notifications
 15. `ReportRepository` - for reporting resources
+16. `AbilityRepository` - for fetching abilities
 
 ## Preview
 ### Demo
@@ -472,6 +473,36 @@ Example of `ReportRepository` uses:
 
           }
       };);
+```
+
+16. Ability repository
+--------------------------
+
+Create `AbilityRepository` instance:
+
+```
+     AbilityRepository abilityRepository = new AbilityRepositoryBuilder(authToken)
+                    .build();
+```
+
+Example of `AbilityRepository` uses:
+
+```
+
+    abilityRepository.getSpecitfic(ObjectType.USER, userId, Operation.EDIT,
+      new ResponseCallback<CreatubblesResponse<Ability>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<Ability> response) {
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+            }
+
+            @Override
+            public void onError(String message) {
+            }
+        });
 ```
 
 ## Used libs
