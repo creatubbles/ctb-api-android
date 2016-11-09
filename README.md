@@ -65,6 +65,7 @@ CreatubblesApi.initialize(new Configuration.Builder()
               .baseUrl(BASE_URL)
               .clientId(CLIENT_ID)
               .clientSecret(CLIENT_SECRET)
+              .locale(Locale.JAPANESE)
               .build());
   }
 
@@ -72,6 +73,11 @@ CreatubblesApi.initialize(new Configuration.Builder()
 
 The lack of any configuration's parameter will produce InvalidParametersException.
 
+Locale parameter is optional. When you send requests which requires access token,
+application will automatically detect proper locale for given user.
+No need to specify locale in this case.
+
+Important: If you specify locale it has higher priority than user’s locale.
 
 After initialization you can start using all of the available repositories.
 
@@ -405,7 +411,7 @@ Example of `AvatarRepository` uses:
         @Override
         public void onError(String message) {
         }
-        
+
       });
 
 ```

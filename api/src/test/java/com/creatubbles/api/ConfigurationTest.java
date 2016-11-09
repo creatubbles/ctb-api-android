@@ -103,4 +103,16 @@ public class ConfigurationTest {
                 .build();
         assertNotNull(target);
     }
+
+    @Test
+    public void isNotNullWhenPassedCorrectParametersWithLocale() {
+        target = new Configuration.Builder()
+                .application(context)
+                .baseUrl("http://url.com")
+                .clientSecret("secret")
+                .clientId("id")
+                .locale(Locale.ENGLISH)
+                .build();
+        assertNotNull(target);
+    }
 }

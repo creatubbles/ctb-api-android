@@ -89,6 +89,9 @@ public class ServiceGenerator {
         Map<String, String> headerParamMap = new HashMap<>();
         headerParamMap.put("Accept", "application/vnd.api+json");
         headerParamMap.put("Content-Type", contentType.getRes());
+        if (configuration.getLocale() != null) {
+            headerParamMap.put("Accept-Language", configuration.getLocale().getRes());
+        }
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .cookieJar(getAcceptAllCookieJar())
@@ -107,6 +110,9 @@ public class ServiceGenerator {
     public <S> S createService(Class<S> serviceClass) {
 
         Map<String, String> headerParamMap = new HashMap<>();
+        if (configuration.getLocale() != null) {
+            headerParamMap.put("Accept-Language", configuration.getLocale().getRes());
+        }
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .cookieJar(getAcceptAllCookieJar())
@@ -130,6 +136,10 @@ public class ServiceGenerator {
         if (token != null) {
             headerParamMap.put("Authorization", token.getType() + " " + token.getToken());
         }
+        if (configuration.getLocale() != null) {
+            headerParamMap.put("Accept-Language", configuration.getLocale().getRes());
+        }
+
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .cookieJar(getAcceptAllCookieJar())
