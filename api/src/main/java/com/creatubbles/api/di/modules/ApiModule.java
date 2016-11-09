@@ -7,6 +7,7 @@ import com.creatubbles.api.ContentType;
 import com.creatubbles.api.ServiceGenerator;
 import com.creatubbles.api.exception.InitializationException;
 import com.creatubbles.api.model.AuthToken;
+import com.creatubbles.api.service.AbilityService;
 import com.creatubbles.api.service.ActivityService;
 import com.creatubbles.api.service.BubbleService;
 import com.creatubbles.api.service.CommentService;
@@ -174,6 +175,11 @@ public class ApiModule {
     @Provides
     ReportService provideReportService(ServiceGenerator serviceGenerator) {
         return serviceGenerator.createService(ReportService.class, ContentType.VND_JSON, authToken);
+    }
+
+    @Provides
+    AbilityService provideAbilityService(ServiceGenerator serviceGenerator) {
+        return serviceGenerator.createService(AbilityService.class, ContentType.VND_JSON, authToken);
     }
 
     /**

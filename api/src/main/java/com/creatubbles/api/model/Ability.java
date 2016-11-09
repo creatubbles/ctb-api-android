@@ -1,9 +1,13 @@
 package com.creatubbles.api.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.jasminb.jsonapi.annotations.Id;
+import com.github.jasminb.jsonapi.annotations.Type;
 
+@Type("abilities")
 public class Ability {
 
+    @Id
     private String id;
 
     @JsonProperty("resource_type")
@@ -14,7 +18,7 @@ public class Ability {
 
     private Boolean permission;
 
-    private String operation;
+    private Operation operation;
 
     public void setId(String id) {
         this.id = id;
@@ -36,7 +40,7 @@ public class Ability {
         return permission;
     }
 
-    public String getOperation() {
+    public Operation getOperation() {
         return operation;
     }
 
