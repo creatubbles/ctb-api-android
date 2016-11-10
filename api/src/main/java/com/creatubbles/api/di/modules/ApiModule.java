@@ -18,6 +18,7 @@ import com.creatubbles.api.service.GroupService;
 import com.creatubbles.api.service.LandingUrlsService;
 import com.creatubbles.api.service.NotificationService;
 import com.creatubbles.api.service.OAuthService;
+import com.creatubbles.api.service.PartnerApplicationService;
 import com.creatubbles.api.service.ReportService;
 import com.creatubbles.api.service.UploadService;
 import com.creatubbles.api.service.UserService;
@@ -177,6 +178,12 @@ public class ApiModule {
     @Provides
     AbilityService provideAbilityService(ServiceGenerator serviceGenerator) {
         return serviceGenerator.createService(AbilityService.class, ContentType.VND_JSON, accessToken);
+    }
+
+    @Provides
+    PartnerApplicationService providePartnerApplicationService(ServiceGenerator serviceGenerator) {
+        return serviceGenerator.createService(PartnerApplicationService.class, ContentType.VND_JSON,
+                accessToken);
     }
 
     /**
