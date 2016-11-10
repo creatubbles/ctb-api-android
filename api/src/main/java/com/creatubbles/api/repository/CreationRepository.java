@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import com.creatubbles.api.ContentType;
 import com.creatubbles.api.model.CreatubblesResponse;
 import com.creatubbles.api.model.creation.Creation;
+import com.creatubbles.api.model.creation.ToybooDetails;
 import com.creatubbles.api.model.image_manipulation.ImageManipulation;
 import com.creatubbles.api.model.upload.Upload;
 import com.creatubbles.api.response.ResponseCallback;
@@ -116,4 +117,11 @@ public interface CreationRepository {
      * @param imageManipulation object describing operations to perform on an image
      */
     void updateImage(@NonNull String creationId, @NonNull ImageManipulation imageManipulation, ResponseCallback<Void> callback);
+
+    /**
+     * Method used to obtain toyboo details for specific creation
+     *
+     * @param creationId the ID of Creation
+     */
+    void getToybooDetails(@NonNull String creationId, ResponseCallback<CreatubblesResponse<ToybooDetails>> callback);
 }

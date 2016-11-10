@@ -35,6 +35,7 @@ import com.creatubbles.api.model.bubble.Bubble;
 import com.creatubbles.api.model.bubble.BubbleColor;
 import com.creatubbles.api.model.comment.Comment;
 import com.creatubbles.api.model.creation.Creation;
+import com.creatubbles.api.model.creation.ToybooDetails;
 import com.creatubbles.api.model.gallery.Gallery;
 import com.creatubbles.api.model.group.Group;
 import com.creatubbles.api.model.image_manipulation.Cropping;
@@ -108,7 +109,8 @@ public class MainActivity extends AppCompatActivity {
             R.id.get_user_followed_btn, R.id.get_switch_users_btn, R.id.create_multiple_users_btn,
             R.id.get_creators_from_group_btn, R.id.get_recent_creations_btn, R.id.get_activities_btn,
             R.id.follow_user_btn, R.id.unfollow_user_btn, R.id.get_groups_btn, R.id.get_bubble_colors_btn,
-            R.id.get_user_details_btn, R.id.get_avatar_suggestion, R.id.get_notifications_btn, R.id.update_last_viewed_time_btn})
+            R.id.get_user_details_btn, R.id.get_avatar_suggestion, R.id.get_notifications_btn, R.id.update_last_viewed_time_btn,
+            R.id.get_toyboo_details_btn})
     List<Button> actionButtons;
 
     @Bind(R.id.send_file_btn)
@@ -1516,6 +1518,26 @@ public class MainActivity extends AppCompatActivity {
         abilityRepository.getSpecitfic(ObjectType.USER, userId, Operation.EDIT, new ResponseCallback<CreatubblesResponse<Ability>>() {
             @Override
             public void onSuccess(CreatubblesResponse<Ability> response) {
+                Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                displayError(errorResponse);
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+    }
+
+    public void onGetToybooDetailsClicked(View view) {
+        CreationRepository repository = new CreationRepositoryBuilder(accessToken).build();
+        repository.getToybooDetails("kniSnnvO", new ResponseCallback<CreatubblesResponse<ToybooDetails>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<ToybooDetails> response) {
                 Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
             }
 

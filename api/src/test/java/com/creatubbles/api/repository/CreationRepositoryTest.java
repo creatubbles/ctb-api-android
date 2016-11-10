@@ -3,6 +3,7 @@ package com.creatubbles.api.repository;
 import com.creatubbles.api.ContentType;
 import com.creatubbles.api.model.CreatubblesResponse;
 import com.creatubbles.api.model.creation.Creation;
+import com.creatubbles.api.model.creation.ToybooDetails;
 import com.creatubbles.api.model.image_manipulation.ImageManipulation;
 import com.creatubbles.api.model.upload.Upload;
 import com.creatubbles.api.response.ResponseCallback;
@@ -43,6 +44,9 @@ public class CreationRepositoryTest {
 
     @Mock
     ResponseCallback<CreatubblesResponse<Creation>> creationResponseCallback;
+
+    @Mock
+    ResponseCallback<CreatubblesResponse<ToybooDetails>> toybooResponseCallback;
 
     @Mock
     ResponseCallback<Void> voidCallback;
@@ -288,6 +292,24 @@ public class CreationRepositoryTest {
     }
 
     @Test
+    public void testGetToybooDetailsSuccessfulRequest() {
+        mockGetToybooDetailsWithAnswer(getSuccessfulAnswer(mockBody));
+
+        target.getToybooDetails(anyString(), toybooResponseCallback);
+
+        verifySuccessfulResponseOn(toybooResponseCallback);
+    }
+
+    @Test
+    public void testGetToybooDetailsFailedRequest() {
+        mockGetToybooDetailsWithAnswer(getFailedAnswer(ERROR_MESSAGE));
+
+        target.getToybooDetails(anyString(),toybooResponseCallback);
+
+        verifyFailedResponseOn(toybooResponseCallback, ERROR_MESSAGE);
+    }
+
+    @Test
     public void shouldCallPutImageManipulationWhenUpdatingImage() throws Exception {
         when(mockedCreationService.putImageManipulation(any(), any())).thenReturn(voidCall);
 
@@ -358,5 +380,10 @@ public class CreationRepositoryTest {
     private void mockRemoveCreationWithAnswer(Answer answer) {
         doAnswer(answer).when(call).enqueue(any());
         doReturn(call).when(mockedCreationService).removeCreation(anyString());
+    }
+
+    private void mockGetToybooDetailsWithAnswer(Answer answer) {
+        doAnswer(answer).when(call).enqueue(any());
+        doReturn(call).when(mockedCreationService).getToybooDetails(anyString());
     }
 }

@@ -275,6 +275,14 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/get_toyboo_details_btn"
+            android:text="Get Toyboo details"
+            android:onClick="onGetToybooDetailsClicked"
+            android:enabled="false"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/modify_image_btn"
             android:text="Modify Image"
             android:onClick="onModifyImageClicked"
