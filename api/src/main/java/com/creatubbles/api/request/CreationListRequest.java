@@ -1,6 +1,6 @@
 package com.creatubbles.api.request;
 
-import com.creatubbles.api.service.Sort;
+import com.creatubbles.api.service.GallerySortMode;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -23,7 +23,7 @@ public class CreationListRequest {
     private String userId;
 
     @JsonProperty("sort")
-    private Sort sort;
+    private GallerySortMode sort;
 
     @JsonProperty("search")
     private String keyword;
@@ -47,7 +47,7 @@ public class CreationListRequest {
         Integer perPage;
         String galleryId;
         String userId;
-        Sort sort;
+        GallerySortMode sort;
         String keyword;
 
         public Builder page(Integer page) {
@@ -96,7 +96,7 @@ public class CreationListRequest {
         return userId;
     }
 
-    public Sort getSort() {
+    public GallerySortMode getSort() {
         return sort;
     }
 

@@ -11,6 +11,7 @@ import com.creatubbles.api.model.user.MultipleCreators;
 import com.creatubbles.api.model.user.NewUser;
 import com.creatubbles.api.model.user.User;
 import com.creatubbles.api.response.ResponseCallback;
+import com.creatubbles.api.service.UserSortMode;
 
 import java.util.List;
 
@@ -36,50 +37,50 @@ public interface UserRepository {
     /**
      * Method used to obtain current user's creators.
      */
-    void getCreators(@Nullable Integer page, ResponseCallback<CreatubblesResponse<List<User>>> callback);
+    void getCreators(@Nullable Integer page, @Nullable UserSortMode sortMode, ResponseCallback<CreatubblesResponse<List<User>>> callback);
 
     /**
      * Method used to obtain current user's managers.
      */
-    void getManagers(@Nullable Integer page, ResponseCallback<CreatubblesResponse<List<User>>> callback);
+    void getManagers(@Nullable Integer page, @Nullable UserSortMode sortMode, ResponseCallback<CreatubblesResponse<List<User>>> callback);
 
     /**
      * Method used to obtain current user's 'My Connections'.
      */
-    void getConnections(@Nullable Integer page, ResponseCallback<CreatubblesResponse<List<User>>> callback);
+    void getConnections(@Nullable Integer page, @Nullable UserSortMode sortMode, ResponseCallback<CreatubblesResponse<List<User>>> callback);
 
     /**
      * Method used to obtain current user's followed users.
      */
-    void getFollowedUsers(@Nullable Integer page, ResponseCallback<CreatubblesResponse<List<User>>> callback);
+    void getFollowedUsers(@Nullable Integer page, @Nullable UserSortMode sortMode, ResponseCallback<CreatubblesResponse<List<User>>> callback);
 
     /**
      * Method used to obtain user's creators.
      *
      * @param userId the ID of the user for which we want to get the results
      */
-    void getCreators(@NonNull String userId, @Nullable Integer page, ResponseCallback<CreatubblesResponse<List<User>>> callback);
+    void getCreators(@NonNull String userId, @Nullable Integer page, @Nullable UserSortMode sortMode, ResponseCallback<CreatubblesResponse<List<User>>> callback);
 
     /**
      * Method used to obtain user's managers.
      *
      * @param userId the ID of the user for which we want to get the results
      */
-    void getManagers(@NonNull String userId, @Nullable Integer page, ResponseCallback<CreatubblesResponse<List<User>>> callback);
+    void getManagers(@NonNull String userId, @Nullable Integer page, @Nullable UserSortMode sortMode, ResponseCallback<CreatubblesResponse<List<User>>> callback);
 
     /**
      * Method used to obtain user's followed users.
      *
      * @param userId the ID of the user for which we want to get the results
      */
-    void getFollowedUsers(@NonNull String userId, @Nullable Integer page, ResponseCallback<CreatubblesResponse<List<User>>> callback);
+    void getFollowedUsers(@NonNull String userId, @Nullable Integer page, @Nullable UserSortMode sortMode, ResponseCallback<CreatubblesResponse<List<User>>> callback);
 
     /**
      * Method used to obtain user's 'My Connections'.
      *
      * @param userId the ID of the user for which we want to get the results
      */
-    void getConnections(@NonNull String userId, @Nullable Integer page, ResponseCallback<CreatubblesResponse<List<User>>> callback);
+    void getConnections(@NonNull String userId, @Nullable Integer page, @Nullable UserSortMode sortMode, ResponseCallback<CreatubblesResponse<List<User>>> callback);
 
     /**
      * Method used to create new Creator managed by current user.

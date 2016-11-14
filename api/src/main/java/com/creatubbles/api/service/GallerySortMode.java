@@ -1,9 +1,6 @@
 package com.creatubbles.api.service;
 
-/**
- * Created by Janek on 10.02.2016.
- */
-public enum Sort {
+public enum GallerySortMode {
 
     POPULAR, RECENT;
 

@@ -38,16 +38,16 @@ public interface UserService {
     Call<JSONAPIDocument<User>> getUserById(@Path(PARAM_ID) String id);
 
     @GET(EndPoints.USERS + "/" + PATH_ID + "/creators")
-    Call<JSONAPIDocument<List<User>>> getCreators(@Path(PARAM_ID) String id, @Query(PARAM_PAGE) Integer page);
+    Call<JSONAPIDocument<List<User>>> getCreators(@Path(PARAM_ID) String id, @Query(PARAM_PAGE) Integer page, @Query("sort") String sort);
 
     @GET(EndPoints.USERS + "/" + PATH_ID + "/managers")
-    Call<JSONAPIDocument<List<User>>> getManagers(@Path(PARAM_ID) String id, @Query(PARAM_PAGE) Integer page);
+    Call<JSONAPIDocument<List<User>>> getManagers(@Path(PARAM_ID) String id, @Query(PARAM_PAGE) Integer page, @Query("sort") String sort);
 
     @GET(EndPoints.USERS + "/" + PATH_ID + "/connected_users")
-    Call<JSONAPIDocument<List<User>>> getConnections(@Path(PARAM_ID) String id, @Query(PARAM_PAGE) Integer page);
+    Call<JSONAPIDocument<List<User>>> getConnections(@Path(PARAM_ID) String id, @Query(PARAM_PAGE) Integer page, @Query("sort") String sort);
 
     @GET(EndPoints.USERS + "/" + PATH_ID + "/followed_users")
-    Call<JSONAPIDocument<List<User>>> getFollowedUsers(@Path(PARAM_ID) String id, @Query(PARAM_PAGE) Integer page);
+    Call<JSONAPIDocument<List<User>>> getFollowedUsers(@Path(PARAM_ID) String id, @Query(PARAM_PAGE) Integer page, @Query("sort") String sort);
 
     @POST(EndPoints.CREATORS)
     Call<JSONAPIDocument<User>> createUser(@Body NewUser newUser);

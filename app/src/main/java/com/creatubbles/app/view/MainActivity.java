@@ -278,25 +278,25 @@ public class MainActivity extends AppCompatActivity {
     public void onGetUserCreatorsClicked(View btn) {
         UserRepository userRepository = new UserRepositoryBuilder(accessToken)
                 .build();
-        getUserList(userRepository::getCreators);
+        getUserList((page, callback) -> userRepository.getCreators(page, null, callback));
     }
 
     public void onGetUserConnectionsClicked(View view) {
         UserRepository userRepository = new UserRepositoryBuilder(accessToken)
                 .build();
-        getUserList(userRepository::getConnections);
+        getUserList((page, callback) -> userRepository.getConnections(page, null, callback));
     }
 
     public void onGetUserFollowedClicked(View view) {
         UserRepository userRepository = new UserRepositoryBuilder(accessToken)
                 .build();
-        getUserList(userRepository::getFollowedUsers);
+        getUserList((page, callback) -> userRepository.getFollowedUsers(page, null, callback));
     }
 
     public void onGetUserManagersClicked(View btn) {
         UserRepository userRepository = new UserRepositoryBuilder(accessToken)
                 .build();
-        getUserList(userRepository::getManagers);
+        getUserList((page, callback) -> userRepository.getManagers(page, null, callback));
     }
 
     public void onGetSwitchUsersClicked(View btn) {

@@ -15,6 +15,7 @@ import com.creatubbles.api.response.BaseResponseMapper;
 import com.creatubbles.api.response.JsonApiResponseMapper;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.service.UserService;
+import com.creatubbles.api.service.UserSortMode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jasminb.jsonapi.JSONAPIDocument;
 
@@ -48,50 +49,58 @@ class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void getCreators(@Nullable Integer page, ResponseCallback<CreatubblesResponse<List<User>>> callback) {
-        Call<JSONAPIDocument<List<User>>> call = userService.getCreators(CURRENT_USER, page);
+    public void getCreators(@Nullable Integer page, UserSortMode sortMode, ResponseCallback<CreatubblesResponse<List<User>>> callback) {
+        String sort = sortMode != null ? sortMode.getParam() : null;
+        Call<JSONAPIDocument<List<User>>> call = userService.getCreators(CURRENT_USER, page, sort);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void getManagers(@Nullable Integer page, ResponseCallback<CreatubblesResponse<List<User>>> callback) {
-        Call<JSONAPIDocument<List<User>>> call = userService.getManagers(CURRENT_USER, page);
+    public void getManagers(@Nullable Integer page, UserSortMode sortMode, ResponseCallback<CreatubblesResponse<List<User>>> callback) {
+        String sort = sortMode != null ? sortMode.getParam() : null;
+        Call<JSONAPIDocument<List<User>>> call = userService.getManagers(CURRENT_USER, page, sort);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void getConnections(@Nullable Integer page, ResponseCallback<CreatubblesResponse<List<User>>> callback) {
-        Call<JSONAPIDocument<List<User>>> call = userService.getConnections(CURRENT_USER, page);
+    public void getConnections(@Nullable Integer page, UserSortMode sortMode, ResponseCallback<CreatubblesResponse<List<User>>> callback) {
+        String sort = sortMode != null ? sortMode.getParam() : null;
+        Call<JSONAPIDocument<List<User>>> call = userService.getConnections(CURRENT_USER, page, sort);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void getFollowedUsers(@Nullable Integer page, ResponseCallback<CreatubblesResponse<List<User>>> callback) {
-        Call<JSONAPIDocument<List<User>>> call = userService.getFollowedUsers(CURRENT_USER, page);
+    public void getFollowedUsers(@Nullable Integer page, UserSortMode sortMode, ResponseCallback<CreatubblesResponse<List<User>>> callback) {
+        String sort = sortMode != null ? sortMode.getParam() : null;
+        Call<JSONAPIDocument<List<User>>> call = userService.getFollowedUsers(CURRENT_USER, page, sort);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void getCreators(@NonNull String userId, @Nullable Integer page, ResponseCallback<CreatubblesResponse<List<User>>> callback) {
-        Call<JSONAPIDocument<List<User>>> call = userService.getCreators(userId, page);
+    public void getCreators(@NonNull String userId, @Nullable Integer page, UserSortMode sortMode, ResponseCallback<CreatubblesResponse<List<User>>> callback) {
+        String sort = sortMode != null ? sortMode.getParam() : null;
+        Call<JSONAPIDocument<List<User>>> call = userService.getCreators(userId, page, sort);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void getManagers(@NonNull String userId, @Nullable Integer page, ResponseCallback<CreatubblesResponse<List<User>>> callback) {
-        Call<JSONAPIDocument<List<User>>> call = userService.getManagers(userId, page);
+    public void getManagers(@NonNull String userId, @Nullable Integer page, UserSortMode sortMode, ResponseCallback<CreatubblesResponse<List<User>>> callback) {
+        String sort = sortMode != null ? sortMode.getParam() : null;
+        Call<JSONAPIDocument<List<User>>> call = userService.getManagers(userId, page, sort);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void getFollowedUsers(@NonNull String userId, @Nullable Integer page, ResponseCallback<CreatubblesResponse<List<User>>> callback) {
-        Call<JSONAPIDocument<List<User>>> call = userService.getFollowedUsers(userId, page);
+    public void getFollowedUsers(@NonNull String userId, @Nullable Integer page, UserSortMode sortMode, ResponseCallback<CreatubblesResponse<List<User>>> callback) {
+        String sort = sortMode != null ? sortMode.getParam() : null;
+        Call<JSONAPIDocument<List<User>>> call = userService.getFollowedUsers(userId, page, sort);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void getConnections(@NonNull String userId, @Nullable Integer page, ResponseCallback<CreatubblesResponse<List<User>>> callback) {
-        Call<JSONAPIDocument<List<User>>> call = userService.getConnections(userId, page);
+    public void getConnections(@NonNull String userId, @Nullable Integer page, UserSortMode sortMode, ResponseCallback<CreatubblesResponse<List<User>>> callback) {
+        String sort = sortMode != null ? sortMode.getParam() : null;
+        Call<JSONAPIDocument<List<User>>> call = userService.getConnections(userId, page, sort);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
