@@ -26,8 +26,7 @@ public class AvatarSuggestion {
     @Id
     private String id; // this is unused field required by jsonapi-converter
 
-    @NonNull
-    @JsonProperty("avatar_url")
+    @JsonProperty("url")
     private String avatarUrl;
 
     public String getId() {
