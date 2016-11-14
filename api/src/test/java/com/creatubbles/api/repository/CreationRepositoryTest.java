@@ -26,6 +26,7 @@ import static com.creatubbles.api.repository.RepositoryTestUtil.getSuccessfulAns
 import static com.creatubbles.api.repository.RepositoryTestUtil.verifyFailedResponseOn;
 import static com.creatubbles.api.repository.RepositoryTestUtil.verifySuccessfulResponseOn;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
@@ -199,6 +200,24 @@ public class CreationRepositoryTest {
         target.getById(anyString(), creationResponseCallback);
 
         verifyFailedResponseOn(creationResponseCallback, ERROR_MESSAGE);
+    }
+
+    @Test
+    public void testGetCreationsByPartnerApplicationSuccessfulRequest() {
+        mockGetByPartnerApplicationWithAnswer(getSuccessfulAnswer(mockBody));
+
+        target.getByPartnerApplication(null, "", creationListResponseCallback);
+
+        verifySuccessfulResponseOn(creationListResponseCallback);
+    }
+
+    @Test
+    public void testGetCreationsByPartnerApplicationRequest() {
+        mockGetByPartnerApplicationWithAnswer(getFailedAnswer(ERROR_MESSAGE));
+
+        target.getByPartnerApplication(null, "", creationListResponseCallback);
+
+        verifyFailedResponseOn(creationListResponseCallback, ERROR_MESSAGE);
     }
 
     @Test
@@ -385,5 +404,10 @@ public class CreationRepositoryTest {
     private void mockGetToybooDetailsWithAnswer(Answer answer) {
         doAnswer(answer).when(call).enqueue(any());
         doReturn(call).when(mockedCreationService).getToybooDetails(anyString());
+    }
+
+    private void mockGetByPartnerApplicationWithAnswer(Answer answer) {
+        doAnswer(answer).when(call).enqueue(any());
+        doReturn(call).when(mockedCreationService).getByPartnerApplication(anyInt(), anyString());
     }
 }

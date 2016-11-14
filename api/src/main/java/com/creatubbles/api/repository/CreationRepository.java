@@ -72,6 +72,12 @@ public interface CreationRepository {
                               ResponseCallback<CreatubblesResponse<List<Creation>>> callback);
 
     /**
+     * Method used to obtain a list of creations by Partner Application.
+     */
+    void getByPartnerApplication(@Nullable Integer page, @NonNull String partnerApplicationId,
+                                 ResponseCallback<CreatubblesResponse<List<Creation>>> callback);
+
+    /**
      * Method used to update Creation with a given ID.
      *
      * @param creationId the ID of Creation to update
