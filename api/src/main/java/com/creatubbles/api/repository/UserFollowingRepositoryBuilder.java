@@ -2,8 +2,7 @@ package com.creatubbles.api.repository;
 
 import com.creatubbles.api.di.components.DaggerApiComponent;
 import com.creatubbles.api.di.modules.ApiModule;
-import com.creatubbles.api.model.AuthToken;
-import com.creatubbles.api.response.ResponseCallback;
+import com.creatubbles.api.model.auth.UserAccessToken;
 import com.creatubbles.api.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -21,23 +20,19 @@ public class UserFollowingRepositoryBuilder {
     @Inject
     ObjectMapper objectMapper;
 
-    private final AuthToken authToken;
+    private final UserAccessToken accessToken;
 
-    /**
-     * @param authToken an instance of {@link AuthToken}. This must be user access token acquired
-     *                  using {@link OAuthRepository#authorize(String, String, ResponseCallback)}.
-     */
-    public UserFollowingRepositoryBuilder(AuthToken authToken) {
-        if (authToken == null) {
-            throw new NullPointerException("authToken can't be null");
+    public UserFollowingRepositoryBuilder(UserAccessToken accessToken) {
+        if (accessToken == null) {
+            throw new NullPointerException("accessToken can't be null");
         }
-        DaggerApiComponent.builder().apiModule(ApiModule.getInstance(authToken))
-                .build()
-                .inject(this);
-        this.authToken = authToken;
+        this.accessToken = accessToken;
     }
 
     public UserFollowingRepository build() {
+        DaggerApiComponent.builder().apiModule(ApiModule.getInstance(accessToken))
+                .build()
+                .inject(this);
         return new UserFollowingRepositoryImpl(userService, objectMapper);
     }
 

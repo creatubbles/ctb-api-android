@@ -3,7 +3,8 @@ package com.creatubbles.api.repository;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.creatubbles.api.model.AuthToken;
+import com.creatubbles.api.model.auth.ApplicationAccessToken;
+import com.creatubbles.api.model.auth.UserAccessToken;
 import com.creatubbles.api.response.ResponseCallback;
 
 /**
@@ -16,7 +17,7 @@ public interface OAuthRepository {
      * This token will give you access to publicly available information and actions.
      * Use this type of access token if you want to retrieve content independent from any users.
      */
-    void authorize(ResponseCallback<AuthToken> callback);
+    void authorize(ResponseCallback<ApplicationAccessToken> callback);
 
     /**
      * Method used to obtain <strong>User access token</strong>. User access tokens extend your access rights to allow your
@@ -24,7 +25,7 @@ public interface OAuthRepository {
      * for the user the access token was issued for. The user access token basically allows you to retrieve
      * content and execute actions on behalf of the user the token was issued for.
      */
-    void authorize(String login, String password, ResponseCallback<AuthToken> callback);
+    void authorize(String login, String password, ResponseCallback<UserAccessToken> callback);
 
     void setClientId(String clientId);
 
@@ -37,5 +38,5 @@ public interface OAuthRepository {
      * @param targetUserId the user for which to obtain an access token
      * @param groupId      (optional) limits further user switching to the given group
      */
-    void switchUser(@NonNull AuthToken currentToken, @NonNull String targetUserId, @Nullable String groupId, ResponseCallback<AuthToken> callback);
+    void switchUser(@NonNull UserAccessToken currentToken, @NonNull String targetUserId, @Nullable String groupId, ResponseCallback<UserAccessToken> callback);
 }

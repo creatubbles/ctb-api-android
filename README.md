@@ -31,6 +31,10 @@
 10. `UserFollowingRepository` - for following/unfollowing users
 11. `GroupRepository` - for managing Groups
 12. `BubbleRepository` - for managing bubbles on creations, galleries and users
+13. `AvatarRepository` - for managing user's avatar
+14. `NotificationRepository` - for managing notifications
+15. `ReportRepository` - for reporting resources
+16. `AbilityRepository` - for fetching abilities
 
 ## Preview
 ### Demo
@@ -61,6 +65,7 @@ CreatubblesApi.initialize(new Configuration.Builder()
               .baseUrl(BASE_URL)
               .clientId(CLIENT_ID)
               .clientSecret(CLIENT_SECRET)
+              .locale(Locale.JAPANESE)
               .build());
   }
 
@@ -68,6 +73,11 @@ CreatubblesApi.initialize(new Configuration.Builder()
 
 The lack of any configuration's parameter will produce InvalidParametersException.
 
+Locale parameter is optional. When you send requests which requires access token,
+application will automatically detect proper locale for given user.
+No need to specify locale in this case.
+
+Important: If you specify locale it has higher priority than user’s locale.
 
 After initialization you can start using all of the available repositories.
 
@@ -89,13 +99,13 @@ Example of `OAuthRepository` uses:
     REMEMBER: EMAIL and PASSWORD need to be your own credentials.
 
 ```
-oauthRepository.authorize("email@email.com", "password", new ResponseCallback<AuthToken>() {
+oauthRepository.authorize("email@email.com", "password", new ResponseCallback<UserAccessToken>() {
 
             @Override
-            public void onSuccess(AuthToken response) {
+            public void onSuccess(UserAccessToken response) {
 
                 //Success if response code is [200...300], e.g.
-                Toast.makeText(MainActivity.this, response.getAccessToken(), Toast
+                Toast.makeText(MainActivity.this, response.getToken(), Toast
                         .LENGTH_SHORT).show();
 
             }
@@ -117,8 +127,7 @@ oauthRepository.authorize("email@email.com", "password", new ResponseCallback<Au
 
 Create `UserRepository` instance:
 ```
-UserRepository userRepository = new UserRepositoryBuilder()
-                .setAuthToken(authToken)
+UserRepository userRepository = new UserRepositoryBuilder(accessToken)
                 .build();
 ```
 
@@ -146,8 +155,7 @@ userRepository.getCreators(page, new ResponseCallback<CreatubblesResponse<List<U
 
 Create `GalleryRepository` instance:
 ```
-GalleryRepository galleryRepository = new GalleryRepositoryBuilder()
-                .setAuthToken(authToken)
+GalleryRepository galleryRepository = new GalleryRepositoryBuilder(accessToken)
                 .build();
 ```
 
@@ -175,8 +183,7 @@ galleryRepository.getById("aaa777", ResponseCallback<CreatubblesResponse<Gallery
 
 Create `CreationRepository` instance:
 ```
-CreationRepository creationRepository = new CreationRepositoryBuilder()
-                .setAuthToken(authToken)
+CreationRepository creationRepository = new CreationRepositoryBuilder(accessToken)
                 .build();
 ```
 
@@ -207,15 +214,14 @@ creationRepository.create(newCreation, new
 Create `LandingUrlsRepository` instance:
 
 ```
-LandingUrlsRepository repository = new LandingUrlsRepositoryBuilder()
-                .setAuthToken(authToken)
+LandingUrlsRepository repository = new LandingUrlsRepositoryBuilder(accessToken)
                 .build();
 ```
 
 Example of `LandingUrlsRepository` uses:
 
 ```
-repository.getLandingUrls(new ResponseCallback<CreatubblesResponse<List<LandingUrl>>>() {
+repository.getAll(new ResponseCallback<CreatubblesResponse<List<LandingUrl>>>() {
             @Override
             public void onSuccess(CreatubblesResponse<List<LandingUrl>> response) {
                    //Do something if OK
@@ -239,7 +245,7 @@ repository.getLandingUrls(new ResponseCallback<CreatubblesResponse<List<LandingU
 Create `ActivityRepository` instance:
 
 ```
-ActivityRepository activityRepository = new ActivityRepositoryBuilder(authToken)
+ActivityRepository activityRepository = new ActivityRepositoryBuilder(accessToken)
                 .build();
 ```
 
@@ -267,8 +273,7 @@ activityRepository.getActivities(page, new ResponseCallback<CreatubblesResponse<
 Create `CustomStyleRepository` instance:
 
 ```
-CustomStyleRepository customStyleRepository = new CustomStyleRepositoryBuilder()
-               .setAuthToken(authToken)
+CustomStyleRepository customStyleRepository = new CustomStyleRepositoryBuilder(accessToken)
                .build();
 ```
 
@@ -296,7 +301,7 @@ customStyleRepository.getCustomStyle(userId, new ResponseCallback<CreatubblesRes
 Create `CommentRepository` instance:
 
 ```
-CommentRepository commentRepository = new CommentRepositoryBuilder(authToken)
+CommentRepository commentRepository = new CommentRepositoryBuilder(accessToken)
                 .build();
 ```
 
@@ -325,7 +330,7 @@ commentRepository.getForUser(pageNumber, userId, new ResponseCallback<Creatubble
 Create `GroupRepository` instance:
 
 ```
-GroupRepository repository = new GroupRepositoryBuilder(authToken)
+GroupRepository repository = new GroupRepositoryBuilder(accessToken)
                 .build();
 ```
 
@@ -359,7 +364,7 @@ Example of `GroupRepository` uses:
 Create `BubbleRepository` instance:
 
 ```
-    BubbleRepository repository = new BubbleRepositoryBuilder(authToken)
+    BubbleRepository repository = new BubbleRepositoryBuilder(accessToken)
                     .build();
 ```
 
@@ -379,6 +384,126 @@ Example of `BubbleRepository` uses:
           public void onError(String message) {
           }
       });
+```
+
+13. Avatar repository
+--------------------------
+
+Create `AvatarRepository` instance:
+
+```
+    AvatarRepository avatarRepository = new AvatarRepositoryBuilder(accessToken)
+                    .build();
+```
+
+Example of `AvatarRepository` uses:
+
+```
+        avatarRepository.updateAvatar(userId, avatar, new ResponseCallback<CreatubblesResponse<Avatar>>() {
+        @Override
+        public void onSuccess(CreatubblesResponse<Avatar> response) {
+        }
+
+        @Override
+        public void onServerError(ErrorResponse errorResponse) {
+        }
+
+        @Override
+        public void onError(String message) {
+        }
+
+      });
+
+```
+
+14. Notification repository
+--------------------------
+
+Create `NotificationRepository` instance:
+
+```
+    NotificationRepository repository = new NotificationRepositoryBuilder(accessToken)
+                        .build();
+```
+
+Example of `NotificationRepository` uses:
+
+```
+repository.getNotifications(page, filter,
+        new ResponseCallback<CreatubblesResponse<List<Notification>>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<List<Notification>> response) {
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+            }
+
+            @Override
+            public void onError(String message) {
+            }
+        });
+```
+
+15. Report repository
+--------------------------
+
+Create `ReportRepository` instance:
+
+```
+     ReportRepository repository = new ReportRepositoryBuilder(accessToken)
+                    .build();
+```
+
+Example of `ReportRepository` uses:
+
+```
+    Report report = Report.create("Example report");
+
+    repository.reportUser(userId, report, new ResponseCallback<Void>() {
+          @Override
+          public void onSuccess(Void response) {
+          }
+
+          @Override
+          public void onServerError(ErrorResponse errorResponse) {
+          }
+
+          @Override
+          public void onError(String message) {
+
+          }
+      };);
+```
+
+16. Ability repository
+--------------------------
+
+Create `AbilityRepository` instance:
+
+```
+     AbilityRepository abilityRepository = new AbilityRepositoryBuilder(accessToken)
+                    .build();
+```
+
+Example of `AbilityRepository` uses:
+
+```
+
+    abilityRepository.getSpecitfic(ObjectType.USER, userId, Operation.EDIT,
+      new ResponseCallback<CreatubblesResponse<Ability>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<Ability> response) {
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+            }
+
+            @Override
+            public void onError(String message) {
+            }
+        });
 ```
 
 ## Used libs

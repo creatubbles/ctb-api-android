@@ -84,6 +84,38 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/get_user_details_btn"
+            android:text="Get Current User's details"
+            android:onClick="onGetAccountDetailsClicked"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/update_account_btn"
+            android:text="Update Current User's details (get user first)"
+            android:onClick="onUpdateAccountDetailsClicked"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/link_school_btn"
+            android:text="Link school with account (get user first)"
+            android:onClick="onLinkSchoolWithAccountClicked"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/change_password_btn"
+            android:text="Change Password (get user first)"
+            android:onClick="onChangePasswordClicked"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/get_user_creators_btn"
             android:text="Get Creators"
             android:onClick="onGetUserCreatorsClicked"
@@ -161,6 +193,22 @@
             android:onClick="onCreateMultipleUsersClicked"
             android:enabled="false"/>
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/update_avatar"
+            android:text="Update avatar"
+            android:onClick="onUpdateAvatarClicked"
+            android:enabled="false"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_avatar_suggestion"
+            android:text="Get avatar suggestion"
+            android:onClick="onGetSuggestedAvatarClicked"
+            android:enabled="false"/>
+
         <TextView
             android:id="@+id/galley_method_title"
             android:layout_width="wrap_content"
@@ -227,6 +275,14 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/get_toyboo_details_btn"
+            android:text="Get Toyboo details"
+            android:onClick="onGetToybooDetailsClicked"
+            android:enabled="false"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/modify_image_btn"
             android:text="Modify Image"
             android:onClick="onModifyImageClicked"
@@ -265,7 +321,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:enabled="true"
-            android:text="Get specific landing url" />
+            android:text="Landing URLs:" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -274,19 +330,21 @@
             android:onClick="onGetAllLandingUrlsClicked"
             android:enabled="true"/>
 
-        <TextView
-            android:id="@+id/get_specific_landing_url"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:enabled="true"
-            android:text="Get Specific landing Url" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/get_specific_landing_url_btn"
             android:text="Get Specific"
             android:onClick="onGetSpecificLandingUrlClicked"
-            android:enabled="true"/>
+            android:enabled="true" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_landing_url_for_creation_btn"
+            android:text="Get For Creation"
+            android:onClick="onGetLandingUrlForCreationClicked"
+            android:enabled="false" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -465,6 +523,110 @@
             android:text="Get Bubble colors"
             android:onClick="onGetBubbleColorsClicked"
             android:enabled="false"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="true"
+            android:text="Notifications methods:" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_notifications_btn"
+            android:text="Get Notifications"
+            android:onClick="onGetNotificationsClicked"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/mark_as_read_btn"
+            android:text="Read notification"
+            android:onClick="onReadNotificationClicked"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/update_last_viewed_time_btn"
+            android:text="Update last viewed time"
+            android:onClick="onUpdateNotificationViewedTimeClicked"
+            android:enabled="false" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="true"
+            android:text="Reporting methods:" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/report_user_btn"
+            android:text="Report User"
+            android:onClick="onReportUserClicked"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/report_creation_btn"
+            android:text="Report Creation"
+            android:onClick="onReportCreationClicked"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/report_gallery_btn"
+            android:text="Report Gallery"
+            android:onClick="onReportGalleryClicked"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/report_comment_btn"
+            android:text="Report Comment"
+            android:onClick="onReportCommentClicked"
+            android:enabled="false" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="true"
+            android:text="Ability methods:" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_ability"
+            android:text="Get user ability"
+            android:onClick="onGetAbilityClicked"
+            android:enabled="false" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="true"
+            android:text="Partner Applications methods:" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/find_partner_applications"
+            android:text="Find partner applications"
+            android:onClick="onGetPartnerApplicationsClicked"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_partner_app_by_id"
+            android:text="Get partner application by id"
+            android:onClick="onGetSpecificPartnerApplicationClicked"
+            android:enabled="false" />
 
         <TextView
             android:layout_width="match_parent"

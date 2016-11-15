@@ -2,7 +2,7 @@ package com.creatubbles.api.repository;
 
 import com.creatubbles.api.di.components.DaggerApiComponent;
 import com.creatubbles.api.di.modules.ApiModule;
-import com.creatubbles.api.model.AuthToken;
+import com.creatubbles.api.model.auth.AccessToken;
 import com.creatubbles.api.service.CommentService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -18,17 +18,23 @@ public class CommentRepositoryBuilder {
     @Inject
     ObjectMapper objectMapper;
 
-    private final AuthToken authToken;
+    private final AccessToken accessToken;
 
-    public CommentRepositoryBuilder(AuthToken authToken) {
-        if (authToken == null) {
-            throw new NullPointerException("AuthToken can't be null");
+    /**
+     * * Access Restrictions:
+     * <ul>
+     * <li>With an application only access token you get the published comments and cannot create new comments.</li>
+     * <li>With an user access token you get all published comments and comments the user can approve.</li>
+     */
+    public CommentRepositoryBuilder(AccessToken accessToken) {
+        if (accessToken == null) {
+            throw new NullPointerException("accessToken can't be null");
         }
-        this.authToken = authToken;
+        this.accessToken = accessToken;
     }
 
     public CommentRepository build() {
-        DaggerApiComponent.builder().apiModule(ApiModule.getInstance(authToken)).build()
+        DaggerApiComponent.builder().apiModule(ApiModule.getInstance(accessToken)).build()
                 .inject(this);
         return new CommentRepositoryImpl(commentService, objectMapper);
     }

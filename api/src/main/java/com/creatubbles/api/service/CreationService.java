@@ -2,6 +2,7 @@ package com.creatubbles.api.service;
 
 import com.creatubbles.api.EndPoints;
 import com.creatubbles.api.model.creation.Creation;
+import com.creatubbles.api.model.creation.ToybooDetails;
 import com.creatubbles.api.model.image_manipulation.ImageManipulation;
 import com.creatubbles.api.model.upload.Upload;
 import com.creatubbles.api.request.UploadRequest;
@@ -84,5 +85,8 @@ public interface CreationService {
 
     @PUT(EndPoints.CREATIONS + "/" + PATH_CREATION_ID + "/image_manipulation")
     Call<Void> putImageManipulation(@Path(PARAM_CREATION_ID) String id, @Body ImageManipulation imageManipulation);
+
+    @GET(EndPoints.CREATIONS + "/" + PATH_CREATION_ID + "/toyboo_details")
+    Call<JSONAPIDocument<ToybooDetails>> getToybooDetails(@Path(PARAM_CREATION_ID) String id);
 
 }

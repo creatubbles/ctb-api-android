@@ -2,7 +2,7 @@ package com.creatubbles.api.repository;
 
 import com.creatubbles.api.di.components.DaggerApiComponent;
 import com.creatubbles.api.di.modules.ApiModule;
-import com.creatubbles.api.model.AuthToken;
+import com.creatubbles.api.model.auth.AccessToken;
 import com.creatubbles.api.service.ContentService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -20,17 +20,17 @@ public class ContentRepositoryBuilder {
     @Inject
     ObjectMapper objectMapper;
 
-    private final AuthToken authToken;
+    private final AccessToken accessToken;
 
-    public ContentRepositoryBuilder(AuthToken authToken) {
-        if (authToken == null) {
-            throw new NullPointerException("AuthToken can't be null");
+    public ContentRepositoryBuilder(AccessToken accessToken) {
+        if (accessToken == null) {
+            throw new NullPointerException("accessToken can't be null");
         }
-        this.authToken = authToken;
+        this.accessToken = accessToken;
     }
 
     public ContentRepository build() {
-        DaggerApiComponent.builder().apiModule(ApiModule.getInstance(authToken)).build()
+        DaggerApiComponent.builder().apiModule(ApiModule.getInstance(accessToken)).build()
                 .inject(this);
         return new ContentRepositoryImpl(objectMapper, contentService);
     }

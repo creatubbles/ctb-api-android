@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import com.creatubbles.api.ContentType;
 import com.creatubbles.api.model.CreatubblesResponse;
 import com.creatubbles.api.model.creation.Creation;
+import com.creatubbles.api.model.creation.ToybooDetails;
 import com.creatubbles.api.model.image_manipulation.ImageManipulation;
 import com.creatubbles.api.model.upload.Upload;
 import com.creatubbles.api.request.UploadRequest;
@@ -118,6 +119,12 @@ class CreationRepositoryImpl implements CreationRepository {
     public void updateImage(@NonNull String creationId, @NonNull ImageManipulation imageManipulation, ResponseCallback<Void> callback) {
         Call<Void> call = creationService.putImageManipulation(creationId, imageManipulation);
         call.enqueue(new BaseResponseMapper<>(objectMapper, callback));
+    }
+
+    @Override
+    public void getToybooDetails(@NonNull String creationId, ResponseCallback<CreatubblesResponse<ToybooDetails>> callback) {
+        Call<JSONAPIDocument<ToybooDetails>> call = creationService.getToybooDetails(creationId);
+        call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
 }

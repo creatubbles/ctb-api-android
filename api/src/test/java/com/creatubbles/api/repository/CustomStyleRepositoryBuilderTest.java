@@ -2,8 +2,7 @@ package com.creatubbles.api.repository;
 
 import com.creatubbles.api.CreatubblesApi;
 import com.creatubbles.api.TestUtils;
-import com.creatubbles.api.exception.InvalidParametersException;
-import com.creatubbles.api.model.AuthToken;
+import com.creatubbles.api.model.auth.AccessToken;
 
 import org.junit.After;
 import org.junit.Before;
@@ -31,22 +30,19 @@ public class CustomStyleRepositoryBuilderTest {
         CreatubblesApi.reset();
     }
 
-    @Test(expected = InvalidParametersException.class)
+    @Test(expected = NullPointerException.class)
     public void shouldNotCreateRepositoryWithoutAuthToken() throws Exception {
-        builder = new CustomStyleRepositoryBuilder();
-
-        builder.build();
+        builder = new CustomStyleRepositoryBuilder(null);
     }
 
     @Test
     public void shouldCreateRepositoryWithAuthToken() throws Exception {
-        builder = new CustomStyleRepositoryBuilder();
-        builder.setAuthToken(anyAuthToken());
+        builder = new CustomStyleRepositoryBuilder(anyToken());
 
         assertNotNull(builder.build());
     }
 
-    private AuthToken anyAuthToken() {
-        return mock(AuthToken.class);
+    private AccessToken anyToken() {
+        return mock(AccessToken.class);
     }
 }
