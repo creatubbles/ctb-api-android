@@ -8,14 +8,36 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
-
-/**
- * Created by Mario Ostapowicz on 28.10.2016.
- */
 
 public interface ContentService {
 
+    String PARAM_PAGE = "page";
+    String PARAM_ID = "id";
+
     @GET(EndPoints.CONTENTS)
-    Call<JSONAPIDocument<List<Content>>> getContents(@Query("query") String query);
+    Call<JSONAPIDocument<List<Content>>> getContents(@Query(PARAM_PAGE) Integer page,
+                                                     @Query("query") String query);
+
+    @GET(EndPoints.CONTENTS + "/recent")
+    Call<JSONAPIDocument<List<Content>>> getRecent(@Query(PARAM_PAGE) Integer page);
+
+    @GET(EndPoints.CONTENTS + "/trending")
+    Call<JSONAPIDocument<List<Content>>> getTrending(@Query(PARAM_PAGE) Integer page);
+
+    @GET(EndPoints.CONTENTS + "/connected")
+    Call<JSONAPIDocument<List<Content>>> getConnected(@Query(PARAM_PAGE) Integer page);
+
+    @GET(EndPoints.CONTENTS + "/followed")
+    Call<JSONAPIDocument<List<Content>>> getFollowed(@Query(PARAM_PAGE) Integer page);
+
+    @GET(EndPoints.USERS + "/{" + PARAM_ID + "}/contents")
+    Call<JSONAPIDocument<List<Content>>> getByUser(@Path(PARAM_ID) String userId,
+                                                   @Query(PARAM_PAGE) Integer page);
+
+    @GET(EndPoints.USERS + "/{" + PARAM_ID + "}/bubbled_contents")
+    Call<JSONAPIDocument<List<Content>>> getBubbledByUser(@Path(PARAM_ID) String userId,
+                                                          @Query(PARAM_PAGE) Integer page);
+
 }

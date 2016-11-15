@@ -1609,7 +1609,7 @@ public class MainActivity extends AppCompatActivity {
         ContentRepository repository = new ContentRepositoryBuilder(accessToken)
                 .build();
 
-        repository.getContents("HazarSOYDAN", new ResponseCallback<CreatubblesResponse<List<Content>>>() {
+        repository.search("HazarSOYDAN", new ResponseCallback<CreatubblesResponse<List<Content>>>() {
             @Override
             public void onSuccess(CreatubblesResponse<List<Content>> response) {
                 Toast.makeText(MainActivity.this, response.getData().toString(), Toast.LENGTH_SHORT).show();
