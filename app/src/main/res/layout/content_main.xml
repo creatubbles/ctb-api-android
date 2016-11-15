@@ -465,5 +465,19 @@
             android:text="Get Bubble colors"
             android:onClick="onGetBubbleColorsClicked"
             android:enabled="false"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="true"
+            android:text="Contents methods:" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_content_btn"
+            android:text="Get Content"
+            android:onClick="onGetContentClicked"
+            android:enabled="false"/>
     </LinearLayout>
 </ScrollView>

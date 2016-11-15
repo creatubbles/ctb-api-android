@@ -8,6 +8,7 @@ public class CreatubblesResponse<D> {
 
     private Meta meta;
 
+    @com.github.jasminb.jsonapi.annotations.Links
     private Links links;
 
     public CreatubblesResponse(D data, Meta meta, Links links) {
