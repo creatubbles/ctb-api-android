@@ -172,7 +172,7 @@ public class ApiModule {
     }
 
     @Provides
-    NotificationService profideNotificationService(ServiceGenerator serviceGenerator) {
+    NotificationService provideNotificationService(ServiceGenerator serviceGenerator) {
         return serviceGenerator.createService(NotificationService.class, ContentType.VND_JSON, accessToken);
     }
 
