@@ -1,5 +1,6 @@
 package com.creatubbles.api.model.content;
 
+import com.creatubbles.api.model.ObjectType;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.gallery.Gallery;
 import com.creatubbles.api.model.user.User;
@@ -17,6 +18,8 @@ public class Content {
 
     @Id
     private String id;
+
+    private ObjectType type;
 
     @Relationship("creation")
     private Creation creation;
@@ -36,38 +39,27 @@ public class Content {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public ObjectType getType() {
+        return type;
     }
 
     public Creation getCreation() {
         return creation;
     }
 
-    public void setCreation(Creation creation) {
-        this.creation = creation;
-    }
-
     public User getUser() {
         return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public Gallery getGallery() {
         return gallery;
     }
 
-    public void setGallery(Gallery gallery) {
-        this.gallery = gallery;
-    }
-
     @Override
     public String toString() {
         return "Content{" +
                 "id='" + id + '\'' +
+                ", type=" + type +
                 ", creation=" + creation +
                 ", user=" + user +
                 ", gallery=" + gallery +

@@ -15,7 +15,7 @@ import retrofit2.Call;
 /**
  * Created by Mario Ostapowicz on 28.10.2016.
  */
-public class ContentRepositoryImpl implements ContentRepository {
+class ContentRepositoryImpl implements ContentRepository {
 
     private final ContentService contentService;
     private final ObjectMapper objectMapper;
