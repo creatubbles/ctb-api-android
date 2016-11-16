@@ -14,7 +14,8 @@ public enum ObjectType {
     USER("user"),
     ACCOUNT("account"),
     COMMENT("comment"),
-    BUBBLE("bubble");
+    BUBBLE("bubble"),
+    PARTNER_APPLICATION("partner_application");
 
     private String typeName;
 
