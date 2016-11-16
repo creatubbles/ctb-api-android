@@ -31,6 +31,7 @@ public interface CreationService {
     String PARAM_SEARCH = "search";
     String PARAM_ABORTED_WITH = "aborted_with";
     String PARAM_CREATION_ID = "creation_id";
+    String PARAM_PARTNER_APPLICATION_ID = "partner_application_id";
 
     String PATH_USER_ID = "{" + PARAM_USER_ID + "}";
     String PATH_CREATION_ID = "{" + PARAM_CREATION_ID + "}";
@@ -88,5 +89,9 @@ public interface CreationService {
 
     @GET(EndPoints.CREATIONS + "/" + PATH_CREATION_ID + "/toyboo_details")
     Call<JSONAPIDocument<ToybooDetails>> getToybooDetails(@Path(PARAM_CREATION_ID) String id);
+
+    @GET(EndPoints.CREATIONS)
+    Call<JSONAPIDocument<List<Creation>>> getByPartnerApplication(@Query(PARAM_PAGE) Integer page,
+                                                                  @Query(PARAM_PARTNER_APPLICATION_ID) String partnerAppId);
 
 }

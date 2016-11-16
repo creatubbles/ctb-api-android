@@ -84,6 +84,13 @@ class CreationRepositoryImpl implements CreationRepository {
     }
 
     @Override
+    public void getByPartnerApplication(@Nullable Integer page, @NonNull String partnerApplicationId,
+                                        ResponseCallback<CreatubblesResponse<List<Creation>>> callback) {
+        Call<JSONAPIDocument<List<Creation>>> call = creationService.getByPartnerApplication(page, partnerApplicationId);
+        call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
+    }
+
+    @Override
     public void update(@NonNull String id, @NonNull Creation creation, ResponseCallback<Void> callback) {
         Call<Void> call = creationService.updateCreation(id, creation);
         call.enqueue(new BaseResponseMapper<>(objectMapper, callback));
