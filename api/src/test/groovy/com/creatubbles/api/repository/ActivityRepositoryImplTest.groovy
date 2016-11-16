@@ -13,7 +13,7 @@ class ActivityRepositoryImplTest extends Specification {
 
     def service = anyService()
 
-    def "shouldCallGetActivitiesOnService"() {
+    def "should call get activities on service"() {
         given:
         def repository = givenRepository()
 

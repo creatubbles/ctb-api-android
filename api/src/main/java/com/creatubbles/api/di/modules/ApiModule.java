@@ -11,6 +11,7 @@ import com.creatubbles.api.service.AbilityService;
 import com.creatubbles.api.service.ActivityService;
 import com.creatubbles.api.service.BubbleService;
 import com.creatubbles.api.service.CommentService;
+import com.creatubbles.api.service.ContentService;
 import com.creatubbles.api.service.CreationService;
 import com.creatubbles.api.service.CustomStyleService;
 import com.creatubbles.api.service.GalleryService;
@@ -161,12 +162,17 @@ public class ApiModule {
     }
 
     @Provides
+    ContentService provideContentService(ServiceGenerator serviceGenerator) {
+        return serviceGenerator.createService(ContentService.class, ContentType.VND_JSON, accessToken);
+    }
+
+    @Provides
     BubbleService provideBubbleService(ServiceGenerator serviceGenerator) {
         return serviceGenerator.createService(BubbleService.class, ContentType.VND_JSON, accessToken);
     }
 
     @Provides
-    NotificationService profideNotificationService(ServiceGenerator serviceGenerator) {
+    NotificationService provideNotificationService(ServiceGenerator serviceGenerator) {
         return serviceGenerator.createService(NotificationService.class, ContentType.VND_JSON, accessToken);
     }
 

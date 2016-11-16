@@ -34,6 +34,7 @@ import com.creatubbles.api.model.auth.UserAccessToken;
 import com.creatubbles.api.model.bubble.Bubble;
 import com.creatubbles.api.model.bubble.BubbleColor;
 import com.creatubbles.api.model.comment.Comment;
+import com.creatubbles.api.model.content.Content;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.creation.ToybooDetails;
 import com.creatubbles.api.model.gallery.Gallery;
@@ -66,6 +67,8 @@ import com.creatubbles.api.repository.BubbleRepository;
 import com.creatubbles.api.repository.BubbleRepositoryBuilder;
 import com.creatubbles.api.repository.CommentRepository;
 import com.creatubbles.api.repository.CommentRepositoryBuilder;
+import com.creatubbles.api.repository.ContentRepository;
+import com.creatubbles.api.repository.ContentRepositoryBuilder;
 import com.creatubbles.api.repository.CreationRepository;
 import com.creatubbles.api.repository.CreationRepositoryBuilder;
 import com.creatubbles.api.repository.CustomStyleRepository;
@@ -114,7 +117,8 @@ public class MainActivity extends AppCompatActivity {
             R.id.follow_user_btn, R.id.unfollow_user_btn, R.id.get_groups_btn, R.id.get_bubble_colors_btn,
             R.id.get_user_details_btn, R.id.get_avatar_suggestion, R.id.get_notifications_btn,
             R.id.update_last_viewed_time_btn, R.id.get_toyboo_details_btn, R.id.find_partner_applications,
-            R.id.get_partner_app_by_id})
+            R.id.get_partner_app_by_id, R.id.get_content_btn, R.id.get_recent_content_btn, R.id.get_followed_content_btn,
+            R.id.get_trending_content_btn, R.id.get_connected_content_btn})
     List<Button> actionButtons;
 
     @Bind(R.id.send_file_btn)
@@ -441,6 +445,8 @@ public class MainActivity extends AppCompatActivity {
                 updateAvatar.setEnabled(true);
                 findViewById(R.id.report_user_btn).setEnabled(true);
                 findViewById(R.id.get_ability).setEnabled(true);
+                findViewById(R.id.get_content_by_user_btn).setEnabled(true);
+                findViewById(R.id.get_content_bubbled_by_user_btn).setEnabled(true);
             }
 
             @Override
@@ -1601,6 +1607,78 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void onGetContentClicked(View v) {
+        ContentRepository repository = new ContentRepositoryBuilder(accessToken)
+                .build();
+
+        repository.search("HazarSOYDAN", null, getContentCallback());
+    }
+
+    public void onGetRecentContentClicked(View v) {
+        ContentRepository repository = new ContentRepositoryBuilder(accessToken)
+                .build();
+
+        repository.getRecent(null, getContentCallback());
+    }
+
+    public void onGetTrendingContentClicked(View v) {
+        ContentRepository repository = new ContentRepositoryBuilder(accessToken)
+                .build();
+
+        repository.getTrending(null, getContentCallback());
+    }
+
+    public void onGetConnectedContentClicked(View v) {
+        ContentRepository repository = new ContentRepositoryBuilder(accessToken)
+                .build();
+
+        repository.getConnected(null, getContentCallback());
+    }
+
+    public void onGetFollowedContentClicked(View v) {
+        ContentRepository repository = new ContentRepositoryBuilder(accessToken)
+                .build();
+
+        repository.getFollowed(null, getContentCallback());
+    }
+
+    public void onGetContentByUserClicked(View v) {
+        ContentRepository repository = new ContentRepositoryBuilder(accessToken)
+                .build();
+
+        repository.getByUser(null, userId, getContentCallback());
+    }
+
+    public void onGetContentBubbledByUserClicked(View v) {
+        ContentRepository repository = new ContentRepositoryBuilder(accessToken)
+                .build();
+
+        repository.getBubbledByUser(null, userId, getContentCallback());
+    }
+
+    @NonNull
+    private ResponseCallback<CreatubblesResponse<List<Content>>> getContentCallback() {
+        return new ResponseCallback<CreatubblesResponse<List<Content>>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<List<Content>> response) {
+                Toast.makeText(MainActivity.this, response.getData().toString(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                Toast.makeText(MainActivity.this, errorResponse.toString(), Toast.LENGTH_SHORT).show();
+                Log.e("GET_CONTENT", errorResponse.toString());
+            }
+
+            @Override
+            public void onError(String message) {
+                Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+                Log.e("GET_CONTENT", message);
+            }
+        };
+    }
+
 
     interface Function<T> {
         void consume(T t);

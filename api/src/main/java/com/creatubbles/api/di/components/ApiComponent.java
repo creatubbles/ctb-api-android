@@ -6,6 +6,7 @@ import com.creatubbles.api.repository.ActivityRepositoryBuilder;
 import com.creatubbles.api.repository.AvatarRepositoryBuilder;
 import com.creatubbles.api.repository.BubbleRepositoryBuilder;
 import com.creatubbles.api.repository.CommentRepositoryBuilder;
+import com.creatubbles.api.repository.ContentRepositoryBuilder;
 import com.creatubbles.api.repository.CreationRepositoryBuilder;
 import com.creatubbles.api.repository.CustomStyleRepositoryBuilder;
 import com.creatubbles.api.repository.GalleryRepositoryBuilder;
@@ -63,4 +64,6 @@ public interface ApiComponent {
     void inject(AbilityRepositoryBuilder abilityRepositoryBuilder);
 
     void inject(PartnerApplicationRepositoryBuilder target);
+
+    void inject(ContentRepositoryBuilder target);
 }
