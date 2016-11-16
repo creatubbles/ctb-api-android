@@ -26,7 +26,7 @@ public interface CreationService {
 
     String PARAM_PAGE = "page";
     String PARAM_USER_ID = "user_id";
-    String PARAM_ONLY_PUBLIC = "only_public";
+    String PARAM_ONLY_PUBLIC = "filter[public]";
     String PARAM_GALLERY_ID = "gallery_id";
     String PARAM_SEARCH = "search";
     String PARAM_ABORTED_WITH = "aborted_with";
