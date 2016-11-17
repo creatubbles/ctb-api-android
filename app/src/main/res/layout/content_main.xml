@@ -689,5 +689,19 @@
             android:text="Get Content bubbled by User"
             android:onClick="onGetContentBubbledByUserClicked"
             android:enabled="false" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="true"
+            android:text="Schools methods:" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_schools_btn"
+            android:text="Get Schools"
+            android:onClick="onListSchoolsClicked"
+            android:enabled="false" />
     </LinearLayout>
 </ScrollView>

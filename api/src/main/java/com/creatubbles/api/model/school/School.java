@@ -1,6 +1,8 @@
 
 package com.creatubbles.api.model.school;
 
+import android.support.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.jasminb.jsonapi.annotations.Id;
@@ -16,6 +18,18 @@ public class School {
 
     @JsonProperty("country_code")
     private String countryCode;
+
+    @JsonProperty("country_name")
+    private String countryName;
+
+    @JsonProperty("instructors_count")
+    private Integer instructorsCount;
+
+    @JsonProperty("avatar_url")
+    private String avatarUrl;
+
+    @JsonProperty("custom_style_header")
+    private String customStyleHeader;
 
     @JsonCreator
     public School() {
@@ -39,12 +53,36 @@ public class School {
         return countryCode;
     }
 
+    public String getCountryName() {
+        return countryName;
+    }
+
+    public Integer getInstructorsCount() {
+        return instructorsCount;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    /**
+     * @return String containing CSS style of the school's header
+     */
+    @Nullable
+    public String getCustomStyleHeader() {
+        return customStyleHeader;
+    }
+
     @Override
     public String toString() {
         return "School{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", countryCode='" + countryCode + '\'' +
+                ", countryName='" + countryName + '\'' +
+                ", instructorsCount=" + instructorsCount +
+                ", avatarUrl='" + avatarUrl + '\'' +
+                ", customStyleHeader='" + customStyleHeader + '\'' +
                 '}';
     }
 

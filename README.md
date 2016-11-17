@@ -36,6 +36,7 @@
 15. `ReportRepository` - for reporting resources
 16. `AbilityRepository` - for fetching abilities
 17. `ContentRepository` - for querying and obtaining available contents
+18. `SchoolRepository` - for obtaining a list of schools
 
 ## Preview
 ### Demo
@@ -523,6 +524,38 @@ Example of `ContentRepository` uses:
     repository.search("query", page, new ResponseCallback<CreatubblesResponse<List<Content>>>() {
         @Override
         public void onSuccess(CreatubblesResponse<List<Content>> response) {
+        }
+
+        @Override
+        public void onServerError(ErrorResponse errorResponse) {
+        }
+
+        @Override
+        public void onError(String message) {
+        }
+    });
+```
+
+
+18. School repository
+--------------------------
+
+Create `SchoolRepository` instance:
+
+```
+     SchoolRepository repository = new SchoolRepositoryBuilder(accessToken)
+                     .build();
+```
+
+Example of `SchoolRepository` uses:
+
+```
+    SchoolRepository.SchoolQuery query = new SchoolRepository.SchoolQuery()
+                    .nameContaining("name");
+
+    repository.search(null, query, new ResponseCallback<CreatubblesResponse<List<School>>>() {
+        @Override
+        public void onSuccess(CreatubblesResponse<List<School>> response) {
         }
 
         @Override
