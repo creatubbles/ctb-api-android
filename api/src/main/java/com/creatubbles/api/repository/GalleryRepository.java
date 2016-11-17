@@ -8,7 +8,7 @@ import com.creatubbles.api.model.GallerySubmission;
 import com.creatubbles.api.model.gallery.Gallery;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.service.GalleryFilter;
-import com.creatubbles.api.service.Sort;
+import com.creatubbles.api.service.GallerySortMode;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import java.util.List;
  */
 public interface GalleryRepository {
 
-    void getPublic(@Nullable Integer page, @Nullable Sort sort, ResponseCallback<CreatubblesResponse<List<Gallery>>> callback);
+    void getPublic(@Nullable Integer page, @Nullable GallerySortMode sort, ResponseCallback<CreatubblesResponse<List<Gallery>>> callback);
 
     /**
      * Get current user’s favorite galleries.

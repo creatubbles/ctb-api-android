@@ -114,9 +114,9 @@ public class UserRepositoryTest {
     public void testCreatorsSuccessfulRequest() {
 
         doAnswer(getSuccessfulAnswer(body)).when(listCall).enqueue(any());
-        doReturn(listCall).when(mockedUserService).getCreators(anyString(), any());
+        doReturn(listCall).when(mockedUserService).getCreators(anyString(), any(), anyString());
 
-        target.getCreators(anyString(), any(), userListResponseResponseCallback);
+        target.getCreators("", null, null, userListResponseResponseCallback);
 
         verify(userListResponseResponseCallback, never()).onError(anyString());
         verify(userListResponseResponseCallback).onSuccess(any());
@@ -126,9 +126,9 @@ public class UserRepositoryTest {
     @Test
     public void testCreatorsFailedRequest() {
         doAnswer(getFailedAnswer(ERROR_MESSAGE)).when(listCall).enqueue(any());
-        doReturn(listCall).when(mockedUserService).getCreators(anyString(), any());
+        doReturn(listCall).when(mockedUserService).getCreators(anyString(), any(), anyString());
 
-        target.getCreators(null, userListResponseResponseCallback);
+        target.getCreators(null, null, userListResponseResponseCallback);
 
         verify(userListResponseResponseCallback).onError(ERROR_MESSAGE);
         verify(userListResponseResponseCallback, never()).onSuccess(any());
@@ -137,9 +137,9 @@ public class UserRepositoryTest {
     @Test
     public void testFollowedSuccessfulRequest() {
         doAnswer(getSuccessfulAnswer(body)).when(listCall).enqueue(any());
-        doReturn(listCall).when(mockedUserService).getFollowedUsers(anyString(), any());
+        doReturn(listCall).when(mockedUserService).getFollowedUsers(anyString(), any(), anyString());
 
-        target.getFollowedUsers(anyString(), any(), userListResponseResponseCallback);
+        target.getFollowedUsers("", null, null, userListResponseResponseCallback);
 
         verify(userListResponseResponseCallback, never()).onError(any(String.class));
         verify(userListResponseResponseCallback).onSuccess(any());
@@ -149,9 +149,9 @@ public class UserRepositoryTest {
     @Test
     public void testFollowedFailedRequest() {
         doAnswer(getFailedAnswer(ERROR_MESSAGE)).when(listCall).enqueue(any());
-        doReturn(listCall).when(mockedUserService).getFollowedUsers(anyString(), any());
+        doReturn(listCall).when(mockedUserService).getFollowedUsers(anyString(), any(), anyString());
 
-        target.getFollowedUsers(null, userListResponseResponseCallback);
+        target.getFollowedUsers(null, null, userListResponseResponseCallback);
 
         verify(userListResponseResponseCallback).onError(ERROR_MESSAGE);
         verify(userListResponseResponseCallback, never()).onSuccess(any());
@@ -160,9 +160,9 @@ public class UserRepositoryTest {
     @Test
     public void testManagersSuccessfulRequest() {
         doAnswer(getSuccessfulAnswer(body)).when(listCall).enqueue(any());
-        doReturn(listCall).when(mockedUserService).getManagers(anyString(), any());
+        doReturn(listCall).when(mockedUserService).getManagers(anyString(), any(), anyString());
 
-        target.getManagers(anyString(), any(), userListResponseResponseCallback);
+        target.getManagers("", null, null, userListResponseResponseCallback);
 
         verify(userListResponseResponseCallback, never()).onError(any(String.class));
         verify(userListResponseResponseCallback).onSuccess(any());
@@ -172,9 +172,9 @@ public class UserRepositoryTest {
     @Test
     public void testManagersFailedRequest() {
         doAnswer(getFailedAnswer(ERROR_MESSAGE)).when(listCall).enqueue(any());
-        doReturn(listCall).when(mockedUserService).getManagers(anyString(), any());
+        doReturn(listCall).when(mockedUserService).getManagers(anyString(), any(), anyString());
 
-        target.getManagers(null, userListResponseResponseCallback);
+        target.getManagers(null, null, userListResponseResponseCallback);
 
         verify(userListResponseResponseCallback).onError(ERROR_MESSAGE);
         verify(userListResponseResponseCallback, never()).onSuccess(any());
@@ -183,9 +183,9 @@ public class UserRepositoryTest {
     @Test
     public void testConnectionsSuccessfulRequest() {
         doAnswer(getSuccessfulAnswer(body)).when(listCall).enqueue(any());
-        doReturn(listCall).when(mockedUserService).getConnections(anyString(), any());
+        doReturn(listCall).when(mockedUserService).getConnections(anyString(), any(), anyString());
 
-        target.getConnections(anyString(), any(), userListResponseResponseCallback);
+        target.getConnections("", null, null, userListResponseResponseCallback);
 
         verify(userListResponseResponseCallback, never()).onError(any(String.class));
         verify(userListResponseResponseCallback).onSuccess(any());
@@ -195,9 +195,9 @@ public class UserRepositoryTest {
     @Test
     public void testConnectionsFailedRequest() {
         doAnswer(getFailedAnswer(ERROR_MESSAGE)).when(listCall).enqueue(any());
-        doReturn(listCall).when(mockedUserService).getConnections(anyString(), any());
+        doReturn(listCall).when(mockedUserService).getConnections(anyString(), any(), anyString());
 
-        target.getConnections(null, userListResponseResponseCallback);
+        target.getConnections(null, null, userListResponseResponseCallback);
 
         verify(userListResponseResponseCallback).onError(ERROR_MESSAGE);
         verify(userListResponseResponseCallback, never()).onSuccess(any());
@@ -208,7 +208,7 @@ public class UserRepositoryTest {
         doAnswer(getSuccessfulAnswer(body)).when(listCall).enqueue(any());
         doReturn(listCall).when(mockedUserService).getSwitchUsers(any());
 
-        target.getUsersAvailableForSwitching(any(), userListResponseResponseCallback);
+        target.getUsersAvailableForSwitching(null, userListResponseResponseCallback);
 
         verify(userListResponseResponseCallback, never()).onError(any(String.class));
         verify(userListResponseResponseCallback).onSuccess(any());
@@ -220,7 +220,7 @@ public class UserRepositoryTest {
         doAnswer(getFailedAnswer(ERROR_MESSAGE)).when(listCall).enqueue(any());
         doReturn(listCall).when(mockedUserService).getSwitchUsers(any());
 
-        target.getUsersAvailableForSwitching(any(), userListResponseResponseCallback);
+        target.getUsersAvailableForSwitching(null, userListResponseResponseCallback);
 
         verify(userListResponseResponseCallback).onError(ERROR_MESSAGE);
         verify(userListResponseResponseCallback, never()).onSuccess(any());

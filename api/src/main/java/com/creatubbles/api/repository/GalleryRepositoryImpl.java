@@ -11,7 +11,7 @@ import com.creatubbles.api.response.JsonApiResponseMapper;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.service.GalleryFilter;
 import com.creatubbles.api.service.GalleryService;
-import com.creatubbles.api.service.Sort;
+import com.creatubbles.api.service.GallerySortMode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jasminb.jsonapi.JSONAPIDocument;
 
@@ -33,7 +33,7 @@ class GalleryRepositoryImpl implements GalleryRepository {
     }
 
     @Override
-    public void getPublic(@Nullable Integer page, @Nullable Sort sort,
+    public void getPublic(@Nullable Integer page, @Nullable GallerySortMode sort,
                           ResponseCallback<CreatubblesResponse<List<Gallery>>> callback) {
         String sortParam = sort != null ? sort.toString() : null;
         Call<JSONAPIDocument<List<Gallery>>> call = galleryService.getPublic(page, sortParam);
