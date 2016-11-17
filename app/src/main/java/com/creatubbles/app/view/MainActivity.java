@@ -87,6 +87,8 @@ import com.creatubbles.api.repository.PartnerApplicationRepository;
 import com.creatubbles.api.repository.PartnerApplicationRepositoryBuilder;
 import com.creatubbles.api.repository.ReportRepository;
 import com.creatubbles.api.repository.ReportRepositoryBuilder;
+import com.creatubbles.api.repository.SchoolRepository;
+import com.creatubbles.api.repository.SchoolRepositoryBuilder;
 import com.creatubbles.api.repository.UploadRepository;
 import com.creatubbles.api.repository.UploadRepositoryBuilder;
 import com.creatubbles.api.repository.UserFollowingRepository;
@@ -118,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
             R.id.get_user_details_btn, R.id.get_avatar_suggestion, R.id.get_notifications_btn,
             R.id.update_last_viewed_time_btn, R.id.get_toyboo_details_btn, R.id.find_partner_applications,
             R.id.get_partner_app_by_id, R.id.get_content_btn, R.id.get_recent_content_btn, R.id.get_followed_content_btn,
-            R.id.get_trending_content_btn, R.id.get_connected_content_btn})
+            R.id.get_trending_content_btn, R.id.get_connected_content_btn, R.id.get_schools_btn})
     List<Button> actionButtons;
 
     @Bind(R.id.send_file_btn)
@@ -1679,6 +1681,31 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
+    public void onListSchoolsClicked(View v) {
+        SchoolRepository repository = new SchoolRepositoryBuilder(accessToken)
+                .build();
+
+        SchoolRepository.SchoolQuery query = new SchoolRepository.SchoolQuery()
+                .nameContaining("the");
+
+        repository.search(null, query, new ResponseCallback<CreatubblesResponse<List<School>>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<List<School>> response) {
+                Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                Toast.makeText(MainActivity.this, errorResponse.toString(), Toast.LENGTH_SHORT).show();
+                Log.e("onServerError", errorResponse.toString());
+            }
+
+            @Override
+            public void onError(String message) {
+                Log.e("onListSchoolsClicked", message);
+            }
+        });
+    }
 
     interface Function<T> {
         void consume(T t);
