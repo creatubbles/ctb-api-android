@@ -43,7 +43,6 @@ public enum NotificationType {
      */
     NEW_SUBMISSION("new_submission"),
     ANOTHER_COMMENT("another_comment"),
-    NEW_COMMENT_FOR_CREATION_USERS("new_comment_for_creation_users"),
     MULTIPLE_CREATORS_CREATED("multiple_creators_created");
 
     private String name;

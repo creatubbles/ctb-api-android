@@ -1,4 +1,4 @@
-# Creatubbles API Android (ctb-api-andorid)
+# Creatubbles API Android (ctb-api-android)
 
 ## Architecture
 1. **Packages**
@@ -35,6 +35,7 @@
 14. `NotificationRepository` - for managing notifications
 15. `ReportRepository` - for reporting resources
 16. `AbilityRepository` - for fetching abilities
+17. `ContentRepository` - for querying and obtaining available contents
 
 ## Preview
 ### Demo
@@ -504,6 +505,34 @@ Example of `AbilityRepository` uses:
             public void onError(String message) {
             }
         });
+```
+
+17. Content repository
+--------------------------
+
+Create `ContentRepository` instance:
+
+```
+     ContentRepository repository = new ContentRepositoryBuilder(accessToken)
+                     .build();
+```
+
+Example of `ContentRepository` uses:
+
+```
+    repository.search("query", page, new ResponseCallback<CreatubblesResponse<List<Content>>>() {
+        @Override
+        public void onSuccess(CreatubblesResponse<List<Content>> response) {
+        }
+
+        @Override
+        public void onServerError(ErrorResponse errorResponse) {
+        }
+
+        @Override
+        public void onError(String message) {
+        }
+    });
 ```
 
 ## Used libs

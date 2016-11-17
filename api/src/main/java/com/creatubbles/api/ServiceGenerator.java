@@ -10,6 +10,7 @@ import com.creatubbles.api.model.auth.AccessToken;
 import com.creatubbles.api.model.bubble.Bubble;
 import com.creatubbles.api.model.bubble.BubbleColor;
 import com.creatubbles.api.model.comment.Comment;
+import com.creatubbles.api.model.content.Content;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.creation.ToybooDetails;
 import com.creatubbles.api.model.gallery.Gallery;
@@ -20,6 +21,8 @@ import com.creatubbles.api.model.notification.CreationEntity;
 import com.creatubbles.api.model.notification.GalleryEntity;
 import com.creatubbles.api.model.notification.Notification;
 import com.creatubbles.api.model.notification.UserEntity;
+import com.creatubbles.api.model.partner_application.AppScreenshot;
+import com.creatubbles.api.model.partner_application.PartnerApplication;
 import com.creatubbles.api.model.school.School;
 import com.creatubbles.api.model.upload.Upload;
 import com.creatubbles.api.model.user.AccountDetails;
@@ -57,7 +60,7 @@ public class ServiceGenerator {
             GallerySubmission.class, ImageManipulation.class, AccountDetails.class, School.class,
             PasswordChange.class, Notification.class, CreationEntity.class, GalleryEntity.class,
             UserEntity.class, Avatar.class, AvatarSuggestion.class, Report.class, Ability.class,
-            ToybooDetails.class};
+            ToybooDetails.class, PartnerApplication.class, AppScreenshot.class, Content.class};
 
 
     private Retrofit.Builder builder;

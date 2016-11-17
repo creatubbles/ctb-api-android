@@ -11,6 +11,7 @@ import com.creatubbles.api.service.AbilityService;
 import com.creatubbles.api.service.ActivityService;
 import com.creatubbles.api.service.BubbleService;
 import com.creatubbles.api.service.CommentService;
+import com.creatubbles.api.service.ContentService;
 import com.creatubbles.api.service.CreationService;
 import com.creatubbles.api.service.CustomStyleService;
 import com.creatubbles.api.service.GalleryService;
@@ -18,6 +19,7 @@ import com.creatubbles.api.service.GroupService;
 import com.creatubbles.api.service.LandingUrlsService;
 import com.creatubbles.api.service.NotificationService;
 import com.creatubbles.api.service.OAuthService;
+import com.creatubbles.api.service.PartnerApplicationService;
 import com.creatubbles.api.service.ReportService;
 import com.creatubbles.api.service.UploadService;
 import com.creatubbles.api.service.UserService;
@@ -160,12 +162,17 @@ public class ApiModule {
     }
 
     @Provides
+    ContentService provideContentService(ServiceGenerator serviceGenerator) {
+        return serviceGenerator.createService(ContentService.class, ContentType.VND_JSON, accessToken);
+    }
+
+    @Provides
     BubbleService provideBubbleService(ServiceGenerator serviceGenerator) {
         return serviceGenerator.createService(BubbleService.class, ContentType.VND_JSON, accessToken);
     }
 
     @Provides
-    NotificationService profideNotificationService(ServiceGenerator serviceGenerator) {
+    NotificationService provideNotificationService(ServiceGenerator serviceGenerator) {
         return serviceGenerator.createService(NotificationService.class, ContentType.VND_JSON, accessToken);
     }
 
@@ -177,6 +184,12 @@ public class ApiModule {
     @Provides
     AbilityService provideAbilityService(ServiceGenerator serviceGenerator) {
         return serviceGenerator.createService(AbilityService.class, ContentType.VND_JSON, accessToken);
+    }
+
+    @Provides
+    PartnerApplicationService providePartnerApplicationService(ServiceGenerator serviceGenerator) {
+        return serviceGenerator.createService(PartnerApplicationService.class, ContentType.VND_JSON,
+                accessToken);
     }
 
     /**

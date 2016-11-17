@@ -3,9 +3,10 @@ package com.creatubbles.api.di.components;
 import com.creatubbles.api.di.modules.ApiModule;
 import com.creatubbles.api.repository.AbilityRepositoryBuilder;
 import com.creatubbles.api.repository.ActivityRepositoryBuilder;
-import com.creatubbles.api.repository.BubbleRepositoryBuilder;
 import com.creatubbles.api.repository.AvatarRepositoryBuilder;
+import com.creatubbles.api.repository.BubbleRepositoryBuilder;
 import com.creatubbles.api.repository.CommentRepositoryBuilder;
+import com.creatubbles.api.repository.ContentRepositoryBuilder;
 import com.creatubbles.api.repository.CreationRepositoryBuilder;
 import com.creatubbles.api.repository.CustomStyleRepositoryBuilder;
 import com.creatubbles.api.repository.GalleryRepositoryBuilder;
@@ -13,6 +14,7 @@ import com.creatubbles.api.repository.GroupRepositoryBuilder;
 import com.creatubbles.api.repository.LandingUrlsRepositoryBuilder;
 import com.creatubbles.api.repository.NotificationRepositoryBuilder;
 import com.creatubbles.api.repository.OAuthRepositoryBuilder;
+import com.creatubbles.api.repository.PartnerApplicationRepositoryBuilder;
 import com.creatubbles.api.repository.ReportRepositoryBuilder;
 import com.creatubbles.api.repository.UploadRepositoryBuilder;
 import com.creatubbles.api.repository.UserFollowingRepositoryBuilder;
@@ -60,4 +62,8 @@ public interface ApiComponent {
     void inject(NotificationRepositoryBuilder target);
 
     void inject(AbilityRepositoryBuilder abilityRepositoryBuilder);
+
+    void inject(PartnerApplicationRepositoryBuilder target);
+
+    void inject(ContentRepositoryBuilder target);
 }

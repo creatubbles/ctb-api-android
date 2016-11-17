@@ -606,6 +606,88 @@
             android:onClick="onGetAbilityClicked"
             android:enabled="false" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="true"
+            android:text="Partner Applications methods:" />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/find_partner_applications"
+            android:text="Find partner applications"
+            android:onClick="onGetPartnerApplicationsClicked"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_partner_app_by_id"
+            android:text="Get partner application by id"
+            android:onClick="onGetSpecificPartnerApplicationClicked"
+            android:enabled="false" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="true"
+            android:text="Contents methods:" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_content_btn"
+            android:text="Get Content"
+            android:onClick="onGetContentClicked"
+            android:enabled="false"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_recent_content_btn"
+            android:text="Get Recent Content"
+            android:onClick="onGetRecentContentClicked"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_followed_content_btn"
+            android:text="Get Followed Content"
+            android:onClick="onGetFollowedContentClicked"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_trending_content_btn"
+            android:text="Get Trending Content"
+            android:onClick="onGetTrendingContentClicked"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_connected_content_btn"
+            android:text="Get Connected Content"
+            android:onClick="onGetConnectedContentClicked"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_content_by_user_btn"
+            android:text="Get Content by User"
+            android:onClick="onGetContentClicked"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_content_bubbled_by_user_btn"
+            android:text="Get Content bubbled by User"
+            android:onClick="onGetContentBubbledByUserClicked"
+            android:enabled="false" />
     </LinearLayout>
 </ScrollView>
