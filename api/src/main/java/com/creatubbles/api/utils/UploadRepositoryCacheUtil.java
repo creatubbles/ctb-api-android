@@ -3,13 +3,8 @@ package com.creatubbles.api.utils;
 import android.content.Context;
 import android.content.ContextWrapper;
 
-import com.creatubbles.api.exception.ErrorResponse;
-import com.creatubbles.api.repository.UploadRepository;
-import com.creatubbles.api.repository.UploadRepositoryBuilder;
-import com.creatubbles.api.response.ResponseCallback;
 import com.pixplicity.easyprefs.library.Prefs;
 
-import java.io.File;
 import java.util.LinkedHashSet;
 
 import okhttp3.MediaType;
@@ -73,7 +68,7 @@ public class UploadRepositoryCacheUtil {
         String[] uploadFileTypeArray = uploadFileTypeSet.toArray(new String[uploadFileTypeSet.size()]);
         for(int i = 0; i < uploadFileNameArray.length; i++) {
 
-            UploadRepository uploadRepository = new UploadRepositoryBuilder()
+            /*UploadRepository uploadRepository = new UploadRepositoryBuilder()
                     .build();
 
             uploadRepository.uploadFile(uploadFileUrlArray[i],
@@ -86,7 +81,7 @@ public class UploadRepositoryCacheUtil {
 
                         @Override
                         public void onError(String message) {}
-                    });
+                    });*/
         }
     }
 

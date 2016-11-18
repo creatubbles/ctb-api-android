@@ -300,14 +300,15 @@
             android:id="@+id/upload_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Send file to AWS S3 - first click: [CREATE UPLOAD] "
+            android:text="Send file to AWS S3 - first click: [CREATE CREATION] "
             android:layout_marginTop="15dp"/>
+
         <EditText
-        android:id="@+id/file_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:enabled="false"
-        android:hint="Enter file name with full path" />
+            android:id="@+id/file_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:hint="Full path to image file" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

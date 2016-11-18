@@ -89,8 +89,6 @@ import com.creatubbles.api.repository.ReportRepository;
 import com.creatubbles.api.repository.ReportRepositoryBuilder;
 import com.creatubbles.api.repository.SchoolRepository;
 import com.creatubbles.api.repository.SchoolRepositoryBuilder;
-import com.creatubbles.api.repository.UploadRepository;
-import com.creatubbles.api.repository.UploadRepositoryBuilder;
 import com.creatubbles.api.repository.UserFollowingRepository;
 import com.creatubbles.api.repository.UserFollowingRepositoryBuilder;
 import com.creatubbles.api.repository.UserRepository;
@@ -106,7 +104,6 @@ import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import okhttp3.MediaType;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -518,6 +515,8 @@ public class MainActivity extends AppCompatActivity {
                         if (galleryId != null) {
                             submitCreation.setEnabled(true);
                         }
+                        sendFileBtn.setEnabled(true);
+                        fileName.setEnabled(true);
                     }
 
                     @Override
@@ -557,35 +556,6 @@ public class MainActivity extends AppCompatActivity {
                         .show();
             }
         });
-    }
-
-    public void onCreateUploadClicked(View btn) {
-        CreationRepository creationRepository = new CreationRepositoryBuilder(accessToken)
-                .build();
-
-        creationRepository.startUpload(creationId, ContentType.JPG,
-                new ResponseCallback<CreatubblesResponse<Upload>>() {
-                    @Override
-                    public void onSuccess(CreatubblesResponse<Upload> response) {
-                        Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_SHORT)
-                                .show();
-
-                        responseFromCreateUpload = response.getData();
-                        sendFileBtn.setEnabled(true);
-                        fileName.setEnabled(true);
-                    }
-
-                    @Override
-                    public void onServerError(ErrorResponse errorResponse) {
-
-                    }
-
-                    @Override
-                    public void onError(String message) {
-
-                    }
-                });
-
     }
 
     public void onGetCreationByIdClicked(View btn) {
@@ -640,45 +610,25 @@ public class MainActivity extends AppCompatActivity {
         } else {
             File file = new File(filePath);
 
-            UploadRepository uploadRepository = new UploadRepositoryBuilder()
+            CreationRepository creationRepository = new CreationRepositoryBuilder(accessToken)
                     .build();
-            uploadRepository.uploadFile(responseFromCreateUpload.getUrl(),
-                    MediaType.parse(responseFromCreateUpload.getContentType()), file, new ResponseCallback<String>() {
-                        @Override
-                        public void onSuccess(String response) {
+            creationRepository.uploadFile(creationId, file, ContentType.JPG, new ResponseCallback<Void>() {
+                @Override
+                public void onSuccess(Void response) {
+                    Toast.makeText(MainActivity.this, "Upload successful", Toast.LENGTH_SHORT).show();
+                }
 
-                            CreationRepository creationRepository = new CreationRepositoryBuilder(accessToken)
-                                    .build();
-                            creationRepository.finishUpload(responseFromCreateUpload, null,
-                                    new ResponseCallback<Void>() {
-                                        @Override
-                                        public void onSuccess(Void response) {
-                                            Toast.makeText(MainActivity.this, "Successful uploading!", Toast
-                                                    .LENGTH_SHORT).show();
-                                        }
+                @Override
+                public void onServerError(ErrorResponse errorResponse) {
+                    displayError(errorResponse);
+                }
 
-                                        @Override
-                                        public void onServerError(ErrorResponse errorResponse) {
+                @Override
+                public void onError(String message) {
+                    Log.e("sendFile()", message);
+                }
+            });
 
-                                        }
-
-                                        @Override
-                                        public void onError(String message) {
-
-                                        }
-                                    });
-                        }
-
-                        @Override
-                        public void onServerError(ErrorResponse errorResponse) {
-                            Log.e("TEST", errorResponse.getErrors().get(0).getDetail());
-                        }
-
-                        @Override
-                        public void onError(String message) {
-                            Log.e("TEST", message);
-                        }
-                    });
         }
     }
 

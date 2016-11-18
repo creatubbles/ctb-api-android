@@ -8,9 +8,9 @@ import com.creatubbles.api.model.CreatubblesResponse;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.creation.ToybooDetails;
 import com.creatubbles.api.model.image_manipulation.ImageManipulation;
-import com.creatubbles.api.model.upload.Upload;
 import com.creatubbles.api.response.ResponseCallback;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -100,22 +100,13 @@ public interface CreationRepository {
     void remove(@NonNull String creationId, ResponseCallback<Void> callback);
 
     /**
-     * Method is used to create an instance of {@link Upload} class.
-     * That object contains all the information required to upload a file for a given Creation.
      *
      * @param creationId  ID of the Creation for which we want to upload a file
+     * @param file
      * @param contentType the content type of the file you intend to upload
+     * @param callback
      */
-    void startUpload(@NonNull String creationId, @NonNull ContentType contentType, ResponseCallback<CreatubblesResponse<Upload>> callback);
-
-    /**
-     * Method used to notify the server that the upload was completed.
-     * When for some reason upload was aborted or failed then use non-null {@code abortReason} param to indicate the reason.
-     *
-     * @param upload      object obtained from {@link #startUpload(String, ContentType, ResponseCallback)} method
-     * @param abortReason argument included when upload fails. Include the body returned by the failed upload attempt or 'user' in case the user aborted the upload
-     */
-    void finishUpload(@NonNull Upload upload, @Nullable String abortReason, ResponseCallback<Void> callback);
+    void uploadFile(@NonNull String creationId, @NonNull File file, @NonNull ContentType contentType, ResponseCallback<Void> callback);
 
     /**
      * Method used to modify image of a creation identified by {@code creationId}.
