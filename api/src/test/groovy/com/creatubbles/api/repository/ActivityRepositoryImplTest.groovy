@@ -1,6 +1,5 @@
 package com.creatubbles.api.repository
 
-import com.creatubbles.api.response.ResponseCallback
 import com.creatubbles.api.service.ActivityService
 import com.fasterxml.jackson.databind.ObjectMapper
 import retrofit2.Call
@@ -29,7 +28,7 @@ class ActivityRepositoryImplTest extends Specification {
     }
 
     def anyCallback() {
-        Mock(ResponseCallback)
+        null
     }
 
     def anyCall() {

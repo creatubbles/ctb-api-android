@@ -18,7 +18,7 @@ class ContentRepositoryBuilderTest extends Specification {
         CreatubblesApi.reset();
     }
 
-    def "should fail to create without auth token"() {
+    def "should fail to create without access token"() {
         when:
         new ContentRepositoryBuilder(null)
         then:

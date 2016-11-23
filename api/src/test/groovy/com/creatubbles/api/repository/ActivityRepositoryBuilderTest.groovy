@@ -4,6 +4,7 @@ import com.creatubbles.api.CreatubblesApi
 import com.creatubbles.api.TestUtils
 import com.creatubbles.api.model.auth.AccessToken
 import spock.lang.Specification
+
 /**
  * Created by mariuszostapowicz on 26.10.2016.
  */
@@ -18,7 +19,7 @@ class ActivityRepositoryBuilderTest extends Specification {
         CreatubblesApi.reset();
     }
 
-    def "should not create repository without auth token"() {
+    def "should not create repository without access token"() {
         when:
         new ActivityRepositoryBuilder(null)
 
@@ -26,7 +27,7 @@ class ActivityRepositoryBuilderTest extends Specification {
         thrown(NullPointerException)
     }
 
-    def "should create repository with auth token"() {
+    def "should create repository with access token"() {
         given:
         def builder = new ActivityRepositoryBuilder(anyToken());
 

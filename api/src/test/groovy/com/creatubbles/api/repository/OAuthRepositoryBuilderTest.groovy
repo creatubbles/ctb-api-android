@@ -2,10 +2,10 @@ package com.creatubbles.api.repository
 
 import com.creatubbles.api.CreatubblesApi
 import com.creatubbles.api.TestUtils
-import com.creatubbles.api.model.auth.UserAccessToken
 import spock.lang.Specification
 
-class ReportRepositoryBuilderTest extends Specification {
+class OAuthRepositoryBuilderTest extends Specification {
+
 
     void setup() {
         TestUtils.initializeCreatubblesApi();
@@ -16,17 +16,9 @@ class ReportRepositoryBuilderTest extends Specification {
         CreatubblesApi.reset();
     }
 
-    def "should not create repository without access token"() {
-        when:
-        new ReportRepositoryBuilder(null)
-
-        then:
-        thrown(NullPointerException)
-    }
-
     def "should create repository with access token"() {
         given:
-        def builder = new ReportRepositoryBuilder(anyToken());
+        def builder = new OAuthRepositoryBuilder();
 
         when:
         def repository = builder.build()
@@ -36,7 +28,4 @@ class ReportRepositoryBuilderTest extends Specification {
         repository != null
     }
 
-    def anyToken() {
-        Mock(UserAccessToken)
-    }
 }

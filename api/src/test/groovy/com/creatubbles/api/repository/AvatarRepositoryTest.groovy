@@ -1,12 +1,10 @@
 package com.creatubbles.api.repository
 
 import com.creatubbles.api.model.user.avatar.Avatar
-import com.creatubbles.api.response.ResponseCallback
 import com.creatubbles.api.service.UserService
 import com.fasterxml.jackson.databind.ObjectMapper
 import retrofit2.Call
 import spock.lang.Specification
-
 
 /**
  * Created by Janek on 03.11.2016.
@@ -40,7 +38,7 @@ class AvatarRepositoryTest extends Specification {
     }
 
     def anyCallback() {
-        Mock(ResponseCallback)
+        null
     }
 
     def anyMapper() {

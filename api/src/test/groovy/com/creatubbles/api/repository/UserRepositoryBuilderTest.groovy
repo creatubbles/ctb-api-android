@@ -5,10 +5,7 @@ import com.creatubbles.api.TestUtils
 import com.creatubbles.api.model.auth.AccessToken
 import spock.lang.Specification
 
-/**
- * @author Pawel Szymanski
- */
-class NotificationRepositoryBuilderTest extends Specification {
+class UserRepositoryBuilderTest extends Specification {
 
     void setup() {
         TestUtils.initializeCreatubblesApi();
@@ -19,18 +16,21 @@ class NotificationRepositoryBuilderTest extends Specification {
         CreatubblesApi.reset();
     }
 
-    def "should fail to create without access token"() {
+    def "should not create repository without access token"() {
         when:
-        new NotificationRepositoryBuilder(null)
+        new UserRepositoryBuilder(null)
+
         then:
         thrown(NullPointerException)
     }
 
-    def "should create repository instance"() {
+    def "should create repository with access token"() {
         given:
-        def builder = new NotificationRepositoryBuilder(anyToken())
+        def builder = new UserRepositoryBuilder(anyToken());
+
         when:
         def repository = builder.build()
+
         then:
         noExceptionThrown()
         repository != null
