@@ -1,5 +1,7 @@
 package com.creatubbles.api.model;
 
+import android.support.annotation.NonNull;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -23,17 +25,12 @@ public class AuthToken {
 
     }
 
-    public AuthToken(String accessToken, String tokenType, Long expiresIn) {
-        this.accessToken = accessToken;
-        this.tokenType = tokenType;
-        this.expiresIn = expiresIn;
-    }
-
-
+    @NonNull
     public String getAccessToken() {
         return accessToken;
     }
 
+    @NonNull
     public String getTokenType() {
         // OAuth requires uppercase Authorization HTTP header value for token type
         if (!Character.isUpperCase(tokenType.charAt(0))) {

@@ -1,5 +1,7 @@
 package com.creatubbles.api.repository;
 
+import android.support.annotation.NonNull;
+
 import com.creatubbles.api.di.components.DaggerApiComponent;
 import com.creatubbles.api.di.modules.ApiModule;
 import com.creatubbles.api.model.auth.UserAccessToken;
@@ -31,6 +33,7 @@ public class GroupRepositoryBuilder {
         this.accessToken = accessToken;
     }
 
+    @NonNull
     public GroupRepository build() {
         DaggerApiComponent.builder()
                 .apiModule(ApiModule.getInstance(accessToken))

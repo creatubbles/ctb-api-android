@@ -1,5 +1,7 @@
 package com.creatubbles.api.repository;
 
+import android.support.annotation.NonNull;
+
 import com.creatubbles.api.di.components.DaggerApiComponent;
 import com.creatubbles.api.di.modules.ApiModule;
 import com.creatubbles.api.model.auth.AccessToken;
@@ -30,6 +32,7 @@ public class BubbleRepositoryBuilder {
         this.accessToken = accessToken;
     }
 
+    @NonNull
     public BubbleRepository build() {
         DaggerApiComponent.builder()
                 .apiModule(ApiModule.getInstance(accessToken))

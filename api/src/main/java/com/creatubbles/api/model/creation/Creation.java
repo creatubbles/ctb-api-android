@@ -1,5 +1,6 @@
 package com.creatubbles.api.model.creation;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.creatubbles.api.model.user.User;
@@ -24,7 +25,7 @@ public class Creation {
     private User user;
 
     @Relationship("creators")
-    private List<User> creators;
+    private List<User> creators = Collections.emptyList();
 
     @JsonProperty("name")
     private String name;
@@ -72,7 +73,7 @@ public class Creation {
     private ApprovalStatus approvalStatus;
 
     @JsonProperty("created_at_age_per_creator")
-    private Map<String, String> createdAtAgePerCreator;
+    private Map<String, String> createdAtAgePerCreator = Collections.emptyMap();
 
     @JsonProperty("reflection_text")
     private String reflectionText;
@@ -102,34 +103,42 @@ public class Creation {
         this.id = creationId;
     }
 
+    @NonNull
     public String getName() {
         return name;
     }
 
+    @NonNull
     public Date getCreatedAt() {
         return createdAt;
     }
 
+    @NonNull
     public Date getUpdatedAt() {
         return updatedAt;
     }
 
+    @NonNull
     public ImageStatus getImageStatus() {
         return imageStatus;
     }
 
+    @NonNull
     public Image getImage() {
         return image;
     }
 
+    @NonNull
     public Integer getBubblesCount() {
         return bubblesCount;
     }
 
+    @NonNull
     public Integer getCommentsCount() {
         return commentsCount;
     }
 
+    @NonNull
     public Integer getViewsCount() {
         return viewsCount;
     }
@@ -149,10 +158,12 @@ public class Creation {
         return lastSubmittedAt;
     }
 
+    @NonNull
     public List<TranslatedName> getTranslatedNames() {
         return translatedNames;
     }
 
+    @NonNull
     public String getShortUrl() {
         return shortUrl;
     }
@@ -162,6 +173,7 @@ public class Creation {
         return createdAtAge;
     }
 
+    @NonNull
     public ApprovalStatus getApprovalStatus() {
         return approvalStatus;
     }
@@ -170,6 +182,7 @@ public class Creation {
      * This is the hash of ids of creators related to creation with proper ages assigned.
      * It’s very useful for listing creators with information about how old it was when creation have been added.
      */
+    @NonNull
     public Map<String, String> getCreatedAtAgePerCreator() {
         return createdAtAgePerCreator;
     }
@@ -206,14 +219,17 @@ public class Creation {
         return playIframeUrl;
     }
 
+    @NonNull
     public String getId() {
         return id;
     }
 
+    @NonNull
     public User getUser() {
         return user;
     }
 
+    @NonNull
     public List<User> getCreators() {
         return creators;
     }

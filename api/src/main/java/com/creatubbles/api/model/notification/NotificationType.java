@@ -1,5 +1,7 @@
 package com.creatubbles.api.model.notification;
 
+import android.support.annotation.NonNull;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
@@ -53,6 +55,7 @@ public enum NotificationType {
     }
 
     @JsonValue
+    @NonNull
     public String getName() {
         return name;
     }

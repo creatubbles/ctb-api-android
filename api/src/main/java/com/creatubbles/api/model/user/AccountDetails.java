@@ -1,6 +1,9 @@
 package com.creatubbles.api.model.user;
 
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.creatubbles.api.exception.InvalidParametersException;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.school.School;
@@ -11,6 +14,7 @@ import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Relationship;
 import com.github.jasminb.jsonapi.annotations.Type;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -48,19 +52,19 @@ public class AccountDetails {
     private String uiLocale;
 
     @JsonProperty("group_list")
-    private List<String> groupList;
+    private List<String> groupList = Collections.emptyList();
 
     @JsonProperty("owned_tags")
-    private List<String> ownedTags;
+    private List<String> ownedTags = Collections.emptyList();
 
     @JsonProperty("preapprove_comments")
-    private Boolean preapproveComments;
+    private boolean preapproveComments;
 
     @JsonProperty("receive_notifications")
-    private Boolean receiveNotifications;
+    private boolean receiveNotifications;
 
     @JsonProperty("newsletter")
-    private Boolean receiveNewsletter;
+    private boolean receiveNewsletter;
 
     @JsonProperty("what_do_you_teach")
     private String whatDoYouTeach;
@@ -102,7 +106,7 @@ public class AccountDetails {
     }
 
     @SuppressWarnings("WeakerAccess")
-    AccountDetails(String username, String displayName, String name, String email, Integer birthMonth, Integer birthYear, AgeDisplayType ageDisplayType, String uiLocale, Boolean preapproveComments, Boolean receiveNotifications, Boolean receiveNewsletter, String whatDoYouTeach, String interests, String countryCode, Creation avatarCreation) {
+    AccountDetails(String username, String displayName, String name, String email, Integer birthMonth, Integer birthYear, AgeDisplayType ageDisplayType, String uiLocale, boolean preapproveComments, boolean receiveNotifications, boolean receiveNewsletter, String whatDoYouTeach, String interests, String countryCode, Creation avatarCreation) {
         this.username = username;
         this.displayName = displayName;
         this.name = name;
@@ -120,110 +124,134 @@ public class AccountDetails {
         this.avatarCreation = avatarCreation;
     }
 
+    @NonNull
     public String getId() {
         return id;
     }
 
+    @NonNull
     public String getUsername() {
         return username;
     }
 
+    @NonNull
     public String getDisplayName() {
         return displayName;
     }
 
+    @NonNull
     public String getName() {
         return name;
     }
 
+    @NonNull
     public String getEmail() {
         return email;
     }
 
+    @Nullable
     public Integer getBirthMonth() {
         return birthMonth;
     }
 
+    @Nullable
     public Integer getBirthYear() {
         return birthYear;
     }
 
+    @NonNull
     public AgeDisplayType getAgeDisplayType() {
         return ageDisplayType;
     }
 
+    @NonNull
     public String getUiLocale() {
         return uiLocale;
     }
 
+    @NonNull
     public List<String> getGroupList() {
         return groupList;
     }
 
+    @NonNull
     public List<String> getOwnedTags() {
         return ownedTags;
     }
 
-    public Boolean getPreapproveComments() {
+    public boolean getPreapproveComments() {
         return preapproveComments;
     }
 
-    public Boolean getReceiveNotifications() {
+    public boolean getReceiveNotifications() {
         return receiveNotifications;
     }
 
-    public Boolean getReceiveNewsletter() {
+    public boolean getReceiveNewsletter() {
         return receiveNewsletter;
     }
 
+    @Nullable
     public String getWhatDoYouTeach() {
         return whatDoYouTeach;
     }
 
+    @Nullable
     public String getInterests() {
         return interests;
     }
 
+    @NonNull
     public Integer getManagedCreatorsCount() {
         return managedCreatorsCount;
     }
 
+    @Nullable
     public String getCountryCode() {
         return countryCode;
     }
 
+    @Nullable
     public String getPendingAvatarUrl() {
         return pendingAvatarUrl;
     }
 
+    @Nullable
     public Date getPasswordUpdatedAt() {
         return passwordUpdatedAt;
     }
 
+    @Nullable
     public Date getCurrentSignInAt() {
         return currentSignInAt;
     }
 
+    @NonNull
     public Date getCreatedAt() {
         return createdAt;
     }
 
+    @NonNull
     public Date getUpdatedAt() {
         return updatedAt;
     }
 
+    @NonNull
     public User getUser() {
         return user;
     }
 
+    @Nullable
     public Creation getAvatarCreation() {
         return avatarCreation;
     }
 
+    @Nullable
     public School getSchool() {
         return school;
     }
 
+    @NonNull
     public Role getRole() {
         return role;
     }
@@ -270,9 +298,9 @@ public class AccountDetails {
         private Integer birthYear;
         private AgeDisplayType ageDisplayType;
         private String uiLocale;
-        private Boolean preapproveComments;
-        private Boolean receiveNotifications;
-        private Boolean receiveNewsletter;
+        private boolean preapproveComments;
+        private boolean receiveNotifications;
+        private boolean receiveNewsletter;
         private String whatDoYouTeach;
         private String interests;
         private String countryCode;
@@ -330,17 +358,17 @@ public class AccountDetails {
             return this;
         }
 
-        public Builder setPreapproveComments(Boolean preapproveComments) {
+        public Builder setPreapproveComments(boolean preapproveComments) {
             this.preapproveComments = preapproveComments;
             return this;
         }
 
-        public Builder setReceiveNotifications(Boolean receiveNotifications) {
+        public Builder setReceiveNotifications(boolean receiveNotifications) {
             this.receiveNotifications = receiveNotifications;
             return this;
         }
 
-        public Builder setReceiveNewsletter(Boolean receiveNewsletter) {
+        public Builder setReceiveNewsletter(boolean receiveNewsletter) {
             this.receiveNewsletter = receiveNewsletter;
             return this;
         }

@@ -1,5 +1,6 @@
 package com.creatubbles.api.model.user;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -78,10 +79,10 @@ public class User {
     private String countryName;
 
     @JsonProperty("signed_up_as_instructor")
-    private Boolean signedUpAsInstructor;
+    private boolean signedUpAsInstructor;
 
     @JsonProperty("home_schooling")
-    private Boolean homeSchooling;
+    private boolean homeSchooling;
 
     @JsonProperty("what_do_you_teach")
     private String whatDoYouTeach;
@@ -100,18 +101,22 @@ public class User {
         this.id = id;
     }
 
+    @NonNull
     public String getId() {
         return id;
     }
 
+    @NonNull
     public String getUsername() {
         return username;
     }
 
+    @NonNull
     public String getDisplayName() {
         return displayName;
     }
 
+    @NonNull
     public String getName() {
         return name;
     }
@@ -119,14 +124,17 @@ public class User {
     /**
      * Method returns role set at sign-up and can be either ‘creator’, 'parent’ or 'instructor’.
      */
+    @NonNull
     public Role getRole() {
         return role;
     }
 
+    @NonNull
     public Date getCreatedAt() {
         return createdAt;
     }
 
+    @NonNull
     public Date getUpdatedAt() {
         return updatedAt;
     }
@@ -151,6 +159,7 @@ public class User {
         return lastCommentedAt;
     }
 
+    @NonNull
     public Integer getAddedBubblesCount() {
         return addedBubblesCount;
     }
@@ -158,6 +167,7 @@ public class User {
     /**
      * @return number of activities on this user.
      */
+    @NonNull
     public Integer getActivitiesCount() {
         return activitiesCount;
     }
@@ -165,6 +175,7 @@ public class User {
     /**
      * @return number of bubbles this user received
      */
+    @NonNull
     public Integer getBubblesCount() {
         return bubblesCount;
     }
@@ -172,6 +183,7 @@ public class User {
     /**
      * @return number of comments this user received
      */
+    @NonNull
     public Integer getCommentsCount() {
         return commentsCount;
     }
@@ -179,6 +191,7 @@ public class User {
     /**
      * @return number of creations the user created
      */
+    @NonNull
     public Integer getCreationsCount() {
         return creationsCount;
     }
@@ -186,6 +199,7 @@ public class User {
     /**
      * @return number of creators
      */
+    @NonNull
     public Integer getCreatorsCount() {
         return creatorsCount;
     }
@@ -193,6 +207,7 @@ public class User {
     /**
      * @return number of galleries the user created
      */
+    @NonNull
     public Integer getGalleriesCount() {
         return galleriesCount;
     }
@@ -200,10 +215,12 @@ public class User {
     /**
      * @return number of managers for this user
      */
+    @NonNull
     public Integer getManagersCount() {
         return managersCount;
     }
 
+    @NonNull
     public String getShortUrl() {
         return shortUrl;
     }
@@ -218,15 +235,15 @@ public class User {
         return countryName;
     }
 
-    public Boolean getSignedUpAsInstructor() {
+    public boolean getSignedUpAsInstructor() {
         return signedUpAsInstructor;
     }
 
-    @Nullable
-    public Boolean getHomeSchooling() {
+    public boolean getHomeSchooling() {
         return homeSchooling;
     }
 
+    @NonNull
     public String getListName() {
         return listName;
     }

@@ -1,5 +1,7 @@
 package com.creatubbles.api.repository;
 
+import android.support.annotation.NonNull;
+
 import com.creatubbles.api.Configuration;
 import com.creatubbles.api.di.components.DaggerApiComponent;
 import com.creatubbles.api.di.modules.ApiModule;
@@ -21,6 +23,7 @@ public class OAuthRepositoryBuilder {
     ObjectMapper objectMapper;
 
 
+    @NonNull
     public OAuthRepository build() {
         DaggerApiComponent.builder().apiModule(ApiModule.getInstance()).build().inject(this);
         OAuthRepository oAuthRepository = new OAuthRepositoryImpl(objectMapper, oAuthService);

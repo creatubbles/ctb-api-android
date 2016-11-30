@@ -1,5 +1,7 @@
 package com.creatubbles.api.model.notification;
 
+import android.support.annotation.NonNull;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.jasminb.jsonapi.annotations.Id;
 
@@ -17,10 +19,17 @@ abstract class Entity {
     @JsonProperty("end_pos")
     private Integer endPosition;
 
+    @NonNull
+    public String getId() {
+        return id;
+    }
+
+    @NonNull
     public Integer getStartPosition() {
         return startPosition;
     }
 
+    @NonNull
     public Integer getEndPosition() {
         return endPosition;
     }

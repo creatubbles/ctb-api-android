@@ -1,5 +1,6 @@
 package com.creatubbles.api.model.partner_application;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.creatubbles.api.model.ImageLinks;
@@ -43,7 +44,7 @@ public class PartnerApplication {
     private String ctaLoggedOutLabel;
 
     @JsonProperty("reqeust_cta_for_youngsters") // intentional typo
-    private Boolean requestCtaForYoungsters;
+    private boolean requestCtaForYoungsters;
 
     @JsonProperty("cta_for_youngsters_label")
     private String ctaForYoungstersLabel;
@@ -64,7 +65,7 @@ public class PartnerApplication {
     private String platforms;
 
     @JsonProperty("show_other_apps")
-    private Boolean showOtherApps;
+    private boolean showOtherApps;
 
     @JsonProperty("display_creations_nr")
     private Integer displayCreationsNr;
@@ -102,7 +103,6 @@ public class PartnerApplication {
     @JsonProperty("updated_at")
     private Date updatedAt;
 
-
     @Relationship("gallery")
     private Gallery gallery;
 
@@ -112,26 +112,32 @@ public class PartnerApplication {
     @Relationship("app_screenshots")
     private List<AppScreenshot> appScreenshots;
 
+    @NonNull
     public String getId() {
         return id;
     }
 
+    @NonNull
     public String getName() {
         return name;
     }
 
+    @NonNull
     public String getSlug() {
         return slug;
     }
 
+    @NonNull
     public String getShortUrl() {
         return shortUrl;
     }
 
+    @Nullable
     public ImageLinks getHeaderBg() {
         return headerBg;
     }
 
+    @Nullable
     public ImageLinks getBodyBg() {
         return bodyBg;
     }
@@ -151,7 +157,7 @@ public class PartnerApplication {
         return ctaLoggedOutLabel;
     }
 
-    public Boolean getRequestCtaForYoungsters() {
+    public boolean getRequestCtaForYoungsters() {
         return requestCtaForYoungsters;
     }
 
@@ -195,7 +201,7 @@ public class PartnerApplication {
         return platforms;
     }
 
-    public Boolean getShowOtherApps() {
+    public boolean getShowOtherApps() {
         return showOtherApps;
     }
 
@@ -249,14 +255,17 @@ public class PartnerApplication {
         return avatarUrl;
     }
 
+    @NonNull
     public Date getCreatedAt() {
         return createdAt;
     }
 
+    @NonNull
     public Date getUpdatedAt() {
         return updatedAt;
     }
 
+    @NonNull
     public Gallery getGallery() {
         return gallery;
     }

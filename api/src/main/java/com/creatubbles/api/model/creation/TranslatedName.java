@@ -1,16 +1,19 @@
 package com.creatubbles.api.model.creation;
 
+import android.support.annotation.NonNull;
+
 public class TranslatedName {
 
     private String code;
 
     private String name;
 
-    private Boolean original;
+    private boolean original;
 
     /**
      * @return language code
      */
+    @NonNull
     public String getCode() {
         return code;
     }
@@ -18,6 +21,7 @@ public class TranslatedName {
     /**
      * @return name in given language
      */
+    @NonNull
     public String getName() {
         return name;
     }
@@ -25,7 +29,7 @@ public class TranslatedName {
     /**
      * @return value indicating whether this is the original entered by user (true) or translated (false) version
      */
-    public Boolean getOriginal() {
+    public boolean isOriginal() {
         return original;
     }
 

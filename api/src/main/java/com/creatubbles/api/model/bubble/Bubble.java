@@ -1,5 +1,6 @@
 package com.creatubbles.api.model.bubble;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.creatubbles.api.exception.InvalidParametersException;
@@ -32,7 +33,7 @@ public class Bubble {
     private Double yPos;
 
     @JsonProperty("random_pos")
-    private Boolean randomPos;
+    private boolean randomPos;
 
     private String color;
 
@@ -65,6 +66,7 @@ public class Bubble {
         this.color = color;
     }
 
+    @NonNull
     public String getId() {
         return id;
     }
@@ -88,8 +90,7 @@ public class Bubble {
     /**
      * @return {@code null} if bubble is not on Creation
      */
-    @Nullable
-    public Boolean getRandomPos() {
+    public boolean isRandomPos() {
         return randomPos;
     }
 
@@ -109,6 +110,7 @@ public class Bubble {
         return colorHex;
     }
 
+    @NonNull
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -116,6 +118,7 @@ public class Bubble {
     /**
      * @return object representing User who created this bubble
      */
+    @NonNull
     public User getBubbler() {
         return bubbler;
     }

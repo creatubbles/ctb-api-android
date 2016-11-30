@@ -1,5 +1,7 @@
 package com.creatubbles.api.model;
 
+import android.support.annotation.NonNull;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
@@ -31,6 +33,7 @@ public enum Operation {
     }
 
     @JsonValue
+    @NonNull
     public String getOperationName() {
         return operationName;
     }

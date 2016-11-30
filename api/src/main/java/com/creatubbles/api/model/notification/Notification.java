@@ -1,5 +1,8 @@
 package com.creatubbles.api.model.notification;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.creatubbles.api.model.GallerySubmission;
 import com.creatubbles.api.model.comment.Comment;
 import com.creatubbles.api.model.creation.Creation;
@@ -42,7 +45,7 @@ public class Notification {
     private String shortText;
 
     @JsonProperty("is_new")
-    private Boolean isNew;
+    private boolean isNew;
 
     @JsonProperty("created_at")
     private Date createdAt;
@@ -75,62 +78,76 @@ public class Notification {
     private List<CreationEntity> creationEntities;
 
 
+    @NonNull
     public String getId() {
         return id;
     }
 
+    @NonNull
     public NotificationType getType() {
         return type;
     }
 
+    @NonNull
     public String getText() {
         return text;
     }
 
+    @NonNull
     public String getShortText() {
         return shortText;
     }
 
-    public Boolean getNew() {
+    public boolean isNew() {
         return isNew;
     }
 
+    @NonNull
     public Date getCreatedAt() {
         return createdAt;
     }
 
+    @NonNull
     public Date getUpdatedAt() {
         return updatedAt;
     }
 
+    @Nullable
     public Creation getCreation() {
         return creation;
     }
 
+    @Nullable
     public User getUser() {
         return user;
     }
 
+    @Nullable
     public Gallery getGallery() {
         return gallery;
     }
 
+    @Nullable
     public Comment getComment() {
         return comment;
     }
 
+    @Nullable
     public GallerySubmission getGallerySubmission() {
         return gallerySubmission;
     }
 
+    @Nullable
     public List<UserEntity> getUserEntities() {
         return userEntities;
     }
 
+    @Nullable
     public List<GalleryEntity> getGalleryEntities() {
         return galleryEntities;
     }
 
+    @Nullable
     public List<CreationEntity> getCreationEntities() {
         return creationEntities;
     }

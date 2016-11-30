@@ -1,5 +1,7 @@
 package com.creatubbles.api.repository;
 
+import android.support.annotation.NonNull;
+
 import com.creatubbles.api.Configuration;
 import com.creatubbles.api.di.components.DaggerApiComponent;
 import com.creatubbles.api.di.modules.ApiModule;
@@ -22,6 +24,7 @@ public class UploadRepositoryBuilder {
     @Inject
     ObjectMapper objectMapper;
 
+    @NonNull
     public UploadRepository build() {
         DaggerApiComponent.builder().apiModule(ApiModule.getInstance()).build().inject(this);
         return new UploadRepositoryImpl(objectMapper, uploadService, configuration.getContext());

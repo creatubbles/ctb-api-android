@@ -29,6 +29,7 @@ public class AvatarSuggestion {
     @JsonProperty("url")
     private String avatarUrl;
 
+    @NonNull
     public String getId() {
         return id;
     }
