@@ -1,6 +1,7 @@
 
 package com.creatubbles.api.model.school;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -41,10 +42,12 @@ public class School {
         this.countryCode = countryCode;
     }
 
+    @NonNull
     public String getId() {
         return id;
     }
 
+    @NonNull
     public String getName() {
         return name;
     }

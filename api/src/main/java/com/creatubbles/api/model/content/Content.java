@@ -1,5 +1,8 @@
 package com.creatubbles.api.model.content;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.creatubbles.api.model.ObjectType;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.gallery.Gallery;
@@ -35,22 +38,27 @@ public class Content {
         super();
     }
 
+    @NonNull
     public String getId() {
         return id;
     }
 
+    @NonNull
     public ObjectType getType() {
         return type;
     }
 
+    @Nullable
     public Creation getCreation() {
         return creation;
     }
 
+    @Nullable
     public User getUser() {
         return user;
     }
 
+    @Nullable
     public Gallery getGallery() {
         return gallery;
     }

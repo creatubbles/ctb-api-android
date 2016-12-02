@@ -1,5 +1,6 @@
 package com.creatubbles.api.model.gallery;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.creatubbles.api.model.user.User;
@@ -24,7 +25,7 @@ public class Gallery {
     private String description;
 
     @JsonProperty("open_for_all")
-    private Boolean openForAll;
+    private boolean openForAll;
 
     @JsonProperty("created_at")
     private String createdAt;
@@ -62,10 +63,12 @@ public class Gallery {
         this.id = galleryId;
     }
 
+    @NonNull
     public String getId() {
         return id;
     }
 
+    @NonNull
     public String getName() {
         return name;
     }
@@ -86,7 +89,7 @@ public class Gallery {
      * @param openForAll (optional) value indicating if everyone can sumbit creations to this gallery
      * @param owner (optional) if null then current user is assumed.
      */
-    public Gallery(String name, String description, Boolean openForAll, User owner) {
+    public Gallery(String name, String description, boolean openForAll, User owner) {
         this.name = name;
         this.description = description;
         this.openForAll = openForAll;
@@ -96,14 +99,16 @@ public class Gallery {
     /**
      * @return boolean indicating if everyone can submit creations to this gallery
      */
-    public Boolean getOpenForAll() {
+    public boolean getOpenForAll() {
         return openForAll;
     }
 
+    @NonNull
     public String getCreatedAt() {
         return createdAt;
     }
 
+    @NonNull
     public String getUpdatedAt() {
         return updatedAt;
     }
@@ -118,18 +123,22 @@ public class Gallery {
         return lastCommentedAt;
     }
 
+    @NonNull
     public Integer getCreationsCount() {
         return creationsCount;
     }
 
+    @NonNull
     public Integer getBubblesCount() {
         return bubblesCount;
     }
 
+    @NonNull
     public Integer getCommentsCount() {
         return commentsCount;
     }
 
+    @NonNull
     public String getShortUrl() {
         return shortUrl;
     }
@@ -139,10 +148,12 @@ public class Gallery {
         return banner;
     }
 
+    @NonNull
     public List<String> getPreviewImageUrls() {
         return previewImageUrls;
     }
 
+    @NonNull
     public User getOwner() {
         return owner;
     }

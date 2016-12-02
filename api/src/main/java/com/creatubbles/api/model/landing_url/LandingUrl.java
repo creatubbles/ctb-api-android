@@ -1,5 +1,7 @@
 package com.creatubbles.api.model.landing_url;
 
+import android.support.annotation.NonNull;
+
 import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Type;
 
@@ -15,10 +17,12 @@ public class LandingUrl {
 
     private String url;
 
+    @NonNull
     public String getId() {
         return id;
     }
 
+    @NonNull
     public String getUrl() {
         return url;
     }

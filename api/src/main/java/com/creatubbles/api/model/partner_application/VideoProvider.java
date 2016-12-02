@@ -1,5 +1,7 @@
 package com.creatubbles.api.model.partner_application;
 
+import android.support.annotation.NonNull;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
@@ -19,6 +21,7 @@ public enum VideoProvider {
     }
 
     @JsonValue
+    @NonNull
     public String getName() {
         return name;
     }

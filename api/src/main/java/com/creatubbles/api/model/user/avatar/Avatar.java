@@ -1,5 +1,6 @@
 package com.creatubbles.api.model.user.avatar;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.creatubbles.api.model.creation.Creation;
@@ -47,6 +48,7 @@ public class Avatar {
     @JsonProperty("updated_at")
     private Date updatedAt;
 
+    @NonNull
     public String getId() {
         return id;
     }
@@ -61,10 +63,12 @@ public class Avatar {
         return pendingAvatarUrl;
     }
 
+    @NonNull
     public Date getCreatedAt() {
         return createdAt;
     }
 
+    @NonNull
     public Date getUpdatedAt() {
         return updatedAt;
     }

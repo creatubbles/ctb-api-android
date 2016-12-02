@@ -1,5 +1,6 @@
 package com.creatubbles.api.model.upload;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -31,17 +32,18 @@ public class Upload {
     @JsonProperty("completed_at")
     private Date completedAt;
 
-    private Boolean aborted;
+    private boolean aborted;
 
     @JsonProperty("aborted_with")
     private String abortedWith;
 
     @JsonProperty("processing_completed")
-    private Boolean processingCompleted;
+    private boolean processingCompleted;
 
     @JsonProperty("processing_details")
     private Object processingDetails;
 
+    @NonNull
     public String getId() {
         return id;
     }
@@ -54,6 +56,7 @@ public class Upload {
         return url;
     }
 
+    @NonNull
     public String getContentType() {
         return contentType;
     }
@@ -61,14 +64,17 @@ public class Upload {
     /**
      * @return URL to ping after upload completed or failed
      */
+    @NonNull
     public String getPingUrl() {
         return pingUrl;
     }
 
+    @NonNull
     public Date getCreatedAt() {
         return createdAt;
     }
 
+    @NonNull
     public Date getUpdatedAt() {
         return updatedAt;
     }
@@ -81,11 +87,10 @@ public class Upload {
         return completedAt;
     }
 
-
     /**
      * @return true if upload or processing failed
      */
-    public Boolean getAborted() {
+    public boolean getAborted() {
         return aborted;
     }
 
@@ -100,7 +105,7 @@ public class Upload {
     /**
      * @return true after processing finished
      */
-    public Boolean getProcessingCompleted() {
+    public boolean getProcessingCompleted() {
         return processingCompleted;
     }
 

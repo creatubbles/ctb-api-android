@@ -1,5 +1,6 @@
 package com.creatubbles.api.model.partner_application;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,7 +17,7 @@ public class AppScreenshot {
     private String id;
     private String url;
     @JsonProperty("is_video")
-    private Boolean video;
+    private boolean video;
     private String vid;
     private String title;
     private VideoProvider provider;
@@ -33,7 +34,7 @@ public class AppScreenshot {
     /**
      * @return false in case of image, true if this is a video
      */
-    public Boolean isVideo() {
+    public boolean isVideo() {
         return video;
     }
 
@@ -48,10 +49,12 @@ public class AppScreenshot {
     /**
      * Title for popup which displays the video
      */
+    @Nullable
     public String getTitle() {
         return title;
     }
 
+    @Nullable
     public VideoProvider getProvider() {
         return provider;
     }
@@ -59,6 +62,7 @@ public class AppScreenshot {
     /**
      * Determines asset position in “Screenshots & Videos” section
      */
+    @NonNull
     public Integer getPosition() {
         return position;
     }

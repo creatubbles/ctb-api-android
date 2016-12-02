@@ -1,5 +1,7 @@
 package com.creatubbles.api.model.user;
 
+import android.support.annotation.NonNull;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
@@ -15,6 +17,7 @@ public enum Role {
     }
 
     @JsonValue
+    @NonNull
     public String getRoleName() {
         return roleName;
     }

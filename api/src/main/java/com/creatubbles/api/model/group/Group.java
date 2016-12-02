@@ -1,5 +1,6 @@
 package com.creatubbles.api.model.group;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.creatubbles.api.model.creation.Creation;
@@ -37,18 +38,22 @@ public class Group {
         this.avatarCreation = avatarCreation;
     }
 
+    @NonNull
     public String getId() {
         return id;
     }
 
+    @NonNull
     public String getName() {
         return name;
     }
 
+    @NonNull
     public String getSlug() {
         return slug;
     }
 
+    @NonNull
     public Integer getCreatorsCount() {
         return creatorsCount;
     }

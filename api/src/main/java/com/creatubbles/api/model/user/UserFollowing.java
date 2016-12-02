@@ -1,5 +1,7 @@
 package com.creatubbles.api.model.user;
 
+import android.support.annotation.NonNull;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Relationship;
@@ -27,10 +29,12 @@ public class UserFollowing {
     @Relationship("followed_user")
     private User followedUser;
 
+    @NonNull
     public String getId() {
         return id;
     }
 
+    @NonNull
     public Date getCreatedAt() {
         return createdAt;
     }

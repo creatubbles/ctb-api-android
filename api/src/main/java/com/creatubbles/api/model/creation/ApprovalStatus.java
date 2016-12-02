@@ -1,5 +1,7 @@
 package com.creatubbles.api.model.creation;
 
+import android.support.annotation.NonNull;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
@@ -25,6 +27,7 @@ public enum ApprovalStatus {
     }
 
     @JsonValue
+    @NonNull
     public String getName() {
         return name;
     }

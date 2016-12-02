@@ -59,10 +59,12 @@ public class Comment {
         this.text = text;
     }
 
+    @NonNull
     public String getId() {
         return id;
     }
 
+    @NonNull
     public String getText() {
         return text;
     }
@@ -71,6 +73,7 @@ public class Comment {
         return approved;
     }
 
+    @NonNull
     public Date getCreatedAt() {
         return createdAt;
     }

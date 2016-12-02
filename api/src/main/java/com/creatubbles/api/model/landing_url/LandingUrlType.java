@@ -1,5 +1,7 @@
 package com.creatubbles.api.model.landing_url;
 
+import android.support.annotation.NonNull;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
@@ -27,6 +29,7 @@ public enum LandingUrlType {
     }
 
     @JsonValue
+    @NonNull
     public String getRes() {
         return res;
     }

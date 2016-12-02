@@ -1,5 +1,7 @@
 package com.creatubbles.api.model;
 
+import android.support.annotation.NonNull;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Type;
@@ -16,7 +18,7 @@ public class Ability {
     @JsonProperty("resource_id")
     private String resourceId;
 
-    private Boolean permission;
+    private boolean permission;
 
     private Operation operation;
 
@@ -24,22 +26,26 @@ public class Ability {
         this.id = id;
     }
 
+    @NonNull
     public String getId() {
         return id;
     }
 
+    @NonNull
     public String getResourceType() {
         return resourceType;
     }
 
+    @NonNull
     public String getResourceId() {
         return resourceId;
     }
 
-    public Boolean getPermission() {
+    public boolean getPermission() {
         return permission;
     }
 
+    @NonNull
     public Operation getOperation() {
         return operation;
     }

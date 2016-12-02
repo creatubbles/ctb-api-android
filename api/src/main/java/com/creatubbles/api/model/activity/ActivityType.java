@@ -1,5 +1,7 @@
 package com.creatubbles.api.model.activity;
 
+import android.support.annotation.NonNull;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
@@ -58,6 +60,7 @@ public enum ActivityType {
     }
 
     @JsonValue
+    @NonNull
     public String getName() {
         return name;
     }

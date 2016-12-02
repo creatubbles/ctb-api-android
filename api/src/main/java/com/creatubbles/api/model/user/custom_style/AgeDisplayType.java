@@ -1,5 +1,7 @@
 package com.creatubbles.api.model.user.custom_style;
 
+import android.support.annotation.NonNull;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
@@ -19,6 +21,7 @@ public enum AgeDisplayType {
     }
 
     @JsonValue
+    @NonNull
     public String getName() {
         return name;
     }

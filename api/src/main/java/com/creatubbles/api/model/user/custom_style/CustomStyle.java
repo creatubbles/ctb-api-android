@@ -75,7 +75,7 @@ public class CustomStyle {
     @JsonProperty("updated_at")
     private Date updatedAt;
 
-
+    @NonNull
     public String getId() {
         return id;
     }
@@ -125,10 +125,12 @@ public class CustomStyle {
         return headerCreationUrl;
     }
 
+    @NonNull
     public Date getCreatedAt() {
         return createdAt;
     }
 
+    @NonNull
     public Date getUpdatedAt() {
         return updatedAt;
     }

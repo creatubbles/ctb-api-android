@@ -1,5 +1,6 @@
 package com.creatubbles.api.model.activity;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.creatubbles.api.model.comment.Comment;
@@ -58,10 +59,12 @@ public class Activity {
     @Relationship("related_comments")
     private List<Comment> relatedComments;
 
+    @NonNull
     public String getId() {
         return id;
     }
 
+    @NonNull
     public ActivityType getType() {
         return type;
     }
@@ -69,6 +72,7 @@ public class Activity {
     /**
      * @return number of activities
      */
+    @NonNull
     public Integer getCount() {
         return count;
     }
@@ -76,14 +80,17 @@ public class Activity {
     /**
      * @return number of items (related creations / comments / bubbles)
      */
+    @NonNull
     public Integer getItemsCount() {
         return itemsCount;
     }
 
+    @NonNull
     public Date getCreatedAt() {
         return createdAt;
     }
 
+    @NonNull
     public Date getLastUpdatedAt() {
         return lastUpdatedAt;
     }

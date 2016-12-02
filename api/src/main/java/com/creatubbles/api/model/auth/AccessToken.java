@@ -1,5 +1,7 @@
 package com.creatubbles.api.model.auth;
 
+import android.support.annotation.NonNull;
+
 /**
  * @author Pawel Szymanski
  */
@@ -12,10 +14,12 @@ public abstract class AccessToken {
         this.type = type;
     }
 
+    @NonNull
     public String getToken() {
         return token;
     }
 
+    @NonNull
     public String getType() {
         return type;
     }

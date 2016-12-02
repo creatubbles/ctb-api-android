@@ -1,5 +1,7 @@
 package com.creatubbles.api.model.creation;
 
+import android.support.annotation.NonNull;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
@@ -18,6 +20,7 @@ public enum ImageStatus {
     }
 
     @JsonValue
+    @NonNull
     public Integer toInt() {
         return this.status;
     }

@@ -1,5 +1,7 @@
 package com.creatubbles.api.model.creation;
 
+import android.support.annotation.NonNull;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.jasminb.jsonapi.annotations.Id;
@@ -25,6 +27,7 @@ public class ToybooDetails {
     public ToybooDetails() {
     }
 
+    @NonNull
     public String getId() {
         return id;
     }
