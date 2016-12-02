@@ -1,12 +1,18 @@
 package com.creatubbles.api.repository;
 
+import android.os.Handler;
+
 import android.support.annotation.NonNull;
 
 import com.creatubbles.api.di.components.DaggerApiComponent;
 import com.creatubbles.api.di.modules.ApiModule;
 import com.creatubbles.api.model.auth.AccessToken;
 import com.creatubbles.api.service.CreationService;
+import com.creatubbles.api.service.UploadService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 
@@ -20,6 +26,9 @@ public class CreationRepositoryBuilder {
 
     @Inject
     ObjectMapper objectMapper;
+
+    @Inject
+    UploadService uploadService;
 
     private AccessToken accessToken;
 
@@ -40,7 +49,12 @@ public class CreationRepositoryBuilder {
     public CreationRepository build() {
         DaggerApiComponent.builder().apiModule(ApiModule.getInstance(accessToken)).build()
                 .inject(this);
-        return new CreationRepositoryImpl(objectMapper, creationService);
+
+        Executor uploadAsyncExecutor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler();
+        Executor uploadCallbackExecutor = handler::post;
+        return new CreationRepositoryImpl(objectMapper, creationService, uploadService,
+                uploadAsyncExecutor, uploadCallbackExecutor);
     }
 
 }

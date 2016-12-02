@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.creatubbles.api.ContentType;
+import com.creatubbles.api.exception.ErrorResponse;
 import com.creatubbles.api.model.CreatubblesResponse;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.creation.ToybooDetails;
@@ -14,12 +15,19 @@ import com.creatubbles.api.response.BaseResponseMapper;
 import com.creatubbles.api.response.JsonApiResponseMapper;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.service.CreationService;
+import com.creatubbles.api.service.UploadService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jasminb.jsonapi.JSONAPIDocument;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.Executor;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.Response;
 
 
 /**
@@ -27,12 +35,20 @@ import retrofit2.Call;
  */
 class CreationRepositoryImpl implements CreationRepository {
 
-    private final CreationService creationService;
-    private final ObjectMapper objectMapper;
+    final CreationService creationService;
+    final ObjectMapper objectMapper;
+    final UploadService uploadService;
+    final Executor uploadAsyncExecutor;
+    final Executor uploadCallbackExecutor;
 
-    CreationRepositoryImpl(ObjectMapper objectMapper, CreationService creationService) {
+    CreationRepositoryImpl(ObjectMapper objectMapper, CreationService creationService,
+                           UploadService uploadService, Executor uploadAsyncExecutor,
+                           Executor uploadCallbackExecutor) {
         this.objectMapper = objectMapper;
         this.creationService = creationService;
+        this.uploadService = uploadService;
+        this.uploadAsyncExecutor = uploadAsyncExecutor;
+        this.uploadCallbackExecutor = uploadCallbackExecutor;
     }
 
     @Override
@@ -109,17 +125,40 @@ class CreationRepositoryImpl implements CreationRepository {
     }
 
     @Override
-    public void startUpload(@NonNull String creationId, @NonNull ContentType contentType,
-                            ResponseCallback<CreatubblesResponse<Upload>> callback) {
-        UploadRequest request = new UploadRequest(contentType);
-        Call<JSONAPIDocument<Upload>> call = creationService.createUpload(creationId, request);
-        call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
+    public void uploadFile(@NonNull String creationId, @NonNull File file,
+                           @NonNull ContentType contentType, ResponseCallback<Void> callback) {
+        uploadAsyncExecutor.execute(() -> {
+            UploadRequest request = new UploadRequest(contentType);
+            try {
+                Response<JSONAPIDocument<Upload>> response = creationService.createUpload(creationId, request).execute();
+                if (response.isSuccessful()) {
+                    Upload upload = response.body().get();
+                    uploadFile(file, callback, upload);
+                } else {
+                    ErrorResponse errorResponse = objectMapper.readValue(response.errorBody().byteStream(), ErrorResponse.class);
+                    uploadCallbackExecutor.execute(() -> callback.onServerError(errorResponse));
+                }
+            } catch (IOException e) {
+                uploadCallbackExecutor.execute(() -> callback.onError(e.getMessage()));
+            }
+        });
     }
 
-    @Override
-    public void finishUpload(@NonNull Upload upload, @Nullable String abortReason, ResponseCallback<Void> callback) {
-        Call<Void> call = creationService.updateCreationUpload(upload.getPingUrl(), abortReason);
-        call.enqueue(new BaseResponseMapper<>(objectMapper, callback));
+    private void uploadFile(@NonNull File file, ResponseCallback<Void> callback, Upload upload) throws IOException {
+        try {
+            MediaType mediaType = MediaType.parse(upload.getContentType());
+            RequestBody requestBody = RequestBody.create(mediaType, file);
+            Response<Void> uploadResponse = uploadService.uploadFile(upload.getUrl(), requestBody).execute();
+            if (uploadResponse.isSuccessful()) {
+                creationService.updateCreationUpload(upload.getPingUrl(), null).execute();
+                uploadCallbackExecutor.execute(() -> callback.onSuccess(null));
+            } else {
+                uploadCallbackExecutor.execute(() -> callback.onError(uploadResponse.message()));
+            }
+        } catch (IOException e) {
+            creationService.updateCreationUpload(upload.getPingUrl(), e.getMessage()).execute();
+            uploadCallbackExecutor.execute(() -> callback.onError(e.getMessage()));
+        }
     }
 
     @Override

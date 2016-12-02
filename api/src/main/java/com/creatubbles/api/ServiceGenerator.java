@@ -76,8 +76,7 @@ public class ServiceGenerator {
     public void initialize() {
         OkHttpClient client = new OkHttpClient.Builder()
                 .cookieJar(getAcceptAllCookieJar())
-                .addInterceptor(CreatubbleInterceptor.getFileUploadInterceptor(configuration.getContext()))
-                .addInterceptor(CreatubbleInterceptor.getLogginInterceptor())
+                .addInterceptor(CreatubbleInterceptor.getLoggingInterceptor())
                 .build();
 
         builder = new Retrofit.Builder()
@@ -101,8 +100,7 @@ public class ServiceGenerator {
         OkHttpClient client = new OkHttpClient.Builder()
                 .cookieJar(getAcceptAllCookieJar())
                 .addInterceptor(CreatubbleInterceptor.getHeaderInterceptor(headerParamMap))
-                .addInterceptor(CreatubbleInterceptor.getFileUploadInterceptor(configuration.getContext()))
-                .addInterceptor(CreatubbleInterceptor.getLogginInterceptor())
+                .addInterceptor(CreatubbleInterceptor.getLoggingInterceptor())
                 .build();
 
         Retrofit retrofit = builder
@@ -122,7 +120,7 @@ public class ServiceGenerator {
         OkHttpClient client = new OkHttpClient.Builder()
                 .cookieJar(getAcceptAllCookieJar())
                 .addInterceptor(CreatubbleInterceptor.getHeaderInterceptor(headerParamMap))
-                .addInterceptor(CreatubbleInterceptor.getLogginInterceptor())
+                .addInterceptor(CreatubbleInterceptor.getLoggingInterceptor())
                 .build();
 
         Retrofit retrofit = builder
@@ -149,8 +147,7 @@ public class ServiceGenerator {
         OkHttpClient client = new OkHttpClient.Builder()
                 .cookieJar(getAcceptAllCookieJar())
                 .addInterceptor(CreatubbleInterceptor.getHeaderInterceptor(headerParamMap))
-                .addInterceptor(CreatubbleInterceptor.getFileUploadInterceptor(configuration.getContext()))
-                .addInterceptor(CreatubbleInterceptor.getLogginInterceptor())
+                .addInterceptor(CreatubbleInterceptor.getLoggingInterceptor())
                 .build();
 
         builder.client(client);

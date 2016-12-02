@@ -1,9 +1,5 @@
 package com.creatubbles.api.interceptor;
 
-import android.content.Context;
-
-import com.creatubbles.api.utils.UploadRepositoryCacheUtil;
-
 import java.util.Map;
 
 import okhttp3.Interceptor;
@@ -28,22 +24,10 @@ public class CreatubbleInterceptor {
         };
     }
 
-    public static Interceptor getLogginInterceptor() {
+    public static Interceptor getLoggingInterceptor() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         return interceptor;
-    }
-
-    public static Interceptor getFileUploadInterceptor(Context context) {
-        return chain -> {
-            Request.Builder builder = chain.request().newBuilder();
-
-            if (!UploadRepositoryCacheUtil.isEmptySendCache(context)) {
-                UploadRepositoryCacheUtil.sendFileFromCache(context);
-            }
-
-            return chain.proceed(builder.build());
-        };
     }
 }

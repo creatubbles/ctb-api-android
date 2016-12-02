@@ -4,19 +4,23 @@ import com.creatubbles.api.ContentType
 import com.creatubbles.api.model.creation.Creation
 import com.creatubbles.api.model.image_manipulation.ImageManipulation
 import com.creatubbles.api.model.upload.Upload
+import com.creatubbles.api.response.ResponseCallback
 import com.creatubbles.api.service.CreationService
+import com.creatubbles.api.service.UploadService
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.github.jasminb.jsonapi.JSONAPIDocument
 import retrofit2.Call
+import retrofit2.Response
 import spock.lang.Specification
-
-
 /**
  * @author Pawel Szymanski
  */
 class CreationRepositoryTest extends Specification {
 
     def service = Mock(CreationService)
-    def repository = new CreationRepositoryImpl(Mock(ObjectMapper), service)
+    def uploadService = Mock(UploadService)
+    def repository = new CreationRepositoryImpl(Mock(ObjectMapper), service, uploadService,
+            { runnable -> runnable.run() }, { runnable -> runnable.run() })
 
     def "should call get recent when obtaining recent creations"() {
         when:
@@ -74,7 +78,7 @@ class CreationRepositoryTest extends Specification {
         service.getByPartnerApplication(_, _) >> anyCall()
     }
 
-    def "should call update when updaing creation"() {
+    def "should call update when updating creation"() {
         when:
         repository.update(anyId(), anyCreation(), anyCallback())
         then:
@@ -95,18 +99,28 @@ class CreationRepositoryTest extends Specification {
         service.removeCreation(_) >> anyCall()
     }
 
-    def "should call create upload when starting upload"() {
+    def "should call all upload methods and notify by callback about success"() {
+        given:
+        def callback = anyCallback()
         when:
-        repository.startUpload(anyId(), ContentType.JPEG, anyCallback())
+        repository.uploadFile(anyId(), anyFile(), ContentType.JPEG, callback)
         then:
-        service.createUpload(_, _) >> anyCall()
-    }
-
-    def "should call update upload when finishing upload"() {
-        when:
-        repository.finishUpload(Mock(Upload), "", anyCallback())
+        service.createUpload(_, _) >> Mock(Call) {
+            execute() >> Response.success(Mock(JSONAPIDocument) {
+                get() >> Mock(Upload) {
+                    getContentType() >> "test/test"
+                    getUrl() >> ""
+                    getPingUrl() >> ""
+                }
+            })
+        }
+        uploadService.uploadFile(_, _) >> Mock(Call) {
+            execute() >> Response.success(null)
+        }
         then:
-        service.updateCreationUpload(_, _) >> anyCall()
+        service.updateCreationUpload(_, _) >> Mock(Call)
+        then:
+        callback.onSuccess(_)
     }
 
     def "should call put image manipulation when updating image"() {
@@ -136,7 +150,7 @@ class CreationRepositoryTest extends Specification {
     }
 
     private anyCallback() {
-        null
+        Mock(ResponseCallback)
     }
 
     private boolean anyBoolean() {
@@ -145,6 +159,10 @@ class CreationRepositoryTest extends Specification {
 
     private anyPage() {
         null
+    }
+
+    private File anyFile() {
+        Mock(File)
     }
 
 }
