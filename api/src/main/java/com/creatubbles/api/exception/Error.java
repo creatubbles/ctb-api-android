@@ -5,7 +5,6 @@ package com.creatubbles.api.exception;
  */
 public class Error {
     String code;
-    String source;
     String title;
     String detail;
 
@@ -15,14 +14,6 @@ public class Error {
 
     public void setCode(String code) {
         this.code = code;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
     }
 
     public String getTitle() {
