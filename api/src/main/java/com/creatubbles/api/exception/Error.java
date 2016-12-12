@@ -6,7 +6,6 @@ package com.creatubbles.api.exception;
 public class Error {
     private Integer status;
     private String code;
-    private String source;
     private String title;
     private String detail;
 
@@ -16,10 +15,6 @@ public class Error {
 
     public String getCode() {
         return code;
-    }
-
-    public String getSource() {
-        return source;
     }
 
     public String getTitle() {
@@ -35,7 +30,6 @@ public class Error {
         return "Error{" +
                 "status=" + status +
                 ", code='" + code + '\'' +
-                ", source='" + source + '\'' +
                 ", title='" + title + '\'' +
                 ", detail='" + detail + '\'' +
                 '}';
