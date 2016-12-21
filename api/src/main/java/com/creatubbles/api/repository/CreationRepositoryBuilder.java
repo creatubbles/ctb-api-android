@@ -1,12 +1,17 @@
 package com.creatubbles.api.repository;
 
-import android.content.Context;
+import android.os.Handler;
+import android.support.annotation.NonNull;
 
 import com.creatubbles.api.di.components.DaggerApiComponent;
 import com.creatubbles.api.di.modules.ApiModule;
-import com.creatubbles.api.exception.InvalidParametersException;
-import com.creatubbles.api.model.AuthToken;
+import com.creatubbles.api.model.auth.AccessToken;
 import com.creatubbles.api.service.CreationService;
+import com.creatubbles.api.service.UploadService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 
@@ -18,31 +23,37 @@ public class CreationRepositoryBuilder {
     @Inject
     CreationService creationService;
 
-    private AuthToken authToken;
-    private Context context;
+    @Inject
+    ObjectMapper objectMapper;
 
-    public CreationRepository build() {
-        if (hasValidParameters()) {
-            DaggerApiComponent.builder().apiModule(new ApiModule(context, authToken)).build()
-                    .inject(this);
-            CreationRepository creationRepository = new CreationRepositoryImpl(creationService);
-            return creationRepository;
+    @Inject
+    UploadService uploadService;
+
+    private AccessToken accessToken;
+
+    /**
+     * <ul>
+     * <li>With an application only access token you can only retrieve public data (public creations)</li>
+     * <li>With an user access token you can list all owned creations, and get all data this user has access to</li>
+     * </ul>
+     */
+    public CreationRepositoryBuilder(@NonNull AccessToken accessToken) {
+        if (accessToken == null) {
+            throw new NullPointerException("accessToken can't be null!");
         }
-        throw new InvalidParametersException("Missing application context or authorization token!");
+        this.accessToken = accessToken;
     }
 
-    public boolean hasValidParameters() {
-        return authToken != null && context != null;
-    }
+    @NonNull
+    public CreationRepository build() {
+        DaggerApiComponent.builder().apiModule(ApiModule.getInstance(accessToken)).build()
+                .inject(this);
 
-    public CreationRepositoryBuilder setAuthToken(AuthToken authToken) {
-        this.authToken = authToken;
-        return this;
-    }
-
-    public CreationRepositoryBuilder setContext(Context context) {
-        this.context = context;
-        return this;
+        Executor uploadAsyncExecutor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler();
+        Executor uploadCallbackExecutor = handler::post;
+        return new CreationRepositoryImpl(objectMapper, creationService, uploadService,
+                uploadAsyncExecutor, uploadCallbackExecutor);
     }
 
 }

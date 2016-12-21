@@ -1,15 +1,16 @@
 package com.creatubbles.api.model.gallery;
 
-import com.google.gson.annotations.SerializedName;
+import android.support.annotation.NonNull;
+
+import com.creatubbles.api.model.ImageLinks;
 
 public class Banner {
 
-    @SerializedName("links")
-    private Links links;
+    private ImageLinks links;
 
-    public Links getLinks() {
+    @NonNull
+    public ImageLinks getLinks() {
         return links;
     }
-
 
 }

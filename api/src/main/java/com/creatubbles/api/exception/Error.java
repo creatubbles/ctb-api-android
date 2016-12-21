@@ -1,34 +1,43 @@
 package com.creatubbles.api.exception;
 
+import android.support.annotation.NonNull;
+
 /**
  * Created by mariuszostapowicz on 08.03.2016.
  */
 public class Error {
-    String code;
-    String title;
-    String detail;
+    private Integer status;
+    private String code;
+    private String title;
+    private String detail;
 
+    @NonNull
+    public Integer getStatus() {
+        return status;
+    }
+
+    @NonNull
     public String getCode() {
         return code;
     }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
-
+    @NonNull
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
+    @NonNull
     public String getDetail() {
         return detail;
     }
 
-    public void setDetail(String detail) {
-        this.detail = detail;
+    @Override
+    public String toString() {
+        return "Error{" +
+                "status=" + status +
+                ", code='" + code + '\'' +
+                ", title='" + title + '\'' +
+                ", detail='" + detail + '\'' +
+                '}';
     }
 }

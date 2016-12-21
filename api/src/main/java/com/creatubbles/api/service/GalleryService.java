@@ -2,31 +2,60 @@ package com.creatubbles.api.service;
 
 
 import com.creatubbles.api.EndPoints;
-import com.creatubbles.api.model.CreateGalleryResponse;
-import com.creatubbles.api.model.GalleryResponse;
-import com.creatubbles.api.request.CreateGalleryRequest;
+import com.creatubbles.api.model.GallerySubmission;
+import com.creatubbles.api.model.gallery.Gallery;
+import com.github.jasminb.jsonapi.JSONAPIDocument;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by Janek on 05.02.2016.
  */
 public interface GalleryService {
 
-    @GET(EndPoints.USERS + "/{userId}/galleries")
-    Call<GalleryResponse> getGalleriesByUser(@Path("userId") String userId);
+    String PARAM_ID = "id";
+    String PATH_ID_GALLERIES = "/{" + PARAM_ID + "}/galleries";
+    String PARAM_PAGE = "page";
+    String PARAM_SORT = "sort";
+    String PARAM_FILTER = "filter";
+
+    @GET(EndPoints.GALLERIES)
+    Call<JSONAPIDocument<List<Gallery>>> getPublic(@Query(PARAM_PAGE) Integer page,
+                                                   @Query(PARAM_SORT) String sort);
+
+
+    @GET(EndPoints.USERS + PATH_ID_GALLERIES)
+    Call<JSONAPIDocument<List<Gallery>>> getByUser(@Path(PARAM_ID) String userId,
+                                                   @Query(PARAM_PAGE) Integer page,
+                                                   @Query(PARAM_FILTER) String filter);
 
     @GET(EndPoints.CREATIONS)
-    Call<GalleryResponse> getGalleriesByCreation(@Path("creationId") String creationId);
+    Call<JSONAPIDocument<List<Gallery>>> getByCreation(@Path(PARAM_ID) String creationId,
+                                                       @Query(PARAM_PAGE) Integer page);
 
-    @GET(EndPoints.GALLERIES + "/{galleryId}/galleries")
-    Call<GalleryResponse> getGalleryById(@Path("galleryId") String galleryId);
+    @GET(EndPoints.USERS + "/me/favorite_galleries")
+    Call<JSONAPIDocument<List<Gallery>>> getFavorite(@Query(PARAM_PAGE) Integer page);
 
+    @GET(EndPoints.FEATURED_GALLERIES)
+    Call<JSONAPIDocument<List<Gallery>>> getFeatured(@Query(PARAM_PAGE) Integer page);
+
+    @GET(EndPoints.GALLERIES + "/{" + PARAM_ID + "}")
+    Call<JSONAPIDocument<Gallery>> getById(@Path(PARAM_ID) String galleryId);
 
     @POST(EndPoints.GALLERIES)
-    Call<CreateGalleryResponse> createGallery(@Body CreateGalleryRequest galleryRequest);
+    Call<JSONAPIDocument<Gallery>> create(@Body Gallery gallery);
+
+    @PUT(EndPoints.GALLERIES + "/{" + PARAM_ID + "}")
+    Call<Void> update(@Path(PARAM_ID) String galleryId, @Body Gallery gallery);
+
+    @POST(EndPoints.GALLERY_SUBMISSIONS)
+    Call<JSONAPIDocument<GallerySubmission>> postSubmission(@Body GallerySubmission gallerySubmission);
 }

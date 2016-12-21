@@ -12,5 +12,5 @@ import retrofit2.http.Url;
 public interface UploadService {
 
     @PUT
-    Call<String> uploadFile(@Url String url, @Body RequestBody image);
+    Call<Void> uploadFile(@Url String url, @Body RequestBody image);
 }

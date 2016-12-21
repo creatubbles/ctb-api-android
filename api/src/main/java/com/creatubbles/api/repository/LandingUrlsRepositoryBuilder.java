@@ -1,12 +1,12 @@
 package com.creatubbles.api.repository;
 
-import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.creatubbles.api.di.components.DaggerApiComponent;
 import com.creatubbles.api.di.modules.ApiModule;
-import com.creatubbles.api.exception.InvalidParametersException;
-import com.creatubbles.api.model.AuthToken;
+import com.creatubbles.api.model.auth.AccessToken;
 import com.creatubbles.api.service.LandingUrlsService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.inject.Inject;
 
@@ -18,31 +18,30 @@ public class LandingUrlsRepositoryBuilder {
     @Inject
     LandingUrlsService landingUrlsService;
 
-    private AuthToken authToken;
-    private Context context;
+    @Inject
+    ObjectMapper objectMapper;
 
-    public LandingUrlsRepository build() {
-        if (context != null) {
-            if (authToken != null) {
-                DaggerApiComponent.builder().apiModule(new ApiModule(context, authToken)).build()
-                        .inject(this);
-            } else {
-                DaggerApiComponent.builder().apiModule(new ApiModule(context)).build()
-                        .inject(this);
-            }
-            return new LandingUrlsRepositoryImpl(landingUrlsService);
+    private AccessToken accessToken;
+
+    /**
+     * <ul>
+     * <li>With an application only access token you get the common landing URLs.
+     * Use this to retrieve the common landing URLs before a user has signed in.</li>
+     * <li>With an user access token you get user specific landing URLs.</li>
+     * </ul>
+     */
+    public LandingUrlsRepositoryBuilder(@NonNull AccessToken accessToken) {
+        if (accessToken == null) {
+            throw new NullPointerException("accessToken can't be null!");
         }
-        throw new InvalidParametersException("Missing application context!");
+        this.accessToken = accessToken;
     }
 
-
-    public LandingUrlsRepositoryBuilder setAuthToken(AuthToken authToken) {
-        this.authToken = authToken;
-        return this;
+    @NonNull
+    public LandingUrlsRepository build() {
+        DaggerApiComponent.builder().apiModule(ApiModule.getInstance(accessToken)).build()
+                .inject(this);
+        return new LandingUrlsRepositoryImpl(objectMapper, landingUrlsService);
     }
 
-    public LandingUrlsRepositoryBuilder setContext(Context context) {
-        this.context = context;
-        return this;
-    }
 }

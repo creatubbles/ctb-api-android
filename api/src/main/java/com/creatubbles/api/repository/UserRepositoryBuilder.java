@@ -1,12 +1,12 @@
 package com.creatubbles.api.repository;
 
-import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.creatubbles.api.di.components.DaggerApiComponent;
 import com.creatubbles.api.di.modules.ApiModule;
-import com.creatubbles.api.exception.InvalidParametersException;
-import com.creatubbles.api.model.AuthToken;
+import com.creatubbles.api.model.auth.AccessToken;
 import com.creatubbles.api.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.inject.Inject;
 
@@ -18,30 +18,29 @@ public class UserRepositoryBuilder {
     @Inject
     UserService userService;
 
-    private AuthToken authToken;
-    private Context context;
+    @Inject
+    ObjectMapper objectMapper;
 
-    public UserRepository build() {
-        if (hasValidParameters()) {
-            DaggerApiComponent.builder().apiModule(new ApiModule(context, authToken)).build()
-                    .inject(this);
-            UserRepository userRepository = new UserRepositoryImpl(userService);
-            return userRepository;
+    private final AccessToken accessToken;
+
+    /**
+     * <ul>
+     * <li>With an application only access token you can only retrieve public data</li>
+     * <li>With an user access token you can list users, and get all data this user has access to</li>
+     * </ul>
+     */
+    public UserRepositoryBuilder(@NonNull AccessToken accessToken) {
+        if (accessToken == null) {
+            throw new NullPointerException("accessToken can't be null!");
         }
-        throw new InvalidParametersException("Missing application context or authorization token!");
+        this.accessToken = accessToken;
     }
 
-    public boolean hasValidParameters() {
-        return authToken != null && context != null;
+    @NonNull
+    public UserRepository build() {
+        DaggerApiComponent.builder().apiModule(ApiModule.getInstance(accessToken)).build()
+                .inject(this);
+        return new UserRepositoryImpl(objectMapper, userService);
     }
 
-    public UserRepositoryBuilder setAuthToken(AuthToken authToken) {
-        this.authToken = authToken;
-        return this;
-    }
-
-    public UserRepositoryBuilder setContext(Context context) {
-        this.context = context;
-        return this;
-    }
 }

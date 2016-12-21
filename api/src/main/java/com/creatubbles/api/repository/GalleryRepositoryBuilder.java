@@ -1,12 +1,12 @@
 package com.creatubbles.api.repository;
 
-import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.creatubbles.api.di.components.DaggerApiComponent;
 import com.creatubbles.api.di.modules.ApiModule;
-import com.creatubbles.api.exception.InvalidParametersException;
-import com.creatubbles.api.model.AuthToken;
+import com.creatubbles.api.model.auth.AccessToken;
 import com.creatubbles.api.service.GalleryService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.inject.Inject;
 
@@ -15,36 +15,34 @@ import javax.inject.Inject;
  */
 public class GalleryRepositoryBuilder {
 
-
     @Inject
     GalleryService galleryService;
 
-    private AuthToken authToken;
-    private Context context;
+    @Inject
+    ObjectMapper objectMapper;
 
-    public GalleryRepository build() {
-        if (hasValidParameters()) {
-            DaggerApiComponent.builder().apiModule(new ApiModule(context, authToken)).build()
-                    .inject(this);
-            GalleryRepository galleryRepository = new GalleryRepositoryImpl(galleryService);
-            return galleryRepository;
+    private AccessToken accessToken;
+
+    /**
+     * <ul>
+     * <li>With an application only access token you can only retrieve public galleries (public and non-empty galleries)</li>
+     * <li>With an user access token you can list public galleries and the all galleries which belong to the user, including empty ones.</li>
+     * </ul>
+     */
+    public GalleryRepositoryBuilder(@NonNull AccessToken accessToken) {
+        if (accessToken == null) {
+            throw new NullPointerException("accessToken can't be null!");
         }
-        throw new InvalidParametersException("Missing application context or authorization token!");
+        this.accessToken = accessToken;
     }
 
-    public boolean hasValidParameters() {
-        return authToken != null && context != null;
+    @NonNull
+    public GalleryRepository build() {
+        DaggerApiComponent.builder().apiModule(ApiModule.getInstance(accessToken)).build()
+                .inject(this);
+        return new GalleryRepositoryImpl(objectMapper, galleryService);
     }
 
-    public GalleryRepositoryBuilder setAuthToken(AuthToken authToken) {
-        this.authToken = authToken;
-        return this;
-    }
-
-    public GalleryRepositoryBuilder setContext(Context context) {
-        this.context = context;
-        return this;
-    }
 }
 
 
