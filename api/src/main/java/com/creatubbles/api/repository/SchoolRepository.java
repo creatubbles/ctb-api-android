@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface SchoolRepository {
 
-    void search(@Nullable Integer page, @NonNull SchoolQuery query, ResponseCallback<CreatubblesResponse<List<School>>> callback);
+    void search(@Nullable Integer page, @NonNull SchoolQuery query, @Nullable ResponseCallback<CreatubblesResponse<List<School>>> callback);
 
 
     class SchoolQuery {
@@ -22,17 +22,17 @@ public interface SchoolRepository {
         private String countryCode;
         private int[] ids;
 
-        public SchoolQuery nameContaining(String nameContaining) {
+        public SchoolQuery nameContaining(@NonNull String nameContaining) {
             this.nameContaining = nameContaining;
             return this;
         }
 
-        public SchoolQuery preferredCountryCode(String countryCode) {
+        public SchoolQuery preferredCountryCode(@NonNull String countryCode) {
             this.countryCode = countryCode;
             return this;
         }
 
-        public void withIds(int... ids) {
+        void withIds(@NonNull int... ids) {
             this.ids = ids;
         }
 

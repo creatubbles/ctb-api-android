@@ -1,5 +1,8 @@
 package com.creatubbles.api.repository;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.creatubbles.api.model.CreatubblesResponse;
 import com.creatubbles.api.model.group.Group;
 import com.creatubbles.api.response.BaseResponseMapper;
@@ -26,31 +29,31 @@ class GroupRepositoryImpl implements GroupRepository {
     }
 
     @Override
-    public void getAll(ResponseCallback<CreatubblesResponse<List<Group>>> callback) {
+    public void getAll(@Nullable ResponseCallback<CreatubblesResponse<List<Group>>> callback) {
         Call<JSONAPIDocument<List<Group>>> call = service.getGroups();
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void getById(String groupId, ResponseCallback<CreatubblesResponse<Group>> callback) {
+    public void getById(@NonNull String groupId, @Nullable ResponseCallback<CreatubblesResponse<Group>> callback) {
         Call<JSONAPIDocument<Group>> call = service.getGroup(groupId);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void create(Group group, ResponseCallback<CreatubblesResponse<Group>> callback) {
+    public void create(@NonNull Group group, ResponseCallback<CreatubblesResponse<Group>> callback) {
         Call<JSONAPIDocument<Group>> call = service.postGroup(group);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void update(String groupId, Group group, ResponseCallback<Void> callback) {
+    public void update(@NonNull String groupId, @NonNull Group group, @Nullable ResponseCallback<Void> callback) {
         Call<Void> call = service.putGroup(groupId, group);
         call.enqueue(new BaseResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void delete(String groupId, ResponseCallback<Void> callback) {
+    public void delete(@NonNull String groupId, @Nullable ResponseCallback<Void> callback) {
         Call<Void> call = service.deleteGroup(groupId);
         call.enqueue(new BaseResponseMapper<>(objectMapper, callback));
     }

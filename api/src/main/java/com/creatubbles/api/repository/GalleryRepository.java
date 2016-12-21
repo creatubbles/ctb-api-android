@@ -17,46 +17,46 @@ import java.util.List;
  */
 public interface GalleryRepository {
 
-    void getPublic(@Nullable Integer page, @Nullable GallerySortMode sort, ResponseCallback<CreatubblesResponse<List<Gallery>>> callback);
+    void getPublic(@Nullable Integer page, @Nullable GallerySortMode sort, @Nullable ResponseCallback<CreatubblesResponse<List<Gallery>>> callback);
 
     /**
      * Get current user’s favorite galleries.
      */
-    void getFavorite(@Nullable Integer page, ResponseCallback<CreatubblesResponse<List<Gallery>>> callback);
+    void getFavorite(@Nullable Integer page, @Nullable ResponseCallback<CreatubblesResponse<List<Gallery>>> callback);
 
-    void getFeatured(@Nullable Integer page, ResponseCallback<CreatubblesResponse<List<Gallery>>> callback);
+    void getFeatured(@Nullable Integer page, @Nullable ResponseCallback<CreatubblesResponse<List<Gallery>>> callback);
 
-    void getById(@Nullable Integer page, @NonNull String galleryId, ResponseCallback<CreatubblesResponse<Gallery>> callback);
+    void getById(@Nullable Integer page, @NonNull String galleryId, @Nullable ResponseCallback<CreatubblesResponse<Gallery>> callback);
 
     /**
      * Create a gallery. This requires user access token.
      */
-    void create(@NonNull Gallery gallery, ResponseCallback<CreatubblesResponse<Gallery>> callback);
+    void create(@NonNull Gallery gallery, @Nullable ResponseCallback<CreatubblesResponse<Gallery>> callback);
 
     /**
      * Update a gallery. This requires user access token.
      */
-    void update(@NonNull String galleryId, @NonNull Gallery gallery, ResponseCallback<Void> callback);
+    void update(@NonNull String galleryId, @NonNull Gallery gallery, @Nullable ResponseCallback<Void> callback);
 
     /**
      * Get galleries shared or owned by current user. If you’re listing galleries without further filters,
      * it’ll return all galleries owned or shared with current user. Shared in this case means the user is either a collaborator
      * of the gallery or the gallery is owned by a managed creator, in which case the manager is implicitly a collaborator on it.
      */
-    void getMine(@Nullable Integer page, @Nullable GalleryFilter filter, ResponseCallback<CreatubblesResponse<List<Gallery>>> callback);
+    void getMine(@Nullable Integer page, @Nullable GalleryFilter filter, @Nullable ResponseCallback<CreatubblesResponse<List<Gallery>>> callback);
 
     /**
      * Get galleries owned by a user.
      */
-    void getByUser(@Nullable Integer page, @NonNull String userId, ResponseCallback<CreatubblesResponse<List<Gallery>>> callback);
+    void getByUser(@Nullable Integer page, @NonNull String userId, @Nullable ResponseCallback<CreatubblesResponse<List<Gallery>>> callback);
 
     /**
      * Get galleries of a creation.
      */
-    void getByCreation(@Nullable Integer page, @NonNull String creationId, ResponseCallback<CreatubblesResponse<List<Gallery>>> callback);
+    void getByCreation(@Nullable Integer page, @NonNull String creationId, @Nullable ResponseCallback<CreatubblesResponse<List<Gallery>>> callback);
 
     /**
      * Submit creation with {@code creationId} to the gallery with {@code galleryId}.
      */
-    void submitCreation(String galleryId, String creationId, ResponseCallback<CreatubblesResponse<GallerySubmission>> callback);
+    void submitCreation(@NonNull String galleryId, @NonNull String creationId, @Nullable ResponseCallback<CreatubblesResponse<GallerySubmission>> callback);
 }

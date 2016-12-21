@@ -30,7 +30,7 @@ public class LandingUrlsRepositoryBuilder {
      * <li>With an user access token you get user specific landing URLs.</li>
      * </ul>
      */
-    public LandingUrlsRepositoryBuilder(AccessToken accessToken) {
+    public LandingUrlsRepositoryBuilder(@NonNull AccessToken accessToken) {
         if (accessToken == null) {
             throw new NullPointerException("accessToken can't be null!");
         }

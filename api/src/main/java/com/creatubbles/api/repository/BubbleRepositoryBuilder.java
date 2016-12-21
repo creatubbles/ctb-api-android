@@ -25,7 +25,7 @@ public class BubbleRepositoryBuilder {
     /**
      * User access token is required to create, update or delete a bubble.
      */
-    public BubbleRepositoryBuilder(AccessToken accessToken) {
+    public BubbleRepositoryBuilder(@NonNull AccessToken accessToken) {
         if (accessToken == null) {
             throw new NullPointerException("accessToken can't be null");
         }

@@ -17,10 +17,10 @@ public class CreatubblesApplication extends Application {
         super.onCreate();
         CreatubblesApi.initialize(new Configuration.Builder()
                 .application(this)
-                .baseUrl("baseUrl")
-                .clientId("clientId")
-                .clientSecret("clientSecret")
-                .locale(Locale.JAPANESE)
+                .baseUrl("https://staging.creatubbles.com/api/v2/")
+                .clientId("274af44ed7c74b2daf680de6363fd9590800200c9a66483a81a0841d11e5a837")
+                .clientSecret("a3b6ec42ce884f8eadadf5ddb9c7038c4062e707c29e4c27a44ff84c754a3485")
+                .locale(Locale.ENGLISH)
                 .build());
     }
 }

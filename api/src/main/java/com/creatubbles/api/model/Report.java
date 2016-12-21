@@ -1,5 +1,7 @@
 package com.creatubbles.api.model;
 
+import android.support.annotation.NonNull;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Type;
@@ -22,14 +24,16 @@ public class Report {
         this.message = message;
     }
 
-    public static Report create(String message) {
+    public static Report create(@NonNull String message) {
         return new Report(message);
     }
 
+    @NonNull
     public String getId() {
         return id;
     }
 
+    @NonNull
     public String getMessage() {
         return message;
     }

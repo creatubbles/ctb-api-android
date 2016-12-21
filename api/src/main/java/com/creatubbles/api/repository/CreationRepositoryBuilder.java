@@ -1,7 +1,6 @@
 package com.creatubbles.api.repository;
 
 import android.os.Handler;
-
 import android.support.annotation.NonNull;
 
 import com.creatubbles.api.di.components.DaggerApiComponent;
@@ -38,7 +37,7 @@ public class CreationRepositoryBuilder {
      * <li>With an user access token you can list all owned creations, and get all data this user has access to</li>
      * </ul>
      */
-    public CreationRepositoryBuilder(AccessToken accessToken) {
+    public CreationRepositoryBuilder(@NonNull AccessToken accessToken) {
         if (accessToken == null) {
             throw new NullPointerException("accessToken can't be null!");
         }

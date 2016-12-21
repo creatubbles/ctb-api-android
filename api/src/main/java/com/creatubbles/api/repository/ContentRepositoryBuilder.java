@@ -26,7 +26,7 @@ public class ContentRepositoryBuilder {
      * <li>With an user access token you can retrieve public content (recent content only include non-private content from other users)</li>
      * </ul>
      */
-    public ContentRepositoryBuilder(AccessToken accessToken) {
+    public ContentRepositoryBuilder(@NonNull AccessToken accessToken) {
         if (accessToken == null) {
             throw new NullPointerException("accessToken can't be null");
         }

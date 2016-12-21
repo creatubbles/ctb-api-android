@@ -1,5 +1,7 @@
 package com.creatubbles.api.model.user;
 
+import android.support.annotation.NonNull;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Type;
@@ -39,37 +41,36 @@ public class NewUser {
         Integer birthYear;
         Integer birthMonth;
         String country;
-        Integer gender;
 
-        public Builder(String name) {
+        public Builder(@NonNull String name) {
             this.name = name;
         }
 
-        public Builder displayName(String displayName) {
+        @NonNull
+        public Builder displayName(@NonNull String displayName) {
             this.displayName = displayName;
             return this;
         }
 
-        public Builder birthYear(Integer birthYear) {
+        @NonNull
+        public Builder birthYear(int birthYear) {
             this.birthYear = birthYear;
             return this;
         }
 
-        public Builder birthMonth(Integer birthMonth) {
+        @NonNull
+        public Builder birthMonth(int birthMonth) {
             this.birthMonth = birthMonth;
             return this;
         }
 
+        @NonNull
         public Builder country(String country) {
             this.country = country;
             return this;
         }
 
-        public Builder gender(Integer gender) {
-            this.gender = gender;
-            return this;
-        }
-
+        @NonNull
         public NewUser build() {
             return new NewUser(this);
         }

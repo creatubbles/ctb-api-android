@@ -1,6 +1,7 @@
 package com.creatubbles.api.repository;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.creatubbles.api.model.CreatubblesResponse;
 import com.creatubbles.api.model.user.custom_style.CustomStyle;
@@ -17,7 +18,7 @@ public interface CustomStyleRepository {
      *
      * @param userId the ID of the user for which we want to get the results
      */
-    void getCustomStyle(@NonNull String userId, ResponseCallback<CreatubblesResponse<CustomStyle>> callback);
+    void getCustomStyle(@NonNull String userId, @Nullable ResponseCallback<CreatubblesResponse<CustomStyle>> callback);
 
     /**
      * Method used to update current user's custom style.
@@ -27,5 +28,5 @@ public interface CustomStyleRepository {
      *               To create this object use {@link com.creatubbles.api.model.user.custom_style.CustomStyle}
      *               and set only the properties you want to update.
      */
-    void updateCustomStyle(@NonNull String userId, @NonNull CustomStyle body, ResponseCallback<CreatubblesResponse<CustomStyle>> callback);
+    void updateCustomStyle(@NonNull String userId, @NonNull CustomStyle body, @Nullable ResponseCallback<CreatubblesResponse<CustomStyle>> callback);
 }

@@ -1,5 +1,7 @@
 package com.creatubbles.api.model.user;
 
+import android.support.annotation.NonNull;
+
 import com.creatubbles.api.response.ResponseCallback;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -31,7 +33,7 @@ public class MultipleCreators {
     private MultipleCreators() {
     }
 
-    MultipleCreators(Integer amount, Integer birthYear, String group) {
+    MultipleCreators(int amount, int birthYear, @NonNull String group) {
         this.amount = amount;
         this.birthYear = birthYear;
         this.group = group;
@@ -46,7 +48,7 @@ public class MultipleCreators {
          * @param amount    the amount of creators to add
          * @param birthYear integer between 1900 and [last year]
          */
-        public Builder(Integer amount, Integer birthYear) {
+        public Builder(int amount, int birthYear) {
             this.amount = amount;
             this.birthYear = birthYear;
         }
@@ -54,11 +56,13 @@ public class MultipleCreators {
         /**
          * @param group to add creators to
          */
-        public Builder setGroup(String group) {
+        @NonNull
+        public Builder setGroup(@NonNull String group) {
             this.group = group;
             return this;
         }
 
+        @NonNull
         public MultipleCreators build() {
             return new MultipleCreators(amount, birthYear, group);
         }

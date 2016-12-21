@@ -1,5 +1,8 @@
 package com.creatubbles.api.model.image_manipulation;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.creatubbles.api.exception.InvalidParametersException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.github.jasminb.jsonapi.annotations.Id;
@@ -30,10 +33,12 @@ public class ImageManipulation {
         this.cropping = cropping;
     }
 
+    @Nullable
     public Rotation getRotation() {
         return rotation;
     }
 
+    @Nullable
     public Cropping getCropping() {
         return cropping;
     }
@@ -45,17 +50,19 @@ public class ImageManipulation {
         public Builder() {
         }
 
-        public Builder setRotation(Rotation rotation) {
+        @NonNull
+        public Builder setRotation(@NonNull Rotation rotation) {
             this.rotation = rotation;
             return this;
         }
 
-
-        public Builder setCropping(Cropping cropping) {
+        @NonNull
+        public Builder setCropping(@NonNull Cropping cropping) {
             this.cropping = cropping;
             return this;
         }
 
+        @NonNull
         public ImageManipulation build() {
             if (rotation == null && cropping == null) {
                 throw new InvalidParametersException("Cannot create ImageManipulation. You should set either rotation, cropping or both.");

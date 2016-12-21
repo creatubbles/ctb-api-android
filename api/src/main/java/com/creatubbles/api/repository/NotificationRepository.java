@@ -16,9 +16,9 @@ import java.util.List;
 public interface NotificationRepository {
 
     void getNotifications(@Nullable Integer page, @Nullable NotificationFilter filter,
-                          ResponseCallback<CreatubblesResponse<List<Notification>>> callback);
+                          @Nullable ResponseCallback<CreatubblesResponse<List<Notification>>> callback);
 
-    void markRead(@NonNull String notificationId, ResponseCallback<Void> callback);
+    void markRead(@NonNull String notificationId, @Nullable ResponseCallback<Void> callback);
 
-    void updateLastViewedDate(ResponseCallback<Void> callback);
+    void updateLastViewedDate(@Nullable ResponseCallback<Void> callback);
 }

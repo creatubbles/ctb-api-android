@@ -144,41 +144,49 @@ public class CustomStyle {
         private List<String> bodyColors;
         private List<String> headerColors;
 
-        public Builder setName(String name) {
+        @NonNull
+        public Builder setName(@NonNull String name) {
             this.name = name;
             return this;
         }
 
-        public Builder setHeaderBackgroundId(String headerBackgroundId) {
+        @NonNull
+        public Builder setHeaderBackgroundId(@NonNull String headerBackgroundId) {
             this.headerBackgroundId = headerBackgroundId;
             return this;
         }
 
-        public Builder setBodyBackgroundId(String bodyBackgroundId) {
+        @NonNull
+        public Builder setBodyBackgroundId(@NonNull String bodyBackgroundId) {
             this.bodyBackgroundId = bodyBackgroundId;
             return this;
         }
 
-        public Builder setFont(String font) {
+        @NonNull
+        public Builder setFont(@NonNull String font) {
             this.font = font;
             return this;
         }
 
-        public Builder setBio(String bio) {
+        @NonNull
+        public Builder setBio(@NonNull String bio) {
             this.bio = bio;
             return this;
         }
 
-        public Builder setBodyColors(List<String> bodyColors) {
+        @NonNull
+        public Builder setBodyColors(@NonNull List<String> bodyColors) {
             this.bodyColors = bodyColors;
             return this;
         }
 
-        public Builder setHeaderColors(List<String> headerColors) {
+        @NonNull
+        public Builder setHeaderColors(@NonNull List<String> headerColors) {
             this.headerColors = headerColors;
             return this;
         }
 
+        @NonNull
         public CustomStyle build() {
             return new CustomStyle(name, headerBackgroundId, bodyBackgroundId, font, bio, bodyColors, headerColors);
         }
@@ -191,7 +199,6 @@ public class CustomStyle {
     public User getUser() {
         return user;
     }
-
 
     /**
      * @return instance of creation used as header background

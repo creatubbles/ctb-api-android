@@ -29,7 +29,7 @@ public class UserRepositoryBuilder {
      * <li>With an user access token you can list users, and get all data this user has access to</li>
      * </ul>
      */
-    public UserRepositoryBuilder(AccessToken accessToken) {
+    public UserRepositoryBuilder(@NonNull AccessToken accessToken) {
         if (accessToken == null) {
             throw new NullPointerException("accessToken can't be null!");
         }

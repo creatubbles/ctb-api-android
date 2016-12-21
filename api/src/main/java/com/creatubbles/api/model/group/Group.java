@@ -90,16 +90,19 @@ public class Group {
         public Builder() {
         }
 
-        public Builder setName(String name) {
+        @NonNull
+        public Builder setName(@NonNull String name) {
             this.name = name;
             return this;
         }
 
-        public Builder setAvatarCreation(Creation avatarCreation) {
+        @NonNull
+        public Builder setAvatarCreation(@NonNull Creation avatarCreation) {
             this.avatarCreation = avatarCreation;
             return this;
         }
 
+        @NonNull
         public Group build() {
             if (name == null && avatarCreation == null) {
                 throw new IllegalStateException("Cannot create empty group, you should set either name, avatarCreation or both.");

@@ -26,7 +26,7 @@ public class GroupRepositoryBuilder {
     /**
      * GroupRepository requires {@link com.creatubbles.api.model.auth.UserAccessToken}.
      */
-    public GroupRepositoryBuilder(UserAccessToken accessToken) {
+    public GroupRepositoryBuilder(@NonNull UserAccessToken accessToken) {
         if (accessToken == null) {
             throw new NullPointerException("accessToken can't be null");
         }

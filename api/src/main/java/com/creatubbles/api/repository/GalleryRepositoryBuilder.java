@@ -29,7 +29,7 @@ public class GalleryRepositoryBuilder {
      * <li>With an user access token you can list public galleries and the all galleries which belong to the user, including empty ones.</li>
      * </ul>
      */
-    public GalleryRepositoryBuilder(AccessToken accessToken) {
+    public GalleryRepositoryBuilder(@NonNull AccessToken accessToken) {
         if (accessToken == null) {
             throw new NullPointerException("accessToken can't be null!");
         }

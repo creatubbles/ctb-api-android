@@ -24,7 +24,7 @@ public class UserFollowingRepositoryBuilder {
 
     private final UserAccessToken accessToken;
 
-    public UserFollowingRepositoryBuilder(UserAccessToken accessToken) {
+    public UserFollowingRepositoryBuilder(@NonNull UserAccessToken accessToken) {
         if (accessToken == null) {
             throw new NullPointerException("accessToken can't be null");
         }

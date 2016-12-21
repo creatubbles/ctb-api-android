@@ -21,7 +21,7 @@ public class PartnerApplicationRepositoryBuilder {
     @Inject
     ObjectMapper objectMapper;
 
-    public PartnerApplicationRepositoryBuilder(AccessToken accessToken) {
+    public PartnerApplicationRepositoryBuilder(@NonNull AccessToken accessToken) {
         if (accessToken == null) {
             throw new NullPointerException("accessToken can't be null!");
         }

@@ -93,11 +93,12 @@ public class School {
         private final String name;
         private final String countryCode;
 
-        public Builder(String name, String countryCode) {
+        public Builder(@NonNull String name, @NonNull String countryCode) {
             this.name = name;
             this.countryCode = countryCode;
         }
 
+        @NonNull
         public School build() {
             return new School(name, countryCode);
         }

@@ -15,9 +15,7 @@ public class AvatarSuggestion {
 
     @JsonCreator
     public AvatarSuggestion() {
-
     }
-
 
     public AvatarSuggestion(@NonNull String avatarUrl) {
         this.avatarUrl = avatarUrl;

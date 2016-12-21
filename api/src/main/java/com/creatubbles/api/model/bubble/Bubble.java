@@ -179,6 +179,7 @@ public class Bubble {
          * @param yPos bubble Y position, 0 < yPos < 1
          * @throws InvalidParametersException when either of params is smaller than 0 or greater than 1
          */
+        @NonNull
         public Builder setPosition(double xPos, double yPos) {
             if (xPos < 0.0D || xPos > 1.0D) {
                 throw new InvalidParametersException("xPos has to be a number between 0 and 1");
@@ -197,11 +198,13 @@ public class Bubble {
          *
          * @param color the name of the color taken from {@link BubbleColor#getColor()}
          */
-        public Builder setColor(String color) {
+        @NonNull
+        public Builder setColor(@NonNull String color) {
             this.color = color;
             return this;
         }
 
+        @NonNull
         public Bubble build() {
             return new Bubble(xPos, yPos, color);
         }
