@@ -28,7 +28,7 @@ public class CommentRepositoryBuilder {
      * <li>With an application only access token you get the published comments and cannot create new comments.</li>
      * <li>With an user access token you get all published comments and comments the user can approve.</li>
      */
-    public CommentRepositoryBuilder(AccessToken accessToken) {
+    public CommentRepositoryBuilder(@NonNull AccessToken accessToken) {
         if (accessToken == null) {
             throw new NullPointerException("accessToken can't be null");
         }

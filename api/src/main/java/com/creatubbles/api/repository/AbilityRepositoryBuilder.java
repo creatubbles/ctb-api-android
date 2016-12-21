@@ -24,7 +24,7 @@ public class AbilityRepositoryBuilder {
 
     private final UserAccessToken accessToken;
 
-    public AbilityRepositoryBuilder(UserAccessToken accessToken) {
+    public AbilityRepositoryBuilder(@NonNull UserAccessToken accessToken) {
         if (accessToken == null) {
             throw new NullPointerException("accessToken can't be null");
         }

@@ -1,6 +1,7 @@
 package com.creatubbles.api;
 
 import android.app.Application;
+import android.support.annotation.NonNull;
 
 import com.creatubbles.api.exception.InvalidParametersException;
 
@@ -22,7 +23,7 @@ public class Configuration {
     private final Application context;
     private final Locale locale;
 
-    public Configuration(Builder builder) {
+    public Configuration(@NonNull Builder builder) {
         this.clientId = builder.clientId;
         this.clientSecret = builder.clientSecret;
         this.baseUrl = builder.baseUrl;
@@ -38,31 +39,32 @@ public class Configuration {
         Application context;
         Locale locale;
 
-        public Builder clientId(String clientId) {
+        public Builder clientId(@NonNull String clientId) {
             this.clientId = clientId;
             return this;
         }
 
-        public Builder clientSecret(String clientSecret) {
+        public Builder clientSecret(@NonNull String clientSecret) {
             this.clientSecret = clientSecret;
             return this;
         }
 
-        public Builder baseUrl(String baseUrl) {
+        public Builder baseUrl(@NonNull String baseUrl) {
             this.baseUrl = baseUrl;
             return this;
         }
 
-        public Builder application(Application application) {
+        public Builder application(@NonNull Application application) {
             this.context = application;
             return this;
         }
 
-        public Builder locale(Locale locale) {
+        public Builder locale(@NonNull Locale locale) {
             this.locale = locale;
             return this;
         }
 
+        @NonNull
         public Configuration build() {
             if (clientId == null) {
                 throw new InvalidParametersException(INVALID_CLIENT_ID_MESSAGE);

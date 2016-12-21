@@ -30,7 +30,7 @@ public class ActivityRepositoryBuilder {
      * <li>With an user access token you’ll retrieve activity geared towards this user.</li>
      * </ul>
      */
-    public ActivityRepositoryBuilder(AccessToken accessToken) {
+    public ActivityRepositoryBuilder(@NonNull AccessToken accessToken) {
         if (accessToken == null) {
             throw new NullPointerException("accessToken can't be null");
         }

@@ -26,43 +26,43 @@ class ContentRepositoryImpl implements ContentRepository {
     }
 
     @Override
-    public void search(@NonNull String query, @Nullable Integer page, ResponseCallback<CreatubblesResponse<List<Content>>> callback) {
+    public void search(@NonNull String query, @Nullable Integer page, @Nullable ResponseCallback<CreatubblesResponse<List<Content>>> callback) {
         Call<JSONAPIDocument<List<Content>>> call = contentService.getContents(page, query);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void getRecent(@Nullable Integer page, ResponseCallback<CreatubblesResponse<List<Content>>> callback) {
+    public void getRecent(@Nullable Integer page, @Nullable ResponseCallback<CreatubblesResponse<List<Content>>> callback) {
         Call<JSONAPIDocument<List<Content>>> call = contentService.getRecent(page);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void getTrending(@Nullable Integer page, ResponseCallback<CreatubblesResponse<List<Content>>> callback) {
+    public void getTrending(@Nullable Integer page, @Nullable ResponseCallback<CreatubblesResponse<List<Content>>> callback) {
         Call<JSONAPIDocument<List<Content>>> call = contentService.getTrending(page);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void getConnected(@Nullable Integer page, ResponseCallback<CreatubblesResponse<List<Content>>> callback) {
+    public void getConnected(@Nullable Integer page, @Nullable ResponseCallback<CreatubblesResponse<List<Content>>> callback) {
         Call<JSONAPIDocument<List<Content>>> call = contentService.getConnected(page);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void getFollowed(@Nullable Integer page, ResponseCallback<CreatubblesResponse<List<Content>>> callback) {
+    public void getFollowed(@Nullable Integer page, @Nullable ResponseCallback<CreatubblesResponse<List<Content>>> callback) {
         Call<JSONAPIDocument<List<Content>>> call = contentService.getFollowed(page);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void getByUser(@Nullable Integer page, @NonNull String userId, ResponseCallback<CreatubblesResponse<List<Content>>> callback) {
+    public void getByUser(@Nullable Integer page, @NonNull String userId, @Nullable ResponseCallback<CreatubblesResponse<List<Content>>> callback) {
         Call<JSONAPIDocument<List<Content>>> call = contentService.getByUser(userId, page);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void getBubbledByUser(@Nullable Integer page, @NonNull String userId, ResponseCallback<CreatubblesResponse<List<Content>>> callback) {
+    public void getBubbledByUser(@Nullable Integer page, @NonNull String userId, @Nullable ResponseCallback<CreatubblesResponse<List<Content>>> callback) {
         Call<JSONAPIDocument<List<Content>>> call = contentService.getBubbledByUser(userId, page);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }

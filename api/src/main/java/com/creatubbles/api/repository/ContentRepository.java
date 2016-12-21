@@ -18,35 +18,35 @@ public interface ContentRepository {
     /**
      * Method used to find content.
      */
-    void search(@NonNull String query, @Nullable Integer page, ResponseCallback<CreatubblesResponse<List<Content>>> callback);
+    void search(@NonNull String query, @Nullable Integer page, @Nullable ResponseCallback<CreatubblesResponse<List<Content>>> callback);
 
     /**
      * Method used to obtain a list of recent content.
      */
-    void getRecent(@Nullable Integer page, ResponseCallback<CreatubblesResponse<List<Content>>> callback);
+    void getRecent(@Nullable Integer page, @Nullable ResponseCallback<CreatubblesResponse<List<Content>>> callback);
 
     /**
      * Method used to obtain list of trending content.
      */
-    void getTrending(@Nullable Integer page, ResponseCallback<CreatubblesResponse<List<Content>>> callback);
+    void getTrending(@Nullable Integer page, @Nullable ResponseCallback<CreatubblesResponse<List<Content>>> callback);
 
     /**
      * Method used to obtain list of contents based on 'My Connections'.
      */
-    void getConnected(@Nullable Integer page, ResponseCallback<CreatubblesResponse<List<Content>>> callback);
+    void getConnected(@Nullable Integer page, @Nullable ResponseCallback<CreatubblesResponse<List<Content>>> callback);
 
     /**
      * Method used to obtain list of contents based on followed users.
      */
-    void getFollowed(@Nullable Integer page, ResponseCallback<CreatubblesResponse<List<Content>>> callback);
+    void getFollowed(@Nullable Integer page, @Nullable ResponseCallback<CreatubblesResponse<List<Content>>> callback);
 
     /**
      * Method used to obtain list of contents by a user.
      */
-    void getByUser(@Nullable Integer page, @NonNull String userId, ResponseCallback<CreatubblesResponse<List<Content>>> callback);
+    void getByUser(@Nullable Integer page, @NonNull String userId, @Nullable ResponseCallback<CreatubblesResponse<List<Content>>> callback);
 
     /**
      * Method used to obtain list of contents bubbled by a user.
      */
-    void getBubbledByUser(@Nullable Integer page, @NonNull String userId, ResponseCallback<CreatubblesResponse<List<Content>>> callback);
+    void getBubbledByUser(@Nullable Integer page, @NonNull String userId, @Nullable ResponseCallback<CreatubblesResponse<List<Content>>> callback);
 }

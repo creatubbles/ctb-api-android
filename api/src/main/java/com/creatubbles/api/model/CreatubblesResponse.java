@@ -1,5 +1,8 @@
 package com.creatubbles.api.model;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.github.jasminb.jsonapi.Links;
 
 public class CreatubblesResponse<D> {
@@ -16,14 +19,17 @@ public class CreatubblesResponse<D> {
         this.links = links;
     }
 
+    @NonNull
     public D getData() {
         return data;
     }
 
+    @Nullable
     public Meta getMeta() {
         return meta;
     }
 
+    @Nullable
     public Links getLinks() {
         return links;
     }

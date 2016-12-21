@@ -1,6 +1,7 @@
 package com.creatubbles.api.model.creation;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -32,10 +33,12 @@ public class ToybooDetails {
         return id;
     }
 
+    @Nullable
     public String getUzpbUrl() {
         return uzpbUrl;
     }
 
+    @Nullable
     public String getContentUrl() {
         return contentUrl;
     }

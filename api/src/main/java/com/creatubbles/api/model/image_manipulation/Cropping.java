@@ -1,15 +1,13 @@
 package com.creatubbles.api.model.image_manipulation;
 
-import android.support.annotation.NonNull;
-
 /**
  * @author Pawel Szymanski
  */
 public class Cropping {
-    private final Integer x;
-    private final Integer y;
-    private final Integer width;
-    private final Integer height;
+    private final int x;
+    private final int y;
+    private final int width;
+    private final int height;
 
     /**
      * @param x      the x position of the top left corner of the cropping
@@ -17,26 +15,26 @@ public class Cropping {
      * @param width  the width of the cropping
      * @param height the height of the cropping
      */
-    public Cropping(@NonNull Integer x, @NonNull Integer y, @NonNull Integer width, @NonNull Integer height) {
+    public Cropping(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
     }
 
-    public Integer getX() {
+    public int getX() {
         return x;
     }
 
-    public Integer getY() {
+    public int getY() {
         return y;
     }
 
-    public Integer getWidth() {
+    public int getWidth() {
         return width;
     }
 
-    public Integer getHeight() {
+    public int getHeight() {
         return height;
     }
 

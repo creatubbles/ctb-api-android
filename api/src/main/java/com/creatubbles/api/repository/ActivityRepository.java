@@ -17,5 +17,5 @@ public interface ActivityRepository {
      * Method used to obtain the list of activities. The activities returned by this method
      * correspond to the activities listed under the "For you" section of the web site.
      */
-    void getActivities(@Nullable Integer page, ResponseCallback<CreatubblesResponse<List<Activity>>> callback);
+    void getActivities(@Nullable Integer page, @Nullable ResponseCallback<CreatubblesResponse<List<Activity>>> callback);
 }

@@ -1,5 +1,7 @@
 package com.creatubbles.api;
 
+import android.support.annotation.NonNull;
+
 import com.creatubbles.api.di.modules.ApiModule;
 import com.creatubbles.api.exception.InitializationException;
 
@@ -11,7 +13,7 @@ public final class CreatubblesApi {
 
     private static Configuration apiConfiguration = null;
 
-    public static void initialize(Configuration configuration) {
+    public static void initialize(@NonNull Configuration configuration) {
         if (configuration == null) {
             throw new NullPointerException("Configuration can't be null");
         }

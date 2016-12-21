@@ -22,7 +22,7 @@ public class ReportRepositoryBuilder {
     @Inject
     ObjectMapper mapper;
 
-    public ReportRepositoryBuilder(UserAccessToken accessToken) {
+    public ReportRepositoryBuilder(@NonNull UserAccessToken accessToken) {
         if (accessToken == null) {
             throw new NullPointerException("accessToken can't be null");
         }

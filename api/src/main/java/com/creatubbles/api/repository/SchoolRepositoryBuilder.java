@@ -21,11 +21,10 @@ public class SchoolRepositoryBuilder {
 
     private final AccessToken accessToken;
 
-
     /**
      * With an application only access token you get the published schools.
      */
-    public SchoolRepositoryBuilder(AccessToken accessToken) {
+    public SchoolRepositoryBuilder(@NonNull AccessToken accessToken) {
         if (accessToken == null) {
             throw new NullPointerException("accessToken can't be null");
         }

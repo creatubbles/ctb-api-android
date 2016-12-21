@@ -1,6 +1,7 @@
 package com.creatubbles.api.repository;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.creatubbles.api.model.CreatubblesResponse;
 import com.creatubbles.api.model.user.avatar.Avatar;
@@ -32,13 +33,13 @@ public class AvatarRepositoryImpl implements AvatarRepository {
 
 
     @Override
-    public void updateAvatar(@NonNull String userId, Avatar body, ResponseCallback<CreatubblesResponse<Avatar>> callback) {
+    public void updateAvatar(@NonNull String userId, @NonNull Avatar body, ResponseCallback<CreatubblesResponse<Avatar>> callback) {
         Call<JSONAPIDocument<Avatar>> call = userService.updateAvatar(userId, body);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void getSuggestedAvatars(ResponseCallback<CreatubblesResponse<List<AvatarSuggestion>>> callback) {
+    public void getSuggestedAvatars(@Nullable ResponseCallback<CreatubblesResponse<List<AvatarSuggestion>>> callback) {
         Call<JSONAPIDocument<List<AvatarSuggestion>>> call = userService.getSuggestedAvatars();
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }

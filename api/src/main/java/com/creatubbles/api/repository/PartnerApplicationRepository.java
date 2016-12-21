@@ -15,8 +15,8 @@ import java.util.List;
 public interface PartnerApplicationRepository {
 
     void search(@Nullable Integer page, @NonNull String query,
-                ResponseCallback<CreatubblesResponse<List<PartnerApplication>>> callback);
+                @Nullable ResponseCallback<CreatubblesResponse<List<PartnerApplication>>> callback);
 
     void getById(@NonNull String partnerApplicationId,
-                 ResponseCallback<CreatubblesResponse<PartnerApplication>> callback);
+                 @Nullable ResponseCallback<CreatubblesResponse<PartnerApplication>> callback);
 }

@@ -1,5 +1,7 @@
 package com.creatubbles.api.model;
 
+import android.support.annotation.Nullable;
+
 import com.creatubbles.api.converter.AbilitiesConverter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -31,30 +33,37 @@ public class Meta {
     @JsonDeserialize(using = AbilitiesConverter.class)
     private List<Ability> abilities;
 
+    @Nullable
     public Integer getTotalPages() {
         return totalPages;
     }
 
+    @Nullable
     public Integer getTotalCount() {
         return totalCount;
     }
 
+    @Nullable
     public List<String> getBubbledCreations() {
         return unmodifiableList(userBubbledCreations);
     }
 
+    @Nullable
     public List<String> getBubbledGalleries() {
         return unmodifiableList(userBubbledGalleries);
     }
 
+    @Nullable
     public List<String> getBubbledUsers() {
         return unmodifiableList(userBubbledUsers);
     }
 
+    @Nullable
     public List<String> getFollowedUsers() {
         return unmodifiableList(followedUsers);
     }
 
+    @Nullable
     public List<Ability> getAbilities() {
         return unmodifiableList(abilities);
     }

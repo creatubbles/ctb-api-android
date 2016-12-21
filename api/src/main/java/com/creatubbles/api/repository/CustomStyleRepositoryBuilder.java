@@ -27,7 +27,7 @@ public class CustomStyleRepositoryBuilder {
     /**
      * Either user or application access token is required.
      */
-    public CustomStyleRepositoryBuilder(AccessToken accessToken) {
+    public CustomStyleRepositoryBuilder(@NonNull AccessToken accessToken) {
         if (accessToken == null) {
             throw new NullPointerException("accessToken can't be null!");
         }

@@ -24,7 +24,7 @@ public interface CreationRepository {
      * @param onlyPublic set true to get only approved Creations
      */
     void getRecent(@Nullable Integer page, @Nullable Boolean onlyPublic,
-                   ResponseCallback<CreatubblesResponse<List<Creation>>> callback);
+                   @Nullable ResponseCallback<CreatubblesResponse<List<Creation>>> callback);
 
     /**
      * @param page       number of the page
@@ -32,7 +32,7 @@ public interface CreationRepository {
      * @param onlyPublic set true to get only approved Creations
      */
     void getFromGallery(@Nullable Integer page, @NonNull String galleryId, @Nullable Boolean onlyPublic,
-                        ResponseCallback<CreatubblesResponse<List<Creation>>> callback);
+                        @Nullable ResponseCallback<CreatubblesResponse<List<Creation>>> callback);
 
     /**
      * @param page       number of the page
@@ -40,7 +40,7 @@ public interface CreationRepository {
      * @param onlyPublic set true to get only approved Creations
      */
     void getByUser(@Nullable Integer page, @NonNull String userId, @Nullable Boolean onlyPublic,
-                   ResponseCallback<CreatubblesResponse<List<Creation>>> callback);
+                   @Nullable ResponseCallback<CreatubblesResponse<List<Creation>>> callback);
 
     /**
      * @param page       number of the page
@@ -48,10 +48,10 @@ public interface CreationRepository {
      * @param onlyPublic set true to get only approved Creations
      */
     void getByName(@Nullable Integer page, @NonNull String name, @Nullable Boolean onlyPublic,
-                   ResponseCallback<CreatubblesResponse<List<Creation>>> callback);
+                   @Nullable ResponseCallback<CreatubblesResponse<List<Creation>>> callback);
 
 
-    void getById(@NonNull String creationId, ResponseCallback<CreatubblesResponse<Creation>> callback);
+    void getById(@NonNull String creationId, @Nullable ResponseCallback<CreatubblesResponse<Creation>> callback);
 
     /**
      * Method used to obtain a list of recommended Creations by given Creation.
@@ -60,7 +60,7 @@ public interface CreationRepository {
      * @param onlyPublic set true to get only approved Creations
      */
     void getRecommendedByCreation(@Nullable Integer page, @NonNull String creationId, @Nullable Boolean onlyPublic,
-                                  ResponseCallback<CreatubblesResponse<List<Creation>>> callback);
+                                  @Nullable ResponseCallback<CreatubblesResponse<List<Creation>>> callback);
 
     /**
      * Method used to obtain a list of recommended creations added by given user.
@@ -69,13 +69,13 @@ public interface CreationRepository {
      * @param onlyPublic set true to get only approved Creations
      */
     void getRecommendedByUser(@Nullable Integer page, @NonNull String creationId, @Nullable Boolean onlyPublic,
-                              ResponseCallback<CreatubblesResponse<List<Creation>>> callback);
+                              @Nullable ResponseCallback<CreatubblesResponse<List<Creation>>> callback);
 
     /**
      * Method used to obtain a list of creations by Partner Application.
      */
     void getByPartnerApplication(@Nullable Integer page, @NonNull String partnerApplicationId,
-                                 ResponseCallback<CreatubblesResponse<List<Creation>>> callback);
+                                 @Nullable ResponseCallback<CreatubblesResponse<List<Creation>>> callback);
 
     /**
      * Method used to update Creation with a given ID.
@@ -85,19 +85,19 @@ public interface CreationRepository {
      *                   To create this object use {@link com.creatubbles.api.model.creation.Creation.Builder}
      *                   and set only the properties you want to update.
      */
-    void update(@NonNull String creationId, @NonNull Creation creation, ResponseCallback<Void> callback);
+    void update(@NonNull String creationId, @NonNull Creation creation, @Nullable ResponseCallback<Void> callback);
 
     /**
      * Method used to create a new Creation.
      *
      * @param creation Creation instance created using {@link com.creatubbles.api.model.creation.Creation.Builder}.
      */
-    void create(@NonNull Creation creation, ResponseCallback<CreatubblesResponse<Creation>> callback);
+    void create(@NonNull Creation creation, @Nullable ResponseCallback<CreatubblesResponse<Creation>> callback);
 
     /**
      * @param creationId the ID of Creation that should be removed
      */
-    void remove(@NonNull String creationId, ResponseCallback<Void> callback);
+    void remove(@NonNull String creationId, @Nullable ResponseCallback<Void> callback);
 
     /**
      *
@@ -106,19 +106,19 @@ public interface CreationRepository {
      * @param contentType the content type of the file you intend to upload
      * @param callback
      */
-    void uploadFile(@NonNull String creationId, @NonNull File file, @NonNull ContentType contentType, ResponseCallback<Void> callback);
+    void uploadFile(@NonNull String creationId, @NonNull File file, @NonNull ContentType contentType, @Nullable ResponseCallback<Void> callback);
 
     /**
      * Method used to modify image of a creation identified by {@code creationId}.
      *
      * @param imageManipulation object describing operations to perform on an image
      */
-    void updateImage(@NonNull String creationId, @NonNull ImageManipulation imageManipulation, ResponseCallback<Void> callback);
+    void updateImage(@NonNull String creationId, @NonNull ImageManipulation imageManipulation, @Nullable ResponseCallback<Void> callback);
 
     /**
      * Method used to obtain toyboo details for specific creation
      *
      * @param creationId the ID of Creation
      */
-    void getToybooDetails(@NonNull String creationId, ResponseCallback<CreatubblesResponse<ToybooDetails>> callback);
+    void getToybooDetails(@NonNull String creationId, @Nullable ResponseCallback<CreatubblesResponse<ToybooDetails>> callback);
 }

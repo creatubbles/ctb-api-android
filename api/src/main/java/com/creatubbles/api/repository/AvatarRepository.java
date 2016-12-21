@@ -1,6 +1,7 @@
 package com.creatubbles.api.repository;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.creatubbles.api.model.CreatubblesResponse;
 import com.creatubbles.api.model.user.avatar.Avatar;
@@ -15,7 +16,7 @@ import java.util.List;
 
 public interface AvatarRepository {
 
-    void updateAvatar(@NonNull String userId, Avatar body, ResponseCallback<CreatubblesResponse<Avatar>> callback);
+    void updateAvatar(@NonNull String userId, @NonNull Avatar body, @Nullable ResponseCallback<CreatubblesResponse<Avatar>> callback);
 
-    void getSuggestedAvatars(ResponseCallback<CreatubblesResponse<List<AvatarSuggestion>>> callback);
+    void getSuggestedAvatars(@Nullable ResponseCallback<CreatubblesResponse<List<AvatarSuggestion>>> callback);
 }

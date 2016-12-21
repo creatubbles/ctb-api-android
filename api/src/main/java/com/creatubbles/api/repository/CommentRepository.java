@@ -24,7 +24,7 @@ public interface CommentRepository {
      * @param creationId ID of a Creation for which to return comments
      */
     void getForCreation(@Nullable Integer page, @NonNull String creationId,
-                        ResponseCallback<CreatubblesResponse<List<Comment>>> callback);
+                        @Nullable ResponseCallback<CreatubblesResponse<List<Comment>>> callback);
 
     /**
      * Method used to obtain comments on a Gallery specified by {@code galleryId} param.
@@ -33,7 +33,7 @@ public interface CommentRepository {
      * @param galleryId ID of a Gallery for which to return comments
      */
     void getForGallery(@Nullable Integer page, @NonNull String galleryId,
-                       ResponseCallback<CreatubblesResponse<List<Comment>>> callback);
+                       @Nullable ResponseCallback<CreatubblesResponse<List<Comment>>> callback);
 
     /**
      * Method used to obtain comments on a User specified by {@code userId} param.
@@ -42,37 +42,37 @@ public interface CommentRepository {
      * @param userId ID of a User for which to return comments
      */
     void getForUser(@Nullable Integer page, @NonNull String userId,
-                    ResponseCallback<CreatubblesResponse<List<Comment>>> callback);
+                    @Nullable ResponseCallback<CreatubblesResponse<List<Comment>>> callback);
 
     /**
      * Method used to create comment on a Creation specified by {@code creationId}.
      */
     void createForCreation(@NonNull Comment comment, @NonNull String creationId,
-                           ResponseCallback<CreatubblesResponse<Comment>> callback);
+                           @Nullable ResponseCallback<CreatubblesResponse<Comment>> callback);
 
     /**
      * Method used to create comment on a Gallery specified by {@code galleryId}.
      */
     void createForGallery(@NonNull Comment comment, @NonNull String galleryId,
-                          ResponseCallback<CreatubblesResponse<Comment>> callback);
+                          @Nullable ResponseCallback<CreatubblesResponse<Comment>> callback);
 
     /**
      * Method used to create comment on a User specified by {@code userId}.
      */
     void createForUser(@NonNull Comment comment, @NonNull String userId,
-                       ResponseCallback<CreatubblesResponse<Comment>> callback);
+                       @Nullable ResponseCallback<CreatubblesResponse<Comment>> callback);
 
     /**
      * Method used to approve a comment specified by {@code commentId}.
      *
      * @param commentId the ID of a comment which to approve
      */
-    void approve(@NonNull String commentId, ResponseCallback<Void> callback);
+    void approve(@NonNull String commentId, @Nullable ResponseCallback<Void> callback);
 
     /**
      * Method used to decline a comment specified by {@code commentId}.
      *
      * @param commentId the ID of a comment which to decline
      */
-    void decline(@NonNull String commentId, ResponseCallback<Void> callback);
+    void decline(@NonNull String commentId, @Nullable ResponseCallback<Void> callback);
 }

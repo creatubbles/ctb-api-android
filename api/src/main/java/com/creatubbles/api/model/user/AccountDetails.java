@@ -306,22 +306,26 @@ public class AccountDetails {
         private String countryCode;
         private Creation avatarCreation;
 
-        public Builder setUsername(String username) {
+        @NonNull
+        public Builder setUsername(@NonNull String username) {
             this.username = username;
             return this;
         }
 
-        public Builder setDisplayName(String displayName) {
+        @NonNull
+        public Builder setDisplayName(@NonNull String displayName) {
             this.displayName = displayName;
             return this;
         }
 
-        public Builder setName(String name) {
+        @NonNull
+        public Builder setName(@NonNull String name) {
             this.name = name;
             return this;
         }
 
-        public Builder setEmail(String email) {
+        @NonNull
+        public Builder setEmail(@NonNull String email) {
             this.email = email;
             return this;
         }
@@ -329,7 +333,8 @@ public class AccountDetails {
         /**
          * @param birthMonth number between 1 and 12
          */
-        public Builder setBirthMonth(Integer birthMonth) {
+        @NonNull
+        public Builder setBirthMonth(int birthMonth) {
             if (birthMonth < 0 || birthMonth > 12) {
                 throw new InvalidParametersException("birthMonth has to be a number between 1 and 12 (inclusive)");
             }
@@ -340,7 +345,8 @@ public class AccountDetails {
         /**
          * @param birthYear number between 1900 and current year
          */
-        public Builder setBirthYear(Integer birthYear) {
+        @NonNull
+        public Builder setBirthYear(int birthYear) {
             if (birthYear < 1900) {
                 throw new InvalidParametersException("birthYear can't be smaller than 1900");
             }
@@ -348,51 +354,61 @@ public class AccountDetails {
             return this;
         }
 
-        public Builder setAgeDisplayType(AgeDisplayType ageDisplayType) {
+        @NonNull
+        public Builder setAgeDisplayType(@NonNull AgeDisplayType ageDisplayType) {
             this.ageDisplayType = ageDisplayType;
             return this;
         }
 
-        public Builder setUiLocale(String uiLocale) {
+        @NonNull
+        public Builder setUiLocale(@NonNull String uiLocale) {
             this.uiLocale = uiLocale;
             return this;
         }
 
+        @NonNull
         public Builder setPreapproveComments(boolean preapproveComments) {
             this.preapproveComments = preapproveComments;
             return this;
         }
 
+        @NonNull
         public Builder setReceiveNotifications(boolean receiveNotifications) {
             this.receiveNotifications = receiveNotifications;
             return this;
         }
 
+        @NonNull
         public Builder setReceiveNewsletter(boolean receiveNewsletter) {
             this.receiveNewsletter = receiveNewsletter;
             return this;
         }
 
-        public Builder setWhatDoYouTeach(String whatDoYouTeach) {
+        @NonNull
+        public Builder setWhatDoYouTeach(@NonNull String whatDoYouTeach) {
             this.whatDoYouTeach = whatDoYouTeach;
             return this;
         }
 
-        public Builder setInterests(String interests) {
+        @NonNull
+        public Builder setInterests(@NonNull String interests) {
             this.interests = interests;
             return this;
         }
 
-        public Builder setCountryCode(String countryCode) {
+        @NonNull
+        public Builder setCountryCode(@NonNull String countryCode) {
             this.countryCode = countryCode;
             return this;
         }
 
-        public Builder setAvatarCreation(Creation avatarCreation) {
+        @NonNull
+        public Builder setAvatarCreation(@NonNull Creation avatarCreation) {
             this.avatarCreation = avatarCreation;
             return this;
         }
 
+        @NonNull
         public AccountDetails build() {
             return new AccountDetails(username,
                     displayName,

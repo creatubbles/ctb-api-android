@@ -27,7 +27,7 @@ public class NotificationRepositoryBuilder {
      * <li>With an user access token you can get all notifications addressed to this user</li>
      * </ul>
      */
-    public NotificationRepositoryBuilder(AccessToken accessToken) {
+    public NotificationRepositoryBuilder(@NonNull AccessToken accessToken) {
         if (accessToken == null) {
             throw new NullPointerException("accessToken can't be null");
         }

@@ -270,22 +270,24 @@ public class Creation {
         private String reflectionText;
 
 
-        public Builder(String name, List<User> creators) {
+        public Builder(@NonNull String name, @NonNull List<User> creators) {
             this.name = name;
             this.creators = creators;
         }
 
-        public Builder setReflectionText(String reflectionText) {
+        @NonNull
+        public Builder setReflectionText(@NonNull String reflectionText) {
             this.reflectionText = reflectionText;
             return this;
         }
 
-        public Builder setReflectionVideoUrl(String reflectionVideoUrl) {
+        @NonNull
+        public Builder setReflectionVideoUrl(@NonNull String reflectionVideoUrl) {
             this.reflectionVideoUrl = reflectionVideoUrl;
             return this;
         }
 
-
+        @NonNull
         public Creation build() {
             return new Creation(name, creators, reflectionText, reflectionVideoUrl);
         }

@@ -17,7 +17,7 @@ public interface OAuthRepository {
      * This token will give you access to publicly available information and actions.
      * Use this type of access token if you want to retrieve content independent from any users.
      */
-    void authorize(ResponseCallback<ApplicationAccessToken> callback);
+    void authorize(@Nullable ResponseCallback<ApplicationAccessToken> callback);
 
     /**
      * Method used to obtain <strong>User access token</strong>. User access tokens extend your access rights to allow your
@@ -25,11 +25,11 @@ public interface OAuthRepository {
      * for the user the access token was issued for. The user access token basically allows you to retrieve
      * content and execute actions on behalf of the user the token was issued for.
      */
-    void authorize(String login, String password, ResponseCallback<UserAccessToken> callback);
+    void authorize(@NonNull String login, @NonNull String password, @Nullable ResponseCallback<UserAccessToken> callback);
 
-    void setClientId(String clientId);
+    void setClientId(@NonNull String clientId);
 
-    void setClientSecret(String clientSecret);
+    void setClientSecret(@NonNull String clientSecret);
 
     /**
      * Method used to retrieve an access token for one of current user's managed creators without their password.
@@ -38,5 +38,5 @@ public interface OAuthRepository {
      * @param targetUserId the user for which to obtain an access token
      * @param groupId      (optional) limits further user switching to the given group
      */
-    void switchUser(@NonNull UserAccessToken currentToken, @NonNull String targetUserId, @Nullable String groupId, ResponseCallback<UserAccessToken> callback);
+    void switchUser(@NonNull UserAccessToken currentToken, @NonNull String targetUserId, @Nullable String groupId, @Nullable ResponseCallback<UserAccessToken> callback);
 }

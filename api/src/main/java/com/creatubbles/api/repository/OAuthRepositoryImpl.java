@@ -39,25 +39,25 @@ class OAuthRepositoryImpl implements OAuthRepository {
     }
 
     @Override
-    public void authorize(String login, String password, ResponseCallback<UserAccessToken> callback) {
+    public void authorize(@NonNull String login, @NonNull String password, ResponseCallback<UserAccessToken> callback) {
         Call<AuthToken> call = oAuthService.getAccessToken(clientId, clientSecret, GrantType.PASSWORD, login,
                 password);
         call.enqueue(new AuthResponseMapper<>(objectMapper, GrantType.PASSWORD, callback));
     }
 
     @Override
-    public void switchUser(@NonNull UserAccessToken currentToken, @NonNull String targetUserId, @Nullable String groupId, ResponseCallback<UserAccessToken> callback) {
+    public void switchUser(@NonNull UserAccessToken currentToken, @NonNull String targetUserId, @Nullable String groupId, @Nullable ResponseCallback<UserAccessToken> callback) {
         Call<AuthToken> call = oAuthService.switchUser(currentToken.getToken(), GrantType.USER_SWITCH, targetUserId, groupId);
         call.enqueue(new AuthResponseMapper<>(objectMapper, GrantType.USER_SWITCH, callback));
     }
 
     @Override
-    public void setClientId(String clientId) {
+    public void setClientId(@NonNull String clientId) {
         this.clientId = clientId;
     }
 
     @Override
-    public void setClientSecret(String clientSecret) {
+    public void setClientSecret(@NonNull String clientSecret) {
         this.clientSecret = clientSecret;
     }
 

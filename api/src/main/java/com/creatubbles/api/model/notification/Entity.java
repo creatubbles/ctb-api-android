@@ -14,23 +14,21 @@ abstract class Entity {
     private String id;
 
     @JsonProperty("start_pos")
-    private Integer startPosition;
+    private int startPosition;
 
     @JsonProperty("end_pos")
-    private Integer endPosition;
+    private int endPosition;
 
     @NonNull
     public String getId() {
         return id;
     }
 
-    @NonNull
-    public Integer getStartPosition() {
+    public int getStartPosition() {
         return startPosition;
     }
 
-    @NonNull
-    public Integer getEndPosition() {
+    public int getEndPosition() {
         return endPosition;
     }
 }

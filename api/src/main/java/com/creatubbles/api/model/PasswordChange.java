@@ -1,5 +1,7 @@
 package com.creatubbles.api.model;
 
+import android.support.annotation.NonNull;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.jasminb.jsonapi.annotations.Id;
@@ -29,7 +31,7 @@ public class PasswordChange {
      *
      * @see PasswordChange#create(String, String)
      */
-    public static PasswordChange create(String newPassword) {
+    public static PasswordChange create(@NonNull String newPassword) {
         return new PasswordChange(newPassword, null, null);
     }
 
@@ -38,7 +40,7 @@ public class PasswordChange {
      *
      * @see PasswordChange#create(String)
      */
-    public static PasswordChange create(String newPassword, String currentPassword) {
+    public static PasswordChange create(@NonNull String newPassword, @NonNull String currentPassword) {
         return new PasswordChange(newPassword, currentPassword, newPassword);
     }
 
@@ -56,6 +58,7 @@ public class PasswordChange {
         return id;
     }
 
+    @NonNull
     public String getNewPassword() {
         return newPassword;
     }

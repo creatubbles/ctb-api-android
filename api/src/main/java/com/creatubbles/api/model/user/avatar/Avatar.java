@@ -91,16 +91,19 @@ public class Avatar {
         public Builder() {
         }
 
-        public Builder avatarCreation(Creation avatarCreation) {
+        @NonNull
+        public Builder avatarCreation(@NonNull Creation avatarCreation) {
             this.avatarCreation = avatarCreation;
             return this;
         }
 
-        public Builder avatarSuggestion(AvatarSuggestion avatarSuggestion) {
+        @NonNull
+        public Builder avatarSuggestion(@NonNull AvatarSuggestion avatarSuggestion) {
             this.avatarSuggestion = avatarSuggestion;
             return this;
         }
 
+        @NonNull
         public Avatar build() {
             return new Avatar(avatarSuggestion, avatarCreation);
         }

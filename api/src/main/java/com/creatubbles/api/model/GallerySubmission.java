@@ -1,5 +1,7 @@
 package com.creatubbles.api.model;
 
+import android.support.annotation.NonNull;
+
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.gallery.Gallery;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -26,15 +28,17 @@ public class GallerySubmission {
     public GallerySubmission() {
     }
 
-    public GallerySubmission(String galleryId, String creationId) {
+    public GallerySubmission(@NonNull String galleryId, @NonNull String creationId) {
         this.gallery = new Gallery(galleryId);
         this.creation = new Creation(creationId);
     }
 
+    @NonNull
     public Gallery getGallery() {
         return gallery;
     }
 
+    @NonNull
     public Creation getCreation() {
         return creation;
     }

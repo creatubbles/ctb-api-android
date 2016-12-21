@@ -1,6 +1,7 @@
 package com.creatubbles.api.repository;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.creatubbles.api.model.CreatubblesResponse;
 import com.creatubbles.api.model.landing_url.LandingUrl;
@@ -20,17 +21,17 @@ public interface LandingUrlsRepository {
      * </ul>
      * </p>
      */
-    void getAll(ResponseCallback<CreatubblesResponse<List<LandingUrl>>> callback);
+    void getAll(@Nullable ResponseCallback<CreatubblesResponse<List<LandingUrl>>> callback);
 
     /**
      * Use this to retrieve a specific landing URL.
      */
-    void getSpecific(@NonNull LandingUrlType type, ResponseCallback<CreatubblesResponse<LandingUrl>> callback);
+    void getSpecific(@NonNull LandingUrlType type, @Nullable ResponseCallback<CreatubblesResponse<LandingUrl>> callback);
 
     /**
      * Use this to retrieve a specific landing URL for a creation with a given {@code creationId}.
      * This is usually used after uploading a creation, to allow the user to jump to the
      * Creatubbles website to see and adjust their creation there.
      */
-    void getForCreation(@NonNull String creationId, ResponseCallback<CreatubblesResponse<LandingUrl>> callback);
+    void getForCreation(@NonNull String creationId, @Nullable ResponseCallback<CreatubblesResponse<LandingUrl>> callback);
 }

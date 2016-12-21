@@ -24,7 +24,7 @@ public class AvatarRepositoryBuilder {
 
     private final UserAccessToken authToken;
 
-    public AvatarRepositoryBuilder(UserAccessToken accessToken) {
+    public AvatarRepositoryBuilder(@NonNull UserAccessToken accessToken) {
         if (accessToken == null) {
             throw new NullPointerException("accessToken can't be null");
         }

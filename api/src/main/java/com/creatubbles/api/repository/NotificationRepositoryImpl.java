@@ -30,20 +30,20 @@ class NotificationRepositoryImpl implements NotificationRepository {
     }
 
     @Override
-    public void getNotifications(@Nullable Integer page, @Nullable NotificationFilter filter, ResponseCallback<CreatubblesResponse<List<Notification>>> callback) {
+    public void getNotifications(@Nullable Integer page, @Nullable NotificationFilter filter, @Nullable ResponseCallback<CreatubblesResponse<List<Notification>>> callback) {
         String filterValue = filter == null ? null : filter.getName();
         Call<JSONAPIDocument<List<Notification>>> call = service.getNotifications(page, filterValue);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void markRead(@NonNull String notificationId, ResponseCallback<Void> callback) {
+    public void markRead(@NonNull String notificationId, @Nullable ResponseCallback<Void> callback) {
         Call<Void> call = service.postReadNotification(notificationId);
         call.enqueue(new BaseResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void updateLastViewedDate(ResponseCallback<Void> callback) {
+    public void updateLastViewedDate(@Nullable ResponseCallback<Void> callback) {
         Call<Void> call = service.putLastViewedAt();
         call.enqueue(new BaseResponseMapper<>(objectMapper, callback));
     }

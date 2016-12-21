@@ -30,56 +30,56 @@ class BubbleRepositoryImpl implements BubbleRepository {
     }
 
     @Override
-    public void getForCreation(@Nullable Integer page, @NonNull String creationId, ResponseCallback<CreatubblesResponse<List<Bubble>>> callback) {
+    public void getForCreation(@Nullable Integer page, @NonNull String creationId, @Nullable ResponseCallback<CreatubblesResponse<List<Bubble>>> callback) {
         Call<JSONAPIDocument<List<Bubble>>> call = service.getForCreation(creationId, page);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void getForGallery(@Nullable Integer page, @NonNull String galleryId, ResponseCallback<CreatubblesResponse<List<Bubble>>> callback) {
+    public void getForGallery(@Nullable Integer page, @NonNull String galleryId, @Nullable ResponseCallback<CreatubblesResponse<List<Bubble>>> callback) {
         Call<JSONAPIDocument<List<Bubble>>> call = service.getForGallery(galleryId, page);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void getForUser(@Nullable Integer page, @NonNull String userId, ResponseCallback<CreatubblesResponse<List<Bubble>>> callback) {
+    public void getForUser(@Nullable Integer page, @NonNull String userId, @Nullable ResponseCallback<CreatubblesResponse<List<Bubble>>> callback) {
         Call<JSONAPIDocument<List<Bubble>>> call = service.getForUser(userId, page);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void createForCreation(@NonNull String creationId, @NonNull Bubble bubble, ResponseCallback<CreatubblesResponse<Bubble>> callback) {
+    public void createForCreation(@NonNull String creationId, @NonNull Bubble bubble, @Nullable ResponseCallback<CreatubblesResponse<Bubble>> callback) {
         Call<JSONAPIDocument<Bubble>> call = service.postForCreation(creationId, bubble);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void createForGallery(@NonNull String galleryId, @NonNull Bubble bubble, ResponseCallback<CreatubblesResponse<Bubble>> callback) {
+    public void createForGallery(@NonNull String galleryId, @NonNull Bubble bubble, @Nullable ResponseCallback<CreatubblesResponse<Bubble>> callback) {
         Call<JSONAPIDocument<Bubble>> call = service.postForGallery(galleryId, bubble);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void createForUser(@NonNull String userId, @NonNull Bubble bubble, ResponseCallback<CreatubblesResponse<Bubble>> callback) {
+    public void createForUser(@NonNull String userId, @NonNull Bubble bubble, @Nullable ResponseCallback<CreatubblesResponse<Bubble>> callback) {
         Call<JSONAPIDocument<Bubble>> call = service.postForUser(userId, bubble);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
 
     @Override
-    public void update(@NonNull String bubbleId, @NonNull Bubble bubble, ResponseCallback<Void> callback) {
+    public void update(@NonNull String bubbleId, @NonNull Bubble bubble, @Nullable ResponseCallback<Void> callback) {
         Call<Void> call = service.putBubble(bubbleId, bubble);
         call.enqueue(new BaseResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void delete(@NonNull String bubbleId, ResponseCallback<Void> callback) {
+    public void delete(@NonNull String bubbleId, @Nullable ResponseCallback<Void> callback) {
         Call<Void> call = service.deleteBubble(bubbleId);
         call.enqueue(new BaseResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void getColors(ResponseCallback<CreatubblesResponse<List<BubbleColor>>> callback) {
+    public void getColors(@Nullable ResponseCallback<CreatubblesResponse<List<BubbleColor>>> callback) {
         Call<JSONAPIDocument<List<BubbleColor>>> call = service.getColors();
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
