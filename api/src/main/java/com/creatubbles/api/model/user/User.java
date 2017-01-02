@@ -3,9 +3,12 @@ package com.creatubbles.api.model.user;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.creatubbles.api.model.school.School;
+import com.creatubbles.api.model.user.custom_style.CustomStyle;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.jasminb.jsonapi.annotations.Id;
+import com.github.jasminb.jsonapi.annotations.Relationship;
 import com.github.jasminb.jsonapi.annotations.Type;
 
 import java.util.Date;
@@ -88,6 +91,12 @@ public class User {
     private String whatDoYouTeach;
 
     private String interests;
+
+    @Relationship("custom_style")
+    private CustomStyle customStyle;
+
+    @Relationship("school")
+    private School school;
 
     public static User withId(String id) {
         return new User(id);
@@ -268,6 +277,16 @@ public class User {
         return interests;
     }
 
+    @Nullable
+    public School getSchool() {
+        return school;
+    }
+
+    @Nullable
+    public CustomStyle getCustomStyle() {
+        return customStyle;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -298,6 +317,8 @@ public class User {
                 ", homeSchooling=" + homeSchooling +
                 ", whatDoYouTeach='" + whatDoYouTeach + '\'' +
                 ", interests='" + interests + '\'' +
+                ", customStyle=" + customStyle +
+                ", school=" + school +
                 '}';
     }
 }

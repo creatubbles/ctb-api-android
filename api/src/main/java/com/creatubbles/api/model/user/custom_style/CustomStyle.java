@@ -15,7 +15,7 @@ import com.github.jasminb.jsonapi.annotations.Type;
 import java.util.Date;
 import java.util.List;
 
-@Type("styles")
+@Type("custom_styles")
 public class CustomStyle {
 
     @JsonCreator
