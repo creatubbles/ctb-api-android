@@ -6,6 +6,7 @@ import com.creatubbles.api.converter.AbilitiesConverter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import java.util.Date;
 import java.util.List;
 
 import static java.util.Collections.unmodifiableList;
@@ -29,6 +30,15 @@ public class Meta {
 
     @JsonProperty("followed_users")
     private List<String> followedUsers;
+
+    @JsonProperty("total_unread_count")
+    private Integer totalUnreadCount;
+
+    @JsonProperty("total_new_count")
+    private Integer totalNewCount;
+
+    @JsonProperty("last_viewed_at")
+    private Date lastViewedAt;
 
     @JsonDeserialize(using = AbilitiesConverter.class)
     private List<Ability> abilities;
@@ -66,5 +76,20 @@ public class Meta {
     @Nullable
     public List<Ability> getAbilities() {
         return unmodifiableList(abilities);
+    }
+
+    @Nullable
+    public Integer getTotalUnreadCount() {
+        return totalUnreadCount;
+    }
+
+    @Nullable
+    public Integer getTotalNewCount() {
+        return totalNewCount;
+    }
+
+    @Nullable
+    public Date getLastViewedAt() {
+        return lastViewedAt;
     }
 }
