@@ -19,6 +19,8 @@ public interface GalleryRepository {
 
     void getPublic(@Nullable Integer page, @Nullable GallerySortMode sort, @Nullable ResponseCallback<CreatubblesResponse<List<Gallery>>> callback);
 
+    void searchPublic(@NonNull String query, @Nullable Integer page, @Nullable GallerySortMode sort, @Nullable ResponseCallback<CreatubblesResponse<List<Gallery>>> callback);
+
     /**
      * Get current user’s favorite galleries.
      */

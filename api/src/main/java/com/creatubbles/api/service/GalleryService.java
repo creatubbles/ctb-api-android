@@ -26,11 +26,12 @@ public interface GalleryService {
     String PARAM_PAGE = "page";
     String PARAM_SORT = "sort";
     String PARAM_FILTER = "filter";
+    String PARAM_QUERY = "query";
 
     @GET(EndPoints.GALLERIES)
-    Call<JSONAPIDocument<List<Gallery>>> getPublic(@Query(PARAM_PAGE) Integer page,
+    Call<JSONAPIDocument<List<Gallery>>> getPublic(@Query(PARAM_QUERY) String query,
+                                                   @Query(PARAM_PAGE) Integer page,
                                                    @Query(PARAM_SORT) String sort);
-
 
     @GET(EndPoints.USERS + PATH_ID_GALLERIES)
     Call<JSONAPIDocument<List<Gallery>>> getByUser(@Path(PARAM_ID) String userId,

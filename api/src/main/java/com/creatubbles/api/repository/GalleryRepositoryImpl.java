@@ -36,7 +36,14 @@ class GalleryRepositoryImpl implements GalleryRepository {
     public void getPublic(@Nullable Integer page, @Nullable GallerySortMode sort,
                           ResponseCallback<CreatubblesResponse<List<Gallery>>> callback) {
         String sortParam = sort != null ? sort.toString() : null;
-        Call<JSONAPIDocument<List<Gallery>>> call = galleryService.getPublic(page, sortParam);
+        Call<JSONAPIDocument<List<Gallery>>> call = galleryService.getPublic(null, page, sortParam);
+        call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
+    }
+
+    @Override
+    public void searchPublic(@NonNull String query, @Nullable Integer page, @Nullable GallerySortMode sort, @Nullable ResponseCallback<CreatubblesResponse<List<Gallery>>> callback) {
+        String sortParam = sort != null ? sort.toString() : null;
+        Call<JSONAPIDocument<List<Gallery>>> call = galleryService.getPublic(query, page, sortParam);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 

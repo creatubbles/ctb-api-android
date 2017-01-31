@@ -117,7 +117,8 @@ public class MainActivity extends AppCompatActivity {
             R.id.get_user_details_btn, R.id.get_avatar_suggestion, R.id.get_notifications_btn,
             R.id.update_last_viewed_time_btn, R.id.get_toyboo_details_btn, R.id.find_partner_applications,
             R.id.get_partner_app_by_id, R.id.get_content_btn, R.id.get_recent_content_btn, R.id.get_followed_content_btn,
-            R.id.get_trending_content_btn, R.id.get_connected_content_btn, R.id.get_schools_btn, R.id.search_user_connections_btn})
+            R.id.get_trending_content_btn, R.id.get_connected_content_btn, R.id.get_schools_btn, R.id.search_user_connections_btn,
+            R.id.search_galleries_btn})
     List<Button> actionButtons;
 
     @Bind(R.id.send_file_btn)
@@ -686,6 +687,28 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onError(String message) {
 
+            }
+        });
+    }
+
+    public void onSearchGalleriesClicked(View view) {
+        GalleryRepository galleryRepository = new GalleryRepositoryBuilder(accessToken)
+                .build();
+
+        galleryRepository.searchPublic("test", null, null, new ResponseCallback<CreatubblesResponse<List<Gallery>>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<List<Gallery>> response) {
+                Toast.makeText(MainActivity.this, "Galleries total count: " + response.getMeta().getTotalCount(),
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                displayError(errorResponse);
+            }
+
+            @Override
+            public void onError(String message) {
             }
         });
     }

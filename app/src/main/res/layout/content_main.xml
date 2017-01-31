@@ -240,6 +240,13 @@
             android:onClick="onGetGalleriesByIdClicked"
             android:enabled="false"/>
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/search_galleries_btn"
+            android:text="Search public galleries"
+            android:onClick="onSearchGalleriesClicked"
+            android:enabled="false" />
 
         <Button
             android:layout_width="wrap_content"
