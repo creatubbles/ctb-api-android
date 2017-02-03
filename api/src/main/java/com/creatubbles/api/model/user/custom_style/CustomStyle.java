@@ -220,7 +220,6 @@ public class CustomStyle {
     public String toString() {
         return "CustomStyle{" +
                 "id='" + id + '\'' +
-                ", user=" + user +
                 ", headerCreation=" + headerCreation +
                 ", bodyCreation=" + bodyCreation +
                 ", name='" + name + '\'' +

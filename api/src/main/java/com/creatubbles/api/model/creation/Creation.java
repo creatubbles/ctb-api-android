@@ -87,6 +87,12 @@ public class Creation {
     @JsonProperty("play_iframe_url")
     private String playIframeUrl;
 
+    @JsonProperty("video_480_url")
+    private String video480Url;
+
+    @JsonProperty("video_720_url")
+    private String video720Url;
+
     @JsonCreator
     public Creation() {
     }
@@ -234,6 +240,16 @@ public class Creation {
         return creators;
     }
 
+    @Nullable
+    public String getVideo480Url() {
+        return video480Url;
+    }
+
+    @Nullable
+    public String getVideo720Url() {
+        return video720Url;
+    }
+
     @Override
     public String toString() {
         return "Creation{" +
@@ -260,6 +276,8 @@ public class Creation {
                 ", reflectionVideoUrl='" + reflectionVideoUrl + '\'' +
                 ", objFileUrl='" + objFileUrl + '\'' +
                 ", playIframeUrl='" + playIframeUrl + '\'' +
+                ", video480Url='" + video480Url + '\'' +
+                ", video720Url='" + video720Url + '\'' +
                 '}';
     }
 
