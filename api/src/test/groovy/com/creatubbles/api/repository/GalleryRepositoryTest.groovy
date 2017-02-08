@@ -20,7 +20,14 @@ class GalleryRepositoryTest extends Specification {
         when:
         repository.getPublic(anyPage(), anySortMode(), anyCallback());
         then:
-        service.getPublic(_, _) >> anyCall()
+        service.getPublic(_, _, _) >> anyCall()
+    }
+
+    def "should call get public when searching in public galleries"() {
+        when:
+        repository.searchPublic(anyQuery(), anyPage(), anySortMode(), anyCallback());
+        then:
+        service.getPublic(_, _, _) >> anyCall()
     }
 
     def "should cal get favorite when obtaining favorite galleries"() {
@@ -112,5 +119,9 @@ class GalleryRepositoryTest extends Specification {
 
     private anyCall() {
         Mock(Call)
+    }
+
+    private String anyQuery() {
+        ""
     }
 }

@@ -137,4 +137,9 @@ public interface UserRepository {
      * When changing manager's password you have to provide both new and current password.
      */
     void changePassword(@NonNull String userId, @NonNull PasswordChange passwordChange, @Nullable ResponseCallback<CreatubblesResponse<User>> callback);
+
+    /**
+     * Method used to obtain current user's 'My Connections' filtered by {@code query} param.
+     */
+    void searchConnections(@NonNull String query, @Nullable Integer page, @Nullable UserSortMode sortMode, @Nullable ResponseCallback<CreatubblesResponse<List<User>>> callback);
 }
