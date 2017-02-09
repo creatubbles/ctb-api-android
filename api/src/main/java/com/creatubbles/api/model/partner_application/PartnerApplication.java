@@ -3,8 +3,8 @@ package com.creatubbles.api.model.partner_application;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.creatubbles.api.model.ImageLinks;
 import com.creatubbles.api.model.gallery.Gallery;
+import com.creatubbles.api.model.user.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Relationship;
@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * @author Pawel Szymanski
  */
-@Type("partner-applications")
+@Type("partner_applications")
 public class PartnerApplication {
 
     @Id
@@ -30,10 +30,10 @@ public class PartnerApplication {
     private String shortUrl;
 
     @JsonProperty("header_bg")
-    private ImageLinks headerBg;
+    private Background headerBg;
 
     @JsonProperty("body_bg")
-    private ImageLinks bodyBg;
+    private Background bodyBg;
 
     private String description;
 
@@ -106,6 +106,9 @@ public class PartnerApplication {
     @Relationship("gallery")
     private Gallery gallery;
 
+    @Relationship("user")
+    private User user;
+
     @Relationship("related_apps")
     private List<PartnerApplication> relatedApps;
 
@@ -133,12 +136,12 @@ public class PartnerApplication {
     }
 
     @Nullable
-    public ImageLinks getHeaderBg() {
+    public Background getHeaderBg() {
         return headerBg;
     }
 
     @Nullable
-    public ImageLinks getBodyBg() {
+    public Background getBodyBg() {
         return bodyBg;
     }
 
@@ -271,6 +274,14 @@ public class PartnerApplication {
     }
 
     /**
+     * User profile of application owner
+     */
+    @NonNull
+    public User getUser() {
+        return user;
+    }
+
+    /**
      * Other apps from the same owner
      */
     @Nullable
@@ -318,6 +329,7 @@ public class PartnerApplication {
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 ", gallery=" + gallery +
+                ", user=" + user +
                 ", relatedApps=" + relatedApps +
                 ", appScreenshots=" + appScreenshots +
                 '}';

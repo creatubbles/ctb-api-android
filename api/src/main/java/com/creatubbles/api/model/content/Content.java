@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import com.creatubbles.api.model.ObjectType;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.gallery.Gallery;
+import com.creatubbles.api.model.partner_application.PartnerApplication;
 import com.creatubbles.api.model.user.User;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.github.jasminb.jsonapi.annotations.Id;
@@ -32,6 +33,9 @@ public class Content {
 
     @Relationship("gallery")
     private Gallery gallery;
+
+    @Relationship("partner_application")
+    private PartnerApplication partnerApplication;
 
     @JsonCreator
     public Content() {
@@ -63,6 +67,11 @@ public class Content {
         return gallery;
     }
 
+    @Nullable
+    public PartnerApplication getPartnerApplication() {
+        return partnerApplication;
+    }
+
     @Override
     public String toString() {
         return "Content{" +
@@ -71,6 +80,7 @@ public class Content {
                 ", creation=" + creation +
                 ", user=" + user +
                 ", gallery=" + gallery +
+                ", partnerApplication=" + partnerApplication +
                 '}';
     }
 }

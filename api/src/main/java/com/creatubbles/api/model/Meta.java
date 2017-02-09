@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.Date;
 import java.util.List;
 
+import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
 
 public class Meta {
@@ -20,16 +21,16 @@ public class Meta {
     private Integer totalCount;
 
     @JsonProperty("user_bubbled_creations")
-    private List<String> userBubbledCreations;
+    private List<String> userBubbledCreations = emptyList();
 
     @JsonProperty("user_bubbled_users")
-    private List<String> userBubbledUsers;
+    private List<String> userBubbledUsers = emptyList();
 
     @JsonProperty("user_bubbled_galleries")
-    private List<String> userBubbledGalleries;
+    private List<String> userBubbledGalleries = emptyList();
 
     @JsonProperty("followed_users")
-    private List<String> followedUsers;
+    private List<String> followedUsers = emptyList();
 
     @JsonProperty("total_unread_count")
     private Integer totalUnreadCount;
@@ -41,7 +42,7 @@ public class Meta {
     private Date lastViewedAt;
 
     @JsonDeserialize(using = AbilitiesConverter.class)
-    private List<Ability> abilities;
+    private List<Ability> abilities = emptyList();
 
     @Nullable
     public Integer getTotalPages() {
