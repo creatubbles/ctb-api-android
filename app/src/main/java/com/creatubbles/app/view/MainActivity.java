@@ -695,7 +695,7 @@ public class MainActivity extends AppCompatActivity {
         GalleryRepository galleryRepository = new GalleryRepositoryBuilder(accessToken)
                 .build();
 
-        galleryRepository.searchPublic("test", null, null, new ResponseCallback<CreatubblesResponse<List<Gallery>>>() {
+        galleryRepository.searchPublic("minecraft", null, null, new ResponseCallback<CreatubblesResponse<List<Gallery>>>() {
             @Override
             public void onSuccess(CreatubblesResponse<List<Gallery>> response) {
                 Toast.makeText(MainActivity.this, "Galleries total count: " + response.getMeta().getTotalCount(),
@@ -1593,7 +1593,7 @@ public class MainActivity extends AppCompatActivity {
         ContentRepository repository = new ContentRepositoryBuilder(accessToken)
                 .build();
 
-        repository.search("HazarSOYDAN", null, getContentCallback());
+        repository.search("minecraft", null, getContentCallback());
     }
 
     public void onGetRecentContentClicked(View v) {
