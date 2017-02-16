@@ -3,6 +3,7 @@ package com.creatubbles.api.model.creation;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.creatubbles.api.model.partner_application.PartnerApplication;
 import com.creatubbles.api.model.user.User;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -26,6 +27,9 @@ public class Creation {
 
     @Relationship("creators")
     private List<User> creators = Collections.emptyList();
+
+    @Relationship("partner_application")
+    private PartnerApplication partnerApplication;
 
     @JsonProperty("name")
     private String name;
@@ -250,12 +254,17 @@ public class Creation {
         return video720Url;
     }
 
+    public PartnerApplication getPartnerApplication() {
+        return partnerApplication;
+    }
+
     @Override
     public String toString() {
         return "Creation{" +
                 "id='" + id + '\'' +
                 ", user=" + user +
                 ", creators=" + creators +
+                ", partnerApplication=" + partnerApplication +
                 ", name='" + name + '\'' +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +

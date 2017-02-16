@@ -3,6 +3,7 @@ package com.creatubbles.api.model.gallery;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.creatubbles.api.model.partner_application.PartnerApplication;
 import com.creatubbles.api.model.user.User;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -58,6 +59,9 @@ public class Gallery {
 
     @Relationship("owner")
     private User owner;
+
+    @Relationship("partner_application")
+    private PartnerApplication partnerApplication;
 
     public Gallery(String galleryId) {
         this.id = galleryId;
@@ -158,8 +162,11 @@ public class Gallery {
         return owner;
     }
 
-    @Override
-    public String toString() {
+    public PartnerApplication getPartnerApplication() {
+        return partnerApplication;
+    }
+
+    @Override public String toString() {
         return "Gallery{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
@@ -176,6 +183,7 @@ public class Gallery {
                 ", banner=" + banner +
                 ", previewImageUrls=" + previewImageUrls +
                 ", owner=" + owner +
+                ", partnerApplication=" + partnerApplication +
                 '}';
     }
 }
