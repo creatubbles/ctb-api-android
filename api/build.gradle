@@ -3,6 +3,9 @@ apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'groovyx.android'
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
 android {
     compileSdkVersion 24
     buildToolsVersion '25.0.2'
@@ -47,7 +50,7 @@ ext {
     siteUrl = 'https://github.com/creatubbles/ctb-api-android'
     gitUrl = 'https://github.com/creatubbles/ctb-api-android.git'
 
-    libraryVersion = '2.0.6'
+    libraryVersion = properties.getProperty("library.version")
 
     developerId = 'p.szymanski'
     developerName = 'Pawel Szymanski'
@@ -86,9 +89,6 @@ artifacts {
 }
 
 // Bintray
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
 bintray {
     user = properties.getProperty("bintray.user")
     key = properties.getProperty("bintray.apikey")
