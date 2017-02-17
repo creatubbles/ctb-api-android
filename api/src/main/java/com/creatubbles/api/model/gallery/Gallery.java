@@ -29,10 +29,10 @@ public class Gallery {
     private boolean openForAll;
 
     @JsonProperty("created_at")
-    private String createdAt;
+    private Date createdAt;
 
     @JsonProperty("updated_at")
-    private String updatedAt;
+    private Date updatedAt;
 
     @JsonProperty("last_bubbled_at")
     private Date lastBubbledAt;
@@ -108,12 +108,12 @@ public class Gallery {
     }
 
     @NonNull
-    public String getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
     @NonNull
-    public String getUpdatedAt() {
+    public Date getUpdatedAt() {
         return updatedAt;
     }
 
