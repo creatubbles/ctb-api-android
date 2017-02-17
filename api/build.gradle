@@ -34,6 +34,86 @@ android {
     }
 }
 
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'ctb-api-android/'
+
+    publishedGroupId = 'com.creatubbles'
+    libraryName = 'API-V2'
+    artifact = 'api'
+
+    libraryDescription = 'Creatubbles api v2'
+
+    siteUrl = 'https://github.com/creatubbles/ctb-api-android'
+    gitUrl = 'https://github.com/creatubbles/ctb-api-android.git'
+
+    libraryVersion = '2.0.6'
+
+    developerId = 'p.szymanski'
+    developerName = 'Pawel Szymanski'
+    developerEmail = 'p.szymanski@nomtek.com'
+
+    licenseName = 'MIT'
+    licenseUrl = 'https://opensource.org/licenses/mit-license.php'
+    allLicenses = ["MIT"]
+}
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply plugin: 'com.jfrog.bintray'
+
+version = libraryVersion
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    failOnError false
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    classpath += configurations.compile
+    failOnError false
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+// Bintray
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives']
+    pkg {
+        repo = bintrayRepo
+        name = bintrayName
+        desc = libraryDescription
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = allLicenses
+        publish = true
+        publicDownloadNumbers = true
+        version {
+            desc = libraryDescription
+            gpg {
+                sign = true //Determines whether to GPG sign the files. The default is false
+                passphrase = properties.getProperty("bintray.gpg.password")
+                //Optional. The passphrase for GPG signing'
+            }
+        }
+    }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:support-annotations:24.2.1'
