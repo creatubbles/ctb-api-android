@@ -1,14 +1,12 @@
-general:
-  artifacts:
-    - mkdir -p $CIRCLE_TEST_REPORTS/build/
-    - mv api/build/outputs $CIRCLE_ARTIFACTS/outputs
 dependencies:
   pre: # Builds stop if licenses are not accepted
     - echo y | android update sdk --no-ui --all --filter "android-25"
     - echo y | android update sdk --no-ui --all --filter "build-tools-25.0.2"
     - echo y | android update sdk --no-ui --all --filter "extra-android-m2repository"
 test:
-  post: #For nice looking test results - https://circleci.com/docs/1.0/test-metadata/#gradle-junit-results
+  post: #For nice looking results - https://circleci.com/docs/1.0/test-metadata/#gradle-junit-results
+    - mkdir -p $CIRCLE_ARTIFACTS/outputs
+    - cp -r api/build/outputs/* $CIRCLE_ARTIFACTS/outputs/
     - mkdir -p $CIRCLE_TEST_REPORTS/junit/
     - mv api/build/test-results/debug $CIRCLE_TEST_REPORTS/junit/debug
     - mv api/build/test-results/release $CIRCLE_TEST_REPORTS/junit/release
