@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
@@ -47,7 +48,6 @@ import com.creatubbles.api.model.landing_url.LandingUrlType;
 import com.creatubbles.api.model.notification.Notification;
 import com.creatubbles.api.model.partner_application.PartnerApplication;
 import com.creatubbles.api.model.school.School;
-import com.creatubbles.api.model.upload.Upload;
 import com.creatubbles.api.model.user.AccountDetails;
 import com.creatubbles.api.model.user.MultipleCreators;
 import com.creatubbles.api.model.user.NewUser;
@@ -93,6 +93,7 @@ import com.creatubbles.api.repository.UserFollowingRepository;
 import com.creatubbles.api.repository.UserFollowingRepositoryBuilder;
 import com.creatubbles.api.repository.UserRepository;
 import com.creatubbles.api.repository.UserRepositoryBuilder;
+import com.creatubbles.api.response.ProgressResponseCallback;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.app.R;
 
@@ -121,6 +122,8 @@ public class MainActivity extends AppCompatActivity {
             R.id.search_galleries_btn})
     List<Button> actionButtons;
 
+    @Bind(R.id.send_file_progress)
+    ProgressBar sendFileProgressBar;
     @Bind(R.id.send_file_btn)
     Button sendFileBtn;
     @Bind(R.id.authorize_btn)
@@ -156,7 +159,6 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.update_avatar)
     Button updateAvatar;
 
-    Upload responseFromCreateUpload;
     List<User> usersAvailableForSwitching;
     AccessToken accessToken;
     String userId;
@@ -512,7 +514,6 @@ public class MainActivity extends AppCompatActivity {
                                 .LENGTH_SHORT)
                                 .show();
                         creationId = response.getData().getId();
-                        findViewById(R.id.create_upload_btn).setEnabled(true);
                         findViewById(R.id.get_creation_by_id_btn).setEnabled(true);
                         findViewById(R.id.modify_image_btn).setEnabled(true);
                         findViewById(R.id.create_bubble_on_creation_btn).setEnabled(true);
@@ -619,20 +620,30 @@ public class MainActivity extends AppCompatActivity {
 
             CreationRepository creationRepository = new CreationRepositoryBuilder(accessToken)
                     .build();
-            creationRepository.uploadFile(creationId, file, ContentType.JPG, new ResponseCallback<Void>() {
+            sendFileProgressBar.setVisibility(View.VISIBLE);
+            sendFileProgressBar.setProgress(0);
+            creationRepository.uploadFile(creationId, file, ContentType.JPG, new ProgressResponseCallback<Void>() {
+                @Override public void onProgress(float progress) {
+                    // Note: Because of the logging interceptor, we see the progress twice
+                    sendFileProgressBar.setProgress((int)(progress*100));
+                }
+
                 @Override
                 public void onSuccess(Void response) {
                     Toast.makeText(MainActivity.this, "Upload successful", Toast.LENGTH_SHORT).show();
+                    sendFileProgressBar.setVisibility(View.GONE);
                 }
 
                 @Override
                 public void onServerError(ErrorResponse errorResponse) {
                     displayError(errorResponse);
+                    sendFileProgressBar.setVisibility(View.GONE);
                 }
 
                 @Override
                 public void onError(String message) {
                     Log.e("sendFile()", message);
+                    sendFileProgressBar.setVisibility(View.GONE);
                 }
             });
 

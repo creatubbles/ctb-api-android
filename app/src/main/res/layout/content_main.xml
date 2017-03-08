@@ -303,14 +303,6 @@
             android:onClick="onModifyImageClicked"
             android:enabled="false" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/create_upload_btn"
-            android:text="Create Upload"
-            android:onClick="onCreateUploadClicked"
-            android:enabled="false"/>
-
         <TextView
             android:id="@+id/upload_title"
             android:layout_width="wrap_content"
@@ -324,6 +316,16 @@
             android:layout_height="wrap_content"
             android:enabled="false"
             android:hint="Full path to image file" />
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
+            android:id="@+id/send_file_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="false"
+            android:max="100"
+            android:visibility="gone"/>
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

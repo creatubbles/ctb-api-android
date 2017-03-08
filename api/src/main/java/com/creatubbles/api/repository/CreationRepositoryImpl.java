@@ -10,9 +10,11 @@ import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.creation.ToybooDetails;
 import com.creatubbles.api.model.image_manipulation.ImageManipulation;
 import com.creatubbles.api.model.upload.Upload;
+import com.creatubbles.api.request.ProgressRequestBody;
 import com.creatubbles.api.request.UploadRequest;
 import com.creatubbles.api.response.BaseResponseMapper;
 import com.creatubbles.api.response.JsonApiResponseMapper;
+import com.creatubbles.api.response.ProgressResponseCallback;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.service.CreationService;
 import com.creatubbles.api.service.UploadService;
@@ -25,7 +27,6 @@ import java.util.List;
 import java.util.concurrent.Executor;
 
 import okhttp3.MediaType;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -126,7 +127,7 @@ class CreationRepositoryImpl implements CreationRepository {
 
     @Override
     public void uploadFile(@NonNull String creationId, @NonNull File file,
-                           @NonNull ContentType contentType, ResponseCallback<Void> callback) {
+                           @NonNull ContentType contentType, ProgressResponseCallback<Void> callback) {
         uploadAsyncExecutor.execute(() -> {
             UploadRequest request = new UploadRequest(contentType);
             try {
@@ -144,10 +145,12 @@ class CreationRepositoryImpl implements CreationRepository {
         });
     }
 
-    private void uploadFile(@NonNull File file, ResponseCallback<Void> callback, Upload upload) throws IOException {
+    private void uploadFile(@NonNull File file, ProgressResponseCallback<Void> callback, Upload upload) throws IOException {
         try {
             MediaType mediaType = MediaType.parse(upload.getContentType());
-            RequestBody requestBody = RequestBody.create(mediaType, file);
+            ProgressRequestBody requestBody = new ProgressRequestBody(mediaType, file, progress -> {
+                uploadCallbackExecutor.execute(() -> callback.onProgress(progress));
+            });
             Response<Void> uploadResponse = uploadService.uploadFile(upload.getUrl(), requestBody).execute();
             if (uploadResponse.isSuccessful()) {
                 creationService.updateCreationUpload(upload.getPingUrl(), null).execute();

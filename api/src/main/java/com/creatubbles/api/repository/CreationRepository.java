@@ -8,6 +8,7 @@ import com.creatubbles.api.model.CreatubblesResponse;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.creation.ToybooDetails;
 import com.creatubbles.api.model.image_manipulation.ImageManipulation;
+import com.creatubbles.api.response.ProgressResponseCallback;
 import com.creatubbles.api.response.ResponseCallback;
 
 import java.io.File;
@@ -106,7 +107,7 @@ public interface CreationRepository {
      * @param contentType the content type of the file you intend to upload
      * @param callback
      */
-    void uploadFile(@NonNull String creationId, @NonNull File file, @NonNull ContentType contentType, @Nullable ResponseCallback<Void> callback);
+    void uploadFile(@NonNull String creationId, @NonNull File file, @NonNull ContentType contentType, @Nullable ProgressResponseCallback<Void> callback);
 
     /**
      * Method used to modify image of a creation identified by {@code creationId}.

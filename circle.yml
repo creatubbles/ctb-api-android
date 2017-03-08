@@ -5,12 +5,9 @@ dependencies:
     - echo y | android update sdk --no-ui --all --filter "extra-android-m2repository"
 test:
   post: #For nice looking results - https://circleci.com/docs/1.0/test-metadata/#gradle-junit-results
-    - mkdir -p $CIRCLE_ARTIFACTS/outputs
-    - cp -r api/build/outputs/* $CIRCLE_ARTIFACTS/outputs/
-    - mkdir -p $CIRCLE_TEST_REPORTS/junit/
-    - mv api/build/test-results/debug $CIRCLE_TEST_REPORTS/junit/debug
-    - mv api/build/test-results/release $CIRCLE_TEST_REPORTS/junit/release
-    - mv api/build/reports/tests $CIRCLE_TEST_REPORTS/html
+    - if [ -d "api/build/outputs" ]; then mkdir -p $CIRCLE_ARTIFACTS/outputs; cp -r api/build/outputs/* $CIRCLE_ARTIFACTS/outputs/; fi
+    - mkdir -p $CIRCLE_TEST_REPORTS/junit/; find . -type f -regex ".*/build/test-results/.*xml" -exec cp --parents {} $CIRCLE_TEST_REPORTS/junit/ \;
+    - if [ -d "api/build/reports/tests" ]; then mv api/build/reports/tests $CIRCLE_TEST_REPORTS/html; fi
 deployment:
   production:
     branch: master
