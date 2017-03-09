@@ -4,6 +4,7 @@ import com.creatubbles.api.ContentType
 import com.creatubbles.api.model.creation.Creation
 import com.creatubbles.api.model.image_manipulation.ImageManipulation
 import com.creatubbles.api.model.upload.Upload
+import com.creatubbles.api.response.ProgressResponseCallback
 import com.creatubbles.api.response.ResponseCallback
 import com.creatubbles.api.service.CreationService
 import com.creatubbles.api.service.UploadService
@@ -101,7 +102,7 @@ class CreationRepositoryTest extends Specification {
 
     def "should call all upload methods and notify by callback about success"() {
         given:
-        def callback = anyCallback()
+        def callback = anyProgressCallback()
         when:
         repository.uploadFile(anyId(), anyFile(), ContentType.JPEG, callback)
         then:
@@ -151,6 +152,10 @@ class CreationRepositoryTest extends Specification {
 
     private anyCallback() {
         Mock(ResponseCallback)
+    }
+
+    private anyProgressCallback() {
+        Mock(ProgressResponseCallback)
     }
 
     private boolean anyBoolean() {
