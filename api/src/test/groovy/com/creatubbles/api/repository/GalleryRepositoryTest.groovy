@@ -46,16 +46,16 @@ class GalleryRepositoryTest extends Specification {
 
     def "should call get by user with specific id when obtaining current user's galleries"() {
         when:
-        repository.getMine(anyPage(), null, anyCallback());
+        repository.getMine(anyPage(), anyQuery(), null, anyCallback());
         then:
-        service.getByUser(currentUserId(), _, _) >> anyCall()
+        service.getByUser(currentUserId(), _, _, _) >> anyCall()
     }
 
     def "should call get by user when obtaining any user galleries"() {
         when:
-        repository.getByUser(anyPage(), anyId(), anyCallback());
+        repository.getByUser(anyPage(), anyQuery(), anyId(), anyCallback());
         then:
-        service.getByUser(_, _, _) >> anyCall()
+        service.getByUser(_, _, _, _) >> anyCall()
     }
 
     def "should call get by id when obtaining gallery by id"() {

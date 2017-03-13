@@ -36,6 +36,7 @@ public interface GalleryService {
     @GET(EndPoints.USERS + PATH_ID_GALLERIES)
     Call<JSONAPIDocument<List<Gallery>>> getByUser(@Path(PARAM_ID) String userId,
                                                    @Query(PARAM_PAGE) Integer page,
+                                                   @Query(PARAM_QUERY) String query,
                                                    @Query(PARAM_FILTER) String filter);
 
     @GET(EndPoints.CREATIONS)

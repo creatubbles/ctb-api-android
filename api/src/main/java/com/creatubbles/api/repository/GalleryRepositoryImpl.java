@@ -79,17 +79,17 @@ class GalleryRepositoryImpl implements GalleryRepository {
     }
 
     @Override
-    public void getMine(@Nullable Integer page, @Nullable GalleryFilter filter,
+    public void getMine(@Nullable Integer page, @Nullable String query, @Nullable GalleryFilter filter,
                         ResponseCallback<CreatubblesResponse<List<Gallery>>> callback) {
         String filterParam = filter != null ? filter.toString() : null;
-        Call<JSONAPIDocument<List<Gallery>>> call = galleryService.getByUser(UserRepository.CURRENT_USER, page, filterParam);
+        Call<JSONAPIDocument<List<Gallery>>> call = galleryService.getByUser(UserRepository.CURRENT_USER, page, query, filterParam);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
-    public void getByUser(@Nullable Integer page, @NonNull String userId,
+    public void getByUser(@Nullable Integer page, @NonNull String userId, @Nullable String query,
                           ResponseCallback<CreatubblesResponse<List<Gallery>>> callback) {
-        Call<JSONAPIDocument<List<Gallery>>> call = galleryService.getByUser(userId, page, null);
+        Call<JSONAPIDocument<List<Gallery>>> call = galleryService.getByUser(userId, page, query, null);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
