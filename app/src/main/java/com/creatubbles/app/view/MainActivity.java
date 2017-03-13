@@ -288,13 +288,13 @@ public class MainActivity extends AppCompatActivity {
     public void onGetUserCreatorsClicked(View btn) {
         UserRepository userRepository = new UserRepositoryBuilder(accessToken)
                 .build();
-        getUserList((page, callback) -> userRepository.getCreators(page, null, callback));
+        getUserList((page, callback) -> userRepository.getCreators(page, null, null, callback));
     }
 
     public void onGetUserConnectionsClicked(View view) {
         UserRepository userRepository = new UserRepositoryBuilder(accessToken)
                 .build();
-        getUserList((page, callback) -> userRepository.getConnections(page, null, callback));
+        getUserList((page, callback) -> userRepository.getConnections(page, null, null, callback));
     }
 
     public void onSearchUserConnectionsClicked(View view) {
@@ -306,13 +306,13 @@ public class MainActivity extends AppCompatActivity {
     public void onGetUserFollowedClicked(View view) {
         UserRepository userRepository = new UserRepositoryBuilder(accessToken)
                 .build();
-        getUserList((page, callback) -> userRepository.getFollowedUsers(page, null, callback));
+        getUserList((page, callback) -> userRepository.getFollowedUsers(page, null, null, callback));
     }
 
     public void onGetUserManagersClicked(View btn) {
         UserRepository userRepository = new UserRepositoryBuilder(accessToken)
                 .build();
-        getUserList((page, callback) -> userRepository.getManagers(page, null, callback));
+        getUserList((page, callback) -> userRepository.getManagers(page, null, null, callback));
     }
 
     public void onGetSwitchUsersClicked(View btn) {
@@ -683,7 +683,7 @@ public class MainActivity extends AppCompatActivity {
         GalleryRepository galleryRepository = new GalleryRepositoryBuilder(accessToken)
                 .build();
 
-        galleryRepository.getMine(null, null, new ResponseCallback<CreatubblesResponse<List<Gallery>>>() {
+        galleryRepository.getMine(null, null, null, new ResponseCallback<CreatubblesResponse<List<Gallery>>>() {
             @Override
             public void onSuccess(CreatubblesResponse<List<Gallery>> response) {
                 Toast.makeText(MainActivity.this, "Galleries total count: " + response.getMeta().getTotalCount(),

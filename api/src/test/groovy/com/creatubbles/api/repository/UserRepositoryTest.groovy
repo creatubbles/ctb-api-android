@@ -43,56 +43,56 @@ class UserRepositoryTest extends Specification {
 
     def "should call get creators with specific user id when obtaining current user's creators"() {
         when:
-        repository.getCreators(anyPage(), anySortMode(), anyCallback())
+        repository.getCreators(anyPage(), anyQuery(), anySortMode(), anyCallback())
         then:
         service.getCreators(currentUserId(), _, _, _) >> anyCall()
     }
 
     def "should call get creators with an id when obtaining any user's creators"() {
         when:
-        repository.getCreators(anyId(), anyPage(), anySortMode(), anyCallback())
+        repository.getCreators(anyId(), anyQuery(), anyPage(), anySortMode(), anyCallback())
         then:
         service.getCreators(_, _, _, _) >> anyCall()
     }
 
     def "should call get managers with specific user id when obtaining current user's managers"() {
         when:
-        repository.getManagers(anyPage(), anySortMode(), anyCallback())
+        repository.getManagers(anyPage(), anyQuery(), anySortMode(), anyCallback())
         then:
         service.getManagers(currentUserId(), _, _, _) >> anyCall()
     }
 
     def "should call get managers with an id when obtaining any user's managers"() {
         when:
-        repository.getManagers(anyId(), anyPage(), anySortMode(), anyCallback())
+        repository.getManagers(anyId(), anyQuery(), anyPage(), anySortMode(), anyCallback())
         then:
         service.getManagers(_, _, _, _) >> anyCall()
     }
 
     def "should call get followed users with specific id when obtaining current user's followed users"() {
         when:
-        repository.getFollowedUsers(anyPage(), anySortMode(), anyCallback())
+        repository.getFollowedUsers(anyPage(), anyQuery(), anySortMode(), anyCallback())
         then:
         service.getFollowedUsers(currentUserId(), _, _, _) >> anyCall()
     }
 
     def "should call get followed users with an id when obtaining any user's followed users"() {
         when:
-        repository.getFollowedUsers(anyPage(), anySortMode(), anyCallback())
+        repository.getFollowedUsers(anyPage(), anyQuery(), anySortMode(), anyCallback())
         then:
         service.getFollowedUsers(currentUserId(), _, _, _) >> anyCall()
     }
 
     def "should call get connections users with specific id when obtaining current user's connections"() {
         when:
-        repository.getConnections(anyPage(), anySortMode(), anyCallback())
+        repository.getConnections(anyPage(), anyQuery(), anySortMode(), anyCallback())
         then:
         service.getConnections(currentUserId(), _, _, _) >> anyCall()
     }
 
     def "should call get connections users with an id when obtaining any user's connections"() {
         when:
-        repository.getConnections(anyPage(), anySortMode(), anyCallback())
+        repository.getConnections(anyPage(), anyQuery(), anySortMode(), anyCallback())
         then:
         service.getConnections(currentUserId(), _, _, _) >> anyCall()
     }

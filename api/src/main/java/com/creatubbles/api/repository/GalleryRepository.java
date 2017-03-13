@@ -45,12 +45,12 @@ public interface GalleryRepository {
      * it’ll return all galleries owned or shared with current user. Shared in this case means the user is either a collaborator
      * of the gallery or the gallery is owned by a managed creator, in which case the manager is implicitly a collaborator on it.
      */
-    void getMine(@Nullable Integer page, @Nullable GalleryFilter filter, @Nullable ResponseCallback<CreatubblesResponse<List<Gallery>>> callback);
+    void getMine(@Nullable Integer page, @Nullable String query, @Nullable GalleryFilter filter, @Nullable ResponseCallback<CreatubblesResponse<List<Gallery>>> callback);
 
     /**
      * Get galleries owned by a user.
      */
-    void getByUser(@Nullable Integer page, @NonNull String userId, @Nullable ResponseCallback<CreatubblesResponse<List<Gallery>>> callback);
+    void getByUser(@Nullable Integer page, @NonNull String userId, @Nullable String query, @Nullable ResponseCallback<CreatubblesResponse<List<Gallery>>> callback);
 
     /**
      * Get galleries of a creation.
