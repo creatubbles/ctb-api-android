@@ -9,7 +9,15 @@ import java.util.List;
  * Created by mariuszostapowicz on 08.03.2016.
  */
 public class ErrorResponse {
-    private final List<Error> errors = Collections.emptyList();
+    private final List<Error> errors;
+
+    public ErrorResponse() {
+        errors = Collections.emptyList();
+    }
+
+    public ErrorResponse(List<Error> errors) {
+        this.errors = errors;
+    }
 
     @NonNull
     public List<Error> getErrors() {
