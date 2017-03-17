@@ -99,6 +99,7 @@ import com.creatubbles.api.response.UploadResponseCallback;
 import com.creatubbles.app.R;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -628,13 +629,22 @@ public class MainActivity extends AppCompatActivity {
 
             Creation newCreation = new Creation.Builder("testCreation", Collections.emptyList()).build();
             List<String> galleries = new ArrayList<>();
-            galleries.add(galleryId);
+            if (galleryId != null) {
+                galleries.add(galleryId);
+            }
 
             creationRepository.uploadCreation(newCreation, file, ContentType.JPG, galleries,
                     new UploadResponseCallback<Creation>() {
+
                         @Override public void onStateChanged(UploadState uploadState) {
                             // Note: Because of the logging interceptor, we see the progress twice
                             sendFileProgressBar.setProgress((int) (uploadState.getUploadProgress() * 100));
+                            try {
+                                Log.i("uploadFile()", "upload " + uploadState.serialize());
+                                UploadState.deserialize(uploadState.serialize());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
 
                         @Override

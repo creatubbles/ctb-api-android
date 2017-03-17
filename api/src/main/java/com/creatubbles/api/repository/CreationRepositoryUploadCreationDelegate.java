@@ -314,17 +314,21 @@ public class CreationRepositoryUploadCreationDelegate {
 
     private void deliverErrors() {
         if (callback != null) {
-            StringBuilder errorMessagesJoin = new StringBuilder();
-            for (String errorMessage : errorMessages) {
-                errorMessagesJoin.append(errorMessage).append("\n");
+            if (!errorMessages.isEmpty()) {
+                StringBuilder errorMessagesJoin = new StringBuilder();
+                for (String errorMessage : errorMessages) {
+                    errorMessagesJoin.append(errorMessage).append("\n");
+                }
+                callback.onError(errorMessagesJoin.toString());
             }
-            callback.onError(errorMessagesJoin.toString());
 
-            List<Error> allErrors = new ArrayList<>();
-            for (ErrorResponse serverError : serverErrors) {
-                allErrors.addAll(serverError.getErrors());
+            if (!serverErrors.isEmpty()) {
+                List<Error> allErrors = new ArrayList<>();
+                for (ErrorResponse serverError : serverErrors) {
+                    allErrors.addAll(serverError.getErrors());
+                }
+                callback.onServerError(new ErrorResponse(allErrors));
             }
-            callback.onServerError(new ErrorResponse(allErrors));
         }
     }
 

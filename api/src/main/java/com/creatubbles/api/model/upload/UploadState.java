@@ -1,5 +1,8 @@
 package com.creatubbles.api.model.upload;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
@@ -48,5 +51,15 @@ public class UploadState {
 
     public Deque<String> getUnUpdatedGalleries() {
         return unUpdatedGalleries;
+    }
+
+    public String serialize() throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(this);
+    }
+
+    public static UploadState deserialize(String serialized) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(serialized, UploadState.class);
     }
 }
