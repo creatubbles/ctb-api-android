@@ -314,7 +314,6 @@
             android:id="@+id/file_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:enabled="false"
             android:hint="Full path to image file" />
 
         <ProgressBar
@@ -330,9 +329,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/send_file_btn"
-            android:text="Send file"
-            android:onClick="onSendFileClicked"
-            android:enabled="false"/>
+            android:text="Create creation and send file"
+            android:onClick="onSendFileClicked"/>
 
         <TextView
             android:id="@+id/get_all_landing_urls"
