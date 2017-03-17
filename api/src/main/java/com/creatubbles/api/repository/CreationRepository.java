@@ -8,8 +8,9 @@ import com.creatubbles.api.model.CreatubblesResponse;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.creation.ToybooDetails;
 import com.creatubbles.api.model.image_manipulation.ImageManipulation;
-import com.creatubbles.api.response.ProgressResponseCallback;
+import com.creatubbles.api.model.upload.UploadState;
 import com.creatubbles.api.response.ResponseCallback;
+import com.creatubbles.api.response.UploadResponseCallback;
 
 import java.io.File;
 import java.util.List;
@@ -101,13 +102,30 @@ public interface CreationRepository {
     void remove(@NonNull String creationId, @Nullable ResponseCallback<Void> callback);
 
     /**
-     *
-     * @param creationId  ID of the Creation for which we want to upload a file
-     * @param file
-     * @param contentType the content type of the file you intend to upload
-     * @param callback
+     * Creates a creation, manages the upload of the file, and updates the server
+     * @param creation Creation instance created using {@link com.creatubbles.api.model.creation.Creation.Builder}.
+     * @param file File to be used for upload
+     * @param contentType Content type of the file
+     * @param galleryIds Galleries this creation should belong to
+     * @param callback Callback
      */
-    void uploadFile(@NonNull String creationId, @NonNull File file, @NonNull ContentType contentType, @Nullable ProgressResponseCallback<Void> callback);
+    void uploadCreation(@NonNull Creation creation, @NonNull File file, @NonNull ContentType contentType, @Nullable List<String> galleryIds, @Nullable UploadResponseCallback<Creation> callback);
+
+
+    /**
+     * Resumes operations of creating, uploading, updating server.
+     *
+     * @param creation    Creation instance created using {@link com.creatubbles.api.model.creation.Creation.Builder}.
+     * @param file        File to be used for upload
+     * @param contentType Content type of the file
+     * @param galleryIds  Galleries this creation should belong to
+     * @param uploadState The last upload state reported by the callback on your last try
+     * @param callback    Callback
+     */
+    void resumeUploadCreation(@NonNull Creation creation, @NonNull File file,
+                              @NonNull ContentType contentType, @Nullable List<String> galleryIds,
+                              @NonNull UploadState uploadState,
+                              @Nullable UploadResponseCallback<Creation> callback);
 
     /**
      * Method used to modify image of a creation identified by {@code creationId}.

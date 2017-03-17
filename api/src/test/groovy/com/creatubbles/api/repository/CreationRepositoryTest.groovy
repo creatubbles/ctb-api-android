@@ -4,15 +4,17 @@ import com.creatubbles.api.ContentType
 import com.creatubbles.api.model.creation.Creation
 import com.creatubbles.api.model.image_manipulation.ImageManipulation
 import com.creatubbles.api.model.upload.Upload
-import com.creatubbles.api.response.ProgressResponseCallback
 import com.creatubbles.api.response.ResponseCallback
+import com.creatubbles.api.response.UploadResponseCallback
 import com.creatubbles.api.service.CreationService
+import com.creatubbles.api.service.GalleryService
 import com.creatubbles.api.service.UploadService
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.jasminb.jsonapi.JSONAPIDocument
 import retrofit2.Call
 import retrofit2.Response
 import spock.lang.Specification
+
 /**
  * @author Pawel Szymanski
  */
@@ -20,8 +22,8 @@ class CreationRepositoryTest extends Specification {
 
     def service = Mock(CreationService)
     def uploadService = Mock(UploadService)
-    def repository = new CreationRepositoryImpl(Mock(ObjectMapper), service, uploadService,
-            { runnable -> runnable.run() }, { runnable -> runnable.run() })
+    def gallerySerive = Mock(GalleryService)
+    def repository = new CreationRepositoryImpl(Mock(ObjectMapper), service, uploadService, gallerySerive)
 
     def "should call get recent when obtaining recent creations"() {
         when:
@@ -104,7 +106,11 @@ class CreationRepositoryTest extends Specification {
         given:
         def callback = anyProgressCallback()
         when:
-        repository.uploadFile(anyId(), anyFile(), ContentType.JPEG, callback)
+        repository.uploadCreation(anyCreation(), anyFile(), ContentType.JPEG, [anyId()], callback)
+        then:
+        service.createCreation(_) >> Mock(Call) {
+            execute() >> Response.success(Mock(JSONAPIDocument))
+        }
         then:
         service.createUpload(_, _) >> Mock(Call) {
             execute() >> Response.success(Mock(JSONAPIDocument) {
@@ -115,11 +121,14 @@ class CreationRepositoryTest extends Specification {
                 }
             })
         }
+        then:
         uploadService.uploadFile(_, _) >> Mock(Call) {
             execute() >> Response.success(null)
         }
         then:
         service.updateCreationUpload(_, _) >> Mock(Call)
+        then:
+        gallerySerive.postSubmission(_) >> Mock(Call)
         then:
         callback.onSuccess(_)
     }
@@ -155,7 +164,7 @@ class CreationRepositoryTest extends Specification {
     }
 
     private anyProgressCallback() {
-        Mock(ProgressResponseCallback)
+        Mock(UploadResponseCallback)
     }
 
     private boolean anyBoolean() {

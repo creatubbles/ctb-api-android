@@ -97,16 +97,30 @@ public class Creation {
     @JsonProperty("video_720_url")
     private String video720Url;
 
+    /**
+     * Only for setting. Not returned by API
+     */
+    @JsonProperty("created_at_year")
+    private Integer createdAtYear;
+
+    /**
+     * Only for setting. Not returned by API
+     */
+    @JsonProperty("created_at_month")
+    private Integer createdAtMonth;
+
     @JsonCreator
     public Creation() {
     }
 
     @SuppressWarnings("WeakerAccess")
-    Creation(String name, List<User> creators, String reflectionText, String reflectionVideoUrl) {
+    Creation(String name, List<User> creators, String reflectionText, String reflectionVideoUrl, Integer createdAtYear, Integer createdAtMonth) {
         this.name = name;
         this.creators = creators;
         this.reflectionText = reflectionText;
         this.reflectionVideoUrl = reflectionVideoUrl;
+        this.createdAtYear = createdAtYear;
+        this.createdAtMonth = createdAtMonth;
     }
 
     public Creation(String creationId) {
@@ -295,6 +309,8 @@ public class Creation {
         private final List<User> creators;
         private String reflectionVideoUrl;
         private String reflectionText;
+        private Integer createdAtYear = null;
+        private Integer createdAtMonth = null;
 
 
         public Builder(@NonNull String name, @NonNull List<User> creators) {
@@ -315,8 +331,20 @@ public class Creation {
         }
 
         @NonNull
+        public Builder setCreatedAtYear(int createdAtYear) {
+            this.createdAtYear = createdAtYear;
+            return this;
+        }
+
+        @NonNull
+        public Builder setCreatedAtMonth(int createdAtMonth) {
+            this.createdAtMonth = createdAtMonth;
+            return this;
+        }
+
+        @NonNull
         public Creation build() {
-            return new Creation(name, creators, reflectionText, reflectionVideoUrl);
+            return new Creation(name, creators, reflectionText, reflectionVideoUrl, createdAtYear, createdAtMonth);
         }
     }
 

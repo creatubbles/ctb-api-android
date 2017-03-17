@@ -48,6 +48,7 @@ import com.creatubbles.api.model.landing_url.LandingUrlType;
 import com.creatubbles.api.model.notification.Notification;
 import com.creatubbles.api.model.partner_application.PartnerApplication;
 import com.creatubbles.api.model.school.School;
+import com.creatubbles.api.model.upload.UploadState;
 import com.creatubbles.api.model.user.AccountDetails;
 import com.creatubbles.api.model.user.MultipleCreators;
 import com.creatubbles.api.model.user.NewUser;
@@ -93,11 +94,12 @@ import com.creatubbles.api.repository.UserFollowingRepository;
 import com.creatubbles.api.repository.UserFollowingRepositoryBuilder;
 import com.creatubbles.api.repository.UserRepository;
 import com.creatubbles.api.repository.UserRepositoryBuilder;
-import com.creatubbles.api.response.ProgressResponseCallback;
 import com.creatubbles.api.response.ResponseCallback;
+import com.creatubbles.api.response.UploadResponseCallback;
 import com.creatubbles.app.R;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -595,7 +597,7 @@ public class MainActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
                     && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
 
-                sendFile();
+                createCreationAndUploadFile();
             }
         }
     }
@@ -606,12 +608,12 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
         } else {
-            sendFile();
+            createCreationAndUploadFile();
         }
     }
 
 
-    private void sendFile() {
+    private void createCreationAndUploadFile() {
         String filePath = fileName.getText().toString();
         if (filePath.length() <= 0) {
             fileName.setError("Enter file name with full path");
@@ -622,31 +624,40 @@ public class MainActivity extends AppCompatActivity {
                     .build();
             sendFileProgressBar.setVisibility(View.VISIBLE);
             sendFileProgressBar.setProgress(0);
-            creationRepository.uploadFile(creationId, file, ContentType.JPG, new ProgressResponseCallback<Void>() {
-                @Override public void onProgress(float progress) {
-                    // Note: Because of the logging interceptor, we see the progress twice
-                    sendFileProgressBar.setProgress((int)(progress*100));
-                }
 
-                @Override
-                public void onSuccess(Void response) {
-                    Toast.makeText(MainActivity.this, "Upload successful", Toast.LENGTH_SHORT).show();
-                    sendFileProgressBar.setVisibility(View.GONE);
-                }
 
-                @Override
-                public void onServerError(ErrorResponse errorResponse) {
-                    displayError(errorResponse);
-                    sendFileProgressBar.setVisibility(View.GONE);
-                }
+            Creation newCreation = new Creation.Builder("testCreation", Collections.emptyList()).build();
+            List<String> galleries = new ArrayList<>();
+            galleries.add(galleryId);
 
-                @Override
-                public void onError(String message) {
-                    Log.e("sendFile()", message);
-                    sendFileProgressBar.setVisibility(View.GONE);
-                }
-            });
+            creationRepository.uploadCreation(newCreation, file, ContentType.JPG, galleries,
+                    new UploadResponseCallback<Creation>() {
+                        @Override public void onStateChanged(UploadState uploadState) {
+                            // Note: Because of the logging interceptor, we see the progress twice
+                            sendFileProgressBar.setProgress((int) (uploadState.getUploadProgress() * 100));
+                        }
 
+                        @Override
+                        public void onSuccess(Creation response) {
+                            creationId = response.getId();
+                            Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+                            sendFileProgressBar.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onServerError(ErrorResponse errorResponse) {
+                            displayError(errorResponse);
+                            sendFileProgressBar.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onError(String message) {
+                            Log.e("uploadFile()", message);
+                            sendFileProgressBar.setVisibility(View.GONE);
+                        }
+                    }
+
+            );
         }
     }
 
