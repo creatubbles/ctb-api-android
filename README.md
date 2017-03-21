@@ -1,5 +1,10 @@
 # Creatubbles API Android (ctb-api-android)
 
+The library is published to jcentral, so in order to use it on Android, all you need to do is include it in gradle:
+```
+compile 'com.creatubbles:api:2.0.*'
+```
+
 ## Architecture
 1. **Packages**
     - **API Module**: Implementing all server method.
