@@ -1,14 +1,15 @@
 package com.creatubbles.app.view;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -129,8 +130,6 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar sendFileProgressBar;
     @Bind(R.id.send_file_btn)
     Button sendFileBtn;
-    @Bind(R.id.authorize_btn)
-    Button authorizeBtn;
     @Bind(R.id.file_name)
     EditText fileName;
     @Bind(R.id.scrollview)
@@ -184,6 +183,13 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         scrollView.requestFocus();
+
+        processOAuthResponse(getIntent());
+    }
+
+    @Override protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        processOAuthResponse(intent);
     }
 
     @Override
@@ -208,45 +214,77 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onAuthorizeClicked(View btn) {
+    public void onAuthorizePasswordClicked(View btn) {
+        OAuthRepository repository = new OAuthRepositoryBuilder().build();
+        repository.authorize(emailText.getText().toString(), passwordText.getText().toString(),
+                new ResponseCallback<UserAccessToken>() {
+                    @Override
+                    public void onSuccess(UserAccessToken response) {
+                        onSuccessAuth(response);
+                    }
+
+                    @Override
+                    public void onServerError(ErrorResponse errorResponse) {
+                        displayError(errorResponse);
+                    }
+
+                    @Override
+                    public void onError(String message) {
+
+                    }
+                });
+    }
+
+    public void onAuthorizeAppClicked(View btn) {
+        OAuthRepository repository = new OAuthRepositoryBuilder().build();
+        repository.authorize(new ResponseCallback<ApplicationAccessToken>() {
+            @Override
+            public void onSuccess(ApplicationAccessToken response) {
+                onSuccessAuth(response);
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                displayError(errorResponse);
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+    }
+
+    public void onAuthorizeBrowserClicked(View btn) {
+        // In order to use this flow, you need to:
+        // 1. Configure clientCallbackUrl when initializing the library (in your Application class)
+        // 2. Add intent filters for the clientCallbackUrl (in your Manifest)
 
         OAuthRepository repository = new OAuthRepositoryBuilder().build();
+        String urlForOauth = repository.getOAuthAuthorizeUrl();
 
-        if (TextUtils.isEmpty(emailText.getText())) {
-            repository.authorize(new ResponseCallback<ApplicationAccessToken>() {
-                @Override
-                public void onSuccess(ApplicationAccessToken response) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(urlForOauth));
+        startActivity(intent);
+    }
+
+    private void processOAuthResponse(Intent intent) {
+        Uri uri = intent.getData();
+        if (uri != null) {
+            OAuthRepository repository = new OAuthRepositoryBuilder().build();
+            repository.authorize(uri.toString(), new ResponseCallback<UserAccessToken>() {
+                @Override public void onSuccess(UserAccessToken response) {
                     onSuccessAuth(response);
                 }
 
-                @Override
-                public void onServerError(ErrorResponse errorResponse) {
+                @Override public void onServerError(ErrorResponse errorResponse) {
                     displayError(errorResponse);
                 }
 
-                @Override
-                public void onError(String message) {
+                @Override public void onError(String message) {
 
                 }
             });
-        } else {
-            repository.authorize(emailText.getText().toString(), passwordText.getText().toString(),
-                    new ResponseCallback<UserAccessToken>() {
-                        @Override
-                        public void onSuccess(UserAccessToken response) {
-                            onSuccessAuth(response);
-                        }
-
-                        @Override
-                        public void onServerError(ErrorResponse errorResponse) {
-                            displayError(errorResponse);
-                        }
-
-                        @Override
-                        public void onError(String message) {
-
-                        }
-                    });
         }
     }
 

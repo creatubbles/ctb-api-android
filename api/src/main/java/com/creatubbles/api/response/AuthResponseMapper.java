@@ -30,6 +30,7 @@ public class AuthResponseMapper<C extends AccessToken> extends BaseResponseMappe
         switch (grantType) {
             case PASSWORD:
             case USER_SWITCH:
+            case AUTHORIZATION_CODE:
                 return (C) new UserAccessToken(token, type);
             case CLIENT_CREDENTIALS:
                 return (C) new ApplicationAccessToken(token, type);

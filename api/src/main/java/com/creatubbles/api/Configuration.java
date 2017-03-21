@@ -19,6 +19,7 @@ public class Configuration {
 
     private final String clientId;
     private final String clientSecret;
+    private final String clientCallbackUrl;
     private final String baseUrl;
     private final Application context;
     private final Locale locale;
@@ -26,6 +27,7 @@ public class Configuration {
     public Configuration(@NonNull Builder builder) {
         this.clientId = builder.clientId;
         this.clientSecret = builder.clientSecret;
+        this.clientCallbackUrl = builder.clientCallbackUrl;
         this.baseUrl = builder.baseUrl;
         this.context = builder.context;
         this.locale = builder.locale;
@@ -35,6 +37,7 @@ public class Configuration {
 
         String clientId;
         String clientSecret;
+        String clientCallbackUrl;
         String baseUrl;
         Application context;
         Locale locale;
@@ -46,6 +49,11 @@ public class Configuration {
 
         public Builder clientSecret(@NonNull String clientSecret) {
             this.clientSecret = clientSecret;
+            return this;
+        }
+
+        public Builder clientCallbackUrl(@NonNull String clientCallbackUrl) {
+            this.clientCallbackUrl = clientCallbackUrl;
             return this;
         }
 
@@ -86,6 +94,10 @@ public class Configuration {
 
     public String getClientSecret() {
         return clientSecret;
+    }
+
+    public String getClientCallbackUrl() {
+        return clientCallbackUrl;
     }
 
     public String getBaseUrl() {
