@@ -41,25 +41,22 @@
 ## Preview
 ### Demo
 
-Check our demo app. You can check how to invoke method and connect to Creatubbles API Server.
+Check our demo app. You can check how to invoke methods and connect to Creatubbles API Server.
 
 ### Screenshot
-![screen1] (https://github.com/creatubbles/ctb-api-android/blob/develop/screen1.png)
+![screen1](https://github.com/creatubbles/ctb-api-android/blob/develop/screen1.png)
 
 
 ## Uses
 
-**To use library you need:**
-- **your Client_ID and Client_Secret**
-- **your email and password to your creatubbles account**
-
+**To use library you need your CLIENT_ID, CLIENT_SECRET and CLIENT_CALLBACK_URL**
 
 1. Initialization
 -----------------------
 Before you start using CreatubblesApi library you must initialize it with your own configuration object.
 
 
-REMEMBER: CLIENT_ID and CLIENT_SECRET need to be your own secret keys.
+REMEMBER: CLIENT_ID, CLIENT_SECRET and CLIENT_CALLBACK_URL need to be your own secret keys.
 
 ```
 CreatubblesApi.initialize(new Configuration.Builder()
@@ -67,6 +64,7 @@ CreatubblesApi.initialize(new Configuration.Builder()
               .baseUrl(BASE_URL)
               .clientId(CLIENT_ID)
               .clientSecret(CLIENT_SECRET)
+              .clientCallbackUrl(CLIENT_CALLBACK_URL)
               .locale(Locale.JAPANESE)
               .build());
   }
@@ -74,6 +72,8 @@ CreatubblesApi.initialize(new Configuration.Builder()
 ```
 
 The lack of any configuration's parameter will produce InvalidParametersException.
+
+You need to specify CLIENT_CALLBACK_URL only if you implement 2.1 Browser OAuth Flow.
 
 Locale parameter is optional. When you send requests which requires access token,
 application will automatically detect proper locale for given user.
@@ -94,11 +94,66 @@ Example of create instance `OAuthRepository`:
 OAuthRepository oauthRepository = new OAuthRepositoryBuilder()
                 .build();
 ```
-
-
 Example of `OAuthRepository` uses:
 
-    REMEMBER: EMAIL and PASSWORD need to be your own credentials.
+**2.1 Browser OAuth Flow**
+
+**In your Manifest:**
+
+```
+Attention: SCHEME and HOST need to be your scheme and host, defined in the CLIENT_CALLBACK_URL.
+```
+
+For example, for `ctboauthexample://testoauth`, the SCHEME is `ctboauthexample` and HOST is `testoauth`
+
+```
+<activity ...>
+    <intent-filter>
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <data android:scheme="SCHEME" android:host="HOST"/>
+    </intent-filter>
+</activity>
+
+```
+
+**In your Activity:**
+
+To start the OAuth Browser flow:
+```
+OAuthRepository repository = new OAuthRepositoryBuilder().build();
+String urlForOauth = repository.getOAuthAuthorizeUrl();
+
+Intent intent = new Intent(Intent.ACTION_VIEW);
+intent.setData(Uri.parse(urlForOauth));
+startActivity(intent);
+```
+
+In `onCreate()` and/or `onNewIntent()`:
+```
+Uri uri = intent.getData();
+if (uri!=null) {
+    OAuthRepository repository = new OAuthRepositoryBuilder().build();
+    repository.authorize(uri.toString(), new ResponseCallback<UserAccessToken>() {
+        @Override public void onSuccess(UserAccessToken response) {
+            onSuccessAuth(response);
+        }
+
+        @Override public void onServerError(ErrorResponse errorResponse) {
+            displayError(errorResponse);
+        }
+
+        @Override public void onError(String message) {
+
+        }
+    });
+}
+```
+
+**2.2 Password authentication flow**
+
+    Attention: EMAIL and PASSWORD need to be user credentials.
 
 ```
 oauthRepository.authorize("email@email.com", "password", new ResponseCallback<UserAccessToken>() {

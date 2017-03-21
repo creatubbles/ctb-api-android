@@ -29,6 +29,7 @@ public class OAuthRepositoryBuilder {
         OAuthRepository oAuthRepository = new OAuthRepositoryImpl(objectMapper, oAuthService);
         oAuthRepository.setClientId(configuration.getClientId());
         oAuthRepository.setClientSecret(configuration.getClientSecret());
+        oAuthRepository.setClientCallbackUrl(configuration.getClientCallbackUrl());
         return oAuthRepository;
     }
 

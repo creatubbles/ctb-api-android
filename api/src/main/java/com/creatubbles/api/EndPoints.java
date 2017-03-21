@@ -9,6 +9,7 @@ public class EndPoints {
     public static final String FEATURED_GALLERIES = "featured_galleries";
     public static final String CREATORS = "creators";
     public static final String OAUTH_TOKEN = "oauth/token";
+    public static final String OAUTH_AUTHORIZE = "oauth/authorize";
     public static final String USERS = "users";
     public static final String CREATIONS = "creations";
     public static final String UPLOADS = "uploads";

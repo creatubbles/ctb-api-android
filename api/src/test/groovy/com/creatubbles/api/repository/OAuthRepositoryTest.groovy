@@ -19,14 +19,14 @@ class OAuthRepositoryTest extends Specification {
         when:
         repository.authorize(anyCallback())
         then:
-        service.getAccessToken(_, _, GrantType.CLIENT_CREDENTIALS) >> anyCall()
+        service.getApplicationAccessToken(_, _, GrantType.CLIENT_CREDENTIALS) >> anyCall()
     }
 
     def "should call get auth token when authorize with login and password"() {
         when:
         repository.authorize(anyString(), anyString(), anyCallback())
         then:
-        service.getAccessToken(_, _, GrantType.PASSWORD, _, _) >> anyCall()
+        service.getPasswordAccessToken(_, _, GrantType.PASSWORD, _, _) >> anyCall()
     }
 
     def "should call switch user with current token when switching"() {
