@@ -101,7 +101,7 @@ OAuthRepository oauthRepository = new OAuthRepositoryBuilder()
 ```
 Example of `OAuthRepository` uses:
 
-**2.1 Browser OAuth Flow**
+**Browser OAuth Flow**
 
 **In your Manifest:**
 
@@ -154,34 +154,6 @@ if (uri!=null) {
         }
     });
 }
-```
-
-**2.2 Password authentication flow**
-
-    Attention: EMAIL and PASSWORD need to be user credentials.
-
-```
-oauthRepository.authorize("email@email.com", "password", new ResponseCallback<UserAccessToken>() {
-
-            @Override
-            public void onSuccess(UserAccessToken response) {
-
-                //Success if response code is [200...300], e.g.
-                Toast.makeText(MainActivity.this, response.getToken(), Toast
-                        .LENGTH_SHORT).show();
-
-            }
-
-            @Override
-            public void onServerError(ErrorResponse errorResponse) {
-                //Server Error if response code is different than [200...300]
-            }
-
-            @Override
-            public void onError(String message) {
-                //Error if something goes wrong (not form server) e.g. lost internet connection
-            }
-        });
 ```
 
 3. UserRepository
