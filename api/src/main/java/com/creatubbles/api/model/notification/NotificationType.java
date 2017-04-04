@@ -45,13 +45,24 @@ public enum NotificationType {
      */
     NEW_SUBMISSION("new_submission"),
     ANOTHER_COMMENT("another_comment"),
-    MULTIPLE_CREATORS_CREATED("multiple_creators_created");
+    MULTIPLE_CREATORS_CREATED("multiple_creators_created"),
+    TRANSLATION_TIP("translation_tip"),
+    UNDEFINED("undefined");
 
     private String name;
 
-    @JsonCreator
     NotificationType(String name) {
         this.name = name;
+    }
+
+    @JsonCreator
+    public static NotificationType forValue(String value) {
+        for (NotificationType type : NotificationType.values()) {
+            if (type.getName().equals(value)) {
+                return type;
+            }
+        }
+        return UNDEFINED;
     }
 
     @JsonValue

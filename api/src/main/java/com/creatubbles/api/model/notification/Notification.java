@@ -37,8 +37,10 @@ public class Notification {
     @Id
     private String id;
 
+    @JsonProperty("type")
     private NotificationType type;
 
+    @JsonProperty("text")
     private String text;
 
     @JsonProperty("short_text")
