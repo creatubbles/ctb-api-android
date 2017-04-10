@@ -97,6 +97,8 @@ public class Creation {
     @JsonProperty("video_720_url")
     private String video720Url;
 
+    private List<String> tags;
+
     /**
      * Only for setting. Not returned by API
      */
@@ -114,13 +116,14 @@ public class Creation {
     }
 
     @SuppressWarnings("WeakerAccess")
-    Creation(String name, List<User> creators, String reflectionText, String reflectionVideoUrl, Integer createdAtYear, Integer createdAtMonth) {
+    Creation(String name, List<User> creators, String reflectionText, String reflectionVideoUrl, Integer createdAtYear, Integer createdAtMonth, List<String> tags) {
         this.name = name;
         this.creators = creators;
         this.reflectionText = reflectionText;
         this.reflectionVideoUrl = reflectionVideoUrl;
         this.createdAtYear = createdAtYear;
         this.createdAtMonth = createdAtMonth;
+        this.tags = tags;
     }
 
     public Creation(String creationId) {
@@ -268,8 +271,14 @@ public class Creation {
         return video720Url;
     }
 
+    @Nullable
     public PartnerApplication getPartnerApplication() {
         return partnerApplication;
+    }
+
+    @Nullable
+    public List<String> getTags() {
+        return tags;
     }
 
     @Override
@@ -301,6 +310,9 @@ public class Creation {
                 ", playIframeUrl='" + playIframeUrl + '\'' +
                 ", video480Url='" + video480Url + '\'' +
                 ", video720Url='" + video720Url + '\'' +
+                ", tags=" + tags +
+                ", createdAtYear=" + createdAtYear +
+                ", createdAtMonth=" + createdAtMonth +
                 '}';
     }
 
@@ -311,7 +323,7 @@ public class Creation {
         private String reflectionText;
         private Integer createdAtYear = null;
         private Integer createdAtMonth = null;
-
+        private List<String> tags;
 
         public Builder(@NonNull String name, @NonNull List<User> creators) {
             this.name = name;
@@ -343,8 +355,14 @@ public class Creation {
         }
 
         @NonNull
+        public Builder setTags(List<String> tags) {
+            this.tags = tags;
+            return this;
+        }
+
+        @NonNull
         public Creation build() {
-            return new Creation(name, creators, reflectionText, reflectionVideoUrl, createdAtYear, createdAtMonth);
+            return new Creation(name, creators, reflectionText, reflectionVideoUrl, createdAtYear, createdAtMonth, tags);
         }
     }
 
