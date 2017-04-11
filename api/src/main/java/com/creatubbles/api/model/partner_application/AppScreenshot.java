@@ -20,6 +20,8 @@ public class AppScreenshot {
     private boolean video;
     private String vid;
     private String title;
+    @JsonProperty("thumbnail_url")
+    private String thumbnailUrl;
     private VideoProvider provider;
     private Integer position;
 
@@ -67,6 +69,11 @@ public class AppScreenshot {
         return position;
     }
 
+    @Nullable
+    public String getThumbnailUrl() {
+        return thumbnailUrl;
+    }
+
     @Override
     public String toString() {
         return "AppScreenshot{" +
@@ -75,6 +82,7 @@ public class AppScreenshot {
                 ", video=" + video +
                 ", vid='" + vid + '\'' +
                 ", title='" + title + '\'' +
+                ", thumbnailUrl='" + thumbnailUrl + '\'' +
                 ", provider=" + provider +
                 ", position=" + position +
                 '}';
