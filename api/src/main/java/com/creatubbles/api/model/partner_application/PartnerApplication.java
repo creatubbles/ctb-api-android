@@ -103,6 +103,9 @@ public class PartnerApplication {
     @JsonProperty("updated_at")
     private Date updatedAt;
 
+    @JsonProperty("about_us_url")
+    private String aboutUsUrl;
+
     @Relationship("gallery")
     private Gallery gallery;
 
@@ -268,6 +271,11 @@ public class PartnerApplication {
         return updatedAt;
     }
 
+    @Nullable
+    public String getAboutUsUrl() {
+        return aboutUsUrl;
+    }
+
     @NonNull
     public Gallery getGallery() {
         return gallery;
@@ -328,6 +336,7 @@ public class PartnerApplication {
                 ", avatarUrl='" + avatarUrl + '\'' +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
+                ", aboutUsUrl='" + aboutUsUrl + '\'' +
                 ", gallery=" + gallery +
                 ", user=" + user +
                 ", relatedApps=" + relatedApps +
