@@ -118,6 +118,9 @@ public class PartnerApplication {
     @Relationship("app_screenshots")
     private List<AppScreenshot> appScreenshots;
 
+    @Relationship("galleries")
+    private List<Gallery> galleries;
+
     @NonNull
     public String getId() {
         return id;
@@ -302,6 +305,11 @@ public class PartnerApplication {
         return appScreenshots;
     }
 
+    @Nullable
+    public List<Gallery> getGalleries() {
+        return galleries;
+    }
+
     @Override
     public String toString() {
         return "PartnerApplication{" +
@@ -341,6 +349,7 @@ public class PartnerApplication {
                 ", user=" + user +
                 ", relatedApps=" + relatedApps +
                 ", appScreenshots=" + appScreenshots +
+                ", galleries=" + galleries +
                 '}';
     }
 }
