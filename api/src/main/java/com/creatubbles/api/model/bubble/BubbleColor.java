@@ -9,7 +9,7 @@ import com.github.jasminb.jsonapi.annotations.Type;
 /**
  * @author Pawel Szymanski
  */
-@Type("bubble-colors")
+@Type("bubble_colors")
 public class BubbleColor {
     @Id
     private String id;
