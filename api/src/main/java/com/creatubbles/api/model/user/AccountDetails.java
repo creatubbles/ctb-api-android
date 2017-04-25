@@ -58,13 +58,13 @@ public class AccountDetails {
     private List<String> ownedTags = Collections.emptyList();
 
     @JsonProperty("preapprove_comments")
-    private boolean preapproveComments;
+    private Boolean preapproveComments;
 
     @JsonProperty("receive_notifications")
-    private boolean receiveNotifications;
+    private Boolean receiveNotifications;
 
     @JsonProperty("newsletter")
-    private boolean receiveNewsletter;
+    private Boolean receiveNewsletter;
 
     @JsonProperty("what_do_you_teach")
     private String whatDoYouTeach;
@@ -106,7 +106,7 @@ public class AccountDetails {
     }
 
     @SuppressWarnings("WeakerAccess")
-    AccountDetails(String username, String displayName, String name, String email, Integer birthMonth, Integer birthYear, AgeDisplayType ageDisplayType, String uiLocale, boolean preapproveComments, boolean receiveNotifications, boolean receiveNewsletter, String whatDoYouTeach, String interests, String countryCode, Creation avatarCreation) {
+    AccountDetails(String username, String displayName, String name, String email, Integer birthMonth, Integer birthYear, AgeDisplayType ageDisplayType, String uiLocale, Boolean preapproveComments, Boolean receiveNotifications, Boolean receiveNewsletter, String whatDoYouTeach, String interests, String countryCode, Creation avatarCreation) {
         this.username = username;
         this.displayName = displayName;
         this.name = name;
@@ -179,15 +179,15 @@ public class AccountDetails {
         return ownedTags;
     }
 
-    public boolean getPreapproveComments() {
+    public Boolean getPreapproveComments() {
         return preapproveComments;
     }
 
-    public boolean getReceiveNotifications() {
+    public Boolean getReceiveNotifications() {
         return receiveNotifications;
     }
 
-    public boolean getReceiveNewsletter() {
+    public Boolean getReceiveNewsletter() {
         return receiveNewsletter;
     }
 
@@ -298,9 +298,9 @@ public class AccountDetails {
         private Integer birthYear;
         private AgeDisplayType ageDisplayType;
         private String uiLocale;
-        private boolean preapproveComments;
-        private boolean receiveNotifications;
-        private boolean receiveNewsletter;
+        private Boolean preapproveComments;
+        private Boolean receiveNotifications;
+        private Boolean receiveNewsletter;
         private String whatDoYouTeach;
         private String interests;
         private String countryCode;
