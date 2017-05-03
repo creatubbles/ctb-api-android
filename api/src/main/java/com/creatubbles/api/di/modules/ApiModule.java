@@ -46,9 +46,7 @@ public class ApiModule {
     private Configuration configuration = null;
 
     public static void initialize(Configuration apiConfiguration) {
-        if (instance == null) {
-            instance = new ApiModule(apiConfiguration);
-        }
+        instance = new ApiModule(apiConfiguration);
     }
 
     private ApiModule(Configuration configuration) {

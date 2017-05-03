@@ -13,7 +13,7 @@ public final class CreatubblesApi {
 
     private static Configuration apiConfiguration = null;
 
-    public static void initialize(@NonNull Configuration configuration) {
+    public static synchronized void initialize(@NonNull Configuration configuration) {
         if (configuration == null) {
             throw new NullPointerException("Configuration can't be null");
         }
