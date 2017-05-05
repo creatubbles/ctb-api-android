@@ -34,6 +34,8 @@ import com.creatubbles.api.model.user.avatar.Avatar;
 import com.creatubbles.api.model.user.avatar.AvatarSuggestion;
 import com.creatubbles.api.model.user.custom_style.CustomStyle;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.jasminb.jsonapi.DeserializationFeature;
+import com.github.jasminb.jsonapi.ResourceConverter;
 import com.github.jasminb.jsonapi.retrofit.JSONAPIConverterFactory;
 
 import java.util.ArrayList;
@@ -83,7 +85,9 @@ public class ServiceGenerator {
                 .baseUrl(configuration.getBaseUrl())
                 .client(client);
 
-        JSONAPIConverterFactory converterFactory = new JSONAPIConverterFactory(objectMapper, jsonApiModels);
+        ResourceConverter resourceConverter = new ResourceConverter(objectMapper, jsonApiModels);
+        resourceConverter.enableDeserializationOption(DeserializationFeature.ALLOW_UNKNOWN_INCLUSIONS);
+        JSONAPIConverterFactory converterFactory = new JSONAPIConverterFactory(resourceConverter);
         converterFactory.setAlternativeFactory(JacksonConverterFactory.create(objectMapper));
         builder.addConverterFactory(converterFactory);
 
