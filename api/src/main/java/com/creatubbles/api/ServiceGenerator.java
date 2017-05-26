@@ -80,10 +80,8 @@ public class ServiceGenerator {
 
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
         clientBuilder.cookieJar(getAcceptAllCookieJar());
+        addInterceptorFromConfiguration(clientBuilder);
 
-        if (configuration.getInterceptor() != null) {
-            clientBuilder.addInterceptor(configuration.getInterceptor());
-        }
         OkHttpClient client = clientBuilder.build();
 
         builder = new Retrofit.Builder()
@@ -106,11 +104,13 @@ public class ServiceGenerator {
             headerParamMap.put("Accept-Language", configuration.getLocale().getRes());
         }
 
-        OkHttpClient client = new OkHttpClient.Builder()
+        OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
+        clientBuilder
                 .cookieJar(getAcceptAllCookieJar())
-                .addInterceptor(CreatubbleInterceptor.getHeaderInterceptor(headerParamMap))
-                .addInterceptor(configuration.getInterceptor())
-                .build();
+                .addInterceptor(CreatubbleInterceptor.getHeaderInterceptor(headerParamMap));
+        addInterceptorFromConfiguration(clientBuilder);
+
+        OkHttpClient client = clientBuilder.build();
 
         Retrofit retrofit = builder
                 .client(client)
@@ -130,10 +130,8 @@ public class ServiceGenerator {
         clientBuilder
                 .cookieJar(getAcceptAllCookieJar())
                 .addInterceptor(CreatubbleInterceptor.getHeaderInterceptor(headerParamMap));
+        addInterceptorFromConfiguration(clientBuilder);
 
-        if (configuration.getInterceptor() != null) {
-            clientBuilder.addInterceptor(configuration.getInterceptor());
-        }
         OkHttpClient client = clientBuilder.build();
 
         Retrofit retrofit = builder
@@ -160,10 +158,8 @@ public class ServiceGenerator {
         clientBuilder
                 .cookieJar(getAcceptAllCookieJar())
                 .addInterceptor(CreatubbleInterceptor.getHeaderInterceptor(headerParamMap));
+        addInterceptorFromConfiguration(clientBuilder);
 
-        if (configuration.getInterceptor() != null) {
-            clientBuilder.addInterceptor(configuration.getInterceptor());
-        }
         OkHttpClient client = clientBuilder.build();
 
         builder.client(client);
@@ -186,6 +182,12 @@ public class ServiceGenerator {
                 return cookies != null ? cookies : new ArrayList<>();
             }
         };
+    }
+
+    private void addInterceptorFromConfiguration(OkHttpClient.Builder clientBuilder) {
+        if (configuration.getInterceptor() != null) {
+            clientBuilder.addInterceptor(configuration.getInterceptor());
+        }
     }
 }
 
