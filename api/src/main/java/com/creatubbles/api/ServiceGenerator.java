@@ -78,7 +78,7 @@ public class ServiceGenerator {
     public void initialize() {
         OkHttpClient client = new OkHttpClient.Builder()
                 .cookieJar(getAcceptAllCookieJar())
-                .addInterceptor(CreatubbleInterceptor.getLoggingInterceptor())
+                .addInterceptor(CreatubbleInterceptor.getLoggingInterceptor(configuration.getHttpLogLevel()))
                 .build();
 
         builder = new Retrofit.Builder()
@@ -104,7 +104,7 @@ public class ServiceGenerator {
         OkHttpClient client = new OkHttpClient.Builder()
                 .cookieJar(getAcceptAllCookieJar())
                 .addInterceptor(CreatubbleInterceptor.getHeaderInterceptor(headerParamMap))
-                .addInterceptor(CreatubbleInterceptor.getLoggingInterceptor())
+                .addInterceptor(CreatubbleInterceptor.getLoggingInterceptor(configuration.getHttpLogLevel()))
                 .build();
 
         Retrofit retrofit = builder
@@ -124,7 +124,7 @@ public class ServiceGenerator {
         OkHttpClient client = new OkHttpClient.Builder()
                 .cookieJar(getAcceptAllCookieJar())
                 .addInterceptor(CreatubbleInterceptor.getHeaderInterceptor(headerParamMap))
-                .addInterceptor(CreatubbleInterceptor.getLoggingInterceptor())
+                .addInterceptor(CreatubbleInterceptor.getLoggingInterceptor(configuration.getHttpLogLevel()))
                 .build();
 
         Retrofit retrofit = builder
@@ -151,7 +151,7 @@ public class ServiceGenerator {
         OkHttpClient client = new OkHttpClient.Builder()
                 .cookieJar(getAcceptAllCookieJar())
                 .addInterceptor(CreatubbleInterceptor.getHeaderInterceptor(headerParamMap))
-                .addInterceptor(CreatubbleInterceptor.getLoggingInterceptor())
+                .addInterceptor(CreatubbleInterceptor.getLoggingInterceptor(configuration.getHttpLogLevel()))
                 .build();
 
         builder.client(client);

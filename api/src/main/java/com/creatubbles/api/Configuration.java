@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 
 import com.creatubbles.api.exception.InvalidParametersException;
 
+import okhttp3.logging.HttpLoggingInterceptor;
+
 
 /**
  * Created by Janek on 11.10.2016.
@@ -16,6 +18,7 @@ public class Configuration {
     static final String INVALID_CLIENT_SECRET_MESSAGE = "ClientSecret can't be null!";
     static final String INVALID_BASE_URL_MESSAGE = "BaseUrl can't be null!";
     static final String INVALID_APPLICATION_CONTEXT_MESSAGE = "Application Context can't be null!";
+    static final String INVALID_HTTP_LOG_LEVEL = "Logging level for http library can't be null!";
 
     private final String clientId;
     private final String clientSecret;
@@ -23,6 +26,7 @@ public class Configuration {
     private final String baseUrl;
     private final Application context;
     private final Locale locale;
+    private final HttpLoggingInterceptor.Level httpLogLevel;
 
     public Configuration(@NonNull Builder builder) {
         this.clientId = builder.clientId;
@@ -31,6 +35,7 @@ public class Configuration {
         this.baseUrl = builder.baseUrl;
         this.context = builder.context;
         this.locale = builder.locale;
+        this.httpLogLevel = builder.httpLogLevel;
     }
 
     public static class Builder {
@@ -41,6 +46,7 @@ public class Configuration {
         String baseUrl;
         Application context;
         Locale locale;
+        HttpLoggingInterceptor.Level httpLogLevel;
 
         public Builder clientId(@NonNull String clientId) {
             this.clientId = clientId;
@@ -72,6 +78,11 @@ public class Configuration {
             return this;
         }
 
+        public Builder httpLogLevel(@NonNull HttpLoggingInterceptor.Level httpLogLevel) {
+            this.httpLogLevel = httpLogLevel;
+            return this;
+        }
+
         @NonNull
         public Configuration build() {
             if (clientId == null) {
@@ -82,6 +93,8 @@ public class Configuration {
                 throw new InvalidParametersException(INVALID_BASE_URL_MESSAGE);
             } else if (context == null) {
                 throw new InvalidParametersException(INVALID_APPLICATION_CONTEXT_MESSAGE);
+            } else if (httpLogLevel == null) {
+                throw new InvalidParametersException(INVALID_HTTP_LOG_LEVEL);
             } else {
                 return new Configuration(this);
             }
@@ -110,5 +123,9 @@ public class Configuration {
 
     public Locale getLocale() {
         return locale;
+    }
+
+    public HttpLoggingInterceptor.Level getHttpLogLevel() {
+        return httpLogLevel;
     }
 }
