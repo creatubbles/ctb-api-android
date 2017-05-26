@@ -6,6 +6,8 @@ import com.creatubbles.api.di.modules.ApiModule;
 
 import java.lang.reflect.Method;
 
+import okhttp3.logging.HttpLoggingInterceptor;
+
 /**
  * Created by Janek on 14.10.2016.
  */
@@ -29,6 +31,7 @@ public class TestUtils {
                 .clientId("id")
                 .baseUrl("http://url.com")
                 .application(new Application())
+                .httpLogLevel(HttpLoggingInterceptor.Level.BODY)
                 .build());
     }
 
