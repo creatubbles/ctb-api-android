@@ -186,7 +186,7 @@ public class ServiceGenerator {
 
     private void addInterceptorFromConfiguration(OkHttpClient.Builder clientBuilder) {
         if (configuration.getInterceptor() != null) {
-            clientBuilder.addInterceptor(configuration.getInterceptor());
+            clientBuilder.addNetworkInterceptor(configuration.getInterceptor());
         }
     }
 }
