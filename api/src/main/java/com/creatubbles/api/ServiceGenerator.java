@@ -56,6 +56,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 public class ServiceGenerator {
 
     private Configuration configuration;
+
     private final Class[] jsonApiModels = {Creation.class, User.class, NewUser.class, Upload.class,
             Gallery.class, LandingUrl.class, MultipleCreators.class, Activity.class, Comment.class,
             CustomStyle.class, UserFollowing.class, Group.class, Bubble.class, BubbleColor.class,
@@ -76,10 +77,14 @@ public class ServiceGenerator {
     }
 
     public void initialize() {
-        OkHttpClient client = new OkHttpClient.Builder()
-                .cookieJar(getAcceptAllCookieJar())
-                .addInterceptor(CreatubbleInterceptor.getLoggingInterceptor(configuration.getHttpLogLevel()))
-                .build();
+
+        OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
+        clientBuilder.cookieJar(getAcceptAllCookieJar());
+
+        if (configuration.getInterceptor() != null) {
+            clientBuilder.addInterceptor(configuration.getInterceptor());
+        }
+        OkHttpClient client = clientBuilder.build();
 
         builder = new Retrofit.Builder()
                 .baseUrl(configuration.getBaseUrl())
@@ -104,7 +109,7 @@ public class ServiceGenerator {
         OkHttpClient client = new OkHttpClient.Builder()
                 .cookieJar(getAcceptAllCookieJar())
                 .addInterceptor(CreatubbleInterceptor.getHeaderInterceptor(headerParamMap))
-                .addInterceptor(CreatubbleInterceptor.getLoggingInterceptor(configuration.getHttpLogLevel()))
+                .addInterceptor(configuration.getInterceptor())
                 .build();
 
         Retrofit retrofit = builder
@@ -121,11 +126,15 @@ public class ServiceGenerator {
             headerParamMap.put("Accept-Language", configuration.getLocale().getRes());
         }
 
-        OkHttpClient client = new OkHttpClient.Builder()
+        OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
+        clientBuilder
                 .cookieJar(getAcceptAllCookieJar())
-                .addInterceptor(CreatubbleInterceptor.getHeaderInterceptor(headerParamMap))
-                .addInterceptor(CreatubbleInterceptor.getLoggingInterceptor(configuration.getHttpLogLevel()))
-                .build();
+                .addInterceptor(CreatubbleInterceptor.getHeaderInterceptor(headerParamMap));
+
+        if (configuration.getInterceptor() != null) {
+            clientBuilder.addInterceptor(configuration.getInterceptor());
+        }
+        OkHttpClient client = clientBuilder.build();
 
         Retrofit retrofit = builder
                 .client(client)
@@ -147,12 +156,15 @@ public class ServiceGenerator {
             headerParamMap.put("Accept-Language", configuration.getLocale().getRes());
         }
 
-
-        OkHttpClient client = new OkHttpClient.Builder()
+        OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
+        clientBuilder
                 .cookieJar(getAcceptAllCookieJar())
-                .addInterceptor(CreatubbleInterceptor.getHeaderInterceptor(headerParamMap))
-                .addInterceptor(CreatubbleInterceptor.getLoggingInterceptor(configuration.getHttpLogLevel()))
-                .build();
+                .addInterceptor(CreatubbleInterceptor.getHeaderInterceptor(headerParamMap));
+
+        if (configuration.getInterceptor() != null) {
+            clientBuilder.addInterceptor(configuration.getInterceptor());
+        }
+        OkHttpClient client = clientBuilder.build();
 
         builder.client(client);
 

@@ -2,6 +2,7 @@ package com.creatubbles.api
 
 import android.app.Application
 import com.creatubbles.api.exception.InvalidParametersException
+import okhttp3.logging.HttpLoggingInterceptor
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -19,7 +20,8 @@ class ConfigurationTest extends Specification {
                 .application(application)
                 .baseUrl(baseUrl)
                 .clientId(clientId)
-                .clientSecret(clientSecret);
+                .clientSecret(clientSecret)
+                .interceptor(Configuration.Builder.Interceptors.getLoggingInterceptor(HttpLoggingInterceptor.Level.BODY));
         when:
         builder.build();
         then:
@@ -40,7 +42,8 @@ class ConfigurationTest extends Specification {
                 .application(anyApplication())
                 .baseUrl(anyUrl())
                 .clientId(anyString())
-                .clientSecret(anyString());
+                .clientSecret(anyString())
+                .interceptor(Configuration.Builder.Interceptors.getLoggingInterceptor(HttpLoggingInterceptor.Level.BODY));
         when:
         def configuration = builder.build();
         then:

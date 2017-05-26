@@ -23,11 +23,4 @@ public class CreatubbleInterceptor {
             return chain.proceed(builder.build());
         };
     }
-
-    public static Interceptor getLoggingInterceptor(HttpLoggingInterceptor.Level httpLogLevel) {
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(httpLogLevel);
-
-        return interceptor;
-    }
 }

@@ -24,7 +24,7 @@ public class CreatubblesApplication extends Application {
                 .clientSecret("4d666d5bb0f1bf5fec5efa31e2484cd11e2a57c0904d033506561b45a94d7ef0") //ctboauthexample
                 .clientCallbackUrl("ctboauthexample://testoauth")
                 .locale(Locale.ENGLISH)
-                .httpLogLevel(HttpLoggingInterceptor.Level.BODY)
+                .interceptor(Configuration.Builder.CreatubbleInterceptor.getLoggingInterceptor(HttpLoggingInterceptor.Level.BODY))
                 .build());
     }
 }

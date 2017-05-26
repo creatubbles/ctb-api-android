@@ -31,7 +31,7 @@ public class TestUtils {
                 .clientId("id")
                 .baseUrl("http://url.com")
                 .application(new Application())
-                .httpLogLevel(HttpLoggingInterceptor.Level.BODY)
+                .interceptor(Configuration.Builder.Interceptors.getLoggingInterceptor(HttpLoggingInterceptor.Level.BODY))
                 .build());
     }
 

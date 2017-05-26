@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.creatubbles.api.exception.InvalidParametersException;
 
+import okhttp3.Interceptor;
 import okhttp3.logging.HttpLoggingInterceptor;
 
 
@@ -18,7 +19,6 @@ public class Configuration {
     static final String INVALID_CLIENT_SECRET_MESSAGE = "ClientSecret can't be null!";
     static final String INVALID_BASE_URL_MESSAGE = "BaseUrl can't be null!";
     static final String INVALID_APPLICATION_CONTEXT_MESSAGE = "Application Context can't be null!";
-    static final String INVALID_HTTP_LOG_LEVEL = "Logging level for http library can't be null!";
 
     private final String clientId;
     private final String clientSecret;
@@ -26,7 +26,7 @@ public class Configuration {
     private final String baseUrl;
     private final Application context;
     private final Locale locale;
-    private final HttpLoggingInterceptor.Level httpLogLevel;
+    private final Interceptor interceptor;
 
     public Configuration(@NonNull Builder builder) {
         this.clientId = builder.clientId;
@@ -35,10 +35,20 @@ public class Configuration {
         this.baseUrl = builder.baseUrl;
         this.context = builder.context;
         this.locale = builder.locale;
-        this.httpLogLevel = builder.httpLogLevel;
+        this.interceptor = builder.interceptor;
     }
 
     public static class Builder {
+
+        public static class Interceptors {
+
+            public static Interceptor getLoggingInterceptor(HttpLoggingInterceptor.Level httpLogLevel) {
+                HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+                interceptor.setLevel(httpLogLevel);
+
+                return interceptor;
+            }
+        }
 
         String clientId;
         String clientSecret;
@@ -46,7 +56,7 @@ public class Configuration {
         String baseUrl;
         Application context;
         Locale locale;
-        HttpLoggingInterceptor.Level httpLogLevel;
+        Interceptor interceptor;
 
         public Builder clientId(@NonNull String clientId) {
             this.clientId = clientId;
@@ -78,8 +88,8 @@ public class Configuration {
             return this;
         }
 
-        public Builder httpLogLevel(@NonNull HttpLoggingInterceptor.Level httpLogLevel) {
-            this.httpLogLevel = httpLogLevel;
+        public Builder interceptor(Interceptor interceptor) {
+            this.interceptor = interceptor;
             return this;
         }
 
@@ -93,8 +103,6 @@ public class Configuration {
                 throw new InvalidParametersException(INVALID_BASE_URL_MESSAGE);
             } else if (context == null) {
                 throw new InvalidParametersException(INVALID_APPLICATION_CONTEXT_MESSAGE);
-            } else if (httpLogLevel == null) {
-                throw new InvalidParametersException(INVALID_HTTP_LOG_LEVEL);
             } else {
                 return new Configuration(this);
             }
@@ -125,7 +133,7 @@ public class Configuration {
         return locale;
     }
 
-    public HttpLoggingInterceptor.Level getHttpLogLevel() {
-        return httpLogLevel;
+    public Interceptor getInterceptor() {
+        return interceptor;
     }
 }
