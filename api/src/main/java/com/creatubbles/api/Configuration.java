@@ -5,6 +5,9 @@ import android.support.annotation.NonNull;
 
 import com.creatubbles.api.exception.InvalidParametersException;
 
+import okhttp3.Interceptor;
+import okhttp3.logging.HttpLoggingInterceptor;
+
 
 /**
  * Created by Janek on 11.10.2016.
@@ -23,6 +26,7 @@ public class Configuration {
     private final String baseUrl;
     private final Application context;
     private final Locale locale;
+    private final Interceptor interceptor;
 
     public Configuration(@NonNull Builder builder) {
         this.clientId = builder.clientId;
@@ -31,9 +35,20 @@ public class Configuration {
         this.baseUrl = builder.baseUrl;
         this.context = builder.context;
         this.locale = builder.locale;
+        this.interceptor = builder.interceptor;
     }
 
     public static class Builder {
+
+        public static class Interceptors {
+
+            public static Interceptor getLoggingInterceptor(HttpLoggingInterceptor.Level httpLogLevel) {
+                HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+                interceptor.setLevel(httpLogLevel);
+
+                return interceptor;
+            }
+        }
 
         String clientId;
         String clientSecret;
@@ -41,6 +56,7 @@ public class Configuration {
         String baseUrl;
         Application context;
         Locale locale;
+        Interceptor interceptor;
 
         public Builder clientId(@NonNull String clientId) {
             this.clientId = clientId;
@@ -69,6 +85,11 @@ public class Configuration {
 
         public Builder locale(@NonNull Locale locale) {
             this.locale = locale;
+            return this;
+        }
+
+        public Builder interceptor(Interceptor interceptor) {
+            this.interceptor = interceptor;
             return this;
         }
 
@@ -110,5 +131,9 @@ public class Configuration {
 
     public Locale getLocale() {
         return locale;
+    }
+
+    public Interceptor getInterceptor() {
+        return interceptor;
     }
 }
