@@ -98,6 +98,8 @@ import com.creatubbles.api.repository.UserRepositoryBuilder;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.response.UploadResponseCallback;
 import com.creatubbles.app.R;
+import com.creatubbles.app.backend.builders.PrivateOAuthRepository;
+import com.creatubbles.app.backend.builders.PrivateOAuthRepositoryBuilder;
 
 import java.io.File;
 import java.io.IOException;
@@ -215,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onAuthorizePasswordClicked(View btn) {
-        OAuthRepository repository = new OAuthRepositoryBuilder().build();
+        PrivateOAuthRepository repository = new PrivateOAuthRepositoryBuilder().build();
         repository.authorize(emailText.getText().toString(), passwordText.getText().toString(),
                 new ResponseCallback<UserAccessToken>() {
                     @Override
@@ -230,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(String message) {
-
+                        Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
                     }
                 });
     }

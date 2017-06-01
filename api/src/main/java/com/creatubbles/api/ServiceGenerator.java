@@ -57,7 +57,7 @@ public class ServiceGenerator {
 
     private Configuration configuration;
 
-    private final Class[] jsonApiModels = {Creation.class, User.class, NewUser.class, Upload.class,
+    private static final Class[] defaultApiModels = {Creation.class, User.class, NewUser.class, Upload.class,
             Gallery.class, LandingUrl.class, MultipleCreators.class, Activity.class, Comment.class,
             CustomStyle.class, UserFollowing.class, Group.class, Bubble.class, BubbleColor.class,
             GallerySubmission.class, ImageManipulation.class, AccountDetails.class, School.class,
@@ -88,12 +88,29 @@ public class ServiceGenerator {
                 .baseUrl(configuration.getBaseUrl())
                 .client(client);
 
-        ResourceConverter resourceConverter = new ResourceConverter(objectMapper, jsonApiModels);
+        Class[] additionalModels = configuration.getAdditionalApiModels();
+        Class[] allModels = concatArrays(additionalModels, defaultApiModels);
+        ResourceConverter resourceConverter = new ResourceConverter(objectMapper, allModels);
         resourceConverter.enableDeserializationOption(DeserializationFeature.ALLOW_UNKNOWN_INCLUSIONS);
         JSONAPIConverterFactory converterFactory = new JSONAPIConverterFactory(resourceConverter);
         converterFactory.setAlternativeFactory(JacksonConverterFactory.create(objectMapper));
         builder.addConverterFactory(converterFactory);
 
+    }
+
+    private Class[] concatArrays(Class[] a, Class[] b) {
+        if (a == null && b == null) {
+            return null;
+        } else if (a == null) {
+            return b;
+        } else if (b == null) {
+            return a;
+        } else {
+            Class[] result = new Class[b.length + a.length];
+            System.arraycopy(b, 0, result, 0, b.length);
+            System.arraycopy(a, 0, result, b.length, a.length);
+            return result;
+        }
     }
 
     public <S> S createService(Class<S> serviceClass, final ContentType contentType) {

@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import com.creatubbles.api.exception.InvalidParametersException;
 
 import okhttp3.Interceptor;
-import okhttp3.logging.HttpLoggingInterceptor;
 
 
 /**
@@ -27,6 +26,7 @@ public class Configuration {
     private final Application context;
     private final Locale locale;
     private final Interceptor interceptor;
+    private final Class[] additionalApiModels;
 
     public Configuration(@NonNull Builder builder) {
         this.clientId = builder.clientId;
@@ -36,19 +36,10 @@ public class Configuration {
         this.context = builder.context;
         this.locale = builder.locale;
         this.interceptor = builder.interceptor;
+        this.additionalApiModels = builder.additionalApiModels;
     }
 
     public static class Builder {
-
-        public static class Interceptors {
-
-            public static Interceptor getLoggingInterceptor(HttpLoggingInterceptor.Level httpLogLevel) {
-                HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-                interceptor.setLevel(httpLogLevel);
-
-                return interceptor;
-            }
-        }
 
         String clientId;
         String clientSecret;
@@ -57,6 +48,7 @@ public class Configuration {
         Application context;
         Locale locale;
         Interceptor interceptor;
+        Class[] additionalApiModels;
 
         public Builder clientId(@NonNull String clientId) {
             this.clientId = clientId;
@@ -90,6 +82,14 @@ public class Configuration {
 
         public Builder interceptor(Interceptor interceptor) {
             this.interceptor = interceptor;
+            return this;
+        }
+
+        /**
+         * For internal use only.
+         */
+        public Builder additionalApiModels(Class[] additionalApiModels) {
+            this.additionalApiModels = additionalApiModels;
             return this;
         }
 
@@ -136,4 +136,9 @@ public class Configuration {
     public Interceptor getInterceptor() {
         return interceptor;
     }
+
+    public Class[] getAdditionalApiModels() {
+        return additionalApiModels;
+    }
+
 }

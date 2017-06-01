@@ -43,13 +43,6 @@ class OAuthRepositoryImpl implements OAuthRepository {
     }
 
     @Override
-    public void authorize(@NonNull String login, @NonNull String password, ResponseCallback<UserAccessToken> callback) {
-        Call<AuthToken> call = oAuthService.getPasswordAccessToken(clientId, clientSecret, GrantType.PASSWORD, login,
-                password);
-        call.enqueue(new AuthResponseMapper<>(objectMapper, GrantType.PASSWORD, callback));
-    }
-
-    @Override
     public void authorize(String oAuthRedirectUri, @Nullable ResponseCallback<UserAccessToken> callback) {
         Uri callbackUri = Uri.parse(oAuthRedirectUri);
         String oAuthCode = callbackUri.getQueryParameter("code");

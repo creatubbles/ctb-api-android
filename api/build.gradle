@@ -47,7 +47,7 @@ ext {
     siteUrl = 'https://github.com/creatubbles/ctb-api-android'
     gitUrl = 'https://github.com/creatubbles/ctb-api-android.git'
 
-    libraryVersion = System.getenv("LIBRARY_VERSION");
+    libraryVersion = "2.1." + System.getenv("CIRCLE_BUILD_NUM");
 
     developerId = 'p.szymanski'
     developerName = 'Pawel Szymanski'

@@ -17,14 +17,6 @@ public interface OAuthService {
 
     @FormUrlEncoded
     @POST(EndPoints.OAUTH_TOKEN)
-    Call<AuthToken> getPasswordAccessToken(@Field("client_id") String id,
-                                           @Field("client_secret") String secret,
-                                           @Field("grant_type") GrantType grantType,
-                                           @Field("username") String username,
-                                           @Field("password") String password);
-
-    @FormUrlEncoded
-    @POST(EndPoints.OAUTH_TOKEN)
     Call<AuthToken> getApplicationAccessToken(@Field("client_id") String id,
                                               @Field("client_secret") String secret,
                                               @Field("grant_type") GrantType grantType);

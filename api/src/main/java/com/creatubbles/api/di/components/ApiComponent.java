@@ -15,6 +15,7 @@ import com.creatubbles.api.repository.LandingUrlsRepositoryBuilder;
 import com.creatubbles.api.repository.NotificationRepositoryBuilder;
 import com.creatubbles.api.repository.OAuthRepositoryBuilder;
 import com.creatubbles.api.repository.PartnerApplicationRepositoryBuilder;
+import com.creatubbles.api.repository.PrivateRepositoryDependencyProvider;
 import com.creatubbles.api.repository.ReportRepositoryBuilder;
 import com.creatubbles.api.repository.SchoolRepositoryBuilder;
 import com.creatubbles.api.repository.UserFollowingRepositoryBuilder;
@@ -66,4 +67,6 @@ public interface ApiComponent {
     void inject(ContentRepositoryBuilder target);
 
     void inject(SchoolRepositoryBuilder target);
+
+    void inject(PrivateRepositoryDependencyProvider target);
 }
