@@ -98,8 +98,6 @@ import com.creatubbles.api.repository.UserRepositoryBuilder;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.response.UploadResponseCallback;
 import com.creatubbles.app.R;
-import com.creatubbles.app.backend.builders.PrivateOAuthRepository;
-import com.creatubbles.app.backend.builders.PrivateOAuthRepositoryBuilder;
 
 import java.io.File;
 import java.io.IOException;
@@ -138,8 +136,6 @@ public class MainActivity extends AppCompatActivity {
     ScrollView scrollView;
     @Bind(R.id.switch_btn)
     Button switchBtn;
-    @Bind(R.id.email_edit_text)
-    EditText emailText;
     @Bind(R.id.password_edit_text)
     EditText passwordText;
     @Bind(R.id.get_custom_style_btn)
@@ -214,27 +210,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void onAuthorizePasswordClicked(View btn) {
-        PrivateOAuthRepository repository = new PrivateOAuthRepositoryBuilder().build();
-        repository.authorize(emailText.getText().toString(), passwordText.getText().toString(),
-                new ResponseCallback<UserAccessToken>() {
-                    @Override
-                    public void onSuccess(UserAccessToken response) {
-                        onSuccessAuth(response);
-                    }
-
-                    @Override
-                    public void onServerError(ErrorResponse errorResponse) {
-                        displayError(errorResponse);
-                    }
-
-                    @Override
-                    public void onError(String message) {
-                        Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
-                    }
-                });
     }
 
     public void onAuthorizeAppClicked(View btn) {
