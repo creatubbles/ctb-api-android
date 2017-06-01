@@ -34,34 +34,11 @@
             android:layout_height="wrap_content"
             android:text="Authorize methods: "/>
 
-        <EditText
-            android:id="@+id/email_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="email"
-            android:inputType="textEmailAddress" />
-
-        <EditText
-            android:id="@+id/password_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="password"
-            android:inputType="textPassword" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/authorize_user_btn"
-            android:text="Authorize using Password"
-            android:onClick="onAuthorizePasswordClicked"/>
-
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/authorize_browser_btn"
-            android:text="Authorize using Browser"
+            android:text="Authorize user (OAuth)"
             android:onClick="onAuthorizeBrowserClicked"/>
 
         <Button
@@ -118,6 +95,14 @@
             android:text="Link school with account (get user first)"
             android:onClick="onLinkSchoolWithAccountClicked"
             android:enabled="false" />
+
+        <EditText
+            android:id="@+id/password_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="password"
+            android:inputType="textPassword"/>
 
         <Button
             android:layout_width="wrap_content"

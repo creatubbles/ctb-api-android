@@ -3,6 +3,7 @@ package com.creatubbles.api;
 import android.app.Application;
 
 import com.creatubbles.api.di.modules.ApiModule;
+import com.creatubbles.api.interceptor.ConsoleLogInterceptor;
 
 import java.lang.reflect.Method;
 
@@ -31,7 +32,7 @@ public class TestUtils {
                 .clientId("id")
                 .baseUrl("http://url.com")
                 .application(new Application())
-                .interceptor(Configuration.Builder.Interceptors.getLoggingInterceptor(HttpLoggingInterceptor.Level.BODY))
+                .interceptor(ConsoleLogInterceptor.forLevel(HttpLoggingInterceptor.Level.BODY))
                 .build());
     }
 

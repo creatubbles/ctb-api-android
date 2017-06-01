@@ -20,14 +20,6 @@ public interface OAuthRepository {
     void authorize(@Nullable ResponseCallback<ApplicationAccessToken> callback);
 
     /**
-     * Method used to obtain <strong>User access token</strong>. User access tokens extend your access rights to allow your
-     * application to also access content and actions which have restricted visibility and are available
-     * for the user the access token was issued for. The user access token basically allows you to retrieve
-     * content and execute actions on behalf of the user the token was issued for.
-     */
-    void authorize(@NonNull String login, @NonNull String password, @Nullable ResponseCallback<UserAccessToken> callback);
-
-    /**
      * Used to finish the OAuth flow. Call this method once you have the redirect uri. In order to obtain
      * this uri, you need to first open a browser for the URL returned by {@link #getOAuthAuthorizeUrl()}.
      * At the end of the flow, the browser redirects the user to the <strong>clientCallbackUrl</strong>
