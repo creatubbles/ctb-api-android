@@ -19,7 +19,7 @@ class OAuthRepositoryTest extends Specification {
         when:
         repository.authorize(anyCallback())
         then:
-        service.getApplicationAccessToken(_, _, GrantType.CLIENT_CREDENTIALS) >> anyCall()
+        service.getApplicationAccessToken(_, _, GrantType.CLIENT_CREDENTIALS, _) >> anyCall()
     }
 
 //    def "should call get auth token when authorize with login and password"() {

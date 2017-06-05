@@ -37,9 +37,14 @@ class OAuthRepositoryImpl implements OAuthRepository {
     }
 
     @Override
-    public void authorize(ResponseCallback<ApplicationAccessToken> callback) {
-        Call<AuthToken> call = oAuthService.getApplicationAccessToken(clientId, clientSecret, GrantType.CLIENT_CREDENTIALS);
+    public void authorizeApplication(String scope, ResponseCallback<ApplicationAccessToken> callback) {
+        Call<AuthToken> call = oAuthService.getApplicationAccessToken(clientId, clientSecret, GrantType.CLIENT_CREDENTIALS, scope);
         call.enqueue(new AuthResponseMapper<>(objectMapper, GrantType.CLIENT_CREDENTIALS, callback));
+    }
+
+    @Override
+    public void authorize(ResponseCallback<ApplicationAccessToken> callback) {
+        authorizeApplication(null, callback);
     }
 
     @Override

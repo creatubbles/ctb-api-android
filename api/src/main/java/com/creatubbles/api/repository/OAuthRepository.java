@@ -17,6 +17,11 @@ public interface OAuthRepository {
      * This token will give you access to publicly available information and actions.
      * Use this type of access token if you want to retrieve content independent from any users.
      */
+    void authorizeApplication(@Nullable String scope, @Nullable ResponseCallback<ApplicationAccessToken> callback);
+
+    /**
+     * @see #authorizeApplication(String, ResponseCallback)
+     */
     void authorize(@Nullable ResponseCallback<ApplicationAccessToken> callback);
 
     /**
