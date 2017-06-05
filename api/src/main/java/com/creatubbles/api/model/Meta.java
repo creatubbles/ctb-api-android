@@ -44,6 +44,8 @@ public class Meta {
     @JsonDeserialize(using = AbilitiesConverter.class)
     private List<Ability> abilities = emptyList();
 
+    private String code;
+
     @Nullable
     public Integer getTotalPages() {
         return totalPages;
@@ -92,5 +94,10 @@ public class Meta {
     @Nullable
     public Date getLastViewedAt() {
         return lastViewedAt;
+    }
+
+    @Nullable
+    public String getCode() {
+        return code;
     }
 }
