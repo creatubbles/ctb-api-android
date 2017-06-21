@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'groovyx.android'
+apply from: 'jacoco.gradle'
 
 android {
     compileSdkVersion 25
@@ -31,6 +32,7 @@ android {
     packagingOptions {
         exclude 'META-INF/services/org.codehaus.groovy.transform.ASTTransformation'
         exclude 'LICENSE.txt'
+        exclude 'META-INF/LICENSE'
     }
 }
 
@@ -133,7 +135,7 @@ dependencies {
     testCompile "org.powermock:powermock-module-junit4-rule:1.6.5"
     testCompile "org.powermock:powermock-api-mockito:1.6.5"
     testCompile "org.powermock:powermock-classloading-xstream:1.6.5"
-    
+
     testCompile 'org.codehaus.groovy:groovy:2.4.7:grooid'
     testCompile "com.andrewreitz:spock-android:1.2.1"
     testCompile 'com.android.support.test:testing-support-lib:0.1'

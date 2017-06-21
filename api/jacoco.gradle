@@ -1,0 +1,70 @@
+apply plugin: 'jacoco'
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    def fileFilter = [
+            '**/R.class',
+            '**/R$*.class',
+            '**/BuildConfig.*',
+            '**/Manifest*.*',
+            '**/*Test*.*',
+            'android/**/*.*',
+            // Dagger
+            '**/*Dagger*.*',
+            '**/*MembersInjector*.*',
+            '**/*_Factory*.*',
+            '**/*_Provide*Factory*.*',
+            //Enums are terrible
+            '**/ActivityType.class',
+            '**/AgeDisplayType.class',
+            '**/ApprovalStatus.class',
+            '**/ContentType.class',
+            '**/GalleryFilter.class',
+            '**/GallerySortMode.class',
+            '**/GrantType.class',
+            '**/ImageStatus.class',
+            '**/ISO_3166_CountryCode.class',
+            '**/LandingUrlType.class',
+            '**/Locale.class',
+            '**/NotificationFilter.class',
+            '**/NotificationType.class',
+            '**/OAuthResponseType.class',
+            '**/ObjectType.class',
+            '**/Operation.class',
+            '**/Role.class',
+            '**/Rotation.class',
+            '**/UploadStep.class',
+            '**/UserSortMode.class',
+            '**/VideoProvider.class',]
+    def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/debug", excludes: fileFilter)
+    def mainSrc = "${project.projectDir}/src/main/java"
+
+    sourceDirectories = files([mainSrc])
+    classDirectories = files([debugTree])
+    executionData = fileTree(dir: "$buildDir", includes: [
+            "jacoco/testDebugUnitTest.exec",
+            "outputs/code-coverage/connected/*coverage.ec"
+    ])
+}
+
+android {
+
+    buildTypes {
+        debug {
+            testCoverageEnabled true
+        }
+    }
+
+    testOptions {
+        unitTests.all {
+            jacoco {
+                includeNoLocationClasses = true
+            }
+        }
+    }
+}
