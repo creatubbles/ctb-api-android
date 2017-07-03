@@ -39,7 +39,7 @@ public interface GalleryService {
                                                    @Query(PARAM_QUERY) String query,
                                                    @Query(PARAM_FILTER) String filter);
 
-    @GET(EndPoints.CREATIONS)
+    @GET(EndPoints.CREATIONS + PATH_ID_GALLERIES)
     Call<JSONAPIDocument<List<Gallery>>> getByCreation(@Path(PARAM_ID) String creationId,
                                                        @Query(PARAM_PAGE) Integer page);
 
