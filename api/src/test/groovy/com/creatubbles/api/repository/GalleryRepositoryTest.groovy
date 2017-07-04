@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import retrofit2.Call
 import spock.lang.Specification
 
+import static org.mockito.Matchers.anyList
 import static org.mockito.Matchers.anyString
 
 /**
@@ -91,6 +92,13 @@ class GalleryRepositoryTest extends Specification {
         repository.submitCreation(anyId(), anyId(), anyCallback());
         then:
         service.postSubmission(_) >> anyCall()
+    }
+
+    def "should call delete creations when removing creations from gallery"() {
+        when:
+        repository.removeCreations(anyId(), anyList(), anyCallback());
+        then:
+        service.removeCreations(_, _) >> anyCall()
     }
 
     private anySortMode() {

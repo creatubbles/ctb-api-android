@@ -117,7 +117,8 @@ public class Creation {
     }
 
     @SuppressWarnings("WeakerAccess")
-    Creation(String name, List<User> creators, String reflectionText, String reflectionVideoUrl, Integer createdAtYear, Integer createdAtMonth, List<String> tags) {
+    Creation(String id, String name, List<User> creators, String reflectionText, String reflectionVideoUrl, Integer createdAtYear, Integer createdAtMonth, List<String> tags) {
+        this.id = id;
         this.name = name;
         this.creators = creators;
         this.reflectionText = reflectionText;
@@ -335,6 +336,7 @@ public class Creation {
         private Integer createdAtYear = null;
         private Integer createdAtMonth = null;
         private List<String> tags;
+        private String id;
 
         public Builder(@NonNull String name, @NonNull List<User> creators) {
             this.name = name;
@@ -372,8 +374,14 @@ public class Creation {
         }
 
         @NonNull
+        public Builder setId(String id) {
+            this.id = id;
+            return this;
+        }
+
+        @NonNull
         public Creation build() {
-            return new Creation(name, creators, reflectionText, reflectionVideoUrl, createdAtYear, createdAtMonth, tags);
+            return new Creation(id, name, creators, reflectionText, reflectionVideoUrl, createdAtYear, createdAtMonth, tags);
         }
     }
 

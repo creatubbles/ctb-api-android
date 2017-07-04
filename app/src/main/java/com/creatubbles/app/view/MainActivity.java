@@ -152,6 +152,8 @@ public class MainActivity extends AppCompatActivity {
     Button deleteGroup;
     @Bind(R.id.submit_creation_btn)
     Button submitCreation;
+    @Bind(R.id.remove_creation_btn)
+    Button removeCreation;
     @Bind(R.id.update_bubble_btn)
     Button updateBubble;
     @Bind(R.id.delete_bubble_btn)
@@ -1288,8 +1290,34 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(CreatubblesResponse<GallerySubmission> response) {
                 Toast.makeText(MainActivity.this, "Creation submitted", Toast.LENGTH_SHORT).show();
                 submitCreation.setEnabled(false);
-                galleryId = null;
-                creationId = null;
+                removeCreation.setEnabled(true);
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                displayError(errorResponse);
+            }
+
+            @Override
+            public void onError(String message) {
+            }
+        });
+    }
+
+    public void onRemoveCreationClicked(View view) {
+        GalleryRepository repository = new GalleryRepositoryBuilder(accessToken)
+                .build();
+
+        List<String> creations = new ArrayList<>();
+        creations.add(creationId);
+
+        repository.removeCreations(galleryId, creations, new ResponseCallback<Void>() {
+
+            @Override
+            public void onSuccess(Void response) {
+                Toast.makeText(MainActivity.this, "Creation removed from gallery", Toast.LENGTH_SHORT).show();
+                submitCreation.setEnabled(true);
+                removeCreation.setEnabled(false);
             }
 
             @Override

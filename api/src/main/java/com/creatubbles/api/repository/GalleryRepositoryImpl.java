@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.creatubbles.api.model.CreatubblesResponse;
 import com.creatubbles.api.model.GallerySubmission;
+import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.gallery.Gallery;
 import com.creatubbles.api.response.BaseResponseMapper;
 import com.creatubbles.api.response.JsonApiResponseMapper;
@@ -15,6 +16,7 @@ import com.creatubbles.api.service.GallerySortMode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jasminb.jsonapi.JSONAPIDocument;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -106,4 +108,13 @@ class GalleryRepositoryImpl implements GalleryRepository {
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
+    @Override
+    public void removeCreations(@NonNull String galleryId, @NonNull List<String> creationIds, @Nullable ResponseCallback<Void> callback) {
+        ArrayList<Creation> creations = new ArrayList<>();
+        for (String creationId : creationIds) {
+            creations.add(new Creation.Builder("", new ArrayList<>()).setId(creationId).build());
+        }
+        Call<Void> call = galleryService.removeCreations(galleryId, creations);
+        call.enqueue(new BaseResponseMapper<>(objectMapper, callback));
+    }
 }

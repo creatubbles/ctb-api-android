@@ -3,6 +3,7 @@ package com.creatubbles.api.service;
 
 import com.creatubbles.api.EndPoints;
 import com.creatubbles.api.model.GallerySubmission;
+import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.gallery.Gallery;
 import com.github.jasminb.jsonapi.JSONAPIDocument;
 
@@ -11,6 +12,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -60,4 +62,7 @@ public interface GalleryService {
 
     @POST(EndPoints.GALLERY_SUBMISSIONS)
     Call<JSONAPIDocument<GallerySubmission>> postSubmission(@Body GallerySubmission gallerySubmission);
+
+    @HTTP(method = "DELETE", path = EndPoints.GALLERIES + "/{" + PARAM_ID + "}/relationships/creations", hasBody = true)
+    Call<Void> removeCreations(@Path(PARAM_ID) String galleryId, @Body List<Creation> creations);
 }
