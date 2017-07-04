@@ -109,12 +109,25 @@ class GalleryRepositoryImpl implements GalleryRepository {
     }
 
     @Override
+    public void submitCreations(@NonNull String galleryId, @NonNull List<String> creationIds, @Nullable ResponseCallback<CreatubblesResponse<Gallery>> callback) {
+        List<Creation> creations = mapIdsToCreations(creationIds);
+        Call<JSONAPIDocument<Gallery>> call = galleryService.submitCreations(galleryId, creations);
+        call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
+    }
+
+    @Override
     public void removeCreations(@NonNull String galleryId, @NonNull List<String> creationIds, @Nullable ResponseCallback<Void> callback) {
-        ArrayList<Creation> creations = new ArrayList<>();
-        for (String creationId : creationIds) {
-            creations.add(new Creation.Builder("", new ArrayList<>()).setId(creationId).build());
-        }
+        List<Creation> creations = mapIdsToCreations(creationIds);
         Call<Void> call = galleryService.removeCreations(galleryId, creations);
         call.enqueue(new BaseResponseMapper<>(objectMapper, callback));
+    }
+
+    @NonNull
+    private List<Creation> mapIdsToCreations(@NonNull List<String> creationIds) {
+        List<Creation> creations = new ArrayList<>(creationIds.size());
+        for (String creationId : creationIds) {
+            creations.add(new Creation(creationId));
+        }
+        return creations;
     }
 }

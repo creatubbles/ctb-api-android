@@ -152,6 +152,8 @@ public class MainActivity extends AppCompatActivity {
     Button deleteGroup;
     @Bind(R.id.submit_creation_btn)
     Button submitCreation;
+    @Bind(R.id.submit_creation2_btn)
+    Button submitCreation2;
     @Bind(R.id.remove_creation_btn)
     Button removeCreation;
     @Bind(R.id.update_bubble_btn)
@@ -187,7 +189,8 @@ public class MainActivity extends AppCompatActivity {
         processOAuthResponse(getIntent());
     }
 
-    @Override protected void onNewIntent(Intent intent) {
+    @Override
+    protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         processOAuthResponse(intent);
     }
@@ -252,15 +255,18 @@ public class MainActivity extends AppCompatActivity {
         if (uri != null) {
             OAuthRepository repository = new OAuthRepositoryBuilder().build();
             repository.authorize(uri.toString(), new ResponseCallback<UserAccessToken>() {
-                @Override public void onSuccess(UserAccessToken response) {
+                @Override
+                public void onSuccess(UserAccessToken response) {
                     onSuccessAuth(response);
                 }
 
-                @Override public void onServerError(ErrorResponse errorResponse) {
+                @Override
+                public void onServerError(ErrorResponse errorResponse) {
                     displayError(errorResponse);
                 }
 
-                @Override public void onError(String message) {
+                @Override
+                public void onError(String message) {
 
                 }
             });
@@ -542,6 +548,7 @@ public class MainActivity extends AppCompatActivity {
                         findViewById(R.id.report_creation_btn).setEnabled(true);
                         if (galleryId != null) {
                             submitCreation.setEnabled(true);
+                            submitCreation2.setEnabled(true);
                         }
                         sendFileBtn.setEnabled(true);
                         fileName.setEnabled(true);
@@ -653,7 +660,8 @@ public class MainActivity extends AppCompatActivity {
             creationRepository.uploadCreation(newCreation, file, ContentType.JPG, galleries,
                     new UploadResponseCallback<Creation>() {
 
-                        @Override public void onStateChanged(UploadState uploadState) {
+                        @Override
+                        public void onStateChanged(UploadState uploadState) {
                             // Note: Because of the logging interceptor, we see the progress twice
                             sendFileProgressBar.setProgress((int) (uploadState.getUploadProgress() * 100));
                             try {
@@ -702,6 +710,7 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.report_gallery_btn).setEnabled(true);
                 if (creationId != null) {
                     submitCreation.setEnabled(true);
+                    submitCreation2.setEnabled(true);
                 }
             }
 
@@ -1290,6 +1299,31 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(CreatubblesResponse<GallerySubmission> response) {
                 Toast.makeText(MainActivity.this, "Creation submitted", Toast.LENGTH_SHORT).show();
                 submitCreation.setEnabled(false);
+                submitCreation2.setEnabled(false);
+                removeCreation.setEnabled(true);
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                displayError(errorResponse);
+            }
+
+            @Override
+            public void onError(String message) {
+            }
+        });
+    }
+
+    public void onSubmitCreation2Clicked(View view) {
+        GalleryRepository repository = new GalleryRepositoryBuilder(accessToken)
+                .build();
+
+        repository.submitCreations(galleryId, Collections.singletonList(creationId), new ResponseCallback<CreatubblesResponse<Gallery>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<Gallery> response) {
+                Toast.makeText(MainActivity.this, "Creation submitted", Toast.LENGTH_SHORT).show();
+                submitCreation.setEnabled(false);
+                submitCreation2.setEnabled(false);
                 removeCreation.setEnabled(true);
             }
 
@@ -1317,6 +1351,7 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(Void response) {
                 Toast.makeText(MainActivity.this, "Creation removed from gallery", Toast.LENGTH_SHORT).show();
                 submitCreation.setEnabled(true);
+                submitCreation2.setEnabled(true);
                 removeCreation.setEnabled(false);
             }
 

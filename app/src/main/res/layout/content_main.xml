@@ -258,6 +258,14 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/submit_creation2_btn"
+            android:text="Submit creation 2nd way (first get galleries and create creation)"
+            android:onClick="onSubmitCreation2Clicked"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/remove_creation_btn"
             android:text="Remove creation (first get galleries, create creation, submit creation)"
             android:onClick="onRemoveCreationClicked"

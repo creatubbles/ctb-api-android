@@ -63,6 +63,11 @@ public interface GalleryRepository {
     void submitCreation(@NonNull String galleryId, @NonNull String creationId, @Nullable ResponseCallback<CreatubblesResponse<GallerySubmission>> callback);
 
     /**
+     * Submit creations with ids in {@code creationIds} to the gallery with {@code galleryId}.
+     */
+    void submitCreations(@NonNull String galleryId, @NonNull List<String> creationIds, @Nullable ResponseCallback<CreatubblesResponse<Gallery>> callback);
+
+    /**
      * Delete creation with {@code creationId} from gallery with {@code galleryId}
      */
     void removeCreations(@NonNull String galleryId, @NonNull List<String> creationId, @Nullable ResponseCallback<Void> callback);

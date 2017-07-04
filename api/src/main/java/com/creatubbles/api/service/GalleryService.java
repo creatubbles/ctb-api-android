@@ -29,6 +29,7 @@ public interface GalleryService {
     String PARAM_SORT = "sort";
     String PARAM_FILTER = "filter";
     String PARAM_QUERY = "query";
+    String RELATIONSHIPS_CREATIONS = "/relationships/creations";
 
     @GET(EndPoints.GALLERIES)
     Call<JSONAPIDocument<List<Gallery>>> getPublic(@Query(PARAM_QUERY) String query,
@@ -63,6 +64,10 @@ public interface GalleryService {
     @POST(EndPoints.GALLERY_SUBMISSIONS)
     Call<JSONAPIDocument<GallerySubmission>> postSubmission(@Body GallerySubmission gallerySubmission);
 
-    @HTTP(method = "DELETE", path = EndPoints.GALLERIES + "/{" + PARAM_ID + "}/relationships/creations", hasBody = true)
+    @HTTP(method = "DELETE", path = EndPoints.GALLERIES + "/{" + PARAM_ID + "}" + RELATIONSHIPS_CREATIONS, hasBody = true)
     Call<Void> removeCreations(@Path(PARAM_ID) String galleryId, @Body List<Creation> creations);
+
+    @POST(EndPoints.GALLERIES + "/{" + PARAM_ID + "}" + RELATIONSHIPS_CREATIONS)
+    Call<JSONAPIDocument<Gallery>> submitCreations(@Path(PARAM_ID) String galleryId, @Body List<Creation> creations);
+
 }
