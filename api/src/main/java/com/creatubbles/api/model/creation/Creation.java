@@ -97,16 +97,17 @@ public class Creation {
     @JsonProperty("video_720_url")
     private String video720Url;
 
+    @JsonProperty("tags")
     private List<String> tags;
 
     /**
-     * Only for setting. Not returned by API
+     * Returned only if user can edit
      */
     @JsonProperty("created_at_year")
     private Integer createdAtYear;
 
     /**
-     * Only for setting. Not returned by API
+     * Returned only if user can edit
      */
     @JsonProperty("created_at_month")
     private Integer createdAtMonth;
@@ -279,6 +280,16 @@ public class Creation {
     @Nullable
     public List<String> getTags() {
         return tags;
+    }
+
+    @Nullable
+    public Integer getCreatedAtYear() {
+        return createdAtYear;
+    }
+
+    @Nullable
+    public Integer getCreatedAtMonth() {
+        return createdAtMonth;
     }
 
     @Override
