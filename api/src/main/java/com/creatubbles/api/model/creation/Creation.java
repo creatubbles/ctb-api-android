@@ -91,6 +91,9 @@ public class Creation {
     @JsonProperty("play_iframe_url")
     private String playIframeUrl;
 
+    @JsonProperty("play_iframe_url_is_mobile_ready")
+    private Boolean playIframeIsMobileReady;
+
     @JsonProperty("video_480_url")
     private String video480Url;
 
@@ -248,6 +251,11 @@ public class Creation {
         return playIframeUrl;
     }
 
+    @Nullable
+    public Boolean getPlayIframeIsMobileReady() {
+        return playIframeIsMobileReady;
+    }
+
     @NonNull
     public String getId() {
         return id;
@@ -320,6 +328,7 @@ public class Creation {
                 ", reflectionVideoUrl='" + reflectionVideoUrl + '\'' +
                 ", objFileUrl='" + objFileUrl + '\'' +
                 ", playIframeUrl='" + playIframeUrl + '\'' +
+                ", plaIframeIsMobileReady='" + playIframeIsMobileReady + '\'' +
                 ", video480Url='" + video480Url + '\'' +
                 ", video720Url='" + video720Url + '\'' +
                 ", tags=" + tags +
