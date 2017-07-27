@@ -23,7 +23,7 @@ public class CustomStyle {
     }
 
     @SuppressWarnings("WeakerAccess")
-    public CustomStyle(String name, String headerBackgroundId, String bodyBackgroundId, String font, String bio, List<String> bodyColors, List<String> headerColors) {
+    public CustomStyle(String name, String headerBackgroundId, String bodyBackgroundId, String font, String bio, List<String> bodyColors, List<String> headerColors, Creation headerCreation, Creation bodyCreation) {
         this.name = name;
         this.headerBackgroundId = headerBackgroundId;
         this.bodyBackgroundId = bodyBackgroundId;
@@ -31,6 +31,8 @@ public class CustomStyle {
         this.bio = bio;
         this.bodyColors = bodyColors;
         this.headerColors = headerColors;
+        this.headerCreation = headerCreation;
+        this.bodyCreation = bodyCreation;
     }
 
     @Id
@@ -143,6 +145,8 @@ public class CustomStyle {
         private String bio;
         private List<String> bodyColors;
         private List<String> headerColors;
+        private Creation headerCreation;
+        private Creation bodyCreation;
 
         @NonNull
         public Builder setName(@NonNull String name) {
@@ -187,8 +191,20 @@ public class CustomStyle {
         }
 
         @NonNull
+        public Builder setHeaderCreation(@NonNull Creation creation) {
+            this.headerCreation = creation;
+            return this;
+        }
+
+        @NonNull
+        public Builder setBodyCreation(@NonNull Creation creation) {
+            this.bodyCreation = creation;
+            return this;
+        }
+
+        @NonNull
         public CustomStyle build() {
-            return new CustomStyle(name, headerBackgroundId, bodyBackgroundId, font, bio, bodyColors, headerColors);
+            return new CustomStyle(name, headerBackgroundId, bodyBackgroundId, font, bio, bodyColors, headerColors, headerCreation, bodyCreation);
         }
     }
 
