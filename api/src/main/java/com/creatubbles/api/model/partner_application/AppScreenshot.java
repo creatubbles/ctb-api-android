@@ -6,12 +6,13 @@ import android.support.annotation.Nullable;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Type;
+import com.github.jasminb.jsonapi.models.EmptyRelationship;
 
 /**
  * @author Pawel Szymanski
  */
 @Type("app_screenshots")
-public class AppScreenshot {
+public class AppScreenshot extends EmptyRelationship {
 
     @Id
     private String id;

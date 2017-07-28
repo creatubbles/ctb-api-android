@@ -5,12 +5,13 @@ import android.support.annotation.NonNull;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Type;
+import com.github.jasminb.jsonapi.models.EmptyRelationship;
 
 /**
  * @author Pawel Szymanski
  */
 @Type("reports")
-public class Report {
+public class Report extends EmptyRelationship {
     @Id
     private String id;
 

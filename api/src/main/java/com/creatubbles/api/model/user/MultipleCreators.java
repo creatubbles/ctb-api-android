@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Type;
+import com.github.jasminb.jsonapi.models.EmptyRelationship;
 
 /**
  * Class wraps up parameters required for a request used to create multiple Creators managed
@@ -18,7 +19,7 @@ import com.github.jasminb.jsonapi.annotations.Type;
  * @see com.creatubbles.api.repository.UserRepository#createMultipleCreators(MultipleCreators, ResponseCallback)
  */
 @Type("creator_builder_jobs")
-public class MultipleCreators {
+public class MultipleCreators extends EmptyRelationship {
     @Id
     private String id;
 

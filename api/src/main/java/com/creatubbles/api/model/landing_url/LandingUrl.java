@@ -4,13 +4,14 @@ import android.support.annotation.NonNull;
 
 import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Type;
+import com.github.jasminb.jsonapi.models.EmptyRelationship;
 
 /**
  * Landing URLs are used to retrieve application and user specific URLs for various landing pages
  * on the creatubbles website.
  */
 @Type("landing_urls")
-public class LandingUrl {
+public class LandingUrl extends EmptyRelationship {
 
     @Id
     private String id;
