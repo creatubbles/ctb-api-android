@@ -6,12 +6,13 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Type;
+import com.github.jasminb.jsonapi.models.EmptyRelationship;
 
 /**
  * @author Pawel Szymanski
  */
 @Type("password_change") //seems that type is irrelevant, but required by JSONApi lib
-public class PasswordChange {
+public class PasswordChange extends EmptyRelationship {
 
     @Id
     private String id;

@@ -5,9 +5,10 @@ import android.support.annotation.NonNull;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Type;
+import com.github.jasminb.jsonapi.models.EmptyRelationship;
 
 @Type("abilities")
-public class Ability {
+public class Ability extends EmptyRelationship {
 
     @Id
     private String id;

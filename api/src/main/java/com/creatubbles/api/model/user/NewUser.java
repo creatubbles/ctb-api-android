@@ -5,9 +5,10 @@ import android.support.annotation.NonNull;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Type;
+import com.github.jasminb.jsonapi.models.EmptyRelationship;
 
 @Type("user")
-public class NewUser {
+public class NewUser extends EmptyRelationship {
 
     @Id
     private String id; // this is unused field required by jsonapi-converter

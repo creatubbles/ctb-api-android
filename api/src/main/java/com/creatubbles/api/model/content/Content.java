@@ -12,13 +12,14 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Relationship;
 import com.github.jasminb.jsonapi.annotations.Type;
+import com.github.jasminb.jsonapi.models.EmptyRelationship;
 
 /**
  * Created by Mario Ostapowicz on 28.10.2016.
  */
 
 @Type("contents")
-public class Content {
+public class Content extends EmptyRelationship {
 
     @Id
     private String id;

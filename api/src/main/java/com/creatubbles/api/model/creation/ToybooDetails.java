@@ -7,13 +7,14 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Type;
+import com.github.jasminb.jsonapi.models.EmptyRelationship;
 
 /**
  * Created by Janek on 09.11.2016.
  */
 
 @Type("creation_toyboo_details")
-public class ToybooDetails {
+public class ToybooDetails extends EmptyRelationship {
 
     @Id
     private String id;

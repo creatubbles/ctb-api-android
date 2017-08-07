@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Relationship;
 import com.github.jasminb.jsonapi.annotations.Type;
+import com.github.jasminb.jsonapi.models.EmptyRelationship;
 
 import java.util.Date;
 
@@ -16,7 +17,7 @@ import java.util.Date;
  * Created by Janek on 24.10.2016.
  */
 @Type("user_avatars")
-public class Avatar {
+public class Avatar extends EmptyRelationship {
 
     @JsonCreator
     public Avatar() {

@@ -6,11 +6,12 @@ import android.support.annotation.Nullable;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Type;
+import com.github.jasminb.jsonapi.models.EmptyRelationship;
 
 import java.util.Date;
 
 @Type("uploads")
-public class Upload {
+public class Upload extends EmptyRelationship {
 
     @Id
     private String id;

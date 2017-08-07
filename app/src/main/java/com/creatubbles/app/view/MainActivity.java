@@ -895,7 +895,7 @@ public class MainActivity extends AppCompatActivity {
         CustomStyleRepository customStyleRepository = new CustomStyleRepositoryBuilder(accessToken)
                 .build();
         List<String> colors = Arrays.asList("#C0C0C0", "#DD1F26", "#BC2025");
-        customStyleRepository.updateCustomStyle(userId, new CustomStyle("style1", "pattern0", "pattern0", "Arial", "My bio", colors, colors), new ResponseCallback<CreatubblesResponse<CustomStyle>>() {
+        customStyleRepository.updateCustomStyle(userId, new CustomStyle("style1", "pattern0", "pattern0", "Arial", "My bio", colors, colors, null, null), new ResponseCallback<CreatubblesResponse<CustomStyle>>() {
             @Override
             public void onSuccess(CreatubblesResponse<CustomStyle> response) {
                 Toast.makeText(MainActivity.this, response.toString(), Toast

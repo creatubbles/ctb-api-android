@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Relationship;
 import com.github.jasminb.jsonapi.annotations.Type;
+import com.github.jasminb.jsonapi.models.EmptyRelationship;
 
 import java.util.Date;
 
@@ -18,7 +19,7 @@ import java.util.Date;
  * @author Pawel Szymanski
  */
 @Type("comments")
-public class Comment {
+public class Comment extends EmptyRelationship {
     @Id
     private String id;
 

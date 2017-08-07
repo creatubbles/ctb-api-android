@@ -7,6 +7,7 @@ import com.creatubbles.api.exception.InvalidParametersException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Type;
+import com.github.jasminb.jsonapi.models.EmptyRelationship;
 
 /**
  * Class representing manipulations made to creation's image.
@@ -15,7 +16,7 @@ import com.github.jasminb.jsonapi.annotations.Type;
  * @author Pawel Szymanski
  */
 @Type("image_manipulations")
-public class ImageManipulation {
+public class ImageManipulation extends EmptyRelationship {
     @Id
     private String id;
 

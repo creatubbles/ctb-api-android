@@ -4,11 +4,12 @@ import android.support.annotation.NonNull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.jasminb.jsonapi.annotations.Id;
+import com.github.jasminb.jsonapi.models.EmptyRelationship;
 
 /**
  * @author Pawel Szymanski
  */
-abstract class Entity {
+abstract class Entity extends EmptyRelationship {
 
     @Id
     private String id;

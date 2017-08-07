@@ -5,12 +5,13 @@ import android.support.annotation.Nullable;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Type;
+import com.github.jasminb.jsonapi.models.EmptyRelationship;
 
 /**
  * @author Pawel Szymanski
  */
 @Type("bubble_colors")
-public class BubbleColor {
+public class BubbleColor extends EmptyRelationship {
     @Id
     private String id;
     private String color;
