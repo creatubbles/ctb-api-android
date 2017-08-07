@@ -125,7 +125,7 @@ dependencies {
     apt 'com.google.dagger:dagger-compiler:2.7'
     compile 'javax.annotation:javax.annotation-api:1.2'
     compile 'com.pixplicity.easyprefs:library:1.8.1@aar'
-    compile 'com.github.creatubbles:java-jsonapi-converter:6f732cf'
+    compile 'com.github.creatubbles:java-jsonapi-converter:457f4df06'
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.10.8'
