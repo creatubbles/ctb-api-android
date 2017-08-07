@@ -106,9 +106,9 @@ bintray {
         version {
             desc = libraryDescription
             gpg {
-                sign = true //Determines whether to GPG sign the files. The default is false
-                passphrase = System.getenv("BINTRAY_GPG_PASSWORD")
+                sign = false //Determines whether to GPG sign the files. The default is false
                 //Optional. The passphrase for GPG signing'
+                //passphrase = System.getenv("BINTRAY_GPG_PASSWORD")
             }
         }
     }
