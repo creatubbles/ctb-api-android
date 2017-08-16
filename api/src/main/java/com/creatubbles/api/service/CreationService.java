@@ -94,4 +94,6 @@ public interface CreationService {
     Call<JSONAPIDocument<List<Creation>>> getByPartnerApplication(@Query(PARAM_PAGE) Integer page,
                                                                   @Query(PARAM_PARTNER_APPLICATION_ID) String partnerAppId);
 
+    @PUT(EndPoints.CREATIONS + "/" + PATH_CREATION_ID + "/view")
+    Call<Void> updateViewsCount(@Path(PARAM_CREATION_ID) String creationId);
 }

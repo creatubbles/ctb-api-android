@@ -140,4 +140,11 @@ public interface CreationRepository {
      * @param creationId the ID of Creation
      */
     void getToybooDetails(@NonNull String creationId, @Nullable ResponseCallback<CreatubblesResponse<ToybooDetails>> callback);
+
+    /**
+     * Method used to update creation views count
+     *
+     * @param creationId the ID of Creation
+     */
+    void updateViewsCount(@NonNull String creationId, @Nullable ResponseCallback<Void> callback);
 }

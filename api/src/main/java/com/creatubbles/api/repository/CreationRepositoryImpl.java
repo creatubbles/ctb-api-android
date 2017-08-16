@@ -147,4 +147,9 @@ class CreationRepositoryImpl implements CreationRepository {
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
+    @Override
+    public void updateViewsCount(@NonNull String creationId, @Nullable ResponseCallback<Void> callback) {
+        Call<Void> call = creationService.updateViewsCount(creationId);
+        call.enqueue(new BaseResponseMapper<>(objectMapper, callback));
+    }
 }

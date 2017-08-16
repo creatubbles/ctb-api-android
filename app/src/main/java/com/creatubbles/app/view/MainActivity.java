@@ -546,6 +546,7 @@ public class MainActivity extends AppCompatActivity {
                         findViewById(R.id.get_bubbles_on_creation_btn).setEnabled(true);
                         findViewById(R.id.get_landing_url_for_creation_btn).setEnabled(true);
                         findViewById(R.id.report_creation_btn).setEnabled(true);
+                        findViewById(R.id.update_creation_views_count).setEnabled(true);
                         if (galleryId != null) {
                             submitCreation.setEnabled(true);
                             submitCreation2.setEnabled(true);
@@ -611,6 +612,29 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onError(String message) {
 
+            }
+        });
+    }
+
+    public void onUpdateCreationViewsCountClicked(View btn) {
+        CreationRepository creationRepository = new CreationRepositoryBuilder(accessToken)
+                .build();
+        creationRepository.updateViewsCount(creationId, new ResponseCallback<Void>() {
+            @Override
+            public void onSuccess(Void response) {
+                Toast.makeText(MainActivity.this, "Creation views counter incremented", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+
+            }
+
+            @Override
+            public void onError(String message) {
+                Toast.makeText(MainActivity.this, message, Toast
+                        .LENGTH_SHORT)
+                        .show();
             }
         });
     }
@@ -708,6 +732,7 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.create_bubble_on_gallery_btn).setEnabled(true);
                 findViewById(R.id.get_bubbles_on_creation_btn).setEnabled(true);
                 findViewById(R.id.report_gallery_btn).setEnabled(true);
+                findViewById(R.id.update_gallery_views_count).setEnabled(true);
                 if (creationId != null) {
                     submitCreation.setEnabled(true);
                     submitCreation2.setEnabled(true);
@@ -745,6 +770,29 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onError(String message) {
 
+            }
+        });
+    }
+
+    public void onUpdateGalleryViewsCountClicked(View btn) {
+        GalleryRepository galleryRepository = new GalleryRepositoryBuilder(accessToken)
+                .build();
+        galleryRepository.updateViewsCount(galleryId, new ResponseCallback<Void>() {
+            @Override
+            public void onSuccess(Void response) {
+                Toast.makeText(MainActivity.this, "Gallery views counter incremented", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+
+            }
+
+            @Override
+            public void onError(String message) {
+                Toast.makeText(MainActivity.this, message, Toast
+                        .LENGTH_SHORT)
+                        .show();
             }
         });
     }

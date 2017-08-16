@@ -101,6 +101,13 @@ class GalleryRepositoryTest extends Specification {
         service.removeCreations(_, _) >> anyCall()
     }
 
+    def "should call update views count when updating views count"() {
+        when:
+        repository.updateViewsCount(anyId(), anyCallback())
+        then:
+        service.updateViewsCount(_) >> anyCall()
+    }
+
     private anySortMode() {
         null
     }

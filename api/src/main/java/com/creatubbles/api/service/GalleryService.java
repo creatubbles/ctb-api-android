@@ -70,4 +70,6 @@ public interface GalleryService {
     @POST(EndPoints.GALLERIES + "/{" + PARAM_ID + "}" + RELATIONSHIPS_CREATIONS)
     Call<JSONAPIDocument<Gallery>> submitCreations(@Path(PARAM_ID) String galleryId, @Body List<Creation> creations);
 
+    @PUT(EndPoints.GALLERIES + "/{" + PARAM_ID + "}/view")
+    Call<Void> updateViewsCount(@Path(PARAM_ID) String galleryId);
 }

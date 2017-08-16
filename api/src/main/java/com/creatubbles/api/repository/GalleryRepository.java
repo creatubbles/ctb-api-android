@@ -71,4 +71,9 @@ public interface GalleryRepository {
      * Delete creation with {@code creationId} from gallery with {@code galleryId}
      */
     void removeCreations(@NonNull String galleryId, @NonNull List<String> creationId, @Nullable ResponseCallback<Void> callback);
+
+    /**
+     * Update the views counter of gallery with {@code galleryId}
+     */
+    void updateViewsCount(@NonNull String galleryId, @Nullable ResponseCallback<Void> callback);
 }
