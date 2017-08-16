@@ -242,6 +242,14 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/update_gallery_views_count"
+            android:text="Update gallery views count"
+            android:onClick="onUpdateGalleryViewsCountClicked"
+            android:enabled="false"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/search_galleries_btn"
             android:text="Search public galleries"
             android:onClick="onSearchGalleriesClicked"
@@ -300,6 +308,14 @@
             android:id="@+id/get_creation_by_id_btn"
             android:text="Get Creation By Id"
             android:onClick="onGetCreationByIdClicked"
+            android:enabled="false"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/update_creation_views_count"
+            android:text="Update creation views count"
+            android:onClick="onUpdateCreationViewsCountClicked"
             android:enabled="false"/>
 
         <Button

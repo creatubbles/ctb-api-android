@@ -147,6 +147,13 @@ class CreationRepositoryTest extends Specification {
         service.getToybooDetails(_) >> anyCall()
     }
 
+    def "should call update views count when updating views count"() {
+        when:
+        repository.updateViewsCount(anyId(), anyCallback())
+        then:
+        service.updateViewsCount(_) >> anyCall()
+    }
+
     private anyCreation() {
         Mock(Creation)
     }

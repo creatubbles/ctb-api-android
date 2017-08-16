@@ -130,4 +130,10 @@ class GalleryRepositoryImpl implements GalleryRepository {
         }
         return creations;
     }
+
+    @Override
+    public void updateViewsCount(@NonNull String galleryId, @Nullable ResponseCallback<Void> callback){
+        Call<Void> call = galleryService.updateViewsCount(galleryId);
+        call.enqueue(new BaseResponseMapper<>(objectMapper, callback));
+    }
 }
