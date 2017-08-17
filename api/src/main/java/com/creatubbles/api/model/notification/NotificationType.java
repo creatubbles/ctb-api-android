@@ -47,6 +47,11 @@ public enum NotificationType {
     ANOTHER_COMMENT("another_comment"),
     MULTIPLE_CREATORS_CREATED("multiple_creators_created"),
     TRANSLATION_TIP("translation_tip"),
+    CUSTOMIZE_TIP("customize_tip"),
+    GALLERIES_TIP("galleries_tip"),
+    BUBBLES_TIP("bubbles_tip"),
+    UPLOAD_TIP("upload_tip"),
+
     UNDEFINED("undefined");
 
     private String name;
