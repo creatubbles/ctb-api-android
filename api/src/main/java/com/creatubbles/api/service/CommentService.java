@@ -26,7 +26,7 @@ public interface CommentService {
     String PATH_CREATION_COMMENTS = EndPoints.CREATIONS + PART_ID_COMMENTS;
     String PATH_GALLERY_COMMENTS = EndPoints.GALLERIES + PART_ID_COMMENTS;
     String PATH_USER_COMMENTS = EndPoints.USERS + PART_ID_COMMENTS;
-    String PATH_APPROVE_COMMENT = EndPoints.COMMENTS + "/{" + PARAM_ID + "}/approve";
+    String PATH_APPROVE_COMMENT = EndPoints.COMMENTS + "/{" + PARAM_ID + "}/approval";
 
     @GET(PATH_CREATION_COMMENTS)
     Call<JSONAPIDocument<List<Comment>>> getForCreation(@Path(PARAM_ID) String creationId, @Query(PARAM_PAGE) Integer page);
@@ -49,6 +49,6 @@ public interface CommentService {
     @POST(PATH_APPROVE_COMMENT)
     Call<Void> approve(@Path(PARAM_ID) String commentId);
 
-    @DELETE(EndPoints.COMMENTS + "/{" + PARAM_ID + "}")
+    @DELETE(PATH_APPROVE_COMMENT)
     Call<Void> decline(@Path(PARAM_ID) String commentId);
 }
