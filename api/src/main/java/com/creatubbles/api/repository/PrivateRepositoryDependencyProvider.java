@@ -3,7 +3,7 @@ package com.creatubbles.api.repository;
 import com.creatubbles.api.Configuration;
 import com.creatubbles.api.ContentType;
 import com.creatubbles.api.ServiceGenerator;
-import com.creatubbles.api.di.components.DaggerApiComponent;
+import com.creatubbles.api.di.components.ApiComponent;
 import com.creatubbles.api.di.modules.ApiModule;
 import com.creatubbles.api.model.auth.AccessToken;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,7 +26,7 @@ public class PrivateRepositoryDependencyProvider {
 
 
     public PrivateRepositoryDependencyProvider() {
-        DaggerApiComponent.builder().apiModule(ApiModule.getInstance()).build().inject(this);
+        ApiComponent.getInstance(ApiModule.getInstance()).inject(this);
     }
 
     public Configuration provideConfiguration() {

@@ -30,43 +30,56 @@ import dagger.Component;
  */
 @Singleton
 @Component(modules = ApiModule.class)
-public interface ApiComponent {
+public abstract class ApiComponent {
 
-    void inject(OAuthRepositoryBuilder builder);
+    private static ApiComponent instance;
 
-    void inject(CreationRepositoryBuilder builder);
+    public static ApiComponent getInstance(ApiModule apiModule) {
+        if (instance == null) {
+            synchronized (ApiComponent.class) {
+                if (instance == null) {
+                    instance = DaggerApiComponent.builder().apiModule(apiModule).build();
+                }
+            }
+        }
+        return instance;
+    }
 
-    void inject(UserRepositoryBuilder builder);
+    public abstract void inject(OAuthRepositoryBuilder builder);
 
-    void inject(GalleryRepositoryBuilder builder);
+    public abstract void inject(CreationRepositoryBuilder builder);
 
-    void inject(LandingUrlsRepositoryBuilder landingUrlsRepositoryBuilder);
+    public abstract void inject(UserRepositoryBuilder builder);
 
-    void inject(CustomStyleRepositoryBuilder customStylesRepositoryBuilder);
+    public abstract void inject(GalleryRepositoryBuilder builder);
 
-    void inject(ActivityRepositoryBuilder target);
+    public abstract void inject(LandingUrlsRepositoryBuilder landingUrlsRepositoryBuilder);
 
-    void inject(CommentRepositoryBuilder target);
+    public abstract void inject(CustomStyleRepositoryBuilder customStylesRepositoryBuilder);
 
-    void inject(UserFollowingRepositoryBuilder target);
+    public abstract void inject(ActivityRepositoryBuilder target);
 
-    void inject(GroupRepositoryBuilder target);
+    public abstract void inject(CommentRepositoryBuilder target);
 
-    void inject(BubbleRepositoryBuilder target);
+    public abstract void inject(UserFollowingRepositoryBuilder target);
 
-    void inject(ReportRepositoryBuilder target);
+    public abstract void inject(GroupRepositoryBuilder target);
 
-    void inject(AvatarRepositoryBuilder avatarRepositoryBuilder);
+    public abstract void inject(BubbleRepositoryBuilder target);
 
-    void inject(NotificationRepositoryBuilder target);
+    public abstract void inject(ReportRepositoryBuilder target);
 
-    void inject(AbilityRepositoryBuilder abilityRepositoryBuilder);
+    public abstract void inject(AvatarRepositoryBuilder avatarRepositoryBuilder);
 
-    void inject(PartnerApplicationRepositoryBuilder target);
+    public abstract void inject(NotificationRepositoryBuilder target);
 
-    void inject(ContentRepositoryBuilder target);
+    public abstract void inject(AbilityRepositoryBuilder abilityRepositoryBuilder);
 
-    void inject(SchoolRepositoryBuilder target);
+    public abstract void inject(PartnerApplicationRepositoryBuilder target);
 
-    void inject(PrivateRepositoryDependencyProvider target);
+    public abstract void inject(ContentRepositoryBuilder target);
+
+    public abstract void inject(SchoolRepositoryBuilder target);
+
+    public abstract void inject(PrivateRepositoryDependencyProvider target);
 }

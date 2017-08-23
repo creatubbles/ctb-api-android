@@ -2,7 +2,7 @@ package com.creatubbles.api.repository;
 
 import android.support.annotation.NonNull;
 
-import com.creatubbles.api.di.components.DaggerApiComponent;
+import com.creatubbles.api.di.components.ApiComponent;
 import com.creatubbles.api.di.modules.ApiModule;
 import com.creatubbles.api.model.auth.UserAccessToken;
 import com.creatubbles.api.service.ReportService;
@@ -31,10 +31,7 @@ public class ReportRepositoryBuilder {
 
     @NonNull
     public ReportRepository build() {
-        DaggerApiComponent.builder()
-                .apiModule(ApiModule.getInstance(accessToken))
-                .build()
-                .inject(this);
+        ApiComponent.getInstance(ApiModule.getInstance(accessToken)).inject(this);
         return new ReportRepositoryImpl(service, mapper);
     }
 }

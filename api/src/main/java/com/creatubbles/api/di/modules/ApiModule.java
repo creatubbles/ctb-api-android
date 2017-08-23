@@ -107,19 +107,16 @@ public class ApiModule {
     }
 
     @Provides
-    @Singleton
     GalleryService provideGalleryService(ServiceGenerator serviceGenerator) {
         return serviceGenerator.createService(GalleryService.class, ContentType.VND_JSON, accessToken);
     }
 
     @Provides
-    @Singleton
     CreationService provideCreationService(ServiceGenerator serviceGenerator) {
         return serviceGenerator.createService(CreationService.class, ContentType.VND_JSON, accessToken);
     }
 
     @Provides
-    @Singleton
     UserService provideUserService(ServiceGenerator serviceGenerator) {
         return serviceGenerator.createService(UserService.class, ContentType.VND_JSON, accessToken);
     }
@@ -131,31 +128,26 @@ public class ApiModule {
     }
 
     @Provides
-    @Singleton
     LandingUrlsService provideLandingUrlsService(ServiceGenerator serviceGenerator) {
         return serviceGenerator.createService(LandingUrlsService.class, ContentType.URL_ENCODED, accessToken);
     }
 
     @Provides
-    @Singleton
     ActivityService provideActivityService(ServiceGenerator serviceGenerator) {
         return serviceGenerator.createService(ActivityService.class, ContentType.VND_JSON, accessToken);
     }
 
     @Provides
-    @Singleton
     CommentService provideCommentService(ServiceGenerator serviceGenerator) {
         return serviceGenerator.createService(CommentService.class, ContentType.VND_JSON, accessToken);
     }
 
     @Provides
-    @Singleton
     CustomStyleService provideCustomStyleService(ServiceGenerator serviceGenerator) {
         return serviceGenerator.createService(CustomStyleService.class, ContentType.VND_JSON, accessToken);
     }
 
     @Provides
-    @Singleton
     GroupService provideGroupService(ServiceGenerator serviceGenerator) {
         return serviceGenerator.createService(GroupService.class, ContentType.VND_JSON, accessToken);
     }
