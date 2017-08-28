@@ -2,6 +2,7 @@ package com.creatubbles.api;
 
 import android.support.annotation.NonNull;
 
+import com.creatubbles.api.di.components.ApiComponent;
 import com.creatubbles.api.di.modules.ApiModule;
 import com.creatubbles.api.exception.InitializationException;
 
@@ -27,6 +28,7 @@ public final class CreatubblesApi {
     }
 
     public static void reset() {
+        ApiComponent.clearInstance();
         apiConfiguration = null;
     }
 }

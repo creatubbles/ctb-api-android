@@ -72,7 +72,6 @@ public class ApiModule {
     }
 
     @Provides
-    @Singleton
     Configuration provideConfiguration() {
         return configuration;
     }

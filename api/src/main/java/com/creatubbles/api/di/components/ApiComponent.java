@@ -45,6 +45,10 @@ public abstract class ApiComponent {
         return instance;
     }
 
+    public static void clearInstance() {
+        instance = null;
+    }
+
     public abstract void inject(OAuthRepositoryBuilder builder);
 
     public abstract void inject(CreationRepositoryBuilder builder);
