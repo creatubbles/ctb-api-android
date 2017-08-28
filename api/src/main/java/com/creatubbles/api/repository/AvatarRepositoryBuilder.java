@@ -2,7 +2,7 @@ package com.creatubbles.api.repository;
 
 import android.support.annotation.NonNull;
 
-import com.creatubbles.api.di.components.DaggerApiComponent;
+import com.creatubbles.api.di.components.ApiComponent;
 import com.creatubbles.api.di.modules.ApiModule;
 import com.creatubbles.api.model.auth.UserAccessToken;
 import com.creatubbles.api.service.UserService;
@@ -33,8 +33,7 @@ public class AvatarRepositoryBuilder {
 
     @NonNull
     public AvatarRepository build() {
-        DaggerApiComponent.builder().apiModule(ApiModule.getInstance(authToken)).build()
-                .inject(this);
+        ApiComponent.getInstance(ApiModule.getInstance(authToken)).inject(this);
         return new AvatarRepositoryImpl(objectMapper, userService);
     }
 }

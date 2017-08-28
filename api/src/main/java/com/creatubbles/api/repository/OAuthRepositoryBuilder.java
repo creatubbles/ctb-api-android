@@ -3,7 +3,7 @@ package com.creatubbles.api.repository;
 import android.support.annotation.NonNull;
 
 import com.creatubbles.api.Configuration;
-import com.creatubbles.api.di.components.DaggerApiComponent;
+import com.creatubbles.api.di.components.ApiComponent;
 import com.creatubbles.api.di.modules.ApiModule;
 import com.creatubbles.api.service.OAuthService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,7 +25,7 @@ public class OAuthRepositoryBuilder {
 
     @NonNull
     public OAuthRepository build() {
-        DaggerApiComponent.builder().apiModule(ApiModule.getInstance()).build().inject(this);
+        ApiComponent.getInstance(ApiModule.getInstance()).inject(this);
         OAuthRepository oAuthRepository = new OAuthRepositoryImpl(objectMapper, oAuthService);
         oAuthRepository.setClientId(configuration.getClientId());
         oAuthRepository.setClientSecret(configuration.getClientSecret());

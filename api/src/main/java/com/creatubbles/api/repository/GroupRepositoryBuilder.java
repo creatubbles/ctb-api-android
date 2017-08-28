@@ -2,7 +2,7 @@ package com.creatubbles.api.repository;
 
 import android.support.annotation.NonNull;
 
-import com.creatubbles.api.di.components.DaggerApiComponent;
+import com.creatubbles.api.di.components.ApiComponent;
 import com.creatubbles.api.di.modules.ApiModule;
 import com.creatubbles.api.model.auth.UserAccessToken;
 import com.creatubbles.api.service.GroupService;
@@ -35,10 +35,7 @@ public class GroupRepositoryBuilder {
 
     @NonNull
     public GroupRepository build() {
-        DaggerApiComponent.builder()
-                .apiModule(ApiModule.getInstance(accessToken))
-                .build()
-                .inject(this);
+        ApiComponent.getInstance(ApiModule.getInstance(accessToken)).inject(this);
         return new GroupRepositoryImpl(service, objectMapper);
     }
 }

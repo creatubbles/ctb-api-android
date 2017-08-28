@@ -2,7 +2,7 @@ package com.creatubbles.api.repository;
 
 import android.support.annotation.NonNull;
 
-import com.creatubbles.api.di.components.DaggerApiComponent;
+import com.creatubbles.api.di.components.ApiComponent;
 import com.creatubbles.api.di.modules.ApiModule;
 import com.creatubbles.api.model.auth.UserAccessToken;
 import com.creatubbles.api.service.AbilityService;
@@ -33,7 +33,7 @@ public class AbilityRepositoryBuilder {
 
     @NonNull
     public AbilityRepository build() {
-        DaggerApiComponent.builder().apiModule(ApiModule.getInstance(accessToken)).build()
+        ApiComponent.getInstance(ApiModule.getInstance(accessToken))
                 .inject(this);
         return new AbilityRepositoryImpl(objectMapper, abilityService);
     }
