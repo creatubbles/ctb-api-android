@@ -49,6 +49,7 @@ import com.creatubbles.api.model.landing_url.LandingUrlType;
 import com.creatubbles.api.model.notification.Notification;
 import com.creatubbles.api.model.partner_application.PartnerApplication;
 import com.creatubbles.api.model.school.School;
+import com.creatubbles.api.model.search.SearchCategory;
 import com.creatubbles.api.model.upload.UploadState;
 import com.creatubbles.api.model.user.AccountDetails;
 import com.creatubbles.api.model.user.MultipleCreators;
@@ -91,6 +92,8 @@ import com.creatubbles.api.repository.ReportRepository;
 import com.creatubbles.api.repository.ReportRepositoryBuilder;
 import com.creatubbles.api.repository.SchoolRepository;
 import com.creatubbles.api.repository.SchoolRepositoryBuilder;
+import com.creatubbles.api.repository.SearchCategoryRepository;
+import com.creatubbles.api.repository.SearchCategoryRepositoryBuilder;
 import com.creatubbles.api.repository.UserFollowingRepository;
 import com.creatubbles.api.repository.UserFollowingRepositoryBuilder;
 import com.creatubbles.api.repository.UserRepository;
@@ -123,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
             R.id.update_last_viewed_time_btn, R.id.get_toyboo_details_btn, R.id.find_partner_applications,
             R.id.get_partner_app_by_id, R.id.get_content_btn, R.id.get_recent_content_btn, R.id.get_followed_content_btn,
             R.id.get_trending_content_btn, R.id.get_connected_content_btn, R.id.get_schools_btn, R.id.search_user_connections_btn,
-            R.id.search_galleries_btn})
+            R.id.search_galleries_btn, R.id.get_categories_btn})
     List<Button> actionButtons;
 
     @Bind(R.id.send_file_progress)
@@ -1840,6 +1843,28 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onError(String message) {
                 Log.e("onListSchoolsClicked", message);
+            }
+        });
+    }
+
+    public void onListCategoriesClicked(View view) {
+        SearchCategoryRepository repository = new SearchCategoryRepositoryBuilder((UserAccessToken) accessToken).build();
+
+        repository.getCategories(null, new ResponseCallback<CreatubblesResponse<List<SearchCategory>>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<List<SearchCategory>> response) {
+                Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                Toast.makeText(MainActivity.this, errorResponse.toString(), Toast.LENGTH_SHORT).show();
+                Log.e("onListCategoriesClicked", errorResponse.toString());
+            }
+
+            @Override
+            public void onError(String message) {
+                Log.e("onListCategoriesClicked", message);
             }
         });
     }

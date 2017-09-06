@@ -18,6 +18,7 @@ import com.creatubbles.api.repository.PartnerApplicationRepositoryBuilder;
 import com.creatubbles.api.repository.PrivateRepositoryDependencyProvider;
 import com.creatubbles.api.repository.ReportRepositoryBuilder;
 import com.creatubbles.api.repository.SchoolRepositoryBuilder;
+import com.creatubbles.api.repository.SearchCategoryRepositoryBuilder;
 import com.creatubbles.api.repository.UserFollowingRepositoryBuilder;
 import com.creatubbles.api.repository.UserRepositoryBuilder;
 
@@ -86,4 +87,6 @@ public abstract class ApiComponent {
     public abstract void inject(SchoolRepositoryBuilder target);
 
     public abstract void inject(PrivateRepositoryDependencyProvider target);
+
+    public abstract void inject(SearchCategoryRepositoryBuilder target);
 }

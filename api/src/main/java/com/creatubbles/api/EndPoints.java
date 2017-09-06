@@ -28,4 +28,5 @@ public class EndPoints {
     public static final String CREATOR_BUILDER_JOBS = "creator_builder_jobs";
     public static final String ACTIVITIES = "activities";
     public static final String ABILITIES = "abilities";
+    public static final String CATEGORIES = "categories";
 }

@@ -10,6 +10,7 @@ import com.creatubbles.api.model.auth.AccessToken;
 import com.creatubbles.api.service.AbilityService;
 import com.creatubbles.api.service.ActivityService;
 import com.creatubbles.api.service.BubbleService;
+import com.creatubbles.api.service.CategoryService;
 import com.creatubbles.api.service.CommentService;
 import com.creatubbles.api.service.ContentService;
 import com.creatubbles.api.service.CreationService;
@@ -185,6 +186,11 @@ public class ApiModule {
     @Provides
     SchoolService provideSchoolService(ServiceGenerator serviceGenerator) {
         return serviceGenerator.createService(SchoolService.class, ContentType.VND_JSON, accessToken);
+    }
+
+    @Provides
+    CategoryService provideCategoryService(ServiceGenerator serviceGenerator) {
+        return serviceGenerator.createService(CategoryService.class, ContentType.VND_JSON, accessToken);
     }
 
     /**
