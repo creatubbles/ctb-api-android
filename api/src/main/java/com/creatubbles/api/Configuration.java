@@ -27,6 +27,7 @@ public class Configuration {
     private final Locale locale;
     private final Interceptor interceptor;
     private final Class[] additionalApiModels;
+    private final ClientDevice clientDevice;
 
     public Configuration(@NonNull Builder builder) {
         this.clientId = builder.clientId;
@@ -37,6 +38,7 @@ public class Configuration {
         this.locale = builder.locale;
         this.interceptor = builder.interceptor;
         this.additionalApiModels = builder.additionalApiModels;
+        this.clientDevice = builder.clientDevice;
     }
 
     public static class Builder {
@@ -49,6 +51,7 @@ public class Configuration {
         Locale locale;
         Interceptor interceptor;
         Class[] additionalApiModels;
+        ClientDevice clientDevice;
 
         public Builder clientId(@NonNull String clientId) {
             this.clientId = clientId;
@@ -90,6 +93,11 @@ public class Configuration {
          */
         public Builder additionalApiModels(Class[] additionalApiModels) {
             this.additionalApiModels = additionalApiModels;
+            return this;
+        }
+
+        public Builder setClientDevice(ClientDevice clientDevice) {
+            this.clientDevice = clientDevice;
             return this;
         }
 
@@ -139,6 +147,25 @@ public class Configuration {
 
     public Class[] getAdditionalApiModels() {
         return additionalApiModels;
+    }
+
+    public ClientDevice getClientDevice() {
+        return clientDevice;
+    }
+
+    public enum ClientDevice {
+        PHONE("phone"),
+        TABLET("tablet");
+
+        private String type;
+
+        ClientDevice(String type) {
+            this.type = type;
+        }
+
+        public String getType() {
+            return type;
+        }
     }
 
 }

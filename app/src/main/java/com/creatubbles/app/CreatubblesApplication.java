@@ -18,6 +18,7 @@ public class CreatubblesApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        boolean isTablet = getResources().getBoolean(R.bool.is_tablet);
         CreatubblesApi.initialize(new Configuration.Builder()
                 .application(this)
                 .baseUrl("https://api.staging.creatubbles.com/v2/")
@@ -26,6 +27,7 @@ public class CreatubblesApplication extends Application {
                 .clientCallbackUrl("ctboauthexample://testoauth")
                 .locale(Locale.ENGLISH)
                 .interceptor(ConsoleLogInterceptor.forLevel(HttpLoggingInterceptor.Level.BODY))
+                .setClientDevice(isTablet ? Configuration.ClientDevice.TABLET : Configuration.ClientDevice.PHONE)
                 .build());
     }
 }

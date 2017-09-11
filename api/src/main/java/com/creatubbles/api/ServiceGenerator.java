@@ -56,6 +56,12 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
  */
 public class ServiceGenerator {
 
+    private static final String HEADER_ACCEPT = "Accept";
+    private static final String HEADER_CONTENT_TYPE = "Content-Type";
+    private static final String HEADER_AUTHORIZATION = "Authorization";
+    private static final String HEADER_ACCEPT_LANGUAGE = "Accept-Language";
+    private static final String HEADER_DEVICE_TYPE = "X-Device-Type";
+    private static final String CONTENT_TYPE_JSON = "application/vnd.api+json";
     private Configuration configuration;
 
     private static final Class[] defaultApiModels = {Creation.class, User.class, NewUser.class, Upload.class,
@@ -117,11 +123,10 @@ public class ServiceGenerator {
 
     public <S> S createService(Class<S> serviceClass, final ContentType contentType) {
         Map<String, String> headerParamMap = new HashMap<>();
-        headerParamMap.put("Accept", "application/vnd.api+json");
-        headerParamMap.put("Content-Type", contentType.getRes());
-        if (configuration.getLocale() != null) {
-            headerParamMap.put("Accept-Language", configuration.getLocale().getRes());
-        }
+        headerParamMap.put(HEADER_ACCEPT, CONTENT_TYPE_JSON);
+        headerParamMap.put(HEADER_CONTENT_TYPE, contentType.getRes());
+        addLanguageHeader(headerParamMap);
+        addClientHeader(headerParamMap);
 
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
         clientBuilder
@@ -141,9 +146,8 @@ public class ServiceGenerator {
     public <S> S createService(Class<S> serviceClass) {
 
         Map<String, String> headerParamMap = new HashMap<>();
-        if (configuration.getLocale() != null) {
-            headerParamMap.put("Accept-Language", configuration.getLocale().getRes());
-        }
+        addLanguageHeader(headerParamMap);
+        addClientHeader(headerParamMap);
 
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
         clientBuilder
@@ -164,14 +168,13 @@ public class ServiceGenerator {
     AccessToken token) {
 
         Map<String, String> headerParamMap = new HashMap<>();
-        headerParamMap.put("Accept", "application/vnd.api+json");
-        headerParamMap.put("Content-Type", contentType.getRes());
+        headerParamMap.put(HEADER_ACCEPT, CONTENT_TYPE_JSON);
+        headerParamMap.put(HEADER_CONTENT_TYPE, contentType.getRes());
         if (token != null) {
-            headerParamMap.put("Authorization", token.getType() + " " + token.getToken());
+            headerParamMap.put(HEADER_AUTHORIZATION, token.getType() + " " + token.getToken());
         }
-        if (configuration.getLocale() != null) {
-            headerParamMap.put("Accept-Language", configuration.getLocale().getRes());
-        }
+        addLanguageHeader(headerParamMap);
+        addClientHeader(headerParamMap);
 
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
         clientBuilder
@@ -184,6 +187,18 @@ public class ServiceGenerator {
         builder.client(client);
 
         return builder.build().create(serviceClass);
+    }
+
+    private void addLanguageHeader(Map<String, String> headerParamMap) {
+        if (configuration.getLocale() != null) {
+            headerParamMap.put(HEADER_ACCEPT_LANGUAGE, configuration.getLocale().getRes());
+        }
+    }
+
+    private void addClientHeader(Map<String, String> headerParamMap) {
+        if (configuration.getClientDevice() != null) {
+            headerParamMap.put(HEADER_DEVICE_TYPE, configuration.getClientDevice().getType());
+        }
     }
 
     private CookieJar getAcceptAllCookieJar() {
