@@ -11,13 +11,23 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public enum VideoProvider {
     NONE(""),
     YOUTUBE("youtube"),
-    VIMEO("vimeo");
+    VIMEO("vimeo"),
+    DIRECT("ctbs3");
 
     private String name;
 
-    @JsonCreator
     VideoProvider(String name) {
         this.name = name;
+    }
+
+    @JsonCreator
+    public static VideoProvider fromName(String name) {
+        for (VideoProvider videoProvider : values()) {
+            if (videoProvider.name.equals(name)) {
+                return videoProvider;
+            }
+        }
+        return NONE;
     }
 
     @JsonValue
