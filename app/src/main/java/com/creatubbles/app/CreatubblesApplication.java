@@ -21,7 +21,7 @@ public class CreatubblesApplication extends Application {
         boolean isTablet = getResources().getBoolean(R.bool.is_tablet);
         CreatubblesApi.initialize(new Configuration.Builder()
                 .application(this)
-                .baseUrl("https://api.staging.creatubbles.com/v2/")
+                .baseUrl("https://api.staging.creatubbles.com/")
                 .clientId("acbf03d5084f0d97159587e819e27b688a19b313b93db09c19f72ee1577b244d") //ctboauthexample
                 .clientSecret("4d666d5bb0f1bf5fec5efa31e2484cd11e2a57c0904d033506561b45a94d7ef0") //ctboauthexample
                 .clientCallbackUrl("ctboauthexample://testoauth")
