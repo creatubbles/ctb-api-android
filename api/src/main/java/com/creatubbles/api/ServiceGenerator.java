@@ -14,6 +14,7 @@ import com.creatubbles.api.model.content.Content;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.creation.ToybooDetails;
 import com.creatubbles.api.model.gallery.Gallery;
+import com.creatubbles.api.model.gallery.HowToSection;
 import com.creatubbles.api.model.group.Group;
 import com.creatubbles.api.model.image_manipulation.ImageManipulation;
 import com.creatubbles.api.model.landing_url.LandingUrl;
@@ -71,7 +72,7 @@ public class ServiceGenerator {
             PasswordChange.class, Notification.class, CreationEntity.class, GalleryEntity.class,
             UserEntity.class, Avatar.class, AvatarSuggestion.class, Report.class, Ability.class,
             ToybooDetails.class, PartnerApplication.class, AppScreenshot.class, Content.class,
-            SearchCategory.class};
+            SearchCategory.class, HowToSection.class};
 
 
     private Retrofit.Builder builder;

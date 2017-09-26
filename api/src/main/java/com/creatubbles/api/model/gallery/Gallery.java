@@ -67,6 +67,12 @@ public class Gallery extends EmptyRelationship {
     @Relationship("connected_partner_applications")
     private List<PartnerApplication> connectedPartnerApplications;
 
+    @Relationship("gallery_howto_sections")
+    private List<HowToSection> howToSections;
+
+    @JsonProperty("challenge_published_at")
+    private Date challengePublishedAt;
+
     public Gallery(String galleryId) {
         this.id = galleryId;
     }
@@ -180,6 +186,19 @@ public class Gallery extends EmptyRelationship {
         return connectedPartnerApplications;
     }
 
+    @Nullable
+    public List<HowToSection> getHowToSections() {
+        return howToSections;
+    }
+
+    /**
+     * if set this gallery is a challenge
+     */
+    @Nullable
+    public Date getChallengePublishedAt() {
+        return challengePublishedAt;
+    }
+
     @Override
     public String toString() {
         return "Gallery{" +
@@ -187,8 +206,8 @@ public class Gallery extends EmptyRelationship {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", openForAll=" + openForAll +
-                ", createdAt='" + createdAt + '\'' +
-                ", updatedAt='" + updatedAt + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
                 ", lastBubbledAt=" + lastBubbledAt +
                 ", lastCommentedAt=" + lastCommentedAt +
                 ", creationsCount=" + creationsCount +
@@ -199,6 +218,9 @@ public class Gallery extends EmptyRelationship {
                 ", previewImageUrls=" + previewImageUrls +
                 ", owner=" + owner +
                 ", partnerApplication=" + partnerApplication +
+                ", connectedPartnerApplications=" + connectedPartnerApplications +
+                ", howToSections=" + howToSections +
+                ", challengePublishedAt=" + challengePublishedAt +
                 '}';
     }
 }
