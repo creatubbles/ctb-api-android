@@ -51,7 +51,7 @@ public enum NotificationType {
     GALLERIES_TIP("galleries_tip"),
     BUBBLES_TIP("bubbles_tip"),
     UPLOAD_TIP("upload_tip"),
-
+    RECEIVED_FAVORITE("received_favorite"),
     UNDEFINED("undefined");
 
     private String name;
