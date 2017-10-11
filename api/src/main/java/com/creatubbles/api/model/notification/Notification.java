@@ -50,6 +50,9 @@ public class Notification extends EmptyRelationship {
     @JsonProperty("is_new")
     private boolean isNew;
 
+    @JsonProperty("is_unread")
+    private boolean isUnread;
+
     @JsonProperty("created_at")
     private Date createdAt;
 
@@ -103,6 +106,10 @@ public class Notification extends EmptyRelationship {
 
     public boolean isNew() {
         return isNew;
+    }
+
+    public boolean isUnread() {
+        return isUnread;
     }
 
     @NonNull
