@@ -23,8 +23,6 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-import static com.creatubbles.api.EndPoints.USER_AVATAR;
-
 /**
  * Created by Janek on 05.02.2016.
  */
@@ -81,7 +79,7 @@ public interface UserService {
     @PUT(EndPoints.USERS + "/" + PATH_ID + "/account")
     Call<Void> putSchool(@Path(PARAM_ID) String userId, @Body SchoolRequest schoolRequest);
 
-    @PUT(EndPoints.USERS + "/" + PATH_ID + "/" + USER_AVATAR)
+    @PUT(EndPoints.USERS + "/" + PATH_ID + "/user_avatar")
     Call<JSONAPIDocument<Avatar>> updateAvatar(@Path(PARAM_ID) String userId, @Body Avatar body);
 
     @GET(EndPoints.AVATAR_SUGGESTIONS)
