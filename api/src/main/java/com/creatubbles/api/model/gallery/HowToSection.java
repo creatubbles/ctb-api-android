@@ -22,6 +22,12 @@ public class HowToSection extends EmptyRelationship {
     @JsonProperty("image")
     private ChallengeImage image;
 
+    @JsonProperty("video_480_url")
+    private String video480Url;
+
+    @JsonProperty("video_720_url")
+    private String video720Url;
+
     @JsonCreator
     public HowToSection() {
     }
@@ -45,6 +51,14 @@ public class HowToSection extends EmptyRelationship {
         return image;
     }
 
+    public String getVideo480Url() {
+        return video480Url;
+    }
+
+    public String getVideo720Url() {
+        return video720Url;
+    }
+
     @Override
     public String toString() {
         return "HowToSection{" +
@@ -52,6 +66,8 @@ public class HowToSection extends EmptyRelationship {
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", image=" + image +
+                ", video480Url='" + video480Url + '\'' +
+                ", video720Url='" + video720Url + '\'' +
                 '}';
     }
 }
