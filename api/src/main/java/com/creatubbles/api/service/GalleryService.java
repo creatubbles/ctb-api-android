@@ -8,6 +8,7 @@ import com.creatubbles.api.model.gallery.Gallery;
 import com.github.jasminb.jsonapi.JSONAPIDocument;
 
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -17,6 +18,7 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 /**
  * Created by Janek on 05.02.2016.
@@ -27,7 +29,10 @@ public interface GalleryService {
     String PATH_ID_GALLERIES = "/{" + PARAM_ID + "}/galleries";
     String PARAM_PAGE = "page";
     String PARAM_SORT = "sort";
-    String PARAM_FILTER = "filter";
+    String PARAM_FILTER = "filter[%s]";
+    String PARAM_FILTER_LOCATION = "location";
+    String PARAM_FILTER_SHARED_WITH = "shared_with";
+    String PARAM_FILTER_OWNED_BY = "owned_by";
     String PARAM_QUERY = "query";
     String RELATIONSHIPS_CREATIONS = "/relationships/creations";
 
@@ -40,7 +45,7 @@ public interface GalleryService {
     Call<JSONAPIDocument<List<Gallery>>> getByUser(@Path(PARAM_ID) String userId,
                                                    @Query(PARAM_PAGE) Integer page,
                                                    @Query(PARAM_QUERY) String query,
-                                                   @Query(PARAM_FILTER) String filter);
+                                                   @QueryMap Map<String, String> filters);
 
     @GET(EndPoints.CREATIONS + PATH_ID_GALLERIES)
     Call<JSONAPIDocument<List<Gallery>>> getByCreation(@Path(PARAM_ID) String creationId,

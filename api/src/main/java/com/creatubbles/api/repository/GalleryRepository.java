@@ -50,7 +50,7 @@ public interface GalleryRepository {
     /**
      * Get galleries owned by a user.
      */
-    void getByUser(@Nullable Integer page, @NonNull String userId, @Nullable String query, @Nullable ResponseCallback<CreatubblesResponse<List<Gallery>>> callback);
+    void getByUser(@Nullable Integer page, @NonNull String userId, @Nullable String query, @Nullable GalleryFilter filter, @Nullable ResponseCallback<CreatubblesResponse<List<Gallery>>> callback);
 
     /**
      * Get galleries of a creation.

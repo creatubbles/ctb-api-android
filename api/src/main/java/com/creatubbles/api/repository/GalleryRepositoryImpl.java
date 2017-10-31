@@ -17,7 +17,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jasminb.jsonapi.JSONAPIDocument;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import retrofit2.Call;
 
@@ -83,15 +87,16 @@ class GalleryRepositoryImpl implements GalleryRepository {
     @Override
     public void getMine(@Nullable Integer page, @Nullable String query, @Nullable GalleryFilter filter,
                         ResponseCallback<CreatubblesResponse<List<Gallery>>> callback) {
-        String filterParam = filter != null ? filter.toString() : null;
-        Call<JSONAPIDocument<List<Gallery>>> call = galleryService.getByUser(UserRepository.CURRENT_USER, page, query, filterParam);
+        Map<String, String> filtersMap = filtersToMap(filter);
+        Call<JSONAPIDocument<List<Gallery>>> call = galleryService.getByUser(UserRepository.CURRENT_USER, page, query, filtersMap);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     @Override
     public void getByUser(@Nullable Integer page, @NonNull String userId, @Nullable String query,
-                          ResponseCallback<CreatubblesResponse<List<Gallery>>> callback) {
-        Call<JSONAPIDocument<List<Gallery>>> call = galleryService.getByUser(userId, page, query, null);
+                          @Nullable GalleryFilter filter, ResponseCallback<CreatubblesResponse<List<Gallery>>> callback) {
+        Map<String, String> filtersMap = filtersToMap(filter);
+        Call<JSONAPIDocument<List<Gallery>>> call = galleryService.getByUser(userId, page, query, filtersMap);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
@@ -132,8 +137,27 @@ class GalleryRepositoryImpl implements GalleryRepository {
     }
 
     @Override
-    public void updateViewsCount(@NonNull String galleryId, @Nullable ResponseCallback<Void> callback){
+    public void updateViewsCount(@NonNull String galleryId, @Nullable ResponseCallback<Void> callback) {
         Call<Void> call = galleryService.updateViewsCount(galleryId);
         call.enqueue(new BaseResponseMapper<>(objectMapper, callback));
+    }
+
+    private Map<String, String> filtersToMap(@Nullable GalleryFilter filter) {
+        if (filter == null) return Collections.emptyMap();
+        Map<String, String> filters = new HashMap<>(3);
+        if (filter.getLocation() != null) {
+            filters.put(composeFilterParam(GalleryService.PARAM_FILTER_LOCATION), filter.getLocation());
+        }
+        if (filter.getSharedWith() != null) {
+            filters.put(composeFilterParam(GalleryService.PARAM_FILTER_SHARED_WITH), filter.getSharedWith());
+        }
+        if (filter.getOwnedBy() != null) {
+            filters.put(composeFilterParam(GalleryService.PARAM_FILTER_OWNED_BY), filter.getOwnedBy());
+        }
+        return filters;
+    }
+
+    private String composeFilterParam(String param) {
+        return String.format(Locale.US, GalleryService.PARAM_FILTER, param);
     }
 }

@@ -100,6 +100,7 @@ import com.creatubbles.api.repository.UserRepository;
 import com.creatubbles.api.repository.UserRepositoryBuilder;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.response.UploadResponseCallback;
+import com.creatubbles.api.service.GalleryFilter;
 import com.creatubbles.app.R;
 
 import java.io.File;
@@ -484,6 +485,7 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.get_ability).setEnabled(true);
                 findViewById(R.id.get_content_by_user_btn).setEnabled(true);
                 findViewById(R.id.get_content_bubbled_by_user_btn).setEnabled(true);
+                findViewById(R.id.get_galleries_btn).setEnabled(true);
             }
 
             @Override
@@ -757,8 +759,10 @@ public class MainActivity extends AppCompatActivity {
     public void onGetGalleriesByIdClicked(View view) {
         GalleryRepository galleryRepository = new GalleryRepositoryBuilder(accessToken)
                 .build();
-
-        galleryRepository.getMine(null, null, null, new ResponseCallback<CreatubblesResponse<List<Gallery>>>() {
+        GalleryFilter filter = new GalleryFilter.Builder()
+                .setOwnedBy(userId)
+                .build();
+        galleryRepository.getMine(null, null, filter, new ResponseCallback<CreatubblesResponse<List<Gallery>>>() {
             @Override
             public void onSuccess(CreatubblesResponse<List<Gallery>> response) {
                 Toast.makeText(MainActivity.this, "Galleries total count: " + response.getMeta().getTotalCount(),
