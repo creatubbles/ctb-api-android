@@ -20,6 +20,13 @@ class UserRepositoryTest extends Specification {
     def service = Mock(UserService)
     def repository = new UserRepositoryImpl(Mock(ObjectMapper), service)
 
+    def "should call get users when searching for users"() {
+        when:
+        repository.searchUsers(anyPage(), anyQuery(), anyCallback())
+        then:
+        service.getUsers(_, _) >> anyCall()
+    }
+
     def "should call get user by id when obtaining user by id"() {
         when:
         repository.getUser(anyId(), anyCallback())

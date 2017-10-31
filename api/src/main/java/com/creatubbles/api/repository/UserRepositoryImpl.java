@@ -37,6 +37,12 @@ class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public void searchUsers(@Nullable Integer page, @NonNull String query, @Nullable ResponseCallback<CreatubblesResponse<List<User>>> callback) {
+        Call<JSONAPIDocument<List<User>>> call = userService.getUsers(page, query);
+        call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
+    }
+
+    @Override
     public void getUser(@NonNull String id, ResponseCallback<CreatubblesResponse<User>> callback) {
         Call<JSONAPIDocument<User>> call = userService.getUserById(id);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));

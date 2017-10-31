@@ -22,6 +22,8 @@ public interface UserRepository {
 
     String CURRENT_USER = "me";
 
+    void searchUsers(@Nullable Integer page, @NonNull String query, @Nullable ResponseCallback<CreatubblesResponse<List<User>>> callback);
+
     /**
      * Method used to obtain user's profile.
      *

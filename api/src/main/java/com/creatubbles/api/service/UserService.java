@@ -34,6 +34,9 @@ public interface UserService {
     String PARAM_SORT = "sort";
     String PATH_ID = "{" + PARAM_ID + "}";
 
+    @GET(EndPoints.USERS)
+    Call<JSONAPIDocument<List<User>>> getUsers(@Query(PARAM_PAGE) Integer page, @Query(PARAM_QUERY) String query);
+
     @GET(EndPoints.USERS + "/" + PATH_ID)
     Call<JSONAPIDocument<User>> getUserById(@Path(PARAM_ID) String id);
 
