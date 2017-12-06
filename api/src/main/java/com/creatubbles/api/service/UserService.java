@@ -56,7 +56,7 @@ public interface UserService {
     Call<JSONAPIDocument<User>> createUser(@Body NewUser newUser);
 
     @GET(EndPoints.SWITCH_USERS)
-    Call<JSONAPIDocument<List<User>>> getSwitchUsers(@Query(PARAM_PAGE) Integer page);
+    Call<JSONAPIDocument<List<User>>> getSwitchUsers(@Query(PARAM_PAGE) Integer page, @Query(PARAM_QUERY) String query);
 
     @POST(EndPoints.CREATOR_BUILDER_JOBS)
     Call<JSONAPIDocument<MultipleCreators>> createMultipleCreators(@Body MultipleCreators request);

@@ -115,7 +115,7 @@ class UserRepositoryTest extends Specification {
         when:
         repository.getUsersAvailableForSwitching(anyPage(), anyCallback())
         then:
-        service.getSwitchUsers(_) >> anyCall()
+        service.getSwitchUsers(_, _) >> anyCall()
     }
 
     def "should call create multiple creators when creating multiple creators"() {

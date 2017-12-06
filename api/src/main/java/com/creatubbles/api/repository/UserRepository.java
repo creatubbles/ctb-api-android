@@ -95,6 +95,11 @@ public interface UserRepository {
     void getUsersAvailableForSwitching(@Nullable Integer page, @Nullable ResponseCallback<CreatubblesResponse<List<User>>> callback);
 
     /**
+     * Method used to search obtain users available for user switching.
+     */
+    void getUsersAvailableForSwitching(@Nullable Integer page, @Nullable String query, @Nullable ResponseCallback<CreatubblesResponse<List<User>>> callback);
+
+    /**
      * This method adds multiple creators (managed users) to the list of creators managed by logged-in user.
      * Those creators have name generated automatically based on current user’s name.
      *

@@ -110,7 +110,13 @@ class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void getUsersAvailableForSwitching(@Nullable Integer page, ResponseCallback<CreatubblesResponse<List<User>>> callback) {
-        Call<JSONAPIDocument<List<User>>> call = userService.getSwitchUsers(page);
+        Call<JSONAPIDocument<List<User>>> call = userService.getSwitchUsers(page, null);
+        call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
+    }
+
+    @Override
+    public void getUsersAvailableForSwitching(@Nullable Integer page, @Nullable String query, @Nullable ResponseCallback<CreatubblesResponse<List<User>>> callback) {
+        Call<JSONAPIDocument<List<User>>> call = userService.getSwitchUsers(page, query);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
