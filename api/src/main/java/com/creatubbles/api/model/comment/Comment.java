@@ -47,7 +47,7 @@ public class Comment extends EmptyRelationship {
     private User user;
 
     @Relationship("mentions")
-    private List<Mention> mention;
+    private List<Mention> mentions;
 
     public static Comment create(String text) {
         return new Comment(text);
@@ -115,7 +115,7 @@ public class Comment extends EmptyRelationship {
         return user;
     }
 
-    public List<Mention> getMention() {
-        return mention;
+    public List<Mention> getMentions() {
+        return mentions;
     }
 }

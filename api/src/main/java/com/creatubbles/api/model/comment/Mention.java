@@ -1,6 +1,7 @@
 package com.creatubbles.api.model.comment;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.gallery.Gallery;
@@ -67,27 +68,27 @@ public class Mention extends EmptyRelationship {
         return indices;
     }
 
-    @NonNull
+    @Nullable
     public User getUser() {
         return user;
     }
 
-    @NonNull
+    @Nullable
     public Group getGroup() {
         return group;
     }
 
-    @NonNull
+    @Nullable
     public Creation getCreation() {
         return creation;
     }
 
-    @NonNull
+    @Nullable
     public Gallery getGallery() {
         return gallery;
     }
 
-    @NonNull
+    @Nullable
     public PartnerApplication getPartnerApplication() {
         return partnerApplication;
     }
