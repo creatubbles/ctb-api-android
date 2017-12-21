@@ -10,6 +10,8 @@ import com.creatubbles.api.model.auth.AccessToken;
 import com.creatubbles.api.model.bubble.Bubble;
 import com.creatubbles.api.model.bubble.BubbleColor;
 import com.creatubbles.api.model.comment.Comment;
+import com.creatubbles.api.model.comment.Mention;
+import com.creatubbles.api.model.comment.MentionType;
 import com.creatubbles.api.model.content.Content;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.creation.ToybooDetails;
@@ -72,7 +74,7 @@ public class ServiceGenerator {
             PasswordChange.class, Notification.class, CreationEntity.class, GalleryEntity.class,
             UserEntity.class, Avatar.class, AvatarSuggestion.class, Report.class, Ability.class,
             ToybooDetails.class, PartnerApplication.class, AppScreenshot.class, Content.class,
-            SearchCategory.class, HowToSection.class};
+            SearchCategory.class, HowToSection.class, Mention.class};
 
 
     private Retrofit.Builder builder;

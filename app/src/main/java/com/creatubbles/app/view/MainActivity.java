@@ -1001,6 +1001,13 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(CreatubblesResponse<List<Comment>> response) {
                 Toast.makeText(MainActivity.this, "Total comments: " + response.getMeta().getTotalCount(),
                         Toast.LENGTH_SHORT).show();
+
+                for (Comment comment: response.getData()) {
+                    if (!comment.getMention().isEmpty()){
+                        Toast.makeText(MainActivity.this, "Found mention: " + comment.getMention().get(0).getText(),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
 
             @Override

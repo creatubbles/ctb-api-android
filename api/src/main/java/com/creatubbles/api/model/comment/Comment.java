@@ -14,6 +14,7 @@ import com.github.jasminb.jsonapi.annotations.Type;
 import com.github.jasminb.jsonapi.models.EmptyRelationship;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Pawel Szymanski
@@ -44,6 +45,9 @@ public class Comment extends EmptyRelationship {
 
     @Relationship("user")
     private User user;
+
+    @Relationship("mentions")
+    private List<Mention> mention;
 
     public static Comment create(String text) {
         return new Comment(text);
@@ -109,5 +113,9 @@ public class Comment extends EmptyRelationship {
     @Nullable
     public User getUser() {
         return user;
+    }
+
+    public List<Mention> getMention() {
+        return mention;
     }
 }
