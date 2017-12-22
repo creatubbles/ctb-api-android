@@ -15,7 +15,8 @@ public enum MentionType {
     GROUP("group"),
     CREATION("creation"),
     GALLERY("gallery"),
-    PARTNER_APPLICATION("partner_application");
+    PARTNER_APPLICATION("partner_application"),
+    UNKNOWN("unknown");
 
     private String typeName;
 
@@ -36,6 +37,6 @@ public enum MentionType {
                 return mentionType;
             }
         }
-        return null;
+        return UNKNOWN;
     }
 }
