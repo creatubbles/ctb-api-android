@@ -53,7 +53,7 @@ public class Mention extends EmptyRelationship {
         return id;
     }
 
-    @NonNull
+    @Nullable
     public MentionType getMentionType() {
         return mentionType;
     }
