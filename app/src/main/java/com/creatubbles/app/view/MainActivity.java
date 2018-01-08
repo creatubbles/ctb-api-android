@@ -1003,8 +1003,8 @@ public class MainActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
 
                 for (Comment comment: response.getData()) {
-                    if (!comment.getMention().isEmpty()){
-                        Toast.makeText(MainActivity.this, "Found mention: " + comment.getMention().get(0).getText(),
+                    if (!comment.getMentions().isEmpty()){
+                        Toast.makeText(MainActivity.this, "Found mention: " + comment.getMentions().get(0).getText(),
                                 Toast.LENGTH_SHORT).show();
                     }
                 }

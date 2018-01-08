@@ -32,8 +32,8 @@ public enum MentionType {
 
     @JsonCreator
     public static MentionType fromName(String typeName) {
-        for (MentionType mentionType : values()) {
-            if (mentionType.typeName.equals(typeName)) {
+        for (MentionType mentionType : MentionType.values()) {
+            if (mentionType.getTypeName().equals(typeName)) {
                 return mentionType;
             }
         }
