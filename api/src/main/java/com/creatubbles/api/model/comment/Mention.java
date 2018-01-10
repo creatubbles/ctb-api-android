@@ -1,6 +1,5 @@
 package com.creatubbles.api.model.comment;
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.creatubbles.api.model.creation.Creation;
@@ -9,7 +8,6 @@ import com.creatubbles.api.model.group.Group;
 import com.creatubbles.api.model.partner_application.PartnerApplication;
 import com.creatubbles.api.model.user.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Relationship;
 import com.github.jasminb.jsonapi.annotations.Type;
@@ -48,7 +46,7 @@ public class Mention extends EmptyRelationship {
     @Relationship("partner_application")
     private PartnerApplication partnerApplication;
 
-    @NonNull
+    @Nullable
     public String getId() {
         return id;
     }
@@ -58,12 +56,12 @@ public class Mention extends EmptyRelationship {
         return mentionType;
     }
 
-    @NonNull
+    @Nullable
     public String getText() {
         return text;
     }
 
-    @NonNull
+    @Nullable
     public List<Integer> getIndices() {
         return indices;
     }
