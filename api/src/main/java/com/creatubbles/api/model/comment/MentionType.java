@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.github.jasminb.jsonapi.annotations.Type;
 
 /**
  * Created by Janek on 20.12.2017.
@@ -16,6 +15,7 @@ public enum MentionType {
     CREATION("creation"),
     GALLERY("gallery"),
     PARTNER_APPLICATION("partner_application"),
+    HASHTAG("hashtag"),
     UNKNOWN("unknown");
 
     private String typeName;
