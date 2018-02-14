@@ -27,4 +27,5 @@ public class EndPoints {
     public static final String ACTIVITIES = "/v2/activities";
     public static final String ABILITIES = "/v2/abilities";
     public static final String CATEGORIES = "/v2/categories";
+    public static final String HASH_TAGS = "/v2/hashtags";
 }

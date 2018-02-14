@@ -15,6 +15,7 @@ public interface ContentService {
 
     String PARAM_PAGE = "page";
     String PARAM_ID = "id";
+    String PARAM_HASH_TAG = "hash_tag";
 
     @GET(EndPoints.CONTENTS)
     Call<JSONAPIDocument<List<Content>>> getContents(@Query(PARAM_PAGE) Integer page,
@@ -40,4 +41,8 @@ public interface ContentService {
     Call<JSONAPIDocument<List<Content>>> getBubbledByUser(@Path(PARAM_ID) String userId,
                                                           @Query(PARAM_PAGE) Integer page);
 
+
+    @GET(EndPoints.HASH_TAGS + "/{" + PARAM_HASH_TAG + "}/contents")
+    Call<JSONAPIDocument<List<Content>>> getByHashTag(@Path(PARAM_HASH_TAG) String hashTag,
+                                                      @Query(PARAM_PAGE) Integer page);
 }

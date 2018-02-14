@@ -49,4 +49,6 @@ public interface ContentRepository {
      * Method used to obtain list of contents bubbled by a user.
      */
     void getBubbledByUser(@Nullable Integer page, @NonNull String userId, @Nullable ResponseCallback<CreatubblesResponse<List<Content>>> callback);
+
+    void getByHashTag(@Nullable Integer page, @NonNull String hashTag, @Nullable ResponseCallback<CreatubblesResponse<List<Content>>> callback);
 }

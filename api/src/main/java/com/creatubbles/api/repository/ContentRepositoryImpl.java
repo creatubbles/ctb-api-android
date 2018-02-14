@@ -66,4 +66,10 @@ class ContentRepositoryImpl implements ContentRepository {
         Call<JSONAPIDocument<List<Content>>> call = contentService.getBubbledByUser(userId, page);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
+
+    @Override
+    public void getByHashTag(@Nullable Integer page, @NonNull String hashTag, @Nullable ResponseCallback<CreatubblesResponse<List<Content>>> callback) {
+        Call<JSONAPIDocument<List<Content>>> call = contentService.getByHashTag(hashTag, page);
+        call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
+    }
 }

@@ -125,9 +125,9 @@ public class MainActivity extends AppCompatActivity {
             R.id.follow_user_btn, R.id.unfollow_user_btn, R.id.get_groups_btn, R.id.get_bubble_colors_btn,
             R.id.get_user_details_btn, R.id.get_avatar_suggestion, R.id.get_notifications_btn,
             R.id.update_last_viewed_time_btn, R.id.get_toyboo_details_btn, R.id.find_partner_applications,
-            R.id.get_partner_app_by_id, R.id.get_content_btn, R.id.get_recent_content_btn, R.id.get_followed_content_btn,
-            R.id.get_trending_content_btn, R.id.get_connected_content_btn, R.id.get_schools_btn, R.id.search_user_connections_btn,
-            R.id.search_galleries_btn, R.id.get_categories_btn})
+            R.id.get_partner_app_by_id, R.id.get_content_btn, R.id.get_recent_content_btn, R.id.get_content__by_hash_tag__btn,
+            R.id.get_followed_content_btn, R.id.get_trending_content_btn, R.id.get_connected_content_btn,
+            R.id.get_schools_btn, R.id.search_user_connections_btn, R.id.search_galleries_btn, R.id.get_categories_btn})
     List<Button> actionButtons;
 
     @Bind(R.id.send_file_progress)
@@ -1002,8 +1002,8 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Total comments: " + response.getMeta().getTotalCount(),
                         Toast.LENGTH_SHORT).show();
 
-                for (Comment comment: response.getData()) {
-                    if (!comment.getMentions().isEmpty()){
+                for (Comment comment : response.getData()) {
+                    if (!comment.getMentions().isEmpty()) {
                         Toast.makeText(MainActivity.this, "Found mention: " + comment.getMentions().get(0).getText(),
                                 Toast.LENGTH_SHORT).show();
                     }
@@ -1808,6 +1808,14 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         repository.getBubbledByUser(null, userId, getContentCallback());
+    }
+
+
+    public void onGetContentByHashTagClicked(View v) {
+        ContentRepository repository = new ContentRepositoryBuilder(accessToken)
+                .build();
+
+        repository.getByHashTag(null, "lego", getContentCallback());
     }
 
     @NonNull

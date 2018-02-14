@@ -737,6 +737,14 @@
             android:onClick="onGetContentBubbledByUserClicked"
             android:enabled="false" />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_content__by_hash_tag__btn"
+            android:text="Get Content by hashtag #Lego"
+            android:onClick="onGetContentByHashTagClicked"
+            android:enabled="false" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -61,6 +61,13 @@ class ContentRepositoryTest extends Specification {
         service.getBubbledByUser(_, _) >> anyCall()
     }
 
+    def "should call get by hashtag when obtaining by hashtags"() {
+        when:
+        repository.getByHashTag(anyPage(), anyQuery(), anyCallback())
+        then:
+        service.getByHashTag(_, _) >> anyCall()
+    }
+
     def anyPage() {
         null
     }
