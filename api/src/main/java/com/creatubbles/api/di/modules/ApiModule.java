@@ -17,6 +17,7 @@ import com.creatubbles.api.service.CreationService;
 import com.creatubbles.api.service.CustomStyleService;
 import com.creatubbles.api.service.GalleryService;
 import com.creatubbles.api.service.GroupService;
+import com.creatubbles.api.service.HashtagService;
 import com.creatubbles.api.service.LandingUrlsService;
 import com.creatubbles.api.service.NotificationService;
 import com.creatubbles.api.service.OAuthService;
@@ -191,6 +192,11 @@ public class ApiModule {
     @Provides
     CategoryService provideCategoryService(ServiceGenerator serviceGenerator) {
         return serviceGenerator.createService(CategoryService.class, ContentType.VND_JSON, accessToken);
+    }
+
+    @Provides
+    HashtagService provideHashtagService(ServiceGenerator serviceGenerator) {
+        return serviceGenerator.createService(HashtagService.class, ContentType.VND_JSON, accessToken);
     }
 
     /**

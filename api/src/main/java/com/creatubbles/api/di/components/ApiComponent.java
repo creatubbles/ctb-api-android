@@ -11,6 +11,7 @@ import com.creatubbles.api.repository.CreationRepositoryBuilder;
 import com.creatubbles.api.repository.CustomStyleRepositoryBuilder;
 import com.creatubbles.api.repository.GalleryRepositoryBuilder;
 import com.creatubbles.api.repository.GroupRepositoryBuilder;
+import com.creatubbles.api.repository.HashtagRepositoryBuilder;
 import com.creatubbles.api.repository.LandingUrlsRepositoryBuilder;
 import com.creatubbles.api.repository.NotificationRepositoryBuilder;
 import com.creatubbles.api.repository.OAuthRepositoryBuilder;
@@ -89,4 +90,6 @@ public abstract class ApiComponent {
     public abstract void inject(PrivateRepositoryDependencyProvider target);
 
     public abstract void inject(SearchCategoryRepositoryBuilder target);
+
+    public abstract void inject(HashtagRepositoryBuilder target);
 }

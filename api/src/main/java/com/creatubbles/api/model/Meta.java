@@ -10,7 +10,6 @@ import java.util.Date;
 import java.util.List;
 
 import static java.util.Collections.emptyList;
-import static java.util.Collections.unmodifiableList;
 
 public class Meta {
 
@@ -46,6 +45,9 @@ public class Meta {
 
     private String code;
 
+    @JsonProperty("followed_hashtags")
+    private List<String> followedTags = emptyList();
+
     @Nullable
     public Integer getTotalPages() {
         return totalPages;
@@ -58,27 +60,27 @@ public class Meta {
 
     @Nullable
     public List<String> getBubbledCreations() {
-        return unmodifiableList(userBubbledCreations);
+        return userBubbledCreations;
     }
 
     @Nullable
     public List<String> getBubbledGalleries() {
-        return unmodifiableList(userBubbledGalleries);
+        return userBubbledGalleries;
     }
 
     @Nullable
     public List<String> getBubbledUsers() {
-        return unmodifiableList(userBubbledUsers);
+        return userBubbledUsers;
     }
 
     @Nullable
     public List<String> getFollowedUsers() {
-        return unmodifiableList(followedUsers);
+        return followedUsers;
     }
 
     @Nullable
     public List<Ability> getAbilities() {
-        return unmodifiableList(abilities);
+        return abilities;
     }
 
     @Nullable
@@ -99,5 +101,10 @@ public class Meta {
     @Nullable
     public String getCode() {
         return code;
+    }
+
+    @Nullable
+    public List<String> getFollowedTags() {
+        return followedTags;
     }
 }

@@ -2,6 +2,7 @@ package com.creatubbles.api;
 
 import com.creatubbles.api.interceptor.CreatubbleInterceptor;
 import com.creatubbles.api.model.Ability;
+import com.creatubbles.api.model.Following;
 import com.creatubbles.api.model.GallerySubmission;
 import com.creatubbles.api.model.PasswordChange;
 import com.creatubbles.api.model.Report;
@@ -11,13 +12,13 @@ import com.creatubbles.api.model.bubble.Bubble;
 import com.creatubbles.api.model.bubble.BubbleColor;
 import com.creatubbles.api.model.comment.Comment;
 import com.creatubbles.api.model.comment.Mention;
-import com.creatubbles.api.model.comment.MentionType;
 import com.creatubbles.api.model.content.Content;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.creation.ToybooDetails;
 import com.creatubbles.api.model.gallery.Gallery;
 import com.creatubbles.api.model.gallery.HowToSection;
 import com.creatubbles.api.model.group.Group;
+import com.creatubbles.api.model.hashtag.Hashtag;
 import com.creatubbles.api.model.image_manipulation.ImageManipulation;
 import com.creatubbles.api.model.landing_url.LandingUrl;
 import com.creatubbles.api.model.notification.CreationEntity;
@@ -74,7 +75,7 @@ public class ServiceGenerator {
             PasswordChange.class, Notification.class, CreationEntity.class, GalleryEntity.class,
             UserEntity.class, Avatar.class, AvatarSuggestion.class, Report.class, Ability.class,
             ToybooDetails.class, PartnerApplication.class, AppScreenshot.class, Content.class,
-            SearchCategory.class, HowToSection.class, Mention.class};
+            SearchCategory.class, HowToSection.class, Mention.class, Hashtag.class, Following.class};
 
 
     private Retrofit.Builder builder;

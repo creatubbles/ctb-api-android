@@ -1,6 +1,7 @@
 package com.creatubbles.app.view;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -24,6 +25,7 @@ import com.creatubbles.api.ContentType;
 import com.creatubbles.api.exception.ErrorResponse;
 import com.creatubbles.api.model.Ability;
 import com.creatubbles.api.model.CreatubblesResponse;
+import com.creatubbles.api.model.Following;
 import com.creatubbles.api.model.GallerySubmission;
 import com.creatubbles.api.model.ObjectType;
 import com.creatubbles.api.model.Operation;
@@ -41,6 +43,7 @@ import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.creation.ToybooDetails;
 import com.creatubbles.api.model.gallery.Gallery;
 import com.creatubbles.api.model.group.Group;
+import com.creatubbles.api.model.hashtag.Hashtag;
 import com.creatubbles.api.model.image_manipulation.Cropping;
 import com.creatubbles.api.model.image_manipulation.ImageManipulation;
 import com.creatubbles.api.model.image_manipulation.Rotation;
@@ -80,6 +83,8 @@ import com.creatubbles.api.repository.GalleryRepository;
 import com.creatubbles.api.repository.GalleryRepositoryBuilder;
 import com.creatubbles.api.repository.GroupRepository;
 import com.creatubbles.api.repository.GroupRepositoryBuilder;
+import com.creatubbles.api.repository.HashtagRepository;
+import com.creatubbles.api.repository.HashtagRepositoryBuilder;
 import com.creatubbles.api.repository.LandingUrlsRepository;
 import com.creatubbles.api.repository.LandingUrlsRepositoryBuilder;
 import com.creatubbles.api.repository.NotificationRepository;
@@ -127,7 +132,8 @@ public class MainActivity extends AppCompatActivity {
             R.id.update_last_viewed_time_btn, R.id.get_toyboo_details_btn, R.id.find_partner_applications,
             R.id.get_partner_app_by_id, R.id.get_content_btn, R.id.get_recent_content_btn, R.id.get_content__by_hash_tag__btn,
             R.id.get_followed_content_btn, R.id.get_trending_content_btn, R.id.get_connected_content_btn,
-            R.id.get_schools_btn, R.id.search_user_connections_btn, R.id.search_galleries_btn, R.id.get_categories_btn})
+            R.id.get_schools_btn, R.id.search_user_connections_btn, R.id.search_galleries_btn, R.id.get_categories_btn,
+            R.id.get_hashtag_details, R.id.follow_hashtag, R.id.un_follow_hashtag})
     List<Button> actionButtons;
 
     @Bind(R.id.send_file_progress)
@@ -1884,6 +1890,78 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onError(String message) {
                 Log.e("onListCategoriesClicked", message);
+            }
+        });
+    }
+
+    public void onGetHashtagClicked(View view) {
+        HashtagRepository repository = new HashtagRepositoryBuilder((UserAccessToken) accessToken).build();
+
+        repository.getDetails("lego", new ResponseCallback<CreatubblesResponse<Hashtag>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<Hashtag> response) {
+                Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                Toast.makeText(MainActivity.this, errorResponse.toString(), Toast.LENGTH_SHORT).show();
+                Log.e("onGetHashtagClicked", errorResponse.toString());
+            }
+
+            @Override
+            public void onError(String message) {
+                Log.e("onGetHashtagClicked", message);
+            }
+        });
+    }
+
+    public void onFollowHashtagClicked(View view) {
+        HashtagRepository repository = new HashtagRepositoryBuilder((UserAccessToken) accessToken).build();
+        repository.follow("lego", new ResponseCallback<CreatubblesResponse<Following>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<Following> response) {
+                Toast.makeText(MainActivity.this, "#lego followed", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            @SuppressLint("LongLogTag")
+            public void onServerError(ErrorResponse errorResponse) {
+                Log.e("onFollowHashtagClicked", errorResponse.toString());
+
+            }
+
+            @Override
+            @SuppressLint("LongLogTag")
+            public void onError(String message) {
+                Log.e("onFollowHashtagClicked", message);
+
+            }
+        });
+    }
+
+    @SuppressLint("LongLogTag")
+    public void onUnFollowHashtagClicked(View view) {
+        HashtagRepository repository = new HashtagRepositoryBuilder((UserAccessToken) accessToken).build();
+
+        repository.unFollow("lego", new ResponseCallback<Void>() {
+            @Override
+            public void onSuccess(Void response) {
+                Toast.makeText(MainActivity.this, "#lego unfollowed", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            @SuppressLint("LongLogTag")
+            public void onServerError(ErrorResponse errorResponse) {
+                Log.e("onUnFollowHashtagClicked", errorResponse.toString());
+
+            }
+
+            @SuppressLint("LongLogTag")
+            @Override
+            public void onError(String message) {
+                Log.e("onUnFollowHashtagClicked", message);
+
             }
         });
     }

@@ -772,5 +772,35 @@
             android:text="Get Categories"
             android:onClick="onListCategoriesClicked"
             android:enabled="false" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="true"
+            android:text="Hashtags methods:" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/get_hashtag_details"
+            android:text="Get #LEGO"
+            android:onClick="onGetHashtagClicked"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/follow_hashtag"
+            android:text="Follow #LEGO"
+            android:onClick="onFollowHashtagClicked"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/un_follow_hashtag"
+            android:text="Unfollow #LEGO"
+            android:onClick="onUnFollowHashtagClicked"
+            android:enabled="false" />
     </LinearLayout>
 </ScrollView>
