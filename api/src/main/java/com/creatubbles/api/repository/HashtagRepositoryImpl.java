@@ -12,6 +12,8 @@ import com.creatubbles.api.response.SameResponseMapper;
 import com.creatubbles.api.service.HashtagService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.List;
+
 class HashtagRepositoryImpl implements HashtagRepository {
 
     private HashtagService hashtagService;
@@ -35,5 +37,10 @@ class HashtagRepositoryImpl implements HashtagRepository {
     @Override
     public void unFollow(@NonNull String hashTag, @Nullable ResponseCallback<Void> callback) {
         hashtagService.deleteFollow(hashTag).enqueue(new SameResponseMapper<>(objectMapper, callback));
+    }
+
+    @Override
+    public void getSuggested(@Nullable Integer page, @Nullable ResponseCallback<CreatubblesResponse<List<Hashtag>>> callback) {
+        hashtagService.getSuggested(page).enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 }

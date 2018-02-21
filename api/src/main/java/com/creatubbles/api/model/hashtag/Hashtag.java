@@ -23,7 +23,7 @@ public class Hashtag {
         return id;
     }
 
-    @NonNull
+    @Nullable
     public Boolean getOfficial() {
         return official;
     }

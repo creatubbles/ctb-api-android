@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
             R.id.get_partner_app_by_id, R.id.get_content_btn, R.id.get_recent_content_btn, R.id.get_content__by_hash_tag__btn,
             R.id.get_followed_content_btn, R.id.get_trending_content_btn, R.id.get_connected_content_btn,
             R.id.get_schools_btn, R.id.search_user_connections_btn, R.id.search_galleries_btn, R.id.get_categories_btn,
-            R.id.get_hashtag_details, R.id.follow_hashtag, R.id.un_follow_hashtag})
+            R.id.get_hashtag_details, R.id.follow_hashtag, R.id.un_follow_hashtag, R.id.get_suggested_hashtags})
     List<Button> actionButtons;
 
     @Bind(R.id.send_file_progress)
@@ -1962,6 +1962,30 @@ public class MainActivity extends AppCompatActivity {
             public void onError(String message) {
                 Log.e("onUnFollowHashtagClicked", message);
 
+            }
+        });
+    }
+
+    public void onGetHashtagSuggestionsClicked(View view) {
+        HashtagRepository repository = new HashtagRepositoryBuilder((UserAccessToken) accessToken).build();
+
+        repository.getSuggested(1, new ResponseCallback<CreatubblesResponse<List<Hashtag>>>() {
+            @Override
+            public void onSuccess(CreatubblesResponse<List<Hashtag>> response) {
+                Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+            }
+
+            @SuppressLint("LongLogTag")
+            @Override
+            public void onServerError(ErrorResponse errorResponse) {
+                Toast.makeText(MainActivity.this, errorResponse.toString(), Toast.LENGTH_SHORT).show();
+                Log.e("onGetHashtagSuggestionsClicked", errorResponse.toString());
+            }
+
+            @SuppressLint("LongLogTag")
+            @Override
+            public void onError(String message) {
+                Log.e("onGetHashtagSuggestionsClicked", message);
             }
         });
     }
