@@ -1484,6 +1484,7 @@ public class MainActivity extends AppCompatActivity {
         AccountDetails accountDetails = new AccountDetails.Builder()
                 .setAgeDisplayType(AgeDisplayType.DO_NOT_SHOW)
                 .setBirthYear(2000)
+                .setInterests(Collections.singletonList("lego"))
                 .build();
 
         UserRepository repository = new UserRepositoryBuilder(accessToken)

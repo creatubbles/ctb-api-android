@@ -72,6 +72,9 @@ public class AccountDetails extends EmptyRelationship {
 
     private String interests;
 
+    @JsonProperty("interest_list")
+    private List<String> interestsList;
+
     @JsonProperty("managed_creators_count")
     private Integer managedCreatorsCount;
 
@@ -107,7 +110,7 @@ public class AccountDetails extends EmptyRelationship {
     }
 
     @SuppressWarnings("WeakerAccess")
-    AccountDetails(String username, String displayName, String name, String email, Integer birthMonth, Integer birthYear, AgeDisplayType ageDisplayType, String uiLocale, Boolean preapproveComments, Boolean receiveNotifications, Boolean receiveNewsletter, String whatDoYouTeach, String interests, String countryCode, Creation avatarCreation) {
+    AccountDetails(String username, String displayName, String name, String email, Integer birthMonth, Integer birthYear, AgeDisplayType ageDisplayType, String uiLocale, Boolean preapproveComments, Boolean receiveNotifications, Boolean receiveNewsletter, String whatDoYouTeach, String interests, List<String> interestsList, String countryCode, Creation avatarCreation) {
         this.username = username;
         this.displayName = displayName;
         this.name = name;
@@ -121,6 +124,7 @@ public class AccountDetails extends EmptyRelationship {
         this.receiveNewsletter = receiveNewsletter;
         this.whatDoYouTeach = whatDoYouTeach;
         this.interests = interests;
+        this.interestsList = interestsList;
         this.countryCode = countryCode;
         this.avatarCreation = avatarCreation;
     }
@@ -257,6 +261,11 @@ public class AccountDetails extends EmptyRelationship {
         return role;
     }
 
+    @Nullable
+    public List<String> getInterestsList() {
+        return interestsList;
+    }
+
     @Override
     public String toString() {
         return "AccountDetails{" +
@@ -304,6 +313,7 @@ public class AccountDetails extends EmptyRelationship {
         private Boolean receiveNewsletter;
         private String whatDoYouTeach;
         private String interests;
+        private List<String> interestsList;
         private String countryCode;
         private Creation avatarCreation;
 
@@ -398,6 +408,12 @@ public class AccountDetails extends EmptyRelationship {
         }
 
         @NonNull
+        public Builder setInterests(@NonNull List<String> interests) {
+            this.interestsList = interests;
+            return this;
+        }
+
+        @NonNull
         public Builder setCountryCode(@NonNull String countryCode) {
             this.countryCode = countryCode;
             return this;
@@ -424,7 +440,9 @@ public class AccountDetails extends EmptyRelationship {
                     receiveNewsletter,
                     whatDoYouTeach,
                     interests,
-                    countryCode, avatarCreation);
+                    interestsList,
+                    countryCode,
+                    avatarCreation);
         }
     }
 }
