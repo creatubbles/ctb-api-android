@@ -116,6 +116,9 @@ public class Creation extends EmptyRelationship {
     @JsonProperty("created_at_month")
     private Integer createdAtMonth;
 
+    @JsonProperty("content_type")
+    private String contentType;
+
     @JsonCreator
     public Creation() {
     }
@@ -302,6 +305,11 @@ public class Creation extends EmptyRelationship {
         return createdAtMonth;
     }
 
+    @NonNull
+    public String getContentType() {
+        return contentType;
+    }
+
     @Override
     public String toString() {
         return "Creation{" +
@@ -329,12 +337,13 @@ public class Creation extends EmptyRelationship {
                 ", reflectionVideoUrl='" + reflectionVideoUrl + '\'' +
                 ", objFileUrl='" + objFileUrl + '\'' +
                 ", playIframeUrl='" + playIframeUrl + '\'' +
-                ", plaIframeIsMobileReady='" + playIframeIsMobileReady + '\'' +
+                ", playIframeIsMobileReady=" + playIframeIsMobileReady +
                 ", video480Url='" + video480Url + '\'' +
                 ", video720Url='" + video720Url + '\'' +
                 ", tags=" + tags +
                 ", createdAtYear=" + createdAtYear +
                 ", createdAtMonth=" + createdAtMonth +
+                ", contentType='" + contentType + '\'' +
                 '}';
     }
 
