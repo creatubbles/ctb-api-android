@@ -169,6 +169,11 @@ class UserRepositoryImpl implements UserRepository {
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
+    @Override
+    public void getSuggestions(@Nullable Integer page, @Nullable ResponseCallback<CreatubblesResponse<List<User>>> callback) {
+        userService.getSuggested(page).enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
+    }
+
     private String getSortParam(UserSortMode sortMode) {
         return sortMode != null ? sortMode.getParam() : null;
     }

@@ -99,6 +99,12 @@ public class User extends EmptyRelationship {
     @Relationship("school")
     private School school;
 
+    @JsonProperty("followed_users_count")
+    private Integer followedUsersCount;
+
+    @JsonProperty("followers_count")
+    private Integer followersCount;
+
     public static User withId(String id) {
         return new User(id);
     }
@@ -286,6 +292,14 @@ public class User extends EmptyRelationship {
     @Nullable
     public CustomStyle getCustomStyle() {
         return customStyle;
+    }
+
+    public Integer getFollowedUsersCount() {
+        return followedUsersCount;
+    }
+
+    public Integer getFollowersCount() {
+        return followersCount;
     }
 
     @Override

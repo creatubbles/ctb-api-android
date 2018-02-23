@@ -88,4 +88,6 @@ public interface UserService {
     @GET(EndPoints.AVATAR_SUGGESTIONS)
     Call<JSONAPIDocument<List<AvatarSuggestion>>> getSuggestedAvatars();
 
+    @GET(EndPoints.USERS + "/suggested")
+    Call<JSONAPIDocument<List<User>>> getSuggested(@Query(PARAM_PAGE) Integer page);
 }

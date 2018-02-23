@@ -133,7 +133,8 @@ public class MainActivity extends AppCompatActivity {
             R.id.get_partner_app_by_id, R.id.get_content_btn, R.id.get_recent_content_btn, R.id.get_content__by_hash_tag__btn,
             R.id.get_followed_content_btn, R.id.get_trending_content_btn, R.id.get_connected_content_btn,
             R.id.get_schools_btn, R.id.search_user_connections_btn, R.id.search_galleries_btn, R.id.get_categories_btn,
-            R.id.get_hashtag_details, R.id.follow_hashtag, R.id.un_follow_hashtag, R.id.get_suggested_hashtags})
+            R.id.get_hashtag_details, R.id.follow_hashtag, R.id.un_follow_hashtag, R.id.get_suggested_hashtags,
+            R.id.get_suggested_users})
     List<Button> actionButtons;
 
     @Bind(R.id.send_file_progress)
@@ -1989,6 +1990,12 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("onGetHashtagSuggestionsClicked", message);
             }
         });
+    }
+
+    public void onGetSuggestedUsersClick(View view) {
+        UserRepository userRepository = new UserRepositoryBuilder(accessToken)
+                .build();
+        getUserList(userRepository::getSuggestions);
     }
 
     interface Function<T> {

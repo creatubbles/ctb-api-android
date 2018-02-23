@@ -187,6 +187,14 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/get_suggested_users"
+            android:text="Get suggested users"
+            android:onClick="onGetSuggestedUsersClick"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/create_user_btn"
             android:text="Create User"
             android:onClick="onCreateUserClicked"

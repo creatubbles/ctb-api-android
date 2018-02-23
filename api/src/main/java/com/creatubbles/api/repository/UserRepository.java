@@ -149,4 +149,7 @@ public interface UserRepository {
      * Method used to obtain current user's 'My Connections' filtered by {@code query} param.
      */
     void searchConnections(@NonNull String query, @Nullable Integer page, @Nullable UserSortMode sortMode, @Nullable ResponseCallback<CreatubblesResponse<List<User>>> callback);
+
+    void getSuggestions(@Nullable Integer page, @Nullable ResponseCallback<CreatubblesResponse<List<User>>> callback);
+
 }
