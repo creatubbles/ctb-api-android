@@ -1,6 +1,7 @@
 package com.creatubbles.api.service;
 
 import com.creatubbles.api.EndPoints;
+import com.creatubbles.api.model.Following;
 import com.creatubbles.api.model.PasswordChange;
 import com.creatubbles.api.model.user.AccountDetails;
 import com.creatubbles.api.model.user.MultipleCreators;
@@ -17,6 +18,8 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -90,4 +93,8 @@ public interface UserService {
 
     @GET(EndPoints.USERS + "/suggested")
     Call<JSONAPIDocument<List<User>>> getSuggested(@Query(PARAM_PAGE) Integer page);
+
+    @POST(EndPoints.BATCH_FOLLOW)
+    @FormUrlEncoded
+    Call<JSONAPIDocument<List<Following>>> postBatch(@Field("user_ids[]") List<String> userIds);
 }

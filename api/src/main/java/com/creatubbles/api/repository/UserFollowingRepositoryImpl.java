@@ -1,8 +1,10 @@
 package com.creatubbles.api.repository;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.creatubbles.api.model.CreatubblesResponse;
+import com.creatubbles.api.model.Following;
 import com.creatubbles.api.model.user.UserFollowing;
 import com.creatubbles.api.response.BaseResponseMapper;
 import com.creatubbles.api.response.JsonApiResponseMapper;
@@ -10,6 +12,8 @@ import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jasminb.jsonapi.JSONAPIDocument;
+
+import java.util.List;
 
 import retrofit2.Call;
 
@@ -36,5 +40,10 @@ class UserFollowingRepositoryImpl implements UserFollowingRepository {
     public void unfollow(@NonNull String userId, ResponseCallback<Void> callback) {
         Call<Void> call = userService.deleteFollowing(userId);
         call.enqueue(new BaseResponseMapper<>(objectMapper, callback));
+    }
+
+    @Override
+    public void follow(@NonNull List<String> userIds, @Nullable ResponseCallback<CreatubblesResponse<List<Following>>> callback) {
+        userService.postBatch(userIds).enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 }
