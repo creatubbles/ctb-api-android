@@ -105,6 +105,9 @@ public class User extends EmptyRelationship {
     @JsonProperty("followers_count")
     private Integer followersCount;
 
+    @JsonProperty("followed_hashtags_count")
+    private Integer followedHashtagsCount;
+
     public static User withId(String id) {
         return new User(id);
     }
@@ -300,6 +303,10 @@ public class User extends EmptyRelationship {
 
     public Integer getFollowersCount() {
         return followersCount;
+    }
+
+    public Integer getFollowedHashtagsCount() {
+        return followedHashtagsCount;
     }
 
     @Override
