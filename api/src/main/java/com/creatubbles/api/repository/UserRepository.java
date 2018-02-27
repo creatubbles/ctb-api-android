@@ -152,4 +152,5 @@ public interface UserRepository {
 
     void getSuggestions(@Nullable Integer page, @Nullable ResponseCallback<CreatubblesResponse<List<User>>> callback);
 
+    void getFollowers(@NonNull String userId, @Nullable Integer page, @Nullable String query, @Nullable ResponseCallback<CreatubblesResponse<List<User>>> callback);
 }

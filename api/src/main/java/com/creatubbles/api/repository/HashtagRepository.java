@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import com.creatubbles.api.model.CreatubblesResponse;
 import com.creatubbles.api.model.Following;
 import com.creatubbles.api.model.hashtag.Hashtag;
+import com.creatubbles.api.model.user.User;
 import com.creatubbles.api.response.ResponseCallback;
 
 import java.util.List;
@@ -20,4 +21,5 @@ public interface HashtagRepository {
 
     void getSuggested(@Nullable Integer page, @Nullable ResponseCallback<CreatubblesResponse<List<Hashtag>>> callback);
 
+    void getFollowers(@NonNull String hashTag, @Nullable Integer page, @Nullable String query, @Nullable ResponseCallback<CreatubblesResponse<List<User>>> callback);
 }

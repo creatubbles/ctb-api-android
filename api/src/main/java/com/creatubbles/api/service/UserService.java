@@ -3,6 +3,7 @@ package com.creatubbles.api.service;
 import com.creatubbles.api.EndPoints;
 import com.creatubbles.api.model.Following;
 import com.creatubbles.api.model.PasswordChange;
+import com.creatubbles.api.model.hashtag.Hashtag;
 import com.creatubbles.api.model.user.AccountDetails;
 import com.creatubbles.api.model.user.MultipleCreators;
 import com.creatubbles.api.model.user.NewUser;
@@ -97,4 +98,10 @@ public interface UserService {
     @POST(EndPoints.BATCH_FOLLOW)
     @FormUrlEncoded
     Call<JSONAPIDocument<List<Following>>> postBatch(@Field("user_ids[]") List<String> userIds);
+
+    @GET(EndPoints.USERS + "/" + PATH_ID + "/followers")
+    Call<JSONAPIDocument<List<User>>> getFollowers(@Path(PARAM_ID) String userId, @Query(PARAM_PAGE) Integer page, @Query(PARAM_QUERY) String query);
+
+    @GET(EndPoints.USERS + "/" + PATH_ID + "/followed_hashtags")
+    Call<JSONAPIDocument<List<Hashtag>>> getFollowedHashtags(@Path(PARAM_ID) String userId, @Query(PARAM_PAGE) Integer page, @Query(PARAM_QUERY) String query);
 }

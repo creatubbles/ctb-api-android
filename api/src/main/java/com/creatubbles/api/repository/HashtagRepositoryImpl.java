@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import com.creatubbles.api.model.CreatubblesResponse;
 import com.creatubbles.api.model.Following;
 import com.creatubbles.api.model.hashtag.Hashtag;
+import com.creatubbles.api.model.user.User;
 import com.creatubbles.api.response.JsonApiResponseMapper;
 import com.creatubbles.api.response.ResponseCallback;
 import com.creatubbles.api.response.SameResponseMapper;
@@ -42,5 +43,10 @@ class HashtagRepositoryImpl implements HashtagRepository {
     @Override
     public void getSuggested(@Nullable Integer page, @Nullable ResponseCallback<CreatubblesResponse<List<Hashtag>>> callback) {
         hashtagService.getSuggested(page).enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
+    }
+
+    @Override
+    public void getFollowers(@NonNull String hashTag, @Nullable Integer page, @Nullable String query, @Nullable ResponseCallback<CreatubblesResponse<List<User>>> callback) {
+        hashtagService.getFollowers(hashTag, page, query).enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 }
