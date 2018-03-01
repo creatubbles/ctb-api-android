@@ -100,8 +100,12 @@ public interface UserService {
     Call<JSONAPIDocument<List<Following>>> postBatch(@Field("user_ids[]") List<String> userIds);
 
     @GET(EndPoints.USERS + "/" + PATH_ID + "/followers")
-    Call<JSONAPIDocument<List<User>>> getFollowers(@Path(PARAM_ID) String userId, @Query(PARAM_PAGE) Integer page, @Query(PARAM_QUERY) String query);
+    Call<JSONAPIDocument<List<User>>> getFollowers(@Path(PARAM_ID) String userId, @Query(PARAM_PAGE) Integer page, @Query("filter[username]") String usernameFilter);
 
     @GET(EndPoints.USERS + "/" + PATH_ID + "/followed_hashtags")
-    Call<JSONAPIDocument<List<Hashtag>>> getFollowedHashtags(@Path(PARAM_ID) String userId, @Query(PARAM_PAGE) Integer page, @Query(PARAM_QUERY) String query);
+    Call<JSONAPIDocument<List<Hashtag>>> getFollowedHashtags(@Path(PARAM_ID) String userId, @Query(PARAM_PAGE) Integer page, @Query("filter[name]") String nameFilter);
+
+    @GET(EndPoints.USERS + "/" + PATH_ID + "/followed_users")
+    Call<JSONAPIDocument<List<User>>> getFollowedUsers(@Path(PARAM_ID) String userId, @Query(PARAM_PAGE) Integer page, @Query("filter[username]") String usernameFilter);
+
 }

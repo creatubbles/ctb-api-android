@@ -75,7 +75,7 @@ public interface UserRepository {
      *
      * @param userId the ID of the user for which we want to get the results
      */
-    void getFollowedUsers(@NonNull String userId, @Nullable String query, @Nullable Integer page, @Nullable UserSortMode sortMode, @Nullable ResponseCallback<CreatubblesResponse<List<User>>> callback);
+    void getFollowedUsers(@NonNull String userId, @Nullable Integer page, @Nullable String usernameFilter, ResponseCallback<CreatubblesResponse<List<User>>> callback);
 
     /**
      * Method used to obtain user's 'My Connections'.

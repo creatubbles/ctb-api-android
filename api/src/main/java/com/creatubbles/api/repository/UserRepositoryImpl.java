@@ -91,8 +91,8 @@ class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void getFollowedUsers(@NonNull String userId, @Nullable String query, @Nullable Integer page, UserSortMode sortMode, ResponseCallback<CreatubblesResponse<List<User>>> callback) {
-        Call<JSONAPIDocument<List<User>>> call = userService.getFollowedUsers(userId, query, page, getSortParam(sortMode));
+    public void getFollowedUsers(@NonNull String userId, @Nullable Integer page, @Nullable String usernameFilter, ResponseCallback<CreatubblesResponse<List<User>>> callback) {
+        Call<JSONAPIDocument<List<User>>> call = userService.getFollowedUsers(userId, page, usernameFilter);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
