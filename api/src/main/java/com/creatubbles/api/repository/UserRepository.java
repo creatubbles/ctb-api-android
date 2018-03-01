@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.creatubbles.api.model.CreatubblesResponse;
 import com.creatubbles.api.model.PasswordChange;
+import com.creatubbles.api.model.hashtag.Hashtag;
 import com.creatubbles.api.model.school.School;
 import com.creatubbles.api.model.user.AccountDetails;
 import com.creatubbles.api.model.user.MultipleCreators;
@@ -153,4 +154,6 @@ public interface UserRepository {
     void getSuggestions(@Nullable Integer page, @Nullable ResponseCallback<CreatubblesResponse<List<User>>> callback);
 
     void getFollowers(@NonNull String userId, @Nullable Integer page, @Nullable String query, @Nullable ResponseCallback<CreatubblesResponse<List<User>>> callback);
+
+    void getFollowedHashtags(@NonNull String userId, @Nullable Integer page, @Nullable String query, @Nullable ResponseCallback<CreatubblesResponse<List<Hashtag>>> callback);
 }

@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.creatubbles.api.model.CreatubblesResponse;
 import com.creatubbles.api.model.PasswordChange;
+import com.creatubbles.api.model.hashtag.Hashtag;
 import com.creatubbles.api.model.school.School;
 import com.creatubbles.api.model.user.AccountDetails;
 import com.creatubbles.api.model.user.MultipleCreators;
@@ -177,6 +178,11 @@ class UserRepositoryImpl implements UserRepository {
     @Override
     public void getFollowers(@NonNull String userId, @Nullable Integer page, @Nullable String query, @Nullable ResponseCallback<CreatubblesResponse<List<User>>> callback) {
         userService.getFollowers(userId, page, query).enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
+    }
+
+    @Override
+    public void getFollowedHashtags(@NonNull String userId, @Nullable Integer page, @Nullable String query, @Nullable ResponseCallback<CreatubblesResponse<List<Hashtag>>> callback) {
+        userService.getFollowedHashtags(userId, page, query).enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 
     private String getSortParam(UserSortMode sortMode) {
