@@ -108,6 +108,9 @@ public class User extends EmptyRelationship {
     @JsonProperty("followed_hashtags_count")
     private Integer followedHashtagsCount;
 
+    @JsonProperty("bubbles_on_creations_count")
+    private Integer bubblesOnCreationsCount = 0;
+
     public static User withId(String id) {
         return new User(id);
     }
@@ -309,6 +312,10 @@ public class User extends EmptyRelationship {
         return followedHashtagsCount;
     }
 
+    public Integer getBubblesOnCreationsCount() {
+        return bubblesOnCreationsCount;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -341,6 +348,10 @@ public class User extends EmptyRelationship {
                 ", interests='" + interests + '\'' +
                 ", customStyle=" + customStyle +
                 ", school=" + school +
+                ", followedUsersCount=" + followedUsersCount +
+                ", followersCount=" + followersCount +
+                ", followedHashtagsCount=" + followedHashtagsCount +
+                ", bubblesOnCreationsCount=" + bubblesOnCreationsCount +
                 '}';
     }
 }
