@@ -122,6 +122,9 @@ public class PartnerApplication extends EmptyRelationship {
     @Relationship("galleries")
     private List<Gallery> galleries;
 
+    @JsonProperty("galleries_owner_override")
+    private boolean overrideGalleriesOwner;
+
     @NonNull
     public String getId() {
         return id;
@@ -309,6 +312,13 @@ public class PartnerApplication extends EmptyRelationship {
     @Nullable
     public List<Gallery> getGalleries() {
         return galleries;
+    }
+
+    /**
+     * All galleries connected to this partner app have the app name displayed as gallery owner/author
+     */
+    public boolean isOverrideGalleriesOwner() {
+        return overrideGalleriesOwner;
     }
 
     @Override
