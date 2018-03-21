@@ -49,4 +49,9 @@ class HashtagRepositoryImpl implements HashtagRepository {
     public void getFollowers(@NonNull String hashTag, @Nullable Integer page, @Nullable String query, @Nullable ResponseCallback<CreatubblesResponse<List<User>>> callback) {
         hashtagService.getFollowers(hashTag, page, query).enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
+
+    @Override
+    public void getPopular(@Nullable String nameFilter, @Nullable Integer page, int perPage, @Nullable ResponseCallback<CreatubblesResponse<List<Hashtag>>> callback) {
+        hashtagService.getPopular(nameFilter, page, perPage).enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
+    }
 }

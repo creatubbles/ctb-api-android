@@ -21,6 +21,8 @@ public interface HashtagService {
     String PATH_FOLLOW = EndPoints.HASH_TAGS + "/{" + PARAM_HASH_TAG + "}/follow";
     String PARAM_PAGE = "page";
     String PARAM_QUERY = "query";
+    String PARAM_NAME_FILTER = "filter[name]";
+    String PARAM_PER_PAGE = "per_page";
 
     @GET(EndPoints.HASH_TAGS + "/{" + PARAM_HASH_TAG + "}")
     Call<JSONAPIDocument<Hashtag>> get(@Path(PARAM_HASH_TAG) String hashTag);
@@ -36,4 +38,8 @@ public interface HashtagService {
 
     @GET(EndPoints.HASH_TAGS + "/{" + PARAM_HASH_TAG + "}/followers")
     Call<JSONAPIDocument<List<User>>> getFollowers(@Path(PARAM_HASH_TAG) String hashTag, @Query(PARAM_PAGE) Integer page, @Query(PARAM_QUERY) String query);
+
+
+    @GET(EndPoints.POPULAR_HASH_TAGS)
+    Call<JSONAPIDocument<List<Hashtag>>> getPopular(@Query(PARAM_NAME_FILTER) String nameFilter, @Query(PARAM_PAGE) Integer page, @Query(PARAM_PER_PAGE) int perPage);
 }

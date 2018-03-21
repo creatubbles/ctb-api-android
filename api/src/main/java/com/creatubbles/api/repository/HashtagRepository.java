@@ -22,4 +22,7 @@ public interface HashtagRepository {
     void getSuggested(@Nullable Integer page, @Nullable ResponseCallback<CreatubblesResponse<List<Hashtag>>> callback);
 
     void getFollowers(@NonNull String hashTag, @Nullable Integer page, @Nullable String query, @Nullable ResponseCallback<CreatubblesResponse<List<User>>> callback);
+
+    void getPopular(@Nullable String nameFilter, @Nullable Integer page, int perPage, @Nullable ResponseCallback<CreatubblesResponse<List<Hashtag>>> callback);
+
 }
