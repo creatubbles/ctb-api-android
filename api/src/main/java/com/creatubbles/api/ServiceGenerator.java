@@ -47,6 +47,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
@@ -91,7 +92,9 @@ public class ServiceGenerator {
     public void initialize() {
 
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
-        clientBuilder.cookieJar(getAcceptAllCookieJar());
+        clientBuilder.cookieJar(getAcceptAllCookieJar())
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS);
         addInterceptorFromConfiguration(clientBuilder);
 
         OkHttpClient client = clientBuilder.build();
@@ -135,7 +138,9 @@ public class ServiceGenerator {
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
         clientBuilder
                 .cookieJar(getAcceptAllCookieJar())
-                .addInterceptor(CreatubbleInterceptor.getHeaderInterceptor(headerParamMap));
+                .addInterceptor(CreatubbleInterceptor.getHeaderInterceptor(headerParamMap))
+                .readTimeout(30, TimeUnit.SECONDS)
+                .connectTimeout(30, TimeUnit.SECONDS);
         addInterceptorFromConfiguration(clientBuilder);
 
         OkHttpClient client = clientBuilder.build();
@@ -156,7 +161,9 @@ public class ServiceGenerator {
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
         clientBuilder
                 .cookieJar(getAcceptAllCookieJar())
-                .addInterceptor(CreatubbleInterceptor.getHeaderInterceptor(headerParamMap));
+                .addInterceptor(CreatubbleInterceptor.getHeaderInterceptor(headerParamMap))
+                .readTimeout(30, TimeUnit.SECONDS)
+                .connectTimeout(30, TimeUnit.SECONDS);
         addInterceptorFromConfiguration(clientBuilder);
 
         OkHttpClient client = clientBuilder.build();
@@ -183,7 +190,9 @@ public class ServiceGenerator {
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
         clientBuilder
                 .cookieJar(getAcceptAllCookieJar())
-                .addInterceptor(CreatubbleInterceptor.getHeaderInterceptor(headerParamMap));
+                .addInterceptor(CreatubbleInterceptor.getHeaderInterceptor(headerParamMap))
+                .readTimeout(30, TimeUnit.SECONDS)
+                .connectTimeout(30, TimeUnit.SECONDS);
         addInterceptorFromConfiguration(clientBuilder);
 
         OkHttpClient client = clientBuilder.build();
