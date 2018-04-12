@@ -13,10 +13,16 @@ public class Hashtag {
     private String id;
 
     @JsonProperty("is_official")
-    private Boolean official = Boolean.FALSE;
+    private Boolean official;
 
     @JsonProperty("avatar_image_url")
     private AvatarImage avatarImage;
+
+    @JsonProperty("taggings_count")
+    private Integer taggingsCount;
+
+    @JsonProperty("followers_count")
+    private Integer followersCount;
 
     @NonNull
     public String getId() {
@@ -33,12 +39,24 @@ public class Hashtag {
         return avatarImage;
     }
 
+    @Nullable
+    public Integer getTaggingsCount() {
+        return taggingsCount;
+    }
+
+    @Nullable
+    public Integer getFollowersCount() {
+        return followersCount;
+    }
+
     @Override
     public String toString() {
         return "Hashtag{" +
                 "id='" + id + '\'' +
                 ", official=" + official +
                 ", avatarImage=" + avatarImage +
+                ", taggingsCount=" + taggingsCount +
+                ", followersCount=" + followersCount +
                 '}';
     }
 }
