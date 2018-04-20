@@ -22,8 +22,8 @@ public class CreatubblesApplication extends Application {
         CreatubblesApi.initialize(new Configuration.Builder()
                 .application(this)
                 .baseUrl("https://api.staging.creatubbles.com/")
-                .clientId("acbf03d5084f0d97159587e819e27b688a19b313b93db09c19f72ee1577b244d") //ctboauthexample
-                .clientSecret("4d666d5bb0f1bf5fec5efa31e2484cd11e2a57c0904d033506561b45a94d7ef0") //ctboauthexample
+                .clientId("54ddfc1b754637b9dc4f2e1e5fb34f8274d481c2cfc1de9df4fa74ef0f625f32") //ctboauthexample
+                .clientSecret("41dbf6894b28e849e4ff2d29fe2ddf7f6dbef5fff5b4da39b5ff6545f05b5757") //ctboauthexample
                 .clientCallbackUrl("ctboauthexample://testoauth")
                 .locale(Locale.ENGLISH)
                 .interceptor(ConsoleLogInterceptor.forLevel(HttpLoggingInterceptor.Level.BODY))
