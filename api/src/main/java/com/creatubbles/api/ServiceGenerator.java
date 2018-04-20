@@ -107,6 +107,7 @@ public class ServiceGenerator {
         Class[] allModels = concatArrays(additionalModels, defaultApiModels);
         ResourceConverter resourceConverter = new ResourceConverter(objectMapper, allModels);
         resourceConverter.enableDeserializationOption(DeserializationFeature.ALLOW_UNKNOWN_INCLUSIONS);
+        resourceConverter.enableDeserializationOption(DeserializationFeature.IGNORE_UNREGISTERED_TYPES);
         JSONAPIConverterFactory converterFactory = new JSONAPIConverterFactory(resourceConverter);
         converterFactory.setAlternativeFactory(JacksonConverterFactory.create(objectMapper));
         builder.addConverterFactory(converterFactory);
