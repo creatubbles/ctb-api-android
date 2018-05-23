@@ -8,6 +8,7 @@ import com.creatubbles.api.exception.InvalidParametersException;
 import com.creatubbles.api.model.creation.Creation;
 import com.creatubbles.api.model.school.School;
 import com.creatubbles.api.model.user.custom_style.AgeDisplayType;
+import com.creatubbles.api.model.user.custom_style.CustomStyle;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.jasminb.jsonapi.annotations.Id;
@@ -96,6 +97,33 @@ public class AccountDetails extends EmptyRelationship {
     @JsonProperty("updated_at")
     private Date updatedAt;
 
+    @JsonProperty("avatar_url")
+    private String avatarUrl;
+
+    @JsonProperty("age")
+    private String age;
+
+    @JsonProperty("short_url")
+    private String shortUrl;
+
+    @JsonProperty("bubbles_count")
+    private Integer bubblesCount;
+
+    @JsonProperty("comments_count")
+    private Integer commentsCount;
+
+    @JsonProperty("creations_count")
+    private Integer creationsCount;
+
+    @JsonProperty("creators_count")
+    private Integer creatorsCount;
+
+    @JsonProperty("followers_count")
+    private Integer followersCount;
+
+    @JsonProperty("followed_users_count")
+    private Integer followedUsersCount;
+
     @Relationship("user")
     private User user;
 
@@ -104,6 +132,9 @@ public class AccountDetails extends EmptyRelationship {
 
     @Relationship("school")
     private School school;
+
+    @Relationship("custom_style")
+    private CustomStyle customStyle;
 
     @JsonCreator
     public AccountDetails() {
@@ -264,6 +295,46 @@ public class AccountDetails extends EmptyRelationship {
     @Nullable
     public List<String> getInterestsList() {
         return interestsList;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public String getShortUrl() {
+        return shortUrl;
+    }
+
+    public Integer getBubblesCount() {
+        return bubblesCount;
+    }
+
+    public Integer getCommentsCount() {
+        return commentsCount;
+    }
+
+    public Integer getCreationsCount() {
+        return creationsCount;
+    }
+
+    public Integer getCreatorsCount() {
+        return creatorsCount;
+    }
+
+    public Integer getFollowersCount() {
+        return followersCount;
+    }
+
+    public Integer getFollowedUsersCount() {
+        return followedUsersCount;
+    }
+
+    public CustomStyle getCustomStyle() {
+        return customStyle;
     }
 
     @Override
