@@ -12,7 +12,11 @@ import retrofit2.http.Query;
 
 public interface CategoryService {
     String PARAM_PAGE = "page";
+    String PARAM_TAG_FILTER = "filter[tag]";
 
     @GET(EndPoints.CATEGORIES)
     Call<JSONAPIDocument<List<SearchCategory>>> getCategories(@Query(PARAM_PAGE) Integer page);
+
+    @GET(EndPoints.CATEGORIES)
+    Call<JSONAPIDocument<List<SearchCategory>>> getCategories(@Query(PARAM_PAGE) Integer page, @Query(PARAM_TAG_FILTER) String tag);
 }

@@ -28,4 +28,12 @@ class SearchCategoryRepositoryImpl implements SearchCategoryRepository {
         Call<JSONAPIDocument<List<SearchCategory>>> call = service.getCategories(page);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
+
+    @Override
+    public void getCategories(@Nullable Integer page,
+                              @Nullable String tag,
+                              @Nullable ResponseCallback<CreatubblesResponse<List<SearchCategory>>> callback) {
+        Call<JSONAPIDocument<List<SearchCategory>>> call = service.getCategories(page, tag);
+        call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
+    }
 }

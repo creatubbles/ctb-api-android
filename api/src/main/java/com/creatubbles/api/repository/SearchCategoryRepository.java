@@ -10,4 +10,8 @@ import java.util.List;
 
 public interface SearchCategoryRepository {
     void getCategories(@Nullable Integer page, @Nullable ResponseCallback<CreatubblesResponse<List<SearchCategory>>> callback);
+
+    void getCategories(@Nullable Integer page,
+                       @Nullable String tag,
+                       @Nullable ResponseCallback<CreatubblesResponse<List<SearchCategory>>> callback);
 }
