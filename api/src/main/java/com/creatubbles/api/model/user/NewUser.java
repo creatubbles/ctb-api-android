@@ -7,8 +7,6 @@ import com.github.jasminb.jsonapi.annotations.Id;
 import com.github.jasminb.jsonapi.annotations.Type;
 import com.github.jasminb.jsonapi.models.EmptyRelationship;
 
-import java.util.List;
-
 @Type("user")
 public class NewUser extends EmptyRelationship {
 
@@ -28,12 +26,6 @@ public class NewUser extends EmptyRelationship {
 
     private String country;
 
-    @JsonProperty("personalized_avatar_source_url")
-    private String avatarUrl;
-
-    @JsonProperty("interest_list")
-    private List<String> interests;
-
     @SuppressWarnings("WeakerAccess")
     NewUser(Builder builder) {
         this.name = builder.name;
@@ -41,8 +33,6 @@ public class NewUser extends EmptyRelationship {
         this.birthMonth = builder.birthMonth;
         this.birthYear = builder.birthYear;
         this.country = builder.country;
-        this.avatarUrl = builder.avatarUrl;
-        this.interests = builder.interests;
     }
 
     public static class Builder {
@@ -52,8 +42,6 @@ public class NewUser extends EmptyRelationship {
         Integer birthYear;
         Integer birthMonth;
         String country;
-        String avatarUrl;
-        List<String> interests;
 
         public Builder(@NonNull String name) {
             this.name = name;
@@ -80,18 +68,6 @@ public class NewUser extends EmptyRelationship {
         @NonNull
         public Builder country(String country) {
             this.country = country;
-            return this;
-        }
-
-        @NonNull
-        public Builder avatarUrl(String avatarUrl) {
-            this.avatarUrl = avatarUrl;
-            return this;
-        }
-
-        @NonNull
-        public Builder setInterests(List<String> interests) {
-            this.interests = interests;
             return this;
         }
 
@@ -123,14 +99,6 @@ public class NewUser extends EmptyRelationship {
 
     public String getCountry() {
         return country;
-    }
-
-    public List<String> getInterests() {
-        return interests;
-    }
-
-    public String getAvatarUrl() {
-        return avatarUrl;
     }
 
     @Override
