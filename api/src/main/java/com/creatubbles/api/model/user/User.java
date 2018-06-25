@@ -111,6 +111,12 @@ public class User extends EmptyRelationship {
     @JsonProperty("bubbles_on_creations_count")
     private Integer bubblesOnCreationsCount = 0;
 
+    @JsonProperty("requires_guardian_approval")
+    private boolean requiresGuardianApproval;
+
+    @JsonProperty("last_guardian_approval_email")
+    private String lastGuardianApprovalEmail;
+
     public static User withId(String id) {
         return new User(id);
     }
@@ -314,6 +320,15 @@ public class User extends EmptyRelationship {
 
     public Integer getBubblesOnCreationsCount() {
         return bubblesOnCreationsCount;
+    }
+
+    public boolean isRequiresGuardianApproval() {
+        return requiresGuardianApproval;
+    }
+
+    @Nullable
+    public String getLastGuardianApprovalEmail() {
+        return lastGuardianApprovalEmail;
     }
 
     @Override

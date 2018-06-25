@@ -124,6 +124,12 @@ public class AccountDetails extends EmptyRelationship {
     @JsonProperty("followed_users_count")
     private Integer followedUsersCount;
 
+    @JsonProperty("requires_guardian_approval")
+    private boolean requiresGuardianApproval;
+
+    @JsonProperty("last_guardian_approval_email")
+    private String lastGuardianApprovalEmail;
+
     @Relationship("user")
     private User user;
 
@@ -335,6 +341,15 @@ public class AccountDetails extends EmptyRelationship {
 
     public CustomStyle getCustomStyle() {
         return customStyle;
+    }
+
+    public boolean isRequiresGuardianApproval() {
+        return requiresGuardianApproval;
+    }
+
+    @Nullable
+    public String getLastGuardianApprovalEmail() {
+        return lastGuardianApprovalEmail;
     }
 
     @Override
