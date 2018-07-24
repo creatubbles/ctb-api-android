@@ -29,7 +29,7 @@ class CreationRepositoryTest extends Specification {
         when:
         repository.getRecent(anyPage(), anyBoolean(), anyCallback())
         then:
-        service.getRecent(_, _) >> anyCall()
+        service.getRecent(_, _, _) >> anyCall()
     }
 
     def "should call get form gallery when obtaining creation based on gallery id"() {
