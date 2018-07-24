@@ -46,7 +46,13 @@ class CreationRepositoryImpl implements CreationRepository {
     @Override
     public void getRecent(@Nullable Integer page, @Nullable Boolean onlyPublic,
                           ResponseCallback<CreatubblesResponse<List<Creation>>> callback) {
-        Call<JSONAPIDocument<List<Creation>>> call = creationService.getRecent(page, onlyPublic);
+        Call<JSONAPIDocument<List<Creation>>> call = creationService.getRecent(page, onlyPublic, null);
+        call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
+    }
+
+    @Override
+    public void getRecent(@Nullable Integer page, @Nullable Integer pageSize, @Nullable ResponseCallback<CreatubblesResponse<List<Creation>>> callback) {
+        Call<JSONAPIDocument<List<Creation>>> call = creationService.getRecent(page, true, pageSize);
         call.enqueue(new JsonApiResponseMapper<>(objectMapper, callback));
     }
 

@@ -28,6 +28,9 @@ public interface CreationRepository {
     void getRecent(@Nullable Integer page, @Nullable Boolean onlyPublic,
                    @Nullable ResponseCallback<CreatubblesResponse<List<Creation>>> callback);
 
+    void getRecent(@Nullable Integer page, @Nullable Integer pageSize,
+                   @Nullable ResponseCallback<CreatubblesResponse<List<Creation>>> callback);
+
     /**
      * @param page       number of the page
      * @param galleryId  the ID of Gallery from which the Creations should be returned

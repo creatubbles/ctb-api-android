@@ -25,6 +25,7 @@ import retrofit2.http.Url;
 public interface CreationService {
 
     String PARAM_PAGE = "page";
+    String PARAM_PAGE_SIZE = "page_size";
     String PARAM_USER_ID = "user_id";
     String PARAM_ONLY_PUBLIC = "filter[public]";
     String PARAM_GALLERY_ID = "gallery_id";
@@ -38,7 +39,8 @@ public interface CreationService {
 
     @GET(EndPoints.CREATIONS)
     Call<JSONAPIDocument<List<Creation>>> getRecent(@Query(PARAM_PAGE) Integer page,
-                                                    @Query(PARAM_ONLY_PUBLIC) Boolean onlyPublic);
+                                                    @Query(PARAM_ONLY_PUBLIC) Boolean onlyPublic,
+                                                    @Query(PARAM_PAGE_SIZE) Integer pageSize);
 
     @GET(EndPoints.CREATIONS)
     Call<JSONAPIDocument<List<Creation>>> getFromGallery(@Query(PARAM_PAGE) Integer page,
