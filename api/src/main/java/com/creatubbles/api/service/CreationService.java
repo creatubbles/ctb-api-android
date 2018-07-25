@@ -25,7 +25,7 @@ import retrofit2.http.Url;
 public interface CreationService {
 
     String PARAM_PAGE = "page";
-    String PARAM_PAGE_SIZE = "page_size";
+    String PARAM_PAGE_SIZE = "per_page";
     String PARAM_USER_ID = "user_id";
     String PARAM_ONLY_PUBLIC = "filter[public]";
     String PARAM_GALLERY_ID = "gallery_id";
