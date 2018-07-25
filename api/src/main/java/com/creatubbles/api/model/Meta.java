@@ -46,7 +46,13 @@ public class Meta {
     private String code;
 
     @JsonProperty("followed_hashtags")
-    private List<String> followedTags = emptyList();
+    private List<String> followedTags;
+
+    @JsonProperty("favorite_creations")
+    private List<String> favoriteCreations;
+
+    @JsonProperty("favorite_users")
+    private List<String> favoriteUsers;
 
     @Nullable
     public Integer getTotalPages() {
@@ -106,5 +112,15 @@ public class Meta {
     @Nullable
     public List<String> getFollowedTags() {
         return followedTags;
+    }
+
+    @Nullable
+    public List<String> getFavoriteCreations() {
+        return favoriteCreations;
+    }
+
+    @Nullable
+    public List<String> getFavoriteUsers() {
+        return favoriteUsers;
     }
 }
