@@ -151,6 +151,9 @@ public class AccountDetails extends EmptyRelationship {
     @JsonProperty("added_comments_count")
     private Integer addedCommentsCount;
 
+    @JsonProperty("added_bubbles_count")
+    private Integer addedBubblesCount;
+
     @JsonCreator
     public AccountDetails() {
     }
@@ -362,18 +365,13 @@ public class AccountDetails extends EmptyRelationship {
     }
 
     @Nullable
-    public Date getLastBubbledAt() {
-        return lastBubbledAt;
-    }
-
-    @Nullable
-    public Date getLastCommentedAt() {
-        return lastCommentedAt;
-    }
-
-    @Nullable
     public Integer getAddedCommentsCount() {
         return addedCommentsCount;
+    }
+
+    @Nullable
+    public Integer getAddedBubblesCount() {
+        return addedBubblesCount;
     }
 
     @Override
