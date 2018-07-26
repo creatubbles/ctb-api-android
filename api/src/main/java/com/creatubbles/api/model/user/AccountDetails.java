@@ -130,6 +130,12 @@ public class AccountDetails extends EmptyRelationship {
     @JsonProperty("last_guardian_approval_email")
     private String lastGuardianApprovalEmail;
 
+    @JsonProperty("last_bubbled_at")
+    private Date lastBubbledAt;
+
+    @JsonProperty("last_commented_at")
+    private Date lastCommentedAt;
+
     @Relationship("user")
     private User user;
 
@@ -350,6 +356,16 @@ public class AccountDetails extends EmptyRelationship {
     @Nullable
     public String getLastGuardianApprovalEmail() {
         return lastGuardianApprovalEmail;
+    }
+
+    @Nullable
+    public Date getLastBubbledAt() {
+        return lastBubbledAt;
+    }
+
+    @Nullable
+    public Date getLastCommentedAt() {
+        return lastCommentedAt;
     }
 
     @Override
