@@ -148,6 +148,9 @@ public class AccountDetails extends EmptyRelationship {
     @Relationship("custom_style")
     private CustomStyle customStyle;
 
+    @JsonProperty("added_comments_count")
+    private Integer addedCommentsCount;
+
     @JsonCreator
     public AccountDetails() {
     }
@@ -366,6 +369,11 @@ public class AccountDetails extends EmptyRelationship {
     @Nullable
     public Date getLastCommentedAt() {
         return lastCommentedAt;
+    }
+
+    @Nullable
+    public Integer getAddedCommentsCount() {
+        return addedCommentsCount;
     }
 
     @Override
