@@ -47,7 +47,13 @@ public class Meta {
     private String code;
 
     @JsonProperty("followed_hashtags")
-    private List<String> followedTags = emptyList();
+    private List<String> followedTags;
+
+    @JsonProperty("favorite_creations")
+    private List<String> favoriteCreations;
+
+    @JsonProperty("favorite_users")
+    private List<String> favoriteUsers;
 
     @JsonProperty("submitted_challenges")
     private List<String> submittedChallengesId;
@@ -123,5 +129,15 @@ public class Meta {
     @NonNull
     public List<String> getFavoriteChallengesId() {
         return favoriteChallengesId;
+    }
+
+    @NonNull
+    public List<String> getFavoriteCreations() {
+        return favoriteCreations;
+    }
+
+    @NonNull
+    public List<String> getFavoriteUsers() {
+        return favoriteUsers;
     }
 }
