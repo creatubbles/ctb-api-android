@@ -1,5 +1,6 @@
 package com.creatubbles.api.model;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.creatubbles.api.converter.AbilitiesConverter;
@@ -46,13 +47,13 @@ public class Meta {
     private String code;
 
     @JsonProperty("followed_hashtags")
-    private List<String> followedTags;
+    private List<String> followedTags = emptyList();
 
-    @JsonProperty("favorite_creations")
-    private List<String> favoriteCreations;
+    @JsonProperty("submitted_challenges")
+    private List<String> submittedChallengesId;
 
-    @JsonProperty("favorite_users")
-    private List<String> favoriteUsers;
+    @JsonProperty("favorite_challenges")
+    private List<String> favoriteChallengesId;
 
     @Nullable
     public Integer getTotalPages() {
@@ -114,13 +115,13 @@ public class Meta {
         return followedTags;
     }
 
-    @Nullable
-    public List<String> getFavoriteCreations() {
-        return favoriteCreations;
+    @NonNull
+    public List<String> getSubmittedChallengesId() {
+        return submittedChallengesId;
     }
 
-    @Nullable
-    public List<String> getFavoriteUsers() {
-        return favoriteUsers;
+    @NonNull
+    public List<String> getFavoriteChallengesId() {
+        return favoriteChallengesId;
     }
 }
