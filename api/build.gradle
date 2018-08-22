@@ -1,12 +1,10 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'groovyx.android'
 apply from: 'jacoco.gradle'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion '25.0.2'
 
     defaultConfig {
         minSdkVersion 14
@@ -115,34 +113,34 @@ bintray {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:support-annotations:25.2.0'
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    compile 'com.squareup.retrofit2:converter-jackson:2.1.0'
-    compile 'com.squareup.okhttp3:okhttp:3.3.0'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.3.0'
-    compile 'com.google.dagger:dagger:2.7'
-    apt 'com.google.dagger:dagger-compiler:2.7'
-    compile 'javax.annotation:javax.annotation-api:1.2'
-    compile 'com.pixplicity.easyprefs:library:1.8.1@aar'
-    compile 'com.github.creatubbles:java-jsonapi-converter:87dbdaf'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:support-annotations:25.2.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.1.0'
+    implementation 'com.squareup.retrofit2:converter-jackson:2.1.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.3.0'
+    api 'com.squareup.okhttp3:logging-interceptor:3.3.0'
+    implementation 'com.google.dagger:dagger:2.7'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.7'
+    implementation 'javax.annotation:javax.annotation-api:1.2'
+    implementation 'com.pixplicity.easyprefs:library:1.8.1@aar'
+    api 'com.github.creatubbles:java-jsonapi-converter:87dbdaf'
 
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.10.8'
-    testCompile 'org.robolectric:robolectric:3.0'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:1.10.8'
+    testImplementation 'org.robolectric:robolectric:3.0'
 
-    testCompile "org.powermock:powermock-module-junit4:1.6.5"
-    testCompile "org.powermock:powermock-module-junit4-rule:1.6.5"
-    testCompile "org.powermock:powermock-api-mockito:1.6.5"
-    testCompile "org.powermock:powermock-classloading-xstream:1.6.5"
+    testImplementation "org.powermock:powermock-module-junit4:1.6.5"
+    testImplementation "org.powermock:powermock-module-junit4-rule:1.6.5"
+    testImplementation "org.powermock:powermock-api-mockito:1.6.5"
+    testImplementation "org.powermock:powermock-classloading-xstream:1.6.5"
 
-    testCompile 'org.codehaus.groovy:groovy:2.4.7:grooid'
-    testCompile "com.andrewreitz:spock-android:1.2.1"
-    testCompile 'com.android.support.test:testing-support-lib:0.1'
-    testCompile('org.spockframework:spock-core:1.0-groovy-2.4') {
+    testImplementation 'org.codehaus.groovy:groovy:2.4.7:grooid'
+    testImplementation "com.andrewreitz:spock-android:1.2.1"
+    testImplementation 'com.android.support.test:testing-support-lib:0.1'
+    testImplementation('org.spockframework:spock-core:1.0-groovy-2.4') {
         exclude group: 'org.codehaus.groovy'
         exclude group: 'junit'
     }
-    testCompile 'cglib:cglib-nodep:3.2.4'
-    testCompile 'org.objenesis:objenesis:2.2'
+    testImplementation 'cglib:cglib-nodep:3.2.4'
+    testImplementation 'org.objenesis:objenesis:2.2'
 }
