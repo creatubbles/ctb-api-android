@@ -115,10 +115,10 @@ bintray {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:support-annotations:25.2.0'
-    implementation 'com.squareup.retrofit2:retrofit:2.1.0'
-    implementation 'com.squareup.retrofit2:converter-jackson:2.1.0'
-    implementation 'com.squareup.okhttp3:okhttp:3.3.0'
-    api 'com.squareup.okhttp3:logging-interceptor:3.3.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-jackson:2.4.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+    api 'com.squareup.okhttp3:logging-interceptor:3.11.0'
     implementation 'com.google.dagger:dagger:2.7'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.7'
     implementation 'javax.annotation:javax.annotation-api:1.2'
