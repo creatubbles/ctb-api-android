@@ -154,12 +154,15 @@ public class AccountDetails extends EmptyRelationship {
     @JsonProperty("added_bubbles_count")
     private Integer addedBubblesCount;
 
+    @JsonProperty("personalized_avatar_source_url")
+    private String personalizedAvatarUrl;
+
     @JsonCreator
     public AccountDetails() {
     }
 
     @SuppressWarnings("WeakerAccess")
-    AccountDetails(String username, String displayName, String name, String email, Integer birthMonth, Integer birthYear, AgeDisplayType ageDisplayType, String uiLocale, Boolean preapproveComments, Boolean receiveNotifications, Boolean receiveNewsletter, String whatDoYouTeach, String interests, List<String> interestsList, String countryCode, Creation avatarCreation) {
+    AccountDetails(String username, String displayName, String name, String email, Integer birthMonth, Integer birthYear, AgeDisplayType ageDisplayType, String uiLocale, Boolean preapproveComments, Boolean receiveNotifications, Boolean receiveNewsletter, String whatDoYouTeach, String interests, List<String> interestsList, String countryCode, Creation avatarCreation, String personalizedAvatarUrl) {
         this.username = username;
         this.displayName = displayName;
         this.name = name;
@@ -176,6 +179,7 @@ public class AccountDetails extends EmptyRelationship {
         this.interestsList = interestsList;
         this.countryCode = countryCode;
         this.avatarCreation = avatarCreation;
+        this.personalizedAvatarUrl = personalizedAvatarUrl;
     }
 
     @NonNull
@@ -374,6 +378,11 @@ public class AccountDetails extends EmptyRelationship {
         return addedBubblesCount;
     }
 
+    @Nullable
+    public String getPersonalizedAvatarUrl() {
+        return personalizedAvatarUrl;
+    }
+
     @Override
     public String toString() {
         return "AccountDetails{" +
@@ -424,6 +433,7 @@ public class AccountDetails extends EmptyRelationship {
         private List<String> interestsList;
         private String countryCode;
         private Creation avatarCreation;
+        private String personalizedAvatarUrl;
 
         @NonNull
         public Builder setUsername(@NonNull String username) {
@@ -534,6 +544,12 @@ public class AccountDetails extends EmptyRelationship {
         }
 
         @NonNull
+        public Builder setPersonalizedAvatarUrl(String personalizedAvatarUrl) {
+            this.personalizedAvatarUrl = personalizedAvatarUrl;
+            return this;
+        }
+
+        @NonNull
         public AccountDetails build() {
             return new AccountDetails(username,
                     displayName,
@@ -550,7 +566,8 @@ public class AccountDetails extends EmptyRelationship {
                     interests,
                     interestsList,
                     countryCode,
-                    avatarCreation);
+                    avatarCreation,
+                    personalizedAvatarUrl);
         }
     }
 }
