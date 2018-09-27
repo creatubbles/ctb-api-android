@@ -61,6 +61,12 @@ public class Meta {
     @JsonProperty("favorite_challenges")
     private List<String> favoriteChallengesId;
 
+    @JsonProperty("owned_items")
+    private List<String> ownedItems;
+
+    @JsonProperty("items_in_use")
+    private List<String> itemsInUse;
+
     @Nullable
     public Integer getTotalPages() {
         return totalPages;
@@ -139,5 +145,15 @@ public class Meta {
     @NonNull
     public List<String> getFavoriteUsers() {
         return favoriteUsers;
+    }
+
+    @NonNull
+    public List<String> getOwnedItems() {
+        return ownedItems;
+    }
+
+    @NonNull
+    public List<String> getItemsInUse() {
+        return itemsInUse;
     }
 }
