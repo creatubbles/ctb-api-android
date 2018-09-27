@@ -157,6 +157,9 @@ public class AccountDetails extends EmptyRelationship {
     @JsonProperty("personalized_avatar_source_url")
     private String personalizedAvatarUrl;
 
+    @JsonProperty("credit")
+    private Integer credit;
+
     @JsonCreator
     public AccountDetails() {
     }
@@ -381,6 +384,11 @@ public class AccountDetails extends EmptyRelationship {
     @Nullable
     public String getPersonalizedAvatarUrl() {
         return personalizedAvatarUrl;
+    }
+
+    @NonNull
+    public Integer getCredit() {
+        return credit;
     }
 
     @Override
