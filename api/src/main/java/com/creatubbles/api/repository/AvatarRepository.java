@@ -16,6 +16,8 @@ import java.util.List;
 
 public interface AvatarRepository {
 
+    void getEditorConfig(@NonNull ResponseCallback<String> callback);
+
     void updateAvatar(@NonNull String userId, @NonNull Avatar body, @Nullable ResponseCallback<CreatubblesResponse<Avatar>> callback);
 
     void getSuggestedAvatars(@Nullable ResponseCallback<CreatubblesResponse<List<AvatarSuggestion>>> callback);

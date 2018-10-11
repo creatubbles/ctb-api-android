@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.creatubbles.api.di.components.ApiComponent;
 import com.creatubbles.api.di.modules.ApiModule;
 import com.creatubbles.api.model.auth.UserAccessToken;
+import com.creatubbles.api.service.AvatarService;
 import com.creatubbles.api.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -18,6 +19,9 @@ public class AvatarRepositoryBuilder {
 
     @Inject
     UserService userService;
+
+    @Inject
+    AvatarService avatarService;
 
     @Inject
     ObjectMapper objectMapper;
@@ -34,6 +38,6 @@ public class AvatarRepositoryBuilder {
     @NonNull
     public AvatarRepository build() {
         ApiComponent.getInstance(ApiModule.getInstance(authToken)).inject(this);
-        return new AvatarRepositoryImpl(objectMapper, userService);
+        return new AvatarRepositoryImpl(objectMapper, userService, avatarService);
     }
 }

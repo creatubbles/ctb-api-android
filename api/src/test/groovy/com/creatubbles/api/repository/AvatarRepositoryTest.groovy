@@ -1,6 +1,7 @@
 package com.creatubbles.api.repository
 
 import com.creatubbles.api.model.user.avatar.Avatar
+import com.creatubbles.api.service.AvatarService
 import com.creatubbles.api.service.UserService
 import com.fasterxml.jackson.databind.ObjectMapper
 import retrofit2.Call
@@ -54,7 +55,7 @@ class AvatarRepositoryTest extends Specification {
     }
 
     def anyRepository() {
-        new AvatarRepositoryImpl(anyMapper(), service)
+        new AvatarRepositoryImpl(anyMapper(), service, Mock(AvatarService))
     }
 
 }

@@ -8,6 +8,8 @@ import com.creatubbles.api.model.user.avatar.Avatar;
 import com.creatubbles.api.model.user.avatar.AvatarSuggestion;
 import com.creatubbles.api.response.JsonApiResponseMapper;
 import com.creatubbles.api.response.ResponseCallback;
+import com.creatubbles.api.response.SameResponseMapper;
+import com.creatubbles.api.service.AvatarService;
 import com.creatubbles.api.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.jasminb.jsonapi.JSONAPIDocument;
@@ -24,13 +26,19 @@ public class AvatarRepositoryImpl implements AvatarRepository {
 
     private final ObjectMapper objectMapper;
     private final UserService userService;
+    private final AvatarService avatarService;
 
 
-    AvatarRepositoryImpl(ObjectMapper objectMapper, UserService userService) {
+    AvatarRepositoryImpl(ObjectMapper objectMapper, UserService userService, AvatarService avatarService) {
         this.objectMapper = objectMapper;
         this.userService = userService;
+        this.avatarService = avatarService;
     }
 
+    @Override
+    public void getEditorConfig(@NonNull ResponseCallback<String> callback) {
+        avatarService.getConfig().enqueue(new SameResponseMapper<>(objectMapper, callback));
+    }
 
     @Override
     public void updateAvatar(@NonNull String userId, @NonNull Avatar body, ResponseCallback<CreatubblesResponse<Avatar>> callback) {

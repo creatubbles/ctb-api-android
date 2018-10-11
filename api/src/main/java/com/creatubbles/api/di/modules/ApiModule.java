@@ -9,6 +9,7 @@ import com.creatubbles.api.exception.InitializationException;
 import com.creatubbles.api.model.auth.AccessToken;
 import com.creatubbles.api.service.AbilityService;
 import com.creatubbles.api.service.ActivityService;
+import com.creatubbles.api.service.AvatarService;
 import com.creatubbles.api.service.BubbleService;
 import com.creatubbles.api.service.CategoryService;
 import com.creatubbles.api.service.CommentService;
@@ -197,6 +198,11 @@ public class ApiModule {
     @Provides
     HashtagService provideHashtagService(ServiceGenerator serviceGenerator) {
         return serviceGenerator.createService(HashtagService.class, ContentType.VND_JSON, accessToken);
+    }
+
+    @Provides
+    AvatarService provideAvatarService(ServiceGenerator serviceGenerator) {
+        return serviceGenerator.createService(AvatarService.class, ContentType.VND_JSON, accessToken);
     }
 
     /**
