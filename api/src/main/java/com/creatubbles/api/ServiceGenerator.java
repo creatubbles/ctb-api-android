@@ -55,6 +55,7 @@ import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 /**
  * Created by Janek on 08.02.2016.
@@ -111,6 +112,7 @@ public class ServiceGenerator {
         resourceConverter.enableDeserializationOption(DeserializationFeature.IGNORE_UNREGISTERED_TYPES);
         JSONAPIConverterFactory converterFactory = new JSONAPIConverterFactory(resourceConverter);
         converterFactory.setAlternativeFactory(JacksonConverterFactory.create(objectMapper));
+        builder.addConverterFactory(ScalarsConverterFactory.create());
         builder.addConverterFactory(converterFactory);
 
     }
