@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.creatubbles.api.di.components.ApiComponent;
 import com.creatubbles.api.di.modules.ApiModule;
-import com.creatubbles.api.model.auth.UserAccessToken;
+import com.creatubbles.api.model.auth.AccessToken;
 import com.creatubbles.api.service.AvatarService;
 import com.creatubbles.api.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,9 +26,9 @@ public class AvatarRepositoryBuilder {
     @Inject
     ObjectMapper objectMapper;
 
-    private final UserAccessToken authToken;
+    private final AccessToken authToken;
 
-    public AvatarRepositoryBuilder(@NonNull UserAccessToken accessToken) {
+    public AvatarRepositoryBuilder(@NonNull AccessToken accessToken) {
         if (accessToken == null) {
             throw new NullPointerException("accessToken can't be null");
         }

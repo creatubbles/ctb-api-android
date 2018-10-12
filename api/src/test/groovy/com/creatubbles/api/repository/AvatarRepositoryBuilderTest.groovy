@@ -2,9 +2,8 @@ package com.creatubbles.api.repository
 
 import com.creatubbles.api.CreatubblesApi
 import com.creatubbles.api.TestUtils
-import com.creatubbles.api.model.auth.UserAccessToken
+import com.creatubbles.api.model.auth.AccessToken
 import spock.lang.Specification
-
 /**
  * Created by Janek on 03.11.2016.
  */
@@ -40,7 +39,7 @@ class AvatarRepositoryBuilderTest extends Specification {
     }
 
     def anyToken() {
-        Mock(UserAccessToken)
+        Mock(AccessToken)
     }
 
 }
